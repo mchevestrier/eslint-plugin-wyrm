@@ -1,0 +1,65 @@
+{
+  "name": "eslint-plugin-wyrm",
+  "version": "0.0.1",
+  "description": "Some custom ESLint rules",
+  "keywords": [
+    "eslint",
+    "eslintplugin",
+    "eslint-plugin",
+    "linter",
+    "lint"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mchevestrier/eslint-plugin-wyrm.git"
+  },
+  "license": "MIT",
+  "author": "Martin Chevestrier",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "scripts": {
+    "prebuild": "node scripts/generate-index-file.js",
+    "build": "tsdown",
+    "prefix:eslint-docs": "pnpm run build",
+    "fix:eslint-docs": "eslint-doc-generator",
+    "fix:format": "prettier --write .",
+    "fix:js": "eslint . --fix",
+    "init:eslint-docs": "eslint-doc-generator --init-rule-docs",
+    "lint:docs": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
+    "lint:eslint-docs": "eslint-doc-generator --check",
+    "lint:format": "prettier --check .",
+    "lint:js": "eslint .",
+    "test": "vitest",
+    "test:cov": "vitest --coverage",
+    "prewatch": "pnpm run prebuild",
+    "watch": "tsdown --watch"
+  },
+  "dependencies": {
+    "@typescript-eslint/utils": "^8.46.2",
+    "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/rule-tester": "^8.46.2",
+    "@vitest/coverage-v8": "4.0.3",
+    "eslint": ">=9.38.0",
+    "eslint-doc-generator": "^2.3.0",
+    "jest-diff": "^30.2.0",
+    "markdownlint-cli2": "^0.18.1",
+    "prettier": "^3.6.2",
+    "tsdown": "^0.15.9",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.3"
+  },
+  "packageManager": "pnpm@10.19.0+sha512.c9fc7236e92adf5c8af42fd5bf1612df99c2ceb62f27047032f4720b33f8eacdde311865e91c411f2774f618d82f320808ecb51718bfa82c060c4ba7c76a32b8",
+  "engines": {
+    "node": "^20.10.0 || >=21.0.0"
+  }
+}
