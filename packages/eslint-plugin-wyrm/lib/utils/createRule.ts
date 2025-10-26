@@ -7,5 +7,5 @@ export type WyrmPluginDocs = {
 
 export const createRule = ESLintUtils.RuleCreator<WyrmPluginDocs>(
   (name) =>
-    `https://github.com/mchevestrier/eslint-plugin-wyrm/tree/main/docs/${name}.md`,
+    `https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/${name}.md`,
 );
