@@ -13,7 +13,7 @@ import * as tseslint from 'typescript-eslint';
 
 export default defineConfig([
   {
-    ignores: ['**/dist/*', 'examples/*'],
+    ignores: ['**/dist/*', 'examples/*', '**/coverage/*'],
   },
 
   {

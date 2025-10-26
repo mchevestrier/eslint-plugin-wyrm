@@ -1,0 +1,60 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ${{ matrix.os }}-latest
+
+    strategy:
+      matrix:
+        os: [ubuntu, windows]
+        node-version: [22.x, 24.x]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Install Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+
+      - run: pnpm build
+        working-directory: ./packages/eslint-plugin-wyrm/
+
+      - name: eslint-doc-generator
+        run: pnpm run -r --reporter-hide-prefix lint:eslint-docs
+
+      - name: markdownlint
+        run: pnpm run -r --reporter-hide-prefix lint:docs
+
+      - name: prettier
+        run: pnpm run -r --reporter-hide-prefix lint:format
+
+      - name: eslint
+        run: pnpm run -r --reporter-hide-prefix lint:js
+
+      - name: vitest
+        run: pnpm run -r --reporter-hide-prefix test
+
+      - name: typescript
+        run: pnpm run lint:types
