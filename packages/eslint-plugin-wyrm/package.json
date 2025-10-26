@@ -33,7 +33,7 @@
     "fix:format": "prettier --write .",
     "fix:js": "eslint . --fix",
     "init:eslint-docs": "eslint-doc-generator --init-rule-docs",
-    "lint:docs": "markdownlint-cli2 \"**/*.md\" \"#node_modules\"",
+    "lint:docs": "markdownlint-cli2 \"**/*.md\" \"#node_modules\" \"#CHANGELOG.md\"",
     "lint:eslint-docs": "eslint-doc-generator --check",
     "lint:format": "prettier --check .",
     "lint:js": "eslint .",
