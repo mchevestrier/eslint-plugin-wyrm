@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-wyrm",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "Some custom ESLint rules",
   "keywords": [
     "eslint",
