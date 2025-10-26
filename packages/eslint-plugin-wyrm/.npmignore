@@ -1,6 +1,6 @@
 *
-!/dist/
-!/docs/
+!/dist/**
+!/docs/**
 !/package.json
 !/LICENSE.md
 !/README.md

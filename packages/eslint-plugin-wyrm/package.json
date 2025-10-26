@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-wyrm",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Some custom ESLint rules",
   "keywords": [
     "eslint",
@@ -44,6 +44,7 @@
   },
   "dependencies": {
     "@typescript-eslint/utils": "^8.46.2",
+    "eslint": ">=9.38.0",
     "typescript": "^5.9.3"
   },
   "devDependencies": {
