@@ -1,4 +1,6 @@
 /**
+ * @fileoverview
+ *
  * This rule supplements the [`@typescript-eslint/no-non-null-asserted-optional-chain`](https://typescript-eslint.io/rules/no-non-null-asserted-optional-chain/) ESLint rule.
  *
  * It checks for type assertions on optional chain expressions (`?.`) where the asserted type doesn't include `undefined`.

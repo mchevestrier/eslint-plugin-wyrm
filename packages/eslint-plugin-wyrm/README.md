@@ -45,14 +45,16 @@ export default defineConfig([
 ☑️ Set in the `recommendedTypeChecked` configuration.\
 🟢 Set in the `strict` configuration.\
 🟣 Set in the `strictTypeChecked` configuration.\
+💡 Manually fixable by [editor suggestions](https://eslint.org/docs/latest/use/core-concepts#rule-suggestions).\
 💭 Requires [type information](https://typescript-eslint.io/linting/typed-linting).
 
-| Name                                                                                                                                                                  | Description                                                     | 💼          | 💭  |
-| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------- | :---------- | :-- |
-| [no-empty-comment](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-empty-comment.md)                         | Forbid empty comments                                           | 🟢 🟣       |     |
-| [no-empty-jsx-expression](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-empty-jsx-expression.md)           | Forbid empty JSX expression containers                          | ✅ ☑️ 🟢 🟣 |     |
-| [no-extra-nested-boolean-cast](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-extra-nested-boolean-cast.md) | Forbid extra boolean casts in conditions and predicates         | 🟢 🟣       |     |
-| [no-jsx-statement](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-jsx-statement.md)                         | Forbid JSX expression statements                                | ✅ ☑️ 🟢 🟣 |     |
-| [unsafe-asserted-chain](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/unsafe-asserted-chain.md)               | Disallow unsafe type assertions on optional chained expressions | 🟣          | 💭  |
+| Name                                                                                                                                                                        | Description                                                     | 💼          | 💡  | 💭  |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------- | :---------- | :-- | :-- |
+| [no-constant-template-expression](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-constant-template-expression.md) | Disallow constant string expressions in template literals       | 🟣          | 💡  | 💭  |
+| [no-empty-comment](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-empty-comment.md)                               | Forbid empty comments                                           | 🟢 🟣       |     |     |
+| [no-empty-jsx-expression](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-empty-jsx-expression.md)                 | Forbid empty JSX expression containers                          | ✅ ☑️ 🟢 🟣 |     |     |
+| [no-extra-nested-boolean-cast](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-extra-nested-boolean-cast.md)       | Forbid extra boolean casts in conditions and predicates         | 🟢 🟣       |     |     |
+| [no-jsx-statement](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-jsx-statement.md)                               | Forbid JSX expression statements                                | ✅ ☑️ 🟢 🟣 |     |     |
+| [unsafe-asserted-chain](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/unsafe-asserted-chain.md)                     | Disallow unsafe type assertions on optional chained expressions | 🟣          |     | 💭  |
 
 <!-- end auto-generated rules list -->

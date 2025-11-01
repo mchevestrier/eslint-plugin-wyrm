@@ -32,6 +32,7 @@
     "fix:eslint-docs": "eslint-doc-generator",
     "fix:format": "prettier --write .",
     "fix:js": "eslint . --fix",
+    "preinit:eslint-docs": "pnpm run build",
     "init:eslint-docs": "eslint-doc-generator --init-rule-docs",
     "lint:docs": "markdownlint-cli2 \"**/*.md\" \"#node_modules\" \"#CHANGELOG.md\"",
     "lint:eslint-docs": "eslint-doc-generator --check",

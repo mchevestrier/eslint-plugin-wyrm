@@ -50,10 +50,7 @@ export default defineConfig([
   },
 
   {
-    extends: [
-      // @ts-expect-error - Types of parameters 'context' and 'context' are incompatible.
-      vitest.configs.recommended,
-    ],
+    extends: [vitest.configs.recommended],
     files: ['**/*.test.*'],
     rules: { '@typescript-eslint/no-unsafe-assignment': 'off' },
   },
@@ -182,6 +179,7 @@ export default defineConfig([
       'unicorn/new-for-builtins': 'off',
       'unicorn/no-typeof-undefined': 'off',
       'unicorn/explicit-length-check': 'off',
+      'unicorn/no-null': 'off',
     },
   },
 
@@ -192,7 +190,10 @@ export default defineConfig([
 
   {
     files: ['**/*.md'],
-    plugins: { markdown },
+    plugins: {
+      // @ts-expect-error - Types of parameters 'context' and 'context' are incompatible.
+      markdown,
+    },
     language: 'markdown/gfm',
     extends: ['markdown/recommended'],
   },

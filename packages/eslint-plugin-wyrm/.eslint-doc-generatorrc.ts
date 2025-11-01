@@ -72,7 +72,13 @@ async function generateDescriptionForRule(ruleName: string): Promise<string> {
   const txt = ts.getTextOfJSDocComment(leadingComment);
   if (!txt?.startsWith('/**')) return '';
 
+  if (!txt.startsWith('/**\n * @fileoverview\n *\n ')) {
+    const msg = `For rule ${ruleName}, you should start the leading comment with a \`@fileoverview\` JSDoc tag`;
+    throw Error(msg);
+  }
+
   const content = extractStringFromComment(txt);
+
   const description = `
 ## Description
 ${content}
