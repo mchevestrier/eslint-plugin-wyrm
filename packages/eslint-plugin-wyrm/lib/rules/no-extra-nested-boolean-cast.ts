@@ -35,115 +35,154 @@ export default createRule({
     },
     schema: [],
     messages: {
-      noExtraBooleanCast: 'Remove this boolean cast from the condition',
+      noExtraBooleanCastInCondition: 'Remove this boolean cast from the condition',
       noExtraBooleanCastInPredicate:
         'Remove this boolean cast from the return of the predicate',
+      noExtraBooleanCastInsideAnother:
+        'Remove this redundant boolean cast as it already is inside another boolean cast',
     },
   },
   defaultOptions: [],
   create(context) {
-    function isInCondition(node: TSESTree.Node): boolean {
-      if (!node.parent) return false;
-
-      switch (node.parent.type) {
-        case AST_NODE_TYPES.LogicalExpression:
-        case AST_NODE_TYPES.TSAsExpression:
-        case AST_NODE_TYPES.TSNonNullExpression:
-        case AST_NODE_TYPES.TSSatisfiesExpression:
-          return isInCondition(node.parent);
-
-        case AST_NODE_TYPES.IfStatement:
-        case AST_NODE_TYPES.ConditionalExpression:
-          return node === node.parent.test;
-
-        default:
-          return false;
+    function checkBooleanCast(node: TSESTree.Node) {
+      if (isInCondition(node)) {
+        context.report({ node, messageId: 'noExtraBooleanCastInCondition' });
       }
-    }
 
-    function isPredicate(
-      fn: TSESTree.ArrowFunctionExpression | TSESTree.FunctionExpression,
-    ): boolean {
-      if (fn.parent.type !== AST_NODE_TYPES.CallExpression) return false;
-      if (fn.parent.arguments[0] !== fn) return false;
-      if (fn.parent.callee.type !== AST_NODE_TYPES.MemberExpression) return false;
-      if (fn.parent.callee.property.type !== AST_NODE_TYPES.Identifier) return false;
+      if (isReturnedFromPredicate(node)) {
+        context.report({
+          node,
+          messageId: 'noExtraBooleanCastInPredicate',
+        });
+      }
 
-      const arrayMethods = [
-        'every',
-        'some',
-        'filter',
-        'find',
-        'findIndex',
-        'findLast',
-        'findLastIndex',
-      ];
-      if (!arrayMethods.includes(fn.parent.callee.property.name)) return false;
-      return true;
-    }
-
-    function isReturnedFromPredicate(node: TSESTree.Node): boolean {
-      if (!node.parent) return false;
-
-      switch (node.parent.type) {
-        case AST_NODE_TYPES.LogicalExpression:
-        case AST_NODE_TYPES.TSAsExpression:
-        case AST_NODE_TYPES.TSNonNullExpression:
-        case AST_NODE_TYPES.TSSatisfiesExpression:
-        case AST_NODE_TYPES.ReturnStatement:
-          return isReturnedFromPredicate(node.parent);
-
-        case AST_NODE_TYPES.BlockStatement:
-          if (
-            node.parent.parent.type === AST_NODE_TYPES.FunctionExpression ||
-            node.parent.parent.type === AST_NODE_TYPES.ArrowFunctionExpression
-          ) {
-            return isPredicate(node.parent.parent);
-          }
-          return false;
-
-        case AST_NODE_TYPES.ArrowFunctionExpression:
-          return node.parent.body === node && isPredicate(node.parent);
-
-        case AST_NODE_TYPES.IfStatement:
-        case AST_NODE_TYPES.ConditionalExpression:
-          if (node === node.parent.test) return false;
-          return isReturnedFromPredicate(node.parent);
-
-        default:
-          return false;
+      if (isInBooleanCast(node)) {
+        context.report({
+          node,
+          messageId: 'noExtraBooleanCastInsideAnother',
+        });
       }
     }
 
     return {
       UnaryExpression(node) {
-        if (node.operator !== '!') return;
-        if (node.parent.type !== AST_NODE_TYPES.UnaryExpression) return;
-        if (node.parent.operator !== '!') return;
+        if (!isDoubleNegation(node)) return;
 
-        if (isInCondition(node.parent)) {
-          context.report({
-            node: node.parent,
-            messageId: 'noExtraBooleanCast',
-          });
-        }
-
-        if (isReturnedFromPredicate(node.parent)) {
-          context.report({
-            node: node.parent,
-            messageId: 'noExtraBooleanCastInPredicate',
-          });
-        }
+        checkBooleanCast(node.parent);
       },
 
       CallExpression(node) {
-        if (node.callee.type !== AST_NODE_TYPES.Identifier) return;
-        if (node.callee.name !== 'Boolean') return;
+        if (!isBooleanCall(node)) return;
 
-        if (isInCondition(node.parent)) {
-          context.report({ node, messageId: 'noExtraBooleanCast' });
-        }
+        checkBooleanCast(node);
       },
     };
   },
 });
+
+function isDoubleNegation(node: TSESTree.UnaryExpression): boolean {
+  if (node.operator !== '!') return false;
+  if (node.parent.type !== AST_NODE_TYPES.UnaryExpression) return false;
+  if (node.parent.operator !== '!') return false;
+  return true;
+}
+
+function isBooleanCall(node: TSESTree.CallExpression): boolean {
+  if (node.callee.type !== AST_NODE_TYPES.Identifier) return false;
+  if (node.callee.name !== 'Boolean') return false;
+  return true;
+}
+
+function isInCondition(node: TSESTree.Node): boolean {
+  if (!node.parent) return false;
+
+  switch (node.parent.type) {
+    case AST_NODE_TYPES.LogicalExpression:
+    case AST_NODE_TYPES.TSAsExpression:
+    case AST_NODE_TYPES.TSNonNullExpression:
+    case AST_NODE_TYPES.TSSatisfiesExpression:
+      return isInCondition(node.parent);
+
+    case AST_NODE_TYPES.IfStatement:
+    case AST_NODE_TYPES.ConditionalExpression:
+      return node === node.parent.test;
+
+    default:
+      return false;
+  }
+}
+
+function isPredicate(
+  fn: TSESTree.ArrowFunctionExpression | TSESTree.FunctionExpression,
+): boolean {
+  if (fn.parent.type !== AST_NODE_TYPES.CallExpression) return false;
+  if (fn.parent.arguments[0] !== fn) return false;
+  if (fn.parent.callee.type !== AST_NODE_TYPES.MemberExpression) return false;
+  if (fn.parent.callee.property.type !== AST_NODE_TYPES.Identifier) return false;
+
+  const arrayMethods = [
+    'every',
+    'some',
+    'filter',
+    'find',
+    'findIndex',
+    'findLast',
+    'findLastIndex',
+  ];
+  if (!arrayMethods.includes(fn.parent.callee.property.name)) return false;
+  return true;
+}
+
+function isReturnedFromPredicate(node: TSESTree.Node): boolean {
+  if (!node.parent) return false;
+
+  switch (node.parent.type) {
+    case AST_NODE_TYPES.LogicalExpression:
+    case AST_NODE_TYPES.TSAsExpression:
+    case AST_NODE_TYPES.TSNonNullExpression:
+    case AST_NODE_TYPES.TSSatisfiesExpression:
+    case AST_NODE_TYPES.ReturnStatement:
+      return isReturnedFromPredicate(node.parent);
+
+    case AST_NODE_TYPES.BlockStatement:
+      if (
+        node.parent.parent.type === AST_NODE_TYPES.FunctionExpression ||
+        node.parent.parent.type === AST_NODE_TYPES.ArrowFunctionExpression
+      ) {
+        return isPredicate(node.parent.parent);
+      }
+      return false;
+
+    case AST_NODE_TYPES.ArrowFunctionExpression:
+      return node.parent.body === node && isPredicate(node.parent);
+
+    case AST_NODE_TYPES.IfStatement:
+    case AST_NODE_TYPES.ConditionalExpression:
+      if (node === node.parent.test) return false;
+      return isReturnedFromPredicate(node.parent);
+
+    default:
+      return false;
+  }
+}
+
+function isInBooleanCast(node: TSESTree.Node) {
+  if (!node.parent) return false;
+
+  switch (node.parent.type) {
+    case AST_NODE_TYPES.LogicalExpression:
+    case AST_NODE_TYPES.TSAsExpression:
+    case AST_NODE_TYPES.TSNonNullExpression:
+    case AST_NODE_TYPES.TSSatisfiesExpression:
+      return isInBooleanCast(node.parent);
+
+    case AST_NODE_TYPES.UnaryExpression:
+      return isDoubleNegation(node.parent);
+
+    case AST_NODE_TYPES.CallExpression:
+      return isBooleanCall(node.parent);
+
+    default:
+      return false;
+  }
+}

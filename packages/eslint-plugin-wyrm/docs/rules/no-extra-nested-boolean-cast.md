@@ -35,6 +35,12 @@ if (!!bar) {
 ```
 
 ```tsx
+// Redundant double negation inside of another boolean cast
+
+const x = Boolean(!!foo);
+```
+
+```tsx
 // Redundant double negation in return of array method predicate
 
 declare const arr: string[];

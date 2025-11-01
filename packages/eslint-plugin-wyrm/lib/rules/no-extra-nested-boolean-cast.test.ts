@@ -76,11 +76,62 @@ if (!!bar) {
 `,
       errors: [
         {
-          messageId: 'noExtraBooleanCast',
+          messageId: 'noExtraBooleanCastInCondition',
           line: 3,
           endLine: 3,
           column: 5,
           endColumn: 10,
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant double negation inside of another boolean cast (included in docs)',
+      code: `const x = Boolean(!!foo);
+`,
+      errors: [
+        {
+          messageId: 'noExtraBooleanCastInsideAnother',
+          line: 1,
+          endLine: 1,
+          column: 19,
+          endColumn: 24,
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant double negation within a logical expression inside of another boolean cast',
+      code: `const x = Boolean(!!foo && foo.length > 0);
+`,
+      errors: [
+        {
+          messageId: 'noExtraBooleanCastInsideAnother',
+          line: 1,
+          endLine: 1,
+          column: 19,
+          endColumn: 24,
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant double negation inside of another double negation',
+      code: `const x = !!(!!foo && foo.length > 0);
+`,
+      errors: [
+        {
+          messageId: 'noExtraBooleanCastInsideAnother',
+          line: 1,
+          endLine: 1,
+          column: 14,
+          endColumn: 19,
         },
       ],
       after() {
@@ -99,6 +150,24 @@ const isOkay = arr.filter((elt) => !!elt);
           endLine: 2,
           column: 36,
           endColumn: 41,
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant Boolean call in return of array method predicate',
+      code: `declare const arr: string[];
+const isOkay = arr.filter((elt) => Boolean(elt));
+`,
+      errors: [
+        {
+          messageId: 'noExtraBooleanCastInPredicate',
+          line: 2,
+          endLine: 2,
+          column: 36,
+          endColumn: 48,
         },
       ],
       after() {
@@ -176,21 +245,21 @@ if (!!bar && (!!foo || !!baz)) {
 `,
       errors: [
         {
-          messageId: 'noExtraBooleanCast',
+          messageId: 'noExtraBooleanCastInCondition',
           line: 5,
           endLine: 5,
           column: 5,
           endColumn: 10,
         },
         {
-          messageId: 'noExtraBooleanCast',
+          messageId: 'noExtraBooleanCastInCondition',
           line: 5,
           endLine: 5,
           column: 15,
           endColumn: 20,
         },
         {
-          messageId: 'noExtraBooleanCast',
+          messageId: 'noExtraBooleanCastInCondition',
           line: 5,
           endLine: 5,
           column: 24,
@@ -213,21 +282,21 @@ if (Boolean(bar) && (Boolean(foo) || Boolean(baz))) {
 `,
       errors: [
         {
-          messageId: 'noExtraBooleanCast',
+          messageId: 'noExtraBooleanCastInCondition',
           line: 5,
           endLine: 5,
           column: 5,
           endColumn: 17,
         },
         {
-          messageId: 'noExtraBooleanCast',
+          messageId: 'noExtraBooleanCastInCondition',
           line: 5,
           endLine: 5,
           column: 22,
           endColumn: 34,
         },
         {
-          messageId: 'noExtraBooleanCast',
+          messageId: 'noExtraBooleanCastInCondition',
           line: 5,
           endLine: 5,
           column: 38,
@@ -250,21 +319,21 @@ if ((!!bar)! && ((!!foo satisfies boolean) || (!!baz as any))) {
 `,
       errors: [
         {
-          messageId: 'noExtraBooleanCast',
+          messageId: 'noExtraBooleanCastInCondition',
           line: 5,
           endLine: 5,
           column: 6,
           endColumn: 11,
         },
         {
-          messageId: 'noExtraBooleanCast',
+          messageId: 'noExtraBooleanCastInCondition',
           line: 5,
           endLine: 5,
           column: 19,
           endColumn: 24,
         },
         {
-          messageId: 'noExtraBooleanCast',
+          messageId: 'noExtraBooleanCastInCondition',
           line: 5,
           endLine: 5,
           column: 48,
