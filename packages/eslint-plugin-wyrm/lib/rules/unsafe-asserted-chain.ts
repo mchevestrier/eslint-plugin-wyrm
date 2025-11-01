@@ -19,7 +19,8 @@
 
 import path from 'node:path';
 
-import { AST_NODE_TYPES, ESLintUtils, TSESTree } from '@typescript-eslint/utils';
+import type { TSESTree } from '@typescript-eslint/utils';
+import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 import * as ts from 'typescript';
 
 import { createRule } from '../utils/createRule.js';

@@ -15,7 +15,7 @@ const ruleTester = new RuleTester({
 ruleTester.run(name, rule, {
   valid: [
     {
-      name: 'JSX element in return statement (included in docs)',
+      name: 'JSX element in return statement #docs',
       code: `export function MyComponent() {
   return <div />;
 }
@@ -25,7 +25,7 @@ ruleTester.run(name, rule, {
       },
     },
     {
-      name: 'JSX element in variable initialization (included in docs)',
+      name: 'JSX element in variable initialization #docs',
       code: `export function MyComponent() {
   const jsx = <div />;
   return jsx;
@@ -70,7 +70,7 @@ ruleTester.run(name, rule, {
       },
     },
     {
-      name: 'JSX fragment in expression statement (included in docs)',
+      name: 'JSX fragment in expression statement #docs',
       code: `export function MyComponent() {
   <></>;
 }

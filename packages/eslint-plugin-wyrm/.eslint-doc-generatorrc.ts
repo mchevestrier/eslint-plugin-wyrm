@@ -6,7 +6,7 @@ import type { GenerateOptions } from 'eslint-doc-generator';
 import * as prettier from 'prettier';
 import * as ts from 'typescript';
 
-global.__filename = import.meta.filename;
+globalThis.__filename = import.meta.filename;
 
 const config: GenerateOptions = {
   ignoreConfig: [
@@ -15,7 +15,7 @@ const config: GenerateOptions = {
     'strictOnly',
     'strictTypeCheckedOnly',
   ],
-  configFormat: 'prefix-name',
+  configFormat: 'name',
   configEmoji: [
     ['recommended', '✅'],
     ['recommendedTypeChecked', '☑️'],
@@ -49,9 +49,9 @@ const config: GenerateOptions = {
 export default config;
 
 async function formatWithPrettier(content: string, pathToFile: string) {
-  const config = await prettier.resolveConfig(pathToFile);
+  const prettierConfig = await prettier.resolveConfig(pathToFile);
   const formatted = await prettier.format(content, {
-    ...config,
+    ...prettierConfig,
     parser: 'markdown',
   });
   return formatted;
@@ -61,7 +61,7 @@ async function generateDescriptionForRule(ruleName: string): Promise<string> {
   const code = await fs.readFile(
     path.join(import.meta.dirname, `./lib/rules/${ruleName}.ts`),
     {
-      encoding: 'utf-8',
+      encoding: 'utf8',
     },
   );
 
@@ -101,12 +101,12 @@ function extractStringFromComment(raw: string): string {
 }
 
 async function generateExamplesForRule(ruleName: string) {
-  const code = await fs.readFile(
+  const testContent = await fs.readFile(
     path.join(import.meta.dirname, `./lib/rules/${ruleName}.test.ts`),
-    { encoding: 'utf-8' },
+    { encoding: 'utf8' },
   );
 
-  const ast = ts.createSourceFile('source.ts', code, ts.ScriptTarget.Latest);
+  const ast = ts.createSourceFile('source.ts', testContent, ts.ScriptTarget.Latest);
 
   type TestCase = { name: string; code: string };
   const validTestCases: TestCase[] = [];
@@ -187,8 +187,8 @@ async function generateExamplesForRule(ruleName: string) {
 
   function formatExample(testCase: TestCase): string {
     return `
+${testCase.name}:
 \`\`\`tsx
-// ${testCase.name}
 
 ${testCase.code}
 \`\`\`
@@ -196,7 +196,7 @@ ${testCase.code}
   }
 
   function formatExamples(testCases: TestCase[]): string {
-    const docPragma = ' (included in docs)';
+    const docPragma = ' #docs';
     return testCases
       .filter(({ name }) => name.includes(docPragma))
       .map(({ name, code }) => ({ code, name: name.replace(docPragma, '') }))

@@ -19,7 +19,7 @@ const ruleTester = new RuleTester({
 ruleTester.run(name, rule, {
   valid: [
     {
-      name: 'Optional chain asserted as nullable (included in docs)',
+      name: 'Optional chain asserted as nullable #docs',
       code: `declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as string | undefined)?.toUpperCase();
 `,
@@ -37,7 +37,7 @@ const str = (foo?.bar as string | number | undefined)?.toString();
       },
     },
     {
-      name: 'Optional chain asserted as any (included in docs)',
+      name: 'Optional chain asserted as any #docs',
       code: `declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as any)?.toUpperCase();
 `,
@@ -46,7 +46,7 @@ const str = (foo?.bar as any)?.toUpperCase();
       },
     },
     {
-      name: 'Optional chain asserted as unknown (included in docs)',
+      name: 'Optional chain asserted as unknown #docs',
       code: `declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as unknown)?.toUpperCase();
 `,
@@ -66,7 +66,7 @@ const str = (foo?.bar as (typeof foo)['bar'])?.toString();
   ],
   invalid: [
     {
-      name: 'Optional chain asserted as not undefined (included in docs)',
+      name: 'Optional chain asserted as not undefined #docs',
       code: `declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as string).toUpperCase();
 `,
@@ -76,7 +76,7 @@ const str = (foo?.bar as string).toUpperCase();
       },
     },
     {
-      name: 'Optional chain call expression asserted as not undefined (included in docs)',
+      name: 'Optional chain call expression asserted as not undefined #docs',
       code: `declare const foo: { bar: () => string | number } | null;
 const str = (foo?.bar() as string | number)?.toString();
 `,

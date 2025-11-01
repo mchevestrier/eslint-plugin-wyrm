@@ -1,6 +1,6 @@
 # Forbid extra boolean casts in conditions and predicates (`wyrm/no-extra-nested-boolean-cast`)
 
-💼 This rule is enabled in the following configs: 🟢 `wyrm/strict`, 🟣 `wyrm/strictTypeChecked`.
+💼 This rule is enabled in the following configs: 🟢 `strict`, 🟣 `strictTypeChecked`.
 
 ## Description
 
@@ -20,13 +20,15 @@ declare const foo: string;
 const bar = !!foo ? 'ok' : 'ko';
 ```
 
+This rules conflicts with the [`@typescript-eslint/strict-boolean-expressions`](https://typescript-eslint.io/rules/strict-boolean-expressions/) rule.
+
 ## Cases
 
 ### Incorrect ❌
 
-```tsx
-// Redundant double negation
+Redundant double negation:
 
+```tsx
 declare const foo: string;
 
 if (!!bar) {
@@ -34,22 +36,22 @@ if (!!bar) {
 }
 ```
 
-```tsx
-// Redundant double negation inside of another boolean cast
+Redundant double negation inside of another boolean cast:
 
+```tsx
 const x = Boolean(!!foo);
 ```
 
-```tsx
-// Redundant double negation in return of array method predicate
+Redundant double negation in return of array method predicate:
 
+```tsx
 declare const arr: string[];
 const isOkay = arr.filter((elt) => !!elt);
 ```
 
-```tsx
-// Redundant double negations in logical sub-expressions
+Redundant double negations in logical sub-expressions:
 
+```tsx
 declare const foo: string;
 declare const bar: string;
 declare const baz: string;
@@ -59,9 +61,9 @@ if (!!bar && (!!foo || !!baz)) {
 }
 ```
 
-```tsx
-// Redundant Boolean calls
+Redundant Boolean calls:
 
+```tsx
 declare const foo: string;
 declare const bar: string;
 declare const baz: string;
@@ -71,9 +73,9 @@ if (Boolean(bar) && (Boolean(foo) || Boolean(baz))) {
 }
 ```
 
-```tsx
-// Redundant double negations nested in type assertions
+Redundant double negations nested in type assertions:
 
+```tsx
 declare const foo: string;
 declare const bar: string;
 declare const baz: string;
@@ -85,9 +87,9 @@ if ((!!bar)! && ((!!foo satisfies boolean) || (!!baz as any))) {
 
 ### Correct ✅
 
-```tsx
-// No extra boolean cast
+No extra boolean cast:
 
+```tsx
 declare const foo: string;
 declare const bar: string;
 declare const baz: string;
@@ -97,9 +99,9 @@ if (bar && (foo || baz)) {
 }
 ```
 
-```tsx
-// Short-circuiting expression
+Short-circuiting expression:
 
+```tsx
 declare const foo: string;
 declare const bar: string;
 declare const baz: string;

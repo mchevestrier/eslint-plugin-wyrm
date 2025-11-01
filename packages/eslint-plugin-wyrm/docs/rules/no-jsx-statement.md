@@ -1,14 +1,14 @@
 # Forbid JSX expression statements (`wyrm/no-jsx-statement`)
 
-💼 This rule is enabled in the following configs: ✅ `wyrm/recommended`, ☑️ `wyrm/recommendedTypeChecked`, 🟢 `wyrm/strict`, 🟣 `wyrm/strictTypeChecked`.
+💼 This rule is enabled in the following configs: ✅ `recommended`, ☑️ `recommendedTypeChecked`, 🟢 `strict`, 🟣 `strictTypeChecked`.
 
 ## Cases
 
 ### Incorrect ❌
 
-```tsx
-// JSX fragment in expression statement
+JSX fragment in expression statement:
 
+```tsx
 export function MyComponent() {
   <></>;
 }
@@ -16,17 +16,17 @@ export function MyComponent() {
 
 ### Correct ✅
 
-```tsx
-// JSX element in return statement
+JSX element in return statement:
 
+```tsx
 export function MyComponent() {
   return <div />;
 }
 ```
 
-```tsx
-// JSX element in variable initialization
+JSX element in variable initialization:
 
+```tsx
 export function MyComponent() {
   const jsx = <div />;
   return jsx;

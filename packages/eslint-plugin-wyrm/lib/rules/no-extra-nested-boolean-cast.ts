@@ -15,11 +15,14 @@
  * // `foo` doesn't need to be coerced to a boolean, because it is inside a ternary condition:
  * const bar = !!foo ? "ok" : "ko";
  * ```
+ *
+ * This rules conflicts with the [`@typescript-eslint/strict-boolean-expressions`](https://typescript-eslint.io/rules/strict-boolean-expressions/) rule.
  */
 
 import path from 'node:path';
 
-import { AST_NODE_TYPES, TSESTree } from '@typescript-eslint/utils';
+import type { TSESTree } from '@typescript-eslint/utils';
+import { AST_NODE_TYPES } from '@typescript-eslint/utils';
 
 import { createRule } from '../utils/createRule.js';
 

@@ -9,7 +9,7 @@ const ruleTester = new RuleTester();
 ruleTester.run(name, rule, {
   valid: [
     {
-      name: 'No extra boolean cast (included in docs)',
+      name: 'No extra boolean cast #docs',
       code: `declare const foo: string;
 declare const bar: string;
 declare const baz: string;
@@ -23,7 +23,7 @@ if (bar && (foo || baz)) {
       },
     },
     {
-      name: 'Short-circuiting expression (included in docs)',
+      name: 'Short-circuiting expression #docs',
       code: `declare const foo: string;
 declare const bar: string;
 declare const baz: string;
@@ -67,7 +67,7 @@ const bits = arr.map((elt) => elt);
   ],
   invalid: [
     {
-      name: 'Redundant double negation (included in docs)',
+      name: 'Redundant double negation #docs',
       code: `declare const foo: string;
 
 if (!!bar) {
@@ -88,7 +88,7 @@ if (!!bar) {
       },
     },
     {
-      name: 'Redundant double negation inside of another boolean cast (included in docs)',
+      name: 'Redundant double negation inside of another boolean cast #docs',
       code: `const x = Boolean(!!foo);
 `,
       errors: [
@@ -139,7 +139,7 @@ if (!!bar) {
       },
     },
     {
-      name: 'Redundant double negation in return of array method predicate (included in docs)',
+      name: 'Redundant double negation in return of array method predicate #docs',
       code: `declare const arr: string[];
 const isOkay = arr.filter((elt) => !!elt);
 `,
@@ -234,7 +234,7 @@ const isOkay = arr.filter((elt) => {
       },
     },
     {
-      name: 'Redundant double negations in logical sub-expressions (included in docs)',
+      name: 'Redundant double negations in logical sub-expressions #docs',
       code: `declare const foo: string;
 declare const bar: string;
 declare const baz: string;
@@ -271,7 +271,7 @@ if (!!bar && (!!foo || !!baz)) {
       },
     },
     {
-      name: 'Redundant Boolean calls (included in docs)',
+      name: 'Redundant Boolean calls #docs',
       code: `declare const foo: string;
 declare const bar: string;
 declare const baz: string;
@@ -308,7 +308,7 @@ if (Boolean(bar) && (Boolean(foo) || Boolean(baz))) {
       },
     },
     {
-      name: 'Redundant double negations nested in type assertions (included in docs)',
+      name: 'Redundant double negations nested in type assertions #docs',
       code: `declare const foo: string;
 declare const bar: string;
 declare const baz: string;

@@ -21,7 +21,7 @@ async function generateExports() {
         !file.name.endsWith('.test.ts'),
     )
     .map((file) => {
-      const name = path.parse(file.name).name;
+      const { name } = path.parse(file.name);
       return `export { default as '${name}' } from './${name}.js';`;
     })
     .join('\n');

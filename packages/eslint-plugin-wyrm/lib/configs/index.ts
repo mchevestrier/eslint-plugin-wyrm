@@ -1,15 +1,14 @@
-import type { RuleModule } from '@typescript-eslint/utils/ts-eslint';
-import { Linter } from 'eslint';
+import type { RuleModule, FlatConfig } from '@typescript-eslint/utils/ts-eslint';
 
 import { plugin } from '../plugin.js';
 import * as allRules from '../rules/index.js';
 import type { WyrmPluginDocs } from '../utils/createRule.js';
 
-type Config = Linter.Config;
+type Config = FlatConfig.Config;
 
 type Rule = RuleModule<string, unknown[], WyrmPluginDocs>;
 
-const baseConfig: Omit<Linter.Config, 'rules'> = {
+const baseConfig: Omit<Config, 'rules'> = {
   plugins: {
     get wyrm() {
       return plugin;
@@ -19,18 +18,18 @@ const baseConfig: Omit<Linter.Config, 'rules'> = {
 
 function createConfigWithRules(
   initialRules: Record<string, Rule>,
-  name: string,
+  configName: string,
   pred: (rule: Rule) => boolean,
-): Linter.Config {
+): Config {
   const entries = Object.entries(initialRules);
   const filteredRules = entries
     .filter(([, rule]) => pred(rule))
-    .map(([name]) => [`wyrm/${name}`, 'error'] as const);
+    .map(([ruleName]) => [`wyrm/${ruleName}`, 'error'] as const);
 
   const rules = Object.fromEntries(filteredRules);
   return {
     ...baseConfig,
-    name: `wyrm/${name}`,
+    name: `wyrm/${configName}`,
     rules,
   };
 }

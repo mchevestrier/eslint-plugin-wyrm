@@ -8,6 +8,7 @@ import eslintPlugin from 'eslint-plugin-eslint-plugin';
 import { importX, createNodeResolver } from 'eslint-plugin-import-x';
 import n from 'eslint-plugin-n';
 import * as packageJson from 'eslint-plugin-package-json';
+import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
 import * as tseslint from 'typescript-eslint';
 
@@ -38,28 +39,6 @@ export default defineConfig([
 
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
-
-  {
-    files: ['**/*.md', '**/package.json'],
-    extends: [tseslint.configs.disableTypeChecked],
-  },
-
-  {
-    files: ['**/*.md'],
-    plugins: { markdown },
-    language: 'markdown/gfm',
-    extends: ['markdown/recommended'],
-  },
-
-  {
-    extends: [packageJson.configs.recommended],
-    files: ['**/package.json'],
-    settings: {
-      packageJson: {
-        enforceForPrivate: false,
-      },
-    },
-  },
 
   {
     ...n.configs['flat/recommended-module'],
@@ -103,8 +82,6 @@ export default defineConfig([
     },
   },
 
-  // TODO: I'm getting an error with this
-  // eslintPlugin.configs.recommended,
   {
     files: ['lib/rules/*.{js,ts}'],
     ...eslintPlugin.configs.recommended,
@@ -126,14 +103,106 @@ export default defineConfig([
       'eslint-plugin/test-case-shorthand-strings': 'off',
     },
   },
+  {
+    files: ['**/*.{js,ts,cjs,mjs,cts,mts,jsx,tsx}'],
+    ...eslintPluginUnicorn.configs.recommended,
+  },
 
   {
+    files: ['**/*.{js,ts,cjs,mjs,cts,mts,jsx,tsx}'],
     rules: {
       curly: ['error', 'multi-line'],
       'prefer-template': 'error',
       'no-extra-boolean-cast': ['error', { enforceForInnerExpressions: true }],
 
+      '@typescript-eslint/class-methods-use-this': 'error',
+      '@typescript-eslint/consistent-return': 'error',
+      '@typescript-eslint/consistent-type-exports': 'error',
+      '@typescript-eslint/consistent-type-imports': [
+        'error',
+        {
+          prefer: 'type-imports',
+          fixStyle: 'separate-type-imports',
+          disallowTypeAnnotations: false,
+        },
+      ],
+      '@typescript-eslint/default-param-last': 'error',
+      '@typescript-eslint/max-params': ['error', { max: 5 }],
+      'init-declarations': 'off',
+      '@typescript-eslint/init-declarations': 'error',
+      '@typescript-eslint/method-signature-style': 'error',
+      '@typescript-eslint/no-import-type-side-effects': 'error',
+      'no-loop-func': 'off',
+      '@typescript-eslint/no-loop-func': 'error',
+      '@typescript-eslint/no-magic-numbers': ['error', { ignore: [0, 1, 2] }],
+      'no-shadow': 'off',
+      '@typescript-eslint/no-shadow': 'error',
+      '@typescript-eslint/no-unnecessary-parameter-property-assignment': 'error',
+      '@typescript-eslint/no-unnecessary-qualifier': 'error',
+      '@typescript-eslint/no-unsafe-type-assertion': 'error',
+      '@typescript-eslint/no-useless-empty-export': 'error',
+
+      '@typescript-eslint/parameter-properties': [
+        'error',
+        { prefer: 'parameter-property' },
+      ],
+      'prefer-destructuring': 'off',
+      '@typescript-eslint/prefer-destructuring': [
+        'error',
+        {
+          VariableDeclarator: {
+            array: false,
+            object: true,
+          },
+          AssignmentExpression: {
+            array: false,
+            object: false,
+          },
+        },
+      ],
+      '@typescript-eslint/prefer-enum-initializers': 'error',
+      '@typescript-eslint/prefer-readonly': 'error',
+      '@typescript-eslint/promise-function-async': 'error',
+      '@typescript-eslint/require-array-sort-compare': 'error',
+      '@typescript-eslint/switch-exhaustiveness-check': [
+        'error',
+        { considerDefaultExhaustiveForUnions: true },
+      ],
+
+      '@typescript-eslint/strict-boolean-expressions': 'off',
+      '@typescript-eslint/prefer-readonly-parameter-types': 'off',
       '@typescript-eslint/consistent-type-definitions': 'off',
+
+      'unicorn/expiring-todo-comments': 'error',
+
+      'unicorn/switch-case-braces': 'off',
+      'unicorn/prevent-abbreviations': 'off',
+      'unicorn/filename-case': 'off',
+      'unicorn/throw-new-error': 'off',
+      'unicorn/new-for-builtins': 'off',
+      'unicorn/no-typeof-undefined': 'off',
+    },
+  },
+
+  {
+    files: ['**/*.md', '**/package.json'],
+    extends: [tseslint.configs.disableTypeChecked],
+  },
+
+  {
+    files: ['**/*.md'],
+    plugins: { markdown },
+    language: 'markdown/gfm',
+    extends: ['markdown/recommended'],
+  },
+
+  {
+    extends: [packageJson.configs.recommended],
+    files: ['**/package.json'],
+    settings: {
+      packageJson: {
+        enforceForPrivate: false,
+      },
     },
   },
 ]);

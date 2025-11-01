@@ -33,7 +33,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
 
-      - run: ⛏️ pnpm build
+      - name: ⛏️ build
+        run: pnpm build
         working-directory: ./packages/eslint-plugin-wyrm/
 
       - name: ✒️ eslint-doc-generator
@@ -101,7 +102,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
 
-      - run: ⛏️ pnpm build
+      - name: ⛏️ build
+        run: pnpm build
         working-directory: ./packages/eslint-plugin-wyrm/
 
       - name: 🐶 dogfooding

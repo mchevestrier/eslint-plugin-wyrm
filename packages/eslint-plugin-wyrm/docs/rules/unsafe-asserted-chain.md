@@ -1,6 +1,6 @@
 # Disallow unsafe type assertions on optional chained expressions (`wyrm/unsafe-asserted-chain`)
 
-💼 This rule is enabled in the 🟣 `wyrm/strictTypeChecked` config.
+💼 This rule is enabled in the 🟣 `strictTypeChecked` config.
 
 💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
 
@@ -28,39 +28,39 @@ foo.bar as string;
 
 ### Incorrect ❌
 
-```tsx
-// Optional chain asserted as not undefined
+Optional chain asserted as not undefined:
 
+```tsx
 declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as string).toUpperCase();
 ```
 
-```tsx
-// Optional chain call expression asserted as not undefined
+Optional chain call expression asserted as not undefined:
 
+```tsx
 declare const foo: { bar: () => string | number } | null;
 const str = (foo?.bar() as string | number)?.toString();
 ```
 
 ### Correct ✅
 
-```tsx
-// Optional chain asserted as nullable
+Optional chain asserted as nullable:
 
+```tsx
 declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as string | undefined)?.toUpperCase();
 ```
 
-```tsx
-// Optional chain asserted as any
+Optional chain asserted as any:
 
+```tsx
 declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as any)?.toUpperCase();
 ```
 
-```tsx
-// Optional chain asserted as unknown
+Optional chain asserted as unknown:
 
+```tsx
 declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as unknown)?.toUpperCase();
 ```

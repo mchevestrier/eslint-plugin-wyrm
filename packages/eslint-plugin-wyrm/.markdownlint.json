@@ -1,4 +1,5 @@
 {
   "default": true,
-  "extends": "markdownlint/style/prettier"
+  "extends": "markdownlint/style/prettier",
+  "no-reversed-links": true
 }
