@@ -15,6 +15,45 @@ jobs:
   checks:
     runs-on: ubuntu-latest
 
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+
+      - run: pnpm build
+        working-directory: ./packages/eslint-plugin-wyrm/
+
+      - name: eslint-doc-generator
+        run: pnpm run -r --reporter-hide-prefix lint:eslint-docs
+
+      - name: markdownlint
+        run: pnpm run -r --reporter-hide-prefix lint:docs
+
+      - name: prettier
+        run: pnpm run -r --reporter-hide-prefix lint:format
+
+      - name: eslint
+        run: pnpm run -r --reporter-hide-prefix lint:js
+
+      - name: typescript
+        run: pnpm run lint:types
+
+  tests:
+    runs-on: ubuntu-latest
+
     strategy:
       matrix:
         node-version: [22.x, 24.x]
@@ -38,23 +77,32 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
 
-      - run: pnpm build
-        working-directory: ./packages/eslint-plugin-wyrm/
-
-      - name: eslint-doc-generator
-        run: pnpm run -r --reporter-hide-prefix lint:eslint-docs
-
-      - name: markdownlint
-        run: pnpm run -r --reporter-hide-prefix lint:docs
-
-      - name: prettier
-        run: pnpm run -r --reporter-hide-prefix lint:format
-
-      - name: eslint
-        run: pnpm run -r --reporter-hide-prefix lint:js
-
       - name: vitest
         run: pnpm run -r --reporter-hide-prefix test
 
-      - name: typescript
-        run: pnpm run lint:types
+  dogfooding:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+
+      - run: pnpm build
+        working-directory: ./packages/eslint-plugin-wyrm/
+
+      - name: dogfooding
+        run: pnpm run dogfooding
