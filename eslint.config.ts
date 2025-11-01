@@ -181,6 +181,7 @@ export default defineConfig([
       'unicorn/throw-new-error': 'off',
       'unicorn/new-for-builtins': 'off',
       'unicorn/no-typeof-undefined': 'off',
+      'unicorn/explicit-length-check': 'off',
     },
   },
 

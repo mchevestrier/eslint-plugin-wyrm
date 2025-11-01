@@ -166,5 +166,21 @@ ruleTester.run(name, rule, {
         checkFormatting(this);
       },
     },
+    {
+      name: 'Empty comment in JSX',
+      code: `function Foo() {
+  return (
+    <div>
+      {/* */}
+      Ok
+    </div>
+  );
+}
+`,
+      errors: [{ messageId: 'noEmptyComment' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
 });
