@@ -54,6 +54,7 @@
     "eslint": ">=9.38.0",
     "eslint-doc-generator": "^2.3.0",
     "jest-diff": "^30.2.0",
+    "jiti": "^2.6.1",
     "markdownlint-cli2": "^0.18.1",
     "prettier": "^3.6.2",
     "tsdown": "^0.15.9",

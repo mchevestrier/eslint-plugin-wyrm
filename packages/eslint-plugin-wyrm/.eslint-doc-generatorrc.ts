@@ -89,15 +89,15 @@ ${content}
 function extractStringFromComment(raw: string): string {
   return (
     raw
-      // remove opening /**
-      .replace(/^\/\*\*+/, '')
+      // Remove opening /**
+      .replace(/^\/\*\*+/u, '')
 
-      // remove closing */
-      .replace(/\*+\/$/, '')
+      // Remove closing */
+      .replace(/\*+\/$/u, '')
 
-      // remove leading "* "
+      // Remove leading "* "
       .split('\n')
-      .map((line) => line.replace(/^\s*\*\s?/, ''))
+      .map((line) => line.replace(/^\s*\*\s?/u, ''))
       .join('\n')
 
       .replace('@fileoverview', '')
