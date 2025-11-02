@@ -1,4 +1,4 @@
-/* eslint-disable unicorn/no-instanceof-builtins */
+/* eslint-disable unicorn/no-instanceof-builtins, sonarjs/no-primitive-wrappers */
 
 import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
 import { diffStringsUnified } from 'jest-diff';

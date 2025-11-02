@@ -1,3 +1,21 @@
+/**
+ * @fileoverview
+ *
+ * It is sometimes clearer to inline interpolated expressions when their values are constant:
+ *
+ * @example
+ * ```ts
+ * const foo = 'foobar';
+ * const str = `${foo}_baz`;
+ * // This would be clearer as:
+ * const str = 'foobar_baz';
+ * ```
+ *
+ * By default, this rule allows constant values when they take up at least 10 characters.
+ * This can be configured with the `minAllowedLength` option.
+ *
+ */
+
 import path from 'node:path';
 
 import { ESLintUtils } from '@typescript-eslint/utils';
@@ -7,25 +25,37 @@ import { createRule } from '../utils/createRule.js';
 
 export const { name } = path.parse(import.meta.filename);
 
+const DEFAULT_MIN_ALLOWED_LENGTH = 10;
+
 export default createRule({
   name,
   meta: {
     type: 'problem',
-    hasSuggestions: true,
     docs: {
       description: 'Disallow constant string expressions in template literals',
       requiresTypeChecking: true,
       strict: true,
     },
-    schema: [],
+    hasSuggestions: true,
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          minAllowedLength: {
+            type: 'number',
+            description: 'Minimum string length allowed for constant expressions',
+          },
+        },
+      },
+    ],
     messages: {
       noConstantTemplateExpression:
         "Replace this constant template expression by its value as a string ('{{value}}')",
       replaceByString: "Replace by '{{value}}'",
     },
   },
-  defaultOptions: [],
-  create(context) {
+  defaultOptions: [{ minAllowedLength: DEFAULT_MIN_ALLOWED_LENGTH }],
+  create(context, [options]) {
     return {
       TemplateLiteral(node) {
         const services = ESLintUtils.getParserServices(context);
@@ -38,6 +68,8 @@ export default createRule({
 
           const value = getLiteralValue(type, checker);
           if (value === null) continue;
+
+          if (value.length >= options.minAllowedLength) return;
 
           context.report({
             node: expr,

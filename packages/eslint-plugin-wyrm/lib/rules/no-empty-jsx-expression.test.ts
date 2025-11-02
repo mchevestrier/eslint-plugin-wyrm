@@ -67,5 +67,49 @@ ruleTester.run(name, rule, {
         checkFormatting(this);
       },
     },
+    {
+      name: 'JSX expression container with only a literal `null` #docs',
+      code: `function Foo() {
+  return <div>{null}</div>;
+}
+`,
+      errors: [{ messageId: 'noEmptyJsxExpression' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'JSX expression container with only a literal `undefined` #docs',
+      code: `function Foo() {
+  return <div>{undefined}</div>;
+}
+`,
+      errors: [{ messageId: 'noEmptyJsxExpression' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'JSX expression container with only a literal `false` #docs',
+      code: `function Foo() {
+  return <div>{false}</div>;
+}
+`,
+      errors: [{ messageId: 'noEmptyJsxExpression' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'JSX expression container with only a literal empty string #docs',
+      code: `function Foo() {
+  return <div>{''}</div>;
+}
+`,
+      errors: [{ messageId: 'noEmptyJsxExpression' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
 });

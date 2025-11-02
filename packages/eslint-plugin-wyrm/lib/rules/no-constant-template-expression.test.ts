@@ -45,6 +45,45 @@ const str = \`\${n}_baz\`;
         checkFormatting(this);
       },
     },
+    {
+      name: 'Template expression with a 10 character string value (as long as the default `minAllowedLength` value) #docs',
+      code: `const n = 'aaaaaaaaaa';
+const str = \`\${n}_baz\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With an empty string (`minAllowedLength: 0`)',
+      options: [{ minAllowedLength: 0 }],
+      code: `const foo = '';
+const str = \`\${foo}_baz\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a 4 character string (`minAllowedLength: 3`)',
+      options: [{ minAllowedLength: 3 }],
+      code: `const foo = '1234';
+const str = \`\${foo}_baz\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a 4 character string (`minAllowedLength: 4`)',
+      options: [{ minAllowedLength: 4 }],
+      code: `const foo = '1234';
+const str = \`\${foo}_baz\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -137,6 +176,77 @@ const str = \`Ok_\${notLiteral}_Ok_foobar_baz\`;
       ],
       after() {
         // Not formatted
+      },
+    },
+    {
+      name: 'With an empty string',
+      code: `const foo = '';
+const str = \`\${foo}_baz\`;
+`,
+      errors: [
+        {
+          messageId: 'noConstantTemplateExpression',
+          suggestions: [
+            {
+              messageId: 'replaceByString',
+              data: { value: '' },
+              output: `const foo = '';
+const str = \`_baz\`;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a 4 character string (`minAllowedLength: 5`)',
+      options: [{ minAllowedLength: 5 }],
+      code: `const foo = '1234';
+const str = \`\${foo}_baz\`;
+`,
+      errors: [
+        {
+          messageId: 'noConstantTemplateExpression',
+          suggestions: [
+            {
+              messageId: 'replaceByString',
+              data: { value: '1234' },
+              output: `const foo = '1234';
+const str = \`1234_baz\`;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a 14 character string (`minAllowedLength: 15`) #docs',
+      options: [{ minAllowedLength: 15 }],
+      code: `const foo = '12345678901234';
+const str = \`\${foo}_baz\`;
+`,
+      errors: [
+        {
+          messageId: 'noConstantTemplateExpression',
+          suggestions: [
+            {
+              messageId: 'replaceByString',
+              data: { value: '12345678901234' },
+              output: `const foo = '12345678901234';
+const str = \`12345678901234_baz\`;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
       },
     },
   ],

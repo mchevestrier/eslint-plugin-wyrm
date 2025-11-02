@@ -33,6 +33,8 @@ export default createRule({
   },
   defaultOptions: [{ allowStacked: false }],
   create(context, [options]) {
+    if (typeof context.sourceCode.getAllComments === 'undefined') return {};
+
     const comments = context.sourceCode.getAllComments();
 
     for (const comment of comments) {
@@ -51,7 +53,7 @@ export default createRule({
 });
 
 function isEmptyComment(comment: TSESTree.Comment): boolean {
-  const content = comment.value.replace(/^\*/, '').replaceAll('*\n', '').trim();
+  const content = comment.value.replace(/^\*/u, '').replaceAll('*\n', '').trim();
   return !content;
 }
 

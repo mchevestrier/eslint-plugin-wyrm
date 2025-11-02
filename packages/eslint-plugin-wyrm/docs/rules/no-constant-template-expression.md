@@ -6,6 +6,22 @@
 
 💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
 
+## Description
+
+It is sometimes clearer to inline interpolated expressions when their values are constant:
+
+### Example
+
+```ts
+const foo = 'foobar';
+const str = `${foo}_baz`;
+// This would be clearer as:
+const str = 'foobar_baz';
+```
+
+By default, this rule allows constant values when they take up at least 10 characters.
+This can be configured with the `minAllowedLength` option.
+
 ## Cases
 
 ### Incorrect ❌
@@ -31,6 +47,13 @@ const bool = true;
 const str = `${bool}_baz`;
 ```
 
+With a 14 character string (`minAllowedLength: 15`):
+
+```tsx
+const foo = '12345678901234';
+const str = `${foo}_baz`;
+```
+
 ### Correct ✅
 
 Template expression typed as string:
@@ -40,4 +63,21 @@ declare const foo: string;
 const str = `${foo}_baz`;
 ```
 
+Template expression with a 10 character string value (as long as the default `minAllowedLength` value):
+
+```tsx
+const n = 'aaaaaaaaaa';
+const str = `${n}_baz`;
+```
+
 <!-- end auto-generated rule header -->
+
+## Options
+
+<!-- begin auto-generated rule options list -->
+
+| Name               | Description                                            | Type   |
+| :----------------- | :----------------------------------------------------- | :----- |
+| `minAllowedLength` | Minimum string length allowed for constant expressions | Number |
+
+<!-- end auto-generated rule options list -->
