@@ -84,6 +84,34 @@ const str = \`\${foo}_baz\`;
         checkFormatting(this);
       },
     },
+    {
+      name: 'Reusing an identifier is allowed',
+      code: `const foo = 'foobar';
+const str1 = \`\${foo}_baz\`;
+const str2 = \`\${foo}_quux\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Using an exported identifier is allowed',
+      code: `export const foo = 'foobar';
+const str = \`\${foo}_baz\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'A template literal with spaces is allowed',
+      code: `export const foo = 'foobar';
+const str = \`Value: \${foo}\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -240,6 +268,48 @@ const str = \`\${foo}_baz\`;
               data: { value: '12345678901234' },
               output: `const foo = '12345678901234';
 const str = \`12345678901234_baz\`;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a literal string value as the expression',
+      code: `const str = \`\${'foobar'}_baz\`;
+`,
+      errors: [
+        {
+          messageId: 'noConstantTemplateExpression',
+          suggestions: [
+            {
+              messageId: 'replaceByString',
+              data: { value: 'foobar' },
+              output: `const str = \`foobar_baz\`;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a literal number value as the expression',
+      code: `const str = \`\${42}_baz\`;
+`,
+      errors: [
+        {
+          messageId: 'noConstantTemplateExpression',
+          suggestions: [
+            {
+              messageId: 'replaceByString',
+              data: { value: '42' },
+              output: `const str = \`42_baz\`;
 `,
             },
           ],

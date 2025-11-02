@@ -18,7 +18,7 @@
 
 import path from 'node:path';
 
-import { ESLintUtils } from '@typescript-eslint/utils';
+import { AST_NODE_TYPES, ESLintUtils, ASTUtils } from '@typescript-eslint/utils';
 import type * as ts from 'typescript';
 
 import { createRule } from '../utils/createRule.js';
@@ -63,7 +63,28 @@ export default createRule({
 
         const { expressions, quasis } = node;
 
+        if (quasis.some((quasi) => quasi.value.cooked.includes(' '))) return;
+
+        const scope = context.sourceCode.getScope(node);
+
         for (const expr of expressions) {
+          if (expr.type === AST_NODE_TYPES.Identifier) {
+            const variable = ASTUtils.findVariable(scope, expr);
+            if (variable) {
+              const { references, defs } = variable;
+              if (references.length > 2) continue;
+
+              const def = defs.at(-1);
+              if (
+                def?.parent?.type === AST_NODE_TYPES.VariableDeclaration &&
+                (def.parent.parent.type === AST_NODE_TYPES.ExportNamedDeclaration ||
+                  def.parent.parent.type === AST_NODE_TYPES.ExportDefaultDeclaration)
+              ) {
+                continue;
+              }
+            }
+          }
+
           const type = services.getTypeAtLocation(expr);
 
           const value = getLiteralValue(type, checker);
