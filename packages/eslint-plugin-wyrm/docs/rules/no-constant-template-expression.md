@@ -76,8 +76,8 @@ const str = `${n}_baz`;
 
 <!-- begin auto-generated rule options list -->
 
-| Name               | Description                                            | Type   |
-| :----------------- | :----------------------------------------------------- | :----- |
-| `minAllowedLength` | Minimum string length allowed for constant expressions | Number |
+| Name               | Description                                                         | Type   |
+| :----------------- | :------------------------------------------------------------------ | :----- |
+| `minAllowedLength` | Minimum string length allowed for constant expressions. Default: 10 | Number |
 
 <!-- end auto-generated rule options list -->

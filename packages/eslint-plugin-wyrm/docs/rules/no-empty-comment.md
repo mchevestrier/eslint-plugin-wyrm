@@ -63,8 +63,8 @@ Stacked empty comments (with `allowStacked: true`):
 
 <!-- begin auto-generated rule options list -->
 
-| Name           | Description                                                        | Type    |
-| :------------- | :----------------------------------------------------------------- | :------ |
-| `allowStacked` | Whether to allow empty comments stacked next to non-empty comments | Boolean |
+| Name           | Description                                                                          | Type    |
+| :------------- | :----------------------------------------------------------------------------------- | :------ |
+| `allowStacked` | Whether to allow empty comments stacked next to non-empty comments. Default: `false` | Boolean |
 
 <!-- end auto-generated rule options list -->

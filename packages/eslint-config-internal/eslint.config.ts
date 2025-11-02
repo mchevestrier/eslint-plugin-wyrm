@@ -264,6 +264,10 @@ export default defineConfig([
         'error',
         { considerDefaultExhaustiveForUnions: true },
       ],
+      '@typescript-eslint/restrict-template-expressions': [
+        'error',
+        { allowNumber: true, allowNever: true, allowBoolean: true },
+      ],
 
       // See https://github.com/eslint/eslint/issues/20272
       '@typescript-eslint/unified-signatures': 'off',
@@ -281,8 +285,10 @@ export default defineConfig([
       'unicorn/new-for-builtins': 'off',
       'unicorn/no-typeof-undefined': 'off',
       'unicorn/explicit-length-check': 'off',
+      'unicorn/no-array-reduce': 'off',
       'unicorn/no-null': 'off',
 
+      'sonarjs/no-dead-store': 'error',
       'sonarjs/cognitive-complexity': ['error', 20],
 
       'sonarjs/no-empty-test-file': 'off',

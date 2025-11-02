@@ -6,6 +6,8 @@ import { createRule } from '../utils/createRule.js';
 
 export const { name } = path.parse(import.meta.filename);
 
+const DEFAULT_ALLOW_STACKED = false;
+
 export default createRule({
   name,
   meta: {
@@ -21,8 +23,7 @@ export default createRule({
         properties: {
           allowStacked: {
             type: 'boolean',
-            description:
-              'Whether to allow empty comments stacked next to non-empty comments',
+            description: `Whether to allow empty comments stacked next to non-empty comments. Default: \`${DEFAULT_ALLOW_STACKED}\``,
           },
         },
       },
@@ -31,7 +32,7 @@ export default createRule({
       noEmptyComment: 'Remove this empty comment',
     },
   },
-  defaultOptions: [{ allowStacked: false }],
+  defaultOptions: [{ allowStacked: DEFAULT_ALLOW_STACKED }],
   create(context, [options]) {
     if (typeof context.sourceCode.getAllComments === 'undefined') return {};
 

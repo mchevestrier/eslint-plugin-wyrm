@@ -43,7 +43,7 @@ export default createRule({
         properties: {
           minAllowedLength: {
             type: 'number',
-            description: 'Minimum string length allowed for constant expressions',
+            description: `Minimum string length allowed for constant expressions. Default: ${DEFAULT_MIN_ALLOWED_LENGTH}`,
           },
         },
       },
