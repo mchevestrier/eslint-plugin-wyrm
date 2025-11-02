@@ -17,10 +17,10 @@ const config: GenerateOptions = {
   ],
   configFormat: 'name',
   configEmoji: [
-    ['recommended', '✅'],
-    ['recommendedTypeChecked', '☑️'],
-    ['strict', '🟢'],
-    ['strictTypeChecked', '🟣'],
+    ['recommended', '🟩'],
+    ['recommendedTypeChecked', '✅'],
+    ['strict', '🟪'],
+    ['strictTypeChecked', '☑️'],
   ],
   urlRuleDoc: (name: string) => {
     const url = `https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/`;

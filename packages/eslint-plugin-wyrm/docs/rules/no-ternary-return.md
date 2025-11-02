@@ -1,6 +1,6 @@
 # Disallow ternary conditions in return statements (`wyrm/no-ternary-return`)
 
-💼 This rule is enabled in the following configs: 🟢 `strict`, 🟣 `strictTypeChecked`.
+💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 

@@ -1,6 +1,6 @@
 # Forbid empty JSX expression containers (`wyrm/no-empty-jsx-expression`)
 
-💼 This rule is enabled in the following configs: ✅ `recommended`, ☑️ `recommendedTypeChecked`, 🟢 `strict`, 🟣 `strictTypeChecked`.
+💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 
 ## Cases
 

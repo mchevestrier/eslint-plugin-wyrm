@@ -1,6 +1,6 @@
 # Disallow unsafe type assertions on optional chained expressions (`wyrm/unsafe-asserted-chain`)
 
-💼 This rule is enabled in the 🟣 `strictTypeChecked` config.
+💼 This rule is enabled in the ☑️ `strictTypeChecked` config.
 
 💭 This rule requires [type information](https://typescript-eslint.io/linting/typed-linting).
 

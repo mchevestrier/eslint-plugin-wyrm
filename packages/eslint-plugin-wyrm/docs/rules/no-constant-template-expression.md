@@ -1,6 +1,6 @@
 # Disallow constant string expressions in template literals (`wyrm/no-constant-template-expression`)
 
-💼 This rule is enabled in the 🟣 `strictTypeChecked` config.
+💼 This rule is enabled in the ☑️ `strictTypeChecked` config.
 
 💡 This rule is manually fixable by [editor suggestions](https://eslint.org/docs/latest/use/core-concepts#rule-suggestions).
 

@@ -1,6 +1,6 @@
 # Forbid empty comments (`wyrm/no-empty-comment`)
 
-💼 This rule is enabled in the following configs: 🟢 `strict`, 🟣 `strictTypeChecked`.
+💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 
 ## Cases
 
