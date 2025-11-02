@@ -8,6 +8,7 @@
   "scripts": {
     "dogfooding": "eslint . -c eslint.dogfooding.ts",
     "eslint": "eslint .",
+    "knip": "knip",
     "lint:types": "tsc"
   },
   "devDependencies": {
