@@ -21,6 +21,13 @@ export default defineConfig([
   },
 
   {
+    linterOptions: {
+      reportUnusedDisableDirectives: 'error',
+      reportUnusedInlineConfigs: 'error',
+    },
+  },
+
+  {
     languageOptions: {
       parser: tsParser,
       ecmaVersion: 'latest',
@@ -36,6 +43,7 @@ export default defineConfig([
       globals: globals.node,
       parserOptions: {
         projectService: true,
+        tsconfigRootDir: import.meta.dirname,
       },
     },
   },
