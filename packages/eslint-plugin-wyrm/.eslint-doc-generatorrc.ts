@@ -23,7 +23,8 @@ const config: GenerateOptions = {
     ['strictTypeChecked', '☑️'],
   ],
   urlRuleDoc: (name: string) => {
-    const url = `https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/`;
+    const url =
+      'https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/';
     return `${url}${name}.md`;
   },
   postprocess: async (content, pathToFile) => {

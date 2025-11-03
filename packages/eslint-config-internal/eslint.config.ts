@@ -2,6 +2,7 @@
 
 import js from '@eslint/js';
 import markdown from '@eslint/markdown';
+import stylistic from '@stylistic/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import vitest from '@vitest/eslint-plugin';
 import { defineConfig } from 'eslint/config';
@@ -37,7 +38,7 @@ export default defineConfig([
 
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
-    plugins: { js },
+    plugins: { js, '@stylistic': stylistic },
     extends: ['js/recommended'],
     languageOptions: {
       globals: globals.node,
@@ -303,6 +304,12 @@ export default defineConfig([
       'sonarjs/no-empty-test-file': 'off',
       'sonarjs/slow-regex': 'off',
       'sonarjs/todo-tag': 'off',
+
+      '@stylistic/quotes': [
+        'error',
+        'single',
+        { avoidEscape: true, allowTemplateLiterals: 'avoidEscape' },
+      ],
     },
   },
 

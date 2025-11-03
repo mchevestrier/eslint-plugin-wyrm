@@ -1,4 +1,6 @@
-export function NoTernaryReturn(cond: boolean) {
+type NoTernaryReturnProps = { cond?: boolean };
+
+export function NoTernaryReturn({ cond }: NoTernaryReturnProps) {
   // eslint-disable-next-line wyrm/no-ternary-return
   return cond ? (
     <div>

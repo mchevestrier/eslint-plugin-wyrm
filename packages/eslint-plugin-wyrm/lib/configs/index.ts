@@ -58,7 +58,7 @@ export const strictOnly: Config = createConfigWithRules(
 
 export const strict: Config = {
   ...baseConfig,
-  name: `wyrm/strict`,
+  name: 'wyrm/strict',
   rules: {
     ...recommended.rules,
     ...strictOnly.rules,
@@ -79,7 +79,7 @@ export const recommendedTypeCheckedOnly: Config = createConfigWithRules(
 
 export const recommendedTypeChecked: Config = {
   ...baseConfig,
-  name: `wyrm/recommendedTypeChecked`,
+  name: 'wyrm/recommendedTypeChecked',
   rules: {
     ...recommended.rules,
     ...recommendedTypeCheckedOnly.rules,
@@ -98,7 +98,7 @@ export const strictTypeCheckedOnly: Config = createConfigWithRules(
 
 export const strictTypeChecked: Config = {
   ...baseConfig,
-  name: `wyrm/strictTypeChecked`,
+  name: 'wyrm/strictTypeChecked',
   rules: {
     ...recommendedTypeChecked.rules,
     ...strictOnly.rules,
