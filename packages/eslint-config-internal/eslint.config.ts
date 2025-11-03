@@ -225,7 +225,7 @@ export default defineConfig([
       '@typescript-eslint/default-param-last': 'error',
       '@typescript-eslint/max-params': ['error', { max: 5 }],
       'init-declarations': 'off',
-      '@typescript-eslint/init-declarations': 'error',
+      '@typescript-eslint/init-declarations': 'off',
       '@typescript-eslint/method-signature-style': 'error',
       '@typescript-eslint/no-import-type-side-effects': 'error',
       'no-loop-func': 'off',
@@ -287,6 +287,7 @@ export default defineConfig([
       'unicorn/explicit-length-check': 'off',
       'unicorn/no-array-reduce': 'off',
       'unicorn/no-null': 'off',
+      'unicorn/no-useless-undefined': 'off',
 
       'sonarjs/no-dead-store': 'error',
       'sonarjs/cognitive-complexity': ['error', 20],
