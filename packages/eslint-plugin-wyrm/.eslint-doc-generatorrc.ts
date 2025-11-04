@@ -206,9 +206,21 @@ ${testCase.code}
     const docPragma = ' #docs';
     return testCases
       .filter(({ name }) => name.includes(docPragma))
-      .map(({ name, code }) => ({ code, name: name.replace(docPragma, '') }))
+      .map(({ name, code }) => ({
+        code,
+        name: name.replace(new RegExp(`${docPragma}.*`, 'u'), ''),
+      }))
       .map((testCase) => formatExample(testCase))
       .join('\n');
+  }
+
+  if (!validTestCases.length) {
+    const msg = `For rule ${ruleName}, you need to add at least one valid test case for #docs`;
+    throw Error(msg);
+  }
+  if (!invalidTestCases.length) {
+    const msg = `For rule ${ruleName}, you need to add at least one invalid test case for #docs`;
+    throw Error(msg);
   }
 
   const validExamples = formatExamples(validTestCases);
