@@ -60,6 +60,7 @@ export default defineConfig([
 | [no-suspicious-jsx-semicolon](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-suspicious-jsx-semicolon.md)         | Forbid suspicious semicolons in JSX                             | 🟩 ✅ 🟪 ☑️ |     |     |     |
 | [no-ternary-return](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-ternary-return.md)                             | Disallow ternary conditions in return statements                | 🟪 ☑️       | 🔧  |     |     |
 | [no-useless-iife](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-useless-iife.md)                                 | Forbid useless IIFEs                                            | 🟩 ✅ 🟪 ☑️ |     | 💡  |     |
+| [prefer-repeat](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/prefer-repeat.md)                                     | Enforce usage of `String.prototype.repeat`                      | 🟩 ✅ 🟪 ☑️ |     | 💡  |     |
 | [unsafe-asserted-chain](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/unsafe-asserted-chain.md)                     | Disallow unsafe type assertions on optional chained expressions | ☑️          |     |     | 💭  |
 
 <!-- end auto-generated rules list -->

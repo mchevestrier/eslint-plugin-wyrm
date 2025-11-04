@@ -8,4 +8,5 @@ export { default as 'no-jsx-statement' } from './no-jsx-statement.js';
 export { default as 'no-suspicious-jsx-semicolon' } from './no-suspicious-jsx-semicolon.js';
 export { default as 'no-ternary-return' } from './no-ternary-return.js';
 export { default as 'no-useless-iife' } from './no-useless-iife.js';
+export { default as 'prefer-repeat' } from './prefer-repeat.js';
 export { default as 'unsafe-asserted-chain' } from './unsafe-asserted-chain.js';
