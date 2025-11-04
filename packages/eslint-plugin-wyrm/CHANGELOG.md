@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.6](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.5...eslint-plugin-wyrm-v0.0.6) (2025-11-04)
+
+
+### Bug Fixes
+
+* add no-else-break and no-else-continue ([eb2647f](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/eb2647feb3a5d04782a86db8324259afb70a5369))
+* add no-else-throw ([cedc18e](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/cedc18efd6952c3c3195d378dbd59a8772b7613d))
+
 ## [0.0.5](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.4...eslint-plugin-wyrm-v0.0.5) (2025-11-02)
 
 
