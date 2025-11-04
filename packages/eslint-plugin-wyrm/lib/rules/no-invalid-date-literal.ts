@@ -9,7 +9,7 @@ export const { name } = path.parse(import.meta.filename);
 export default createRule({
   name,
   meta: {
-    type: 'suggestion',
+    type: 'problem',
     docs: {
       description: 'Disallow invalid date literals',
       recommended: true,

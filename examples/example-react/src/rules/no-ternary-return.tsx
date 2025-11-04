@@ -1,4 +1,6 @@
-type NoTernaryReturnProps = { cond?: boolean };
+interface NoTernaryReturnProps {
+  cond?: boolean;
+}
 
 export function NoTernaryReturn({ cond }: NoTernaryReturnProps) {
   // eslint-disable-next-line wyrm/no-ternary-return

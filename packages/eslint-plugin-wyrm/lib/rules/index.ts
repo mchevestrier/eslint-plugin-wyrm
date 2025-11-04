@@ -5,5 +5,6 @@ export { default as 'no-empty-jsx-expression' } from './no-empty-jsx-expression.
 export { default as 'no-extra-nested-boolean-cast' } from './no-extra-nested-boolean-cast.js';
 export { default as 'no-invalid-date-literal' } from './no-invalid-date-literal.js';
 export { default as 'no-jsx-statement' } from './no-jsx-statement.js';
+export { default as 'no-suspicious-jsx-semicolon' } from './no-suspicious-jsx-semicolon.js';
 export { default as 'no-ternary-return' } from './no-ternary-return.js';
 export { default as 'unsafe-asserted-chain' } from './unsafe-asserted-chain.js';
