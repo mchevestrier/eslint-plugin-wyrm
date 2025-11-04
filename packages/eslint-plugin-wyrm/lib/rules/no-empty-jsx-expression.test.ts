@@ -49,6 +49,46 @@ ruleTester.run(name, rule, {
         checkFormatting(this);
       },
     },
+    {
+      name: 'With a JSX attribute and a false value',
+      code: `function Foo() {
+  return <Bar quux={false} />;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a JSX attribute and a null value',
+      code: `function Foo() {
+  return <Bar quux={null} />;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a JSX attribute and an empty string',
+      code: `function Foo() {
+  return <Bar quux={''} />;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a JSX attribute and an undefined value',
+      code: `function Foo() {
+  return <Bar quux={undefined} />;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

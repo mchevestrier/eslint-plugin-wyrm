@@ -1,3 +1,4 @@
+export * from './rules/distribute-boolean-casts.js';
 export * from './rules/no-constant-template-expression.js';
 export * from './rules/no-else-break.js';
 export * from './rules/no-else-continue.js';

@@ -46,6 +46,8 @@ export default createRule({
             return;
         }
 
+        if (node.parent.type === AST_NODE_TYPES.JSXAttribute) return;
+
         context.report({ node, messageId: 'noEmptyJsxExpression' });
       },
     };

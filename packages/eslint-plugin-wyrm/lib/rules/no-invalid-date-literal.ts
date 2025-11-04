@@ -23,6 +23,9 @@ export default createRule({
   create(context) {
     return {
       NewExpression(node) {
+        if (node.callee.type !== AST_NODE_TYPES.Identifier) return;
+        if (node.callee.name !== 'Date') return;
+
         if (node.arguments.length > 1) return;
         const [arg] = node.arguments;
         if (!arg) return;

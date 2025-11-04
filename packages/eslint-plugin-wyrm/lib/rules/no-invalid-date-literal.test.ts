@@ -32,6 +32,22 @@ ruleTester.run(name, rule, {
         checkFormatting(this);
       },
     },
+    {
+      name: 'With an error',
+      code: `Error('ok');
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a new error',
+      code: `new Error('ok');
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
