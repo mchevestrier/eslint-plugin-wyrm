@@ -73,7 +73,6 @@ export default createRule({
             assignment.left.type === AST_NODE_TYPES.Identifier &&
             assignment.left.name === variableName,
         );
-        if (!handlerAssignment) return;
 
         const scope = context.sourceCode.getScope(node);
         const variable = ASTUtils.findVariable(scope, variableName);
@@ -93,6 +92,8 @@ export default createRule({
         ) {
           return;
         }
+
+        const fallbackValue = handlerAssignment?.right ?? decl.init ?? undefined;
 
         const indent = ' '.repeat(node.loc.start.column + 2);
         const indent2 = `${indent}${' '.repeat(2)}`;
@@ -146,16 +147,16 @@ ${indent}})`;
 
         function getHandlerText() {
           if (!handler) return '';
-          if (!handlerAssignment) return '';
 
-          const handlerAssignmentValue = context.sourceCode.getText(
-            handlerAssignment.right,
-          );
-          const handlerAssignmentText = `${indent}return ${handlerAssignmentValue};`;
+          const fallbackValueText = fallbackValue
+            ? context.sourceCode.getText(fallbackValue)
+            : 'undefined';
+          const handlerAssignmentText = `${indent}return ${fallbackValueText};`;
 
           const statements = handler.body.body.filter(
             (stmt) =>
               stmt.type !== AST_NODE_TYPES.ExpressionStatement ||
+              !handlerAssignment ||
               stmt.expression !== handlerAssignment,
           );
 

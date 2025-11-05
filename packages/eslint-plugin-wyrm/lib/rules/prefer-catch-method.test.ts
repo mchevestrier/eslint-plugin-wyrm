@@ -331,5 +331,69 @@ let result = await getStuff()
         checkFormatting(this);
       },
     },
+    {
+      name: 'Without reassignment in `catch` block',
+      code: `let result = 42;
+try {
+  result = await getFoo();
+} catch (error) {
+  console.error(error);
+}
+console.log(result);
+`,
+      errors: [
+        {
+          messageId: 'preferCatchMethod',
+          suggestions: [
+            {
+              messageId: 'useCatchMethod',
+              output: `
+let result = await getFoo()
+  .catch((error: unknown) => {
+    console.error(error);
+    return 42;
+  });
+console.log(result);
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With implicit undefined assignment',
+      code: `let result;
+try {
+  result = await getFoo();
+} catch (error) {
+  console.error(error);
+}
+console.log(result);
+`,
+      errors: [
+        {
+          messageId: 'preferCatchMethod',
+          suggestions: [
+            {
+              messageId: 'useCatchMethod',
+              output: `
+let result = await getFoo()
+  .catch((error: unknown) => {
+    console.error(error);
+    return undefined;
+  });
+console.log(result);
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
 });

@@ -6,7 +6,7 @@ import { createRule } from '../utils/createRule.js';
 
 export const { name } = path.parse(import.meta.filename);
 
-const DEFAULT_ALLOW_STACKED = false;
+const DEFAULT_ALLOW_PADDING = true;
 
 export default createRule({
   name,
@@ -21,9 +21,9 @@ export default createRule({
         type: 'object',
         additionalProperties: false,
         properties: {
-          allowStacked: {
+          allowPadding: {
             type: 'boolean',
-            description: `Whether to allow empty comments stacked next to non-empty comments. Default: \`${DEFAULT_ALLOW_STACKED}\``,
+            description: `Whether to allow empty padding comments stacked next to non-empty comments. Default: \`${DEFAULT_ALLOW_PADDING}\``,
           },
         },
       },
@@ -32,7 +32,7 @@ export default createRule({
       noEmptyComment: 'Remove this empty comment',
     },
   },
-  defaultOptions: [{ allowStacked: DEFAULT_ALLOW_STACKED }],
+  defaultOptions: [{ allowPadding: DEFAULT_ALLOW_PADDING }],
   create(context, [options]) {
     if (typeof context.sourceCode.getAllComments === 'undefined') return {};
 
@@ -41,7 +41,7 @@ export default createRule({
     for (const comment of comments) {
       if (!isEmptyComment(comment)) continue;
 
-      if (options.allowStacked && isStackedComment(comment, comments)) continue;
+      if (options.allowPadding && isStackedComment(comment, comments)) continue;
 
       context.report({
         node: comment,

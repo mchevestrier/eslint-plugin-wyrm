@@ -24,7 +24,7 @@ Empty JSDoc comment:
 /** */
 ```
 
-Stacked empty comments (with `allowStacked: false`):
+Empty padding comments (with `allowPadding: false`):
 
 ```tsx
 //
@@ -32,7 +32,7 @@ Stacked empty comments (with `allowStacked: false`):
 //
 ```
 
-Several stacked empty comments (with `allowStacked: true`):
+Too many empty padding comments (with `allowPadding: true`):
 
 ```tsx
 //
@@ -49,7 +49,7 @@ Not an empty comment:
 // Ok
 ```
 
-Stacked empty comments (with `allowStacked: true`):
+Empty padding comments (with `allowPadding: true`):
 
 ```tsx
 //
@@ -63,8 +63,8 @@ Stacked empty comments (with `allowStacked: true`):
 
 <!-- begin auto-generated rule options list -->
 
-| Name           | Description                                                                          | Type    |
-| :------------- | :----------------------------------------------------------------------------------- | :------ |
-| `allowStacked` | Whether to allow empty comments stacked next to non-empty comments. Default: `false` | Boolean |
+| Name           | Description                                                                                 | Type    |
+| :------------- | :------------------------------------------------------------------------------------------ | :------ |
+| `allowPadding` | Whether to allow empty padding comments stacked next to non-empty comments. Default: `true` | Boolean |
 
 <!-- end auto-generated rule options list -->

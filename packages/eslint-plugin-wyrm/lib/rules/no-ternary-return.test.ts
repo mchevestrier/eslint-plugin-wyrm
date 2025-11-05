@@ -47,8 +47,8 @@ ruleTester.run(name, rule, {
 }
 `,
       output: `function foo(cond: boolean) {
-  if (cond) return 42;
-  return 105;
+  if (cond) {return 42;}
+  else {return 105;}
 }
 `,
       errors: [{ messageId: 'noTernaryReturn' }],
@@ -63,10 +63,58 @@ ruleTester.run(name, rule, {
 };
 `,
       output: `const foo = (cond: boolean) => {
-  if (cond) return 42;
-  return 105;
+  if (cond) {return 42;}
+  else {return 105;}
 };
 `,
+      errors: [{ messageId: 'noTernaryReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Nested ternary return',
+      code: `function foo(cond1: boolean, cond2: boolean) {
+  return cond1 ? 42 : cond2 ? 105 : 0;
+}
+`,
+      output: [
+        `function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {return 42;}
+  else {return cond2 ? 105 : 0;}
+}
+`,
+        `function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {return 42;}
+  else {if (cond2) {return 105;}
+        else {return 0;}}
+}
+`,
+      ],
+      errors: [{ messageId: 'noTernaryReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Nested ternary return with ternary in consequent',
+      code: `function foo(cond1: boolean, cond2: boolean) {
+  return cond1 ? (cond2 ? 105 : 0) : 42;
+}
+`,
+      output: [
+        `function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {return cond2 ? 105 : 0;}
+  else {return 42;}
+}
+`,
+        `function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {if (cond2) {return 105;}
+              else {return 0;}}
+  else {return 42;}
+}
+`,
+      ],
       errors: [{ messageId: 'noTernaryReturn' }],
       after() {
         checkFormatting(this);
@@ -83,10 +131,10 @@ ruleTester.run(name, rule, {
 }
 `,
       output: `function foo(cond: boolean) {
-  if (cond) return {
+  if (cond) {return {
         prop: 42,
-      };
-  return { prop: 105 };
+      };}
+  else {return { prop: 105 };}
 }
 `,
       errors: [{ messageId: 'noTernaryReturn' }],
@@ -106,10 +154,10 @@ ruleTester.run(name, rule, {
 }
 `,
       output: `function foo(cond: boolean) {
-  if (cond) return {
+  if (cond) {return {
         prop: 42,
-      };
-  return { prop: 105 };
+      };}
+  else {return { prop: 105 };}
 }
 `,
       errors: [{ messageId: 'noTernaryReturn' }],

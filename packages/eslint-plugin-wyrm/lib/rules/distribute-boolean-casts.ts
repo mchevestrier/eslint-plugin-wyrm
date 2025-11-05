@@ -45,8 +45,26 @@ export default createRule({
       },
     };
 
+    function getTextWithPreviousComments(node: TSESTree.Node): string {
+      const txt = context.sourceCode.getText(node);
+
+      const prev = context.sourceCode.getTokenBefore(node);
+      if (!prev) return txt;
+
+      const allComments = context.sourceCode.getAllComments();
+      const previousComments = allComments.filter(
+        (comment) =>
+          comment.range[0] >= prev.range[1] && comment.range[1] <= node.range[0],
+      );
+      if (!previousComments.length) return txt;
+      const commentsText = previousComments
+        .map((comment) => context.sourceCode.getText(comment))
+        .join('\n');
+      return `\n${commentsText}\n${txt}`;
+    }
+
     function maybeWrapInBooleanCast(expr: TSESTree.Expression): string {
-      const txt = context.sourceCode.getText(expr);
+      const txt = getTextWithPreviousComments(expr);
       if (isBooleanLike(expr)) return txt;
       return `!!(${txt})`;
     }

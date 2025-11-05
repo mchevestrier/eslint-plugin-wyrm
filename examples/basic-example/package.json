@@ -11,9 +11,13 @@
     "lint:js": "eslint ."
   },
   "devDependencies": {
+    "@eslint/core": "^0.17.0",
     "@eslint/js": "^9.39.0",
+    "@shopify/eslint-plugin": "^50.0.0",
     "@typescript-eslint/parser": "^8.46.2",
-    "eslint": "^9.38.0",
+    "eslint": "^9.39.1",
+    "eslint-plugin-sonarjs": "^3.0.5",
+    "eslint-plugin-unicorn": "^62.0.0",
     "eslint-plugin-wyrm": "workspace:*",
     "jiti": "^2.6.1",
     "prettier": "^3.6.2",

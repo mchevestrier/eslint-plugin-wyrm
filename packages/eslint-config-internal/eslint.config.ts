@@ -239,7 +239,7 @@ export default defineConfig([
       '@typescript-eslint/no-import-type-side-effects': 'error',
       'no-loop-func': 'off',
       '@typescript-eslint/no-loop-func': 'error',
-      '@typescript-eslint/no-magic-numbers': ['error', { ignore: [-1, 0, 1, 2] }],
+      '@typescript-eslint/no-magic-numbers': ['error', { ignore: [-2, -1, 0, 1, 2] }],
       'no-shadow': 'off',
       '@typescript-eslint/no-shadow': 'error',
       '@typescript-eslint/no-unnecessary-parameter-property-assignment': 'error',

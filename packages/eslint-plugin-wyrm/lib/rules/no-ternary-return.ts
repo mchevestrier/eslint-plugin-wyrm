@@ -67,8 +67,8 @@ export default createRule({
 
             const indent = ' '.repeat(node.loc.start.column);
 
-            yield fixer.replaceText(node, `if (${condText}) return ${thenText};`);
-            yield fixer.insertTextAfter(node, `\n${indent}return ${elseText};`);
+            yield fixer.replaceText(node, `if (${condText}) {return ${thenText};}`);
+            yield fixer.insertTextAfter(node, `\n${indent}else {return ${elseText};}`);
           },
         });
       },

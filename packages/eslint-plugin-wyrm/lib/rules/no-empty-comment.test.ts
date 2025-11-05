@@ -49,8 +49,18 @@ ruleTester.run(name, rule, {
       },
     },
     {
-      name: 'Stacked empty comments (with `allowStacked: true`) #docs',
-      options: [{ allowStacked: true }],
+      name: 'Empty padding comments (with default options)',
+      code: `//
+// Ok
+//
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Empty padding comments (with `allowPadding: true`) #docs',
+      options: [{ allowPadding: true }],
       code: `//
 // Ok
 //
@@ -109,7 +119,8 @@ ruleTester.run(name, rule, {
       },
     },
     {
-      name: 'Stacked empty comments',
+      name: 'Empty padding comments (with `allowPadding: false`) #docs',
+      options: [{ allowPadding: false }],
       code: `//
 // Ok
 //
@@ -120,20 +131,8 @@ ruleTester.run(name, rule, {
       },
     },
     {
-      name: 'Stacked empty comments (with `allowStacked: false`) #docs',
-      options: [{ allowStacked: false }],
-      code: `//
-// Ok
-//
-`,
-      errors: [{ messageId: 'noEmptyComment' }, { messageId: 'noEmptyComment' }],
-      after() {
-        checkFormatting(this);
-      },
-    },
-    {
-      name: 'Empty inline comment with no neighbors (with `allowStacked: true`)',
-      options: [{ allowStacked: true }],
+      name: 'Empty inline comment with no neighbors (with `allowPadding: true`)',
+      options: [{ allowPadding: true }],
       code: `//
 `,
       errors: [{ messageId: 'noEmptyComment' }],
@@ -142,8 +141,8 @@ ruleTester.run(name, rule, {
       },
     },
     {
-      name: 'Empty inline comment isolated from non-empty neighbors (with `allowStacked: true`)',
-      options: [{ allowStacked: true }],
+      name: 'Empty inline comment isolated from non-empty neighbors (with `allowPadding: true`)',
+      options: [{ allowPadding: true }],
       code: `//
 
 // Not empty
@@ -154,8 +153,8 @@ ruleTester.run(name, rule, {
       },
     },
     {
-      name: 'Several stacked empty comments (with `allowStacked: true`) #docs',
-      options: [{ allowStacked: true }],
+      name: 'Too many empty padding comments (with `allowPadding: true`) #docs',
+      options: [{ allowPadding: true }],
       code: `//
 // Ok
 //

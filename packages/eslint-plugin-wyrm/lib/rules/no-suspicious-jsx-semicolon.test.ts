@@ -44,6 +44,16 @@ ruleTester.run(name, rule, {
         checkFormatting(this);
       },
     },
+    {
+      name: 'Lonely comma, but not suspicious',
+      code: `export function MyComponent() {
+  return <div>,</div>;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -77,7 +87,7 @@ ruleTester.run(name, rule, {
       },
     },
     {
-      name: 'Lonely semicolon, but not trailing',
+      name: 'Lonely semicolon, but not trailing. Still somehow suspicious',
       code: `export function MyComponent() {
   return <div> ;</div>;
 }

@@ -35,7 +35,7 @@ export default createRule({
           return;
         }
 
-        if (node.value.trimEnd() === ',') {
+        if (node.value.trimEnd() === ',' && node.value.includes(',\n')) {
           context.report({ node, messageId: 'noSuspiciousJsxComma' });
         }
       },
