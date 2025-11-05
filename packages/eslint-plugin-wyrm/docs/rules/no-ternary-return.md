@@ -4,6 +4,12 @@
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
+## Description
+
+This rule disallows returning a ternary expression from the body of a function.
+
+It is essentially the opposite of the [`unicorn/prefer-ternary`](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-ternary.md) ESLint rule.
+
 ## Cases
 
 ### Incorrect ❌

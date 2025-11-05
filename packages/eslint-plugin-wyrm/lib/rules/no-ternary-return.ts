@@ -1,3 +1,11 @@
+/**
+ * @fileoverview
+ *
+ * This rule disallows returning a ternary expression from the body of a function.
+ *
+ * It is essentially the opposite of the [`unicorn/prefer-ternary`](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-ternary.md) ESLint rule.
+ */
+
 import path from 'node:path';
 
 import { AST_NODE_TYPES } from '@typescript-eslint/utils';

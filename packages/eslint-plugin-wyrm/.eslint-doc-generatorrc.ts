@@ -214,17 +214,17 @@ ${testCase.code}
       .join('\n');
   }
 
-  if (!validTestCases.length) {
+  const validExamples = formatExamples(validTestCases);
+  const invalidExamples = formatExamples(invalidTestCases);
+
+  if (!validExamples) {
     const msg = `For rule ${ruleName}, you need to add at least one valid test case for #docs`;
     throw Error(msg);
   }
-  if (!invalidTestCases.length) {
+  if (!invalidExamples) {
     const msg = `For rule ${ruleName}, you need to add at least one invalid test case for #docs`;
     throw Error(msg);
   }
-
-  const validExamples = formatExamples(validTestCases);
-  const invalidExamples = formatExamples(invalidTestCases);
 
   const examples = `
 ## Cases

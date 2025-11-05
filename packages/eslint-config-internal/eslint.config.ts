@@ -297,6 +297,7 @@ export default defineConfig([
       'unicorn/no-array-reduce': 'off',
       'unicorn/no-null': 'off',
       'unicorn/no-useless-undefined': 'off',
+      'unicorn/prefer-ternary': 'off',
 
       'sonarjs/no-dead-store': 'error',
       'sonarjs/cognitive-complexity': ['error', 20],
