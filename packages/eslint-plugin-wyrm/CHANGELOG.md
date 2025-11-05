@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.0.7](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.6...eslint-plugin-wyrm-v0.0.7) (2025-11-05)
+
+
+### Bug Fixes
+
+* add distribute-boolean-casts ([a6a7a1d](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/a6a7a1d34fe2dca977bd98fb27337797ce1b1200))
+* add prefer-catch-method ([fb1b614](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/fb1b614f2a2e53c8e2ca197b706f458cbe73ba4a))
+
 ## [0.0.6](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.5...eslint-plugin-wyrm-v0.0.6) (2025-11-04)
 
 
