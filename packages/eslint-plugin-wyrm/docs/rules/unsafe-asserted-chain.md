@@ -14,7 +14,7 @@ Optional chaining can return `undefined` by default, so this is likely a mistake
 
 This rule only makes sense if you have `strictNullChecks` enabled in your `tsconfig.json` (this is the default for `strict: true`).
 
-### Example
+**Example:**
 
 ```ts
 foo?.bar as string;

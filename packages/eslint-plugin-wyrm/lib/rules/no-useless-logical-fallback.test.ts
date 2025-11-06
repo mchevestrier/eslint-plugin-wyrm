@@ -19,7 +19,7 @@ const ruleTester = new RuleTester({
 ruleTester.run(name, rule, {
   valid: [
     {
-      name: '`null` with default to `undefined` #docs',
+      name: 'Possibly `null` with fallback to `undefined` #docs',
       code: `function quux(foo: string | null) {
   return foo ?? undefined;
 }
@@ -29,7 +29,7 @@ ruleTester.run(name, rule, {
       },
     },
     {
-      name: '`undefined` with default to `null` #docs',
+      name: 'Possibly `undefined` with fallback to `null` #docs',
       code: `function quux(foo: string | undefined) {
   return foo ?? null;
 }
@@ -44,6 +44,29 @@ ruleTester.run(name, rule, {
   return foo || false;
 }
 `,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: "`|| ''` when the left side is not exclusively a string",
+      code: `function quux(foo: string | number) {
+  return foo || '';
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`|| 0` when the left side is not exclusively a number',
+      code: `function quux(foo: string | number) {
+  return foo || 0;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
     },
   ],
   invalid: [
@@ -55,10 +78,10 @@ ruleTester.run(name, rule, {
 `,
       errors: [
         {
-          messageId: 'noUselessNullishFallback',
+          messageId: 'noUselessLogicalFallback',
           suggestions: [
             {
-              messageId: 'removeNullishFallback',
+              messageId: 'removeLogicalFallback',
               data: { expression: '?? undefined' },
               output: `function quux(foo: string | undefined) {
   return foo;
@@ -80,10 +103,10 @@ ruleTester.run(name, rule, {
 `,
       errors: [
         {
-          messageId: 'noUselessNullishFallback',
+          messageId: 'noUselessLogicalFallback',
           suggestions: [
             {
-              messageId: 'removeNullishFallback',
+              messageId: 'removeLogicalFallback',
               data: { expression: '?? null' },
               output: `function quux(foo: string | null) {
   return foo;
@@ -105,10 +128,10 @@ ruleTester.run(name, rule, {
 `,
       errors: [
         {
-          messageId: 'noUselessNullishFallback',
+          messageId: 'noUselessLogicalFallback',
           suggestions: [
             {
-              messageId: 'removeNullishFallback',
+              messageId: 'removeLogicalFallback',
               data: { expression: '|| false' },
               output: `function quux(foo: boolean) {
   return foo;
@@ -130,10 +153,10 @@ ruleTester.run(name, rule, {
 `,
       errors: [
         {
-          messageId: 'noUselessNullishFallback',
+          messageId: 'noUselessLogicalFallback',
           suggestions: [
             {
-              messageId: 'removeNullishFallback',
+              messageId: 'removeLogicalFallback',
               data: { expression: '&& true' },
               output: `function quux(foo: boolean) {
   return foo;
@@ -158,7 +181,7 @@ ruleTester.run(name, rule, {
           messageId: 'noConstantExpression',
           suggestions: [
             {
-              messageId: 'removeNullishFallback',
+              messageId: 'removeLogicalFallback',
               data: { expression: '&& false' },
               output: `function quux(foo: boolean) {
   return foo;
@@ -183,9 +206,66 @@ ruleTester.run(name, rule, {
           messageId: 'noConstantExpression',
           suggestions: [
             {
-              messageId: 'removeNullishFallback',
+              messageId: 'removeLogicalFallback',
               data: { expression: '|| true' },
               output: `function quux(foo: boolean) {
+  return foo;
+}
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: "`|| ''` when the left side is exclusively a string #docs",
+      code: `function quux(foo: string) {
+  return foo || '';
+}
+`,
+      errors: [
+        {
+          messageId: 'noUselessLogicalFallback',
+          suggestions: [
+            {
+              messageId: 'removeLogicalFallback',
+              data: { expression: "|| ''" },
+              output: `function quux(foo: string) {
+  return foo;
+}
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`|| 0` when the left side is exclusively a number',
+      code: `function quux(foo: number) {
+  return foo || 0;
+}
+`,
+      errors: [
+        {
+          messageId: 'noNumberOrZero',
+          suggestions: [
+            {
+              messageId: 'replaceByIsNaNCheck',
+              output: `function quux(foo: number) {
+  return Number.isNaN(foo) ? 0 : foo;
+}
+`,
+            },
+            {
+              messageId: 'removeLogicalFallback',
+              data: { expression: '|| 0' },
+              output: `function quux(foo: number) {
   return foo;
 }
 `,

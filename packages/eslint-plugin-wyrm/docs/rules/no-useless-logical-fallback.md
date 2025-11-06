@@ -1,4 +1,4 @@
-# Forbid useless default values for nullish coalescing expressions (`wyrm/no-useless-logical-fallback`)
+# Forbid useless fallback values for logical expressions (`wyrm/no-useless-logical-fallback`)
 
 💼 This rule is enabled in the following configs: ✅ `recommendedTypeChecked`, ☑️ `strictTypeChecked`.
 
@@ -8,18 +8,21 @@
 
 ## Description
 
-This rule warns when the component of a logical expression does not have any effect on the type of the expression.
+This rule warns when the component of a logical expression does not have any effect on the result of the expression.
 
-### Example
+**Example:**
 
 ```ts
 declare const foo: string | undefined;
-foo ?? undefined; // foo cannot be null, so the nullish coalescing `?? undefined` does not have any observable effect.
+foo ?? undefined; // foo cannot be `null`, so the nullish coalescing `?? undefined` does not have any observable effect.
+
+declare const bar: string;
+bar || ''; // The empty string is the only possible falsy value for strings, so the right side is unnecessary.
 ```
 
 The rule also warns in some cases when the component of a logical expression makes the type of the expression constant.
 
-@example
+**Example:**
 
 ```ts
 declare const quux: boolean;
@@ -78,9 +81,17 @@ function quux(foo: boolean) {
 }
 ```
 
+`|| ''` when the left side is exclusively a string:
+
+```tsx
+function quux(foo: string) {
+  return foo || '';
+}
+```
+
 ### Correct ✅
 
-`null` with default to `undefined`:
+Possibly `null` with fallback to `undefined`:
 
 ```tsx
 function quux(foo: string | null) {
@@ -88,7 +99,7 @@ function quux(foo: string | null) {
 }
 ```
 
-`undefined` with default to `null`:
+Possibly `undefined` with fallback to `null`:
 
 ```tsx
 function quux(foo: string | undefined) {

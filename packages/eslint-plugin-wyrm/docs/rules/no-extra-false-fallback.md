@@ -15,7 +15,7 @@ and to expressions inside boolean casts.
 
 The rule also forbids `|| false`, for the same reasons.
 
-### Example
+**Example:**
 
 ```ts
 declare const foo: string | null | undefined;

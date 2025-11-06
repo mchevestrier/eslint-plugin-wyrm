@@ -12,7 +12,7 @@ The `wyrm/no-extra-nested-boolean-cast` should have the same behavior as the bui
 
 Contrary to the builtin rule, it also enforces this for callback returns of some array methods like `Array.prototype.find` or `Array.prototype.filter`.
 
-### Example
+**Example:**
 
 ```ts
 declare const foo: string;

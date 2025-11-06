@@ -10,7 +10,7 @@
 
 It is sometimes clearer to inline interpolated expressions when their values are constant:
 
-### Example
+**Example:**
 
 ```ts
 const foo = 'foobar';

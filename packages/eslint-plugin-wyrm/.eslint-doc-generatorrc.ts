@@ -102,7 +102,7 @@ function extractStringFromComment(raw: string): string {
       .join('\n')
 
       .replace('@fileoverview', '')
-      .replace('@example', '### Example')
+      .replaceAll('@example', '**Example:**')
       .trim()
   );
 }
