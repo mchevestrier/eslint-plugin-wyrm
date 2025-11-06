@@ -1,6 +1,7 @@
 // GENERATED FILE - DO NOT EDIT
 export { default as 'distribute-boolean-casts' } from './distribute-boolean-casts.js';
 export { default as 'no-constant-template-expression' } from './no-constant-template-expression.js';
+export { default as 'no-duplicated-return' } from './no-duplicated-return.js';
 export { default as 'no-else-break' } from './no-else-break.js';
 export { default as 'no-else-continue' } from './no-else-continue.js';
 export { default as 'no-else-throw' } from './no-else-throw.js';
@@ -13,5 +14,6 @@ export { default as 'no-suspicious-jsx-semicolon' } from './no-suspicious-jsx-se
 export { default as 'no-ternary-return' } from './no-ternary-return.js';
 export { default as 'no-useless-iife' } from './no-useless-iife.js';
 export { default as 'prefer-catch-method' } from './prefer-catch-method.js';
+export { default as 'prefer-early-return' } from './prefer-early-return.js';
 export { default as 'prefer-repeat' } from './prefer-repeat.js';
 export { default as 'unsafe-asserted-chain' } from './unsafe-asserted-chain.js';

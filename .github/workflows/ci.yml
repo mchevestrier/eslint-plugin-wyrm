@@ -43,10 +43,10 @@ jobs:
         working-directory: ./packages/eslint-plugin-wyrm/
 
       - name: ✒️ eslint-doc-generator
-        run: pnpm run -r --reporter-hide-prefix lint:eslint-docs
+        run: pnpm run -r --reporter-hide-prefix lint:docs
 
       - name: 📃 markdownlint
-        run: pnpm run -r --reporter-hide-prefix lint:docs
+        run: pnpm run -r --reporter-hide-prefix lint:md
 
       - name: 💄 prettier
         run: pnpm run -r --reporter-hide-prefix lint:format

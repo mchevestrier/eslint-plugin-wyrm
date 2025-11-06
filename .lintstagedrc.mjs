@@ -1,6 +1,6 @@
 /** @type {import('lint-staged').Configuration} */
 const config = {
-  'packages/eslint-plugin-wyrm/**/*': () => ['pnpm run -r lint:eslint-docs'],
+  'packages/eslint-plugin-wyrm/**/*': () => ['pnpm run -r lint:docs'],
 
   '**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}': (stagedFiles) => [
     `pnpm run eslint ${stagedFiles.join(' ')}`,
@@ -9,7 +9,7 @@ const config = {
     'pnpm run -r test',
   ],
 
-  'packages/eslint-plugin-wyrm/**/*.md': () => ['pnpm run -r lint:docs'],
+  'packages/eslint-plugin-wyrm/**/*.md': () => ['pnpm run -r lint:md'],
 
   '**/*': (stagedFiles) => [
     `pnpx prettier --ignore-unknown --check ${stagedFiles.join(' ')}`,
