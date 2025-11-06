@@ -31,7 +31,7 @@ Redundant double negation:
 ```tsx
 declare const foo: string;
 
-if (!!bar) {
+if (!!foo) {
   console.log('foo!');
 }
 ```

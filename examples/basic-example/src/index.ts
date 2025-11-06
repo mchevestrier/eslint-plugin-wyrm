@@ -5,6 +5,7 @@ export * from './rules/no-else-break.js';
 export * from './rules/no-else-continue.js';
 export * from './rules/no-else-throw.js';
 export * from './rules/no-empty-comment.js';
+export * from './rules/no-extra-false-fallback.js';
 export * from './rules/no-extra-nested-boolean-cast.js';
 export * from './rules/no-invalid-date-literal.js';
 export * from './rules/no-ternary-return.js';

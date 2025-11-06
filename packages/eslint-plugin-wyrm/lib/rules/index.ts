@@ -7,6 +7,7 @@ export { default as 'no-else-continue' } from './no-else-continue.js';
 export { default as 'no-else-throw' } from './no-else-throw.js';
 export { default as 'no-empty-comment' } from './no-empty-comment.js';
 export { default as 'no-empty-jsx-expression' } from './no-empty-jsx-expression.js';
+export { default as 'no-extra-false-fallback' } from './no-extra-false-fallback.js';
 export { default as 'no-extra-nested-boolean-cast' } from './no-extra-nested-boolean-cast.js';
 export { default as 'no-invalid-date-literal' } from './no-invalid-date-literal.js';
 export { default as 'no-jsx-statement' } from './no-jsx-statement.js';

@@ -46,7 +46,6 @@ export function noDuplicatedReturn3() {
 export function noDuplicatedReturn4() {
   if (Math.sin(0)) return 'bar';
 
-  // eslint-disable-next-line wyrm/prefer-early-return
   if (Math.cos(0)) {
     console.log('ok');
     return 'foo';

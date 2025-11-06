@@ -58,7 +58,7 @@ const bits = arr.map((elt) => !!elt);
     {
       name: 'Array method predicate with no extra boolean cast',
       code: `declare const arr: string[];
-const bits = arr.map((elt) => elt);
+const bits = arr.filter((elt) => elt);
 `,
       after() {
         checkFormatting(this);
@@ -70,7 +70,7 @@ const bits = arr.map((elt) => elt);
       name: 'Redundant double negation #docs',
       code: `declare const foo: string;
 
-if (!!bar) {
+if (!!foo) {
   console.log('foo!');
 }
 `,
