@@ -10,6 +10,7 @@ export * from './rules/no-extra-nested-boolean-cast.js';
 export * from './rules/no-invalid-date-literal.js';
 export * from './rules/no-ternary-return.js';
 export * from './rules/no-useless-iife.js';
+export * from './rules/no-useless-logical-fallback.js';
 export * from './rules/prefer-catch-method.js';
 export * from './rules/prefer-early-return.js';
 export * from './rules/prefer-repeat.js';

@@ -58,9 +58,6 @@ export default createRule({
   create(context, [options]) {
     return {
       TemplateLiteral(node) {
-        const services = ESLintUtils.getParserServices(context);
-        const checker = services.program.getTypeChecker();
-
         const { expressions, quasis } = node;
 
         if (quasis.some((quasi) => quasi.value.cooked.includes(' '))) return;
@@ -84,6 +81,9 @@ export default createRule({
               }
             }
           }
+
+          const services = ESLintUtils.getParserServices(context);
+          const checker = services.program.getTypeChecker();
 
           const type = services.getTypeAtLocation(expr);
 
