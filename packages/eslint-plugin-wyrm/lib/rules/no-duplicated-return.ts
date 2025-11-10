@@ -17,11 +17,30 @@ export default createRule({
     },
     schema: [],
     messages: {
-      noDuplicatedReturn: 'The return value is the same in both cases',
+      noDuplicatedReturn: 'Both branches do the same thing',
     },
   },
   defaultOptions: [],
   create(context) {
+    function getNormalizedStatement(stmt: TSESTree.Statement): string {
+      if (stmt.type === AST_NODE_TYPES.ReturnStatement && stmt.argument === null) {
+        return '';
+      }
+
+      if (stmt.type !== AST_NODE_TYPES.BlockStatement) {
+        return context.sourceCode.getText(stmt).trim();
+      }
+
+      return getNormalizedStatements(stmt.body);
+    }
+
+    function getNormalizedStatements(stmts: TSESTree.Statement[]): string {
+      return stmts
+        .map((stmt) => getNormalizedStatement(stmt))
+        .join('\n')
+        .trim();
+    }
+
     function checkBody(
       node:
         | TSESTree.FunctionDeclaration
@@ -31,44 +50,30 @@ export default createRule({
       if (node.body.type !== AST_NODE_TYPES.BlockStatement) return;
       const { body } = node.body;
 
-      const lastStatement = body.at(-1);
-      const beforeLastStatement = body.at(-2);
+      const ifStatement = body.findLast(
+        (stmt) => stmt.type === AST_NODE_TYPES.IfStatement,
+      );
 
-      if (!lastStatement) return;
-      if (!beforeLastStatement) return;
+      if (!ifStatement) return;
+      if (ifStatement.alternate) return;
+      const ifStatementIndex = body.indexOf(ifStatement);
 
-      if (lastStatement.type !== AST_NODE_TYPES.ReturnStatement) return;
-      if (beforeLastStatement.type !== AST_NODE_TYPES.IfStatement) return;
+      if (!alwaysReturns(ifStatement.consequent)) return;
 
-      if (beforeLastStatement.alternate) return;
-      if (
-        beforeLastStatement.consequent.type === AST_NODE_TYPES.BlockStatement &&
-        beforeLastStatement.consequent.body.length > 1
-      ) {
-        return;
-      }
-      const consequentStatement =
-        beforeLastStatement.consequent.type === AST_NODE_TYPES.BlockStatement
-          ? beforeLastStatement.consequent.body.at(0)
-          : beforeLastStatement.consequent;
-      if (!consequentStatement) return;
-      if (consequentStatement.type !== AST_NODE_TYPES.ReturnStatement) return;
+      const normalizedConsequentStatements = getNormalizedStatement(
+        ifStatement.consequent,
+      );
 
-      const lastReturnValue = lastStatement.argument;
-      const beforeLastReturnValue = consequentStatement.argument;
+      const subsequentStatements = body.slice(ifStatementIndex + 1);
+      const normalizedSubsequentStatements =
+        getNormalizedStatements(subsequentStatements);
 
-      if (lastReturnValue === null && beforeLastReturnValue === null) {
-        context.report({ node: consequentStatement, messageId: 'noDuplicatedReturn' });
-        context.report({ node: lastStatement, messageId: 'noDuplicatedReturn' });
-      }
-      if (!lastReturnValue) return;
-      if (!beforeLastReturnValue) return;
+      if (normalizedConsequentStatements !== normalizedSubsequentStatements) return;
 
-      const lastReturnValueText = context.sourceCode.getText(lastReturnValue);
-      const beforeLastReturnValueText = context.sourceCode.getText(beforeLastReturnValue);
+      context.report({ node: ifStatement, messageId: 'noDuplicatedReturn' });
 
-      if (lastReturnValueText === beforeLastReturnValueText) {
-        context.report({ node: consequentStatement, messageId: 'noDuplicatedReturn' });
+      const lastStatement = subsequentStatements.at(-1);
+      if (lastStatement) {
         context.report({ node: lastStatement, messageId: 'noDuplicatedReturn' });
       }
     }
@@ -80,3 +85,27 @@ export default createRule({
     };
   },
 });
+
+function alwaysReturns(stmt: TSESTree.Statement | null): boolean {
+  if (stmt === null) return false;
+
+  if (stmt.type === AST_NODE_TYPES.ReturnStatement) return true;
+
+  if (stmt.type === AST_NODE_TYPES.BlockStatement) {
+    return stmt.body.some((s) => alwaysReturns(s));
+  }
+
+  if (stmt.type === AST_NODE_TYPES.IfStatement) {
+    return alwaysReturns(stmt.consequent) && alwaysReturns(stmt.alternate);
+  }
+
+  if (stmt.type === AST_NODE_TYPES.TryStatement) {
+    if (stmt.finalizer) {
+      return alwaysReturns(stmt.block) && alwaysReturns(stmt.finalizer);
+    }
+
+    return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body ?? null);
+  }
+
+  return false;
+}

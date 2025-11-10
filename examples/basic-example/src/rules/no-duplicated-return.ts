@@ -3,8 +3,8 @@
 export function noDuplicatedReturn() {
   if (Math.sin(0)) return 'bar';
 
+  // eslint-disable-next-line wyrm/no-duplicated-return
   if (Math.cos(0)) {
-    // eslint-disable-next-line wyrm/no-duplicated-return
     return 'foo';
   }
   // eslint-disable-next-line wyrm/no-duplicated-return
@@ -52,4 +52,17 @@ export function noDuplicatedReturn4() {
   }
 
   return 'foo';
+}
+
+export function noDuplicatedReturn5() {
+  if (Math.sin(0)) return;
+
+  // eslint-disable-next-line wyrm/no-duplicated-return
+  if (Math.cos(0)) {
+    console.log('ok');
+    return;
+  }
+
+  // eslint-disable-next-line wyrm/no-duplicated-return
+  console.log('ok');
 }

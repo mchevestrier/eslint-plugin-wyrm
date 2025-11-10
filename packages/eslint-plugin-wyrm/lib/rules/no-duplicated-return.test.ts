@@ -20,6 +20,83 @@ ruleTester.run(name, rule, {
         checkFormatting(this);
       },
     },
+    {
+      name: 'No early return in branch',
+      code: `function foo() {
+  if (Math.random()) console.log('ok');
+  console.log('ok');
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'No `if` statement',
+      code: `function foo() {
+  console.log('ok');
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`if` statement is the last statement',
+      code: `function foo() {
+  console.log('ok');
+  if (Math.random()) {
+    console.log('ok');
+    return;
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With an alternate branch',
+      code: `function foo() {
+  if (Math.random()) {
+    console.log('ok');
+    return;
+  } else {
+    console.log('no');
+  }
+  console.log('ok');
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With the same statements but not the same return values',
+      code: `function foo() {
+  if (Math.random()) {
+    console.log('ok');
+    return 42;
+  }
+  console.log('ok');
+  return 105;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Currently the rule depends on consistent formatting',
+      code: `function foo() {
+  if (Math.random()) return "";
+  return '';
+}
+`,
+      after() {
+        // Not formatted
+      },
+    },
   ],
   invalid: [
     {
@@ -85,6 +162,65 @@ ruleTester.run(name, rule, {
 
   if (changeBar()) return bar;
   return bar;
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With duplicated branches and empty returns #docs',
+      code: `function foo() {
+  if (Math.random()) {
+    console.log('ok');
+    return;
+  }
+  console.log('ok');
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With duplicated branches and a comment in one of the branches',
+      code: `function foo() {
+  if (Math.random()) {
+    // This comment only appears here
+    console.log('ok');
+    return;
+  }
+  console.log('ok');
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With duplicated branches and empty returns (with a redundant return statement in the subsequent branch)',
+      code: `function foo() {
+  if (Math.random()) {
+    console.log('ok');
+    return;
+  }
+  console.log('ok');
+  return;
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With two empty returns',
+      code: `function foo() {
+  if (Math.random()) return;
+  return;
 }
 `,
       errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],

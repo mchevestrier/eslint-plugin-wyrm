@@ -15,6 +15,18 @@ function foo() {
 }
 ```
 
+With duplicated branches and empty returns:
+
+```tsx
+function foo() {
+  if (Math.random()) {
+    console.log('ok');
+    return;
+  }
+  console.log('ok');
+}
+```
+
 ### Correct ✅
 
 No duplicated return:

@@ -1,3 +1,5 @@
+import path from 'node:path';
+
 import { RuleTester } from '@typescript-eslint/rule-tester';
 
 import { checkFormatting } from '../utils/checkFormatting.js';
@@ -7,11 +9,10 @@ import rule, { name } from './unsafe-asserted-chain.js';
 const ruleTester = new RuleTester({
   languageOptions: {
     parserOptions: {
-      projectService: {
-        allowDefaultProject: ['*.ts*'],
-      },
       errorOnTypeScriptSyntacticAndSemanticIssues: true,
-      tsconfigRootDir: import.meta.dirname,
+      project: './tsconfig.json',
+      projectService: false,
+      tsconfigRootDir: path.join(import.meta.dirname, './fixtures'),
     },
   },
 });
