@@ -100,7 +100,7 @@ export default createRule({
               {
                 messageId: 'replaceByString',
                 data: { value },
-                fix(fixer) {
+                *fix(fixer) {
                   const [identStart, identEnd] = expr.range;
 
                   const previousQuasi = quasis
@@ -108,11 +108,18 @@ export default createRule({
                     .find((quasi) => quasi.range[1] <= identStart);
                   const nextQuasi = quasis.find((quasi) => quasi.range[0] >= identEnd);
 
-                  const start = previousQuasi?.range[1] ?? node.range[0];
-                  const end = nextQuasi?.range[0] ?? node.range[1];
+                  /* v8 ignore if -- @preserve */
+                  if (!previousQuasi || !nextQuasi) {
+                    const msg = 'No previous/next quasi found. This should never happen.';
+                    console.error(msg);
+                    return;
+                  }
+
+                  const start = previousQuasi.range[1];
+                  const end = nextQuasi.range[0];
 
                   const range = [start - 2, end + 1] as const;
-                  return fixer.replaceTextRange(range, value);
+                  yield fixer.replaceTextRange(range, value);
                 },
               },
             ],

@@ -42,6 +42,23 @@ ruleTester.run(name, rule, {
         checkFormatting(this);
       },
     },
+    {
+      name: 'Async IIFE in Block in Program root',
+      code: `{
+  (async () => {
+    await foo();
+  })();
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Useless IIFE with empty body',
+      code: `const x = (() => {})(); // Should just be: const x = undefined;
+`,
+    },
   ],
   invalid: [
     {

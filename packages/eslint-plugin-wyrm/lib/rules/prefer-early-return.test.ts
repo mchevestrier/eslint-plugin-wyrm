@@ -21,6 +21,14 @@ ruleTester.run(name, rule, {
       },
     },
     {
+      name: 'With no body',
+      code: `const foo = () => 42;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With several statements in consequent block',
       code: `function foo(cond1: boolean, cond2: boolean) {
   if (!cond1) return 42;
@@ -72,6 +80,42 @@ ruleTester.run(name, rule, {
   } else {
     if (Math.cos(0) > 0.5) console.log(333);
     console.log(42);
+  }
+
+  return 17;
+}
+`,
+    },
+    {
+      name: 'With `try`/`catch`/`finally` statement where `catch` does not always return',
+      code: `function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {
+    console.log(105);
+  } else {
+    try {
+      return JSON.parse('{}');
+    } catch {
+      console.log('Oops');
+    } finally {
+      console.log('done');
+    }
+  }
+
+  return 17;
+}
+`,
+    },
+    {
+      name: 'With `try`/`finally` statement where `finally` does not always return',
+      code: `function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {
+    console.log(105);
+  } else {
+    try {
+      return JSON.parse('{}');
+    } finally {
+      console.log('done');
+    }
   }
 
   return 17;
@@ -422,6 +466,119 @@ ruleTester.run(name, rule, {
       },
     },
     {
+      name: 'With `try`/`finally` statement where `finally` always returns',
+      code: `function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {
+    console.log(105);
+  } else {
+    try {
+      JSON.parse('{}');
+    } finally {
+      return 'Oops';
+    }
+  }
+
+  return 17;
+}
+`,
+      output: `function foo(cond1: boolean, cond2: boolean) {
+  if (!(cond1)) {
+    try {
+      JSON.parse('{}');
+    } finally {
+      return 'Oops';
+    }
+  } else {
+    console.log(105);
+  }
+
+  return 17;
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `try`/`catch`/`finally` statement where `try` and `catch` always return',
+      code: `function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {
+    console.log(105);
+  } else {
+    try {
+      return JSON.parse('{}');
+    } catch {
+      return 'Oops';
+    } finally {
+      console.log('done');
+    }
+  }
+
+  return 17;
+}
+`,
+      output: `function foo(cond1: boolean, cond2: boolean) {
+  if (!(cond1)) {
+    try {
+      return JSON.parse('{}');
+    } catch {
+      return 'Oops';
+    } finally {
+      console.log('done');
+    }
+  } else {
+    console.log(105);
+  }
+
+  return 17;
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `try`/`catch`/`finally` statement where `finally` always returns',
+      code: `function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {
+    console.log(105);
+  } else {
+    try {
+      return JSON.parse('{}');
+    } catch {
+      console.log('Oops');
+    } finally {
+      return {};
+    }
+  }
+
+  return 17;
+}
+`,
+      output: `function foo(cond1: boolean, cond2: boolean) {
+  if (!(cond1)) {
+    try {
+      return JSON.parse('{}');
+    } catch {
+      console.log('Oops');
+    } finally {
+      return {};
+    }
+  } else {
+    console.log(105);
+  }
+
+  return 17;
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With too many statements in consequent block',
       code: `function foo(cond1: boolean, cond2: boolean) {
   if (!cond1) return 42;
@@ -447,6 +604,63 @@ ruleTester.run(name, rule, {
     console.log('ok');
     console.log('ok');
     console.log('ok');
+    return 105;
+  }
+
+  
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a `for` and a `while` loop in the consequent block',
+      code: `function foo(cond1: boolean, cond2: boolean) {
+  if (!cond1) return 42;
+
+  if (cond2) {
+    while (Math.cos(0)) {
+      for (key in Math) {
+        console.log('ok');
+      }
+    }
+
+    for (let i = 0; i < 3; i++) {
+      console.log('ok');
+    }
+
+    for (const item of []) {
+      console.log('ok');
+    }
+
+    return 105;
+  }
+
+  return 0;
+}
+`,
+      output: `function foo(cond1: boolean, cond2: boolean) {
+  if (!cond1) return 42;
+
+  if (!(cond2)) {
+    return 0;
+  } else {
+    while (Math.cos(0)) {
+      for (key in Math) {
+        console.log('ok');
+      }
+    }
+
+    for (let i = 0; i < 3; i++) {
+      console.log('ok');
+    }
+
+    for (const item of []) {
+      console.log('ok');
+    }
+
     return 105;
   }
 

@@ -35,6 +35,26 @@ ruleTester.run(name, rule, {
       },
     },
     {
+      name: 'JSX expression container contains a ternary expression',
+      code: `function Foo({ children }: PropsWithChildren) {
+  return <div>{Math.cos(0) ? children : null}</div>;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'JSX expression container contains a non-empty literal',
+      code: `function Foo({ children }: PropsWithChildren) {
+  return <div>{'foo!'}</div>;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'JSX expression container with a comment #docs',
       code: `function Foo() {
   return (

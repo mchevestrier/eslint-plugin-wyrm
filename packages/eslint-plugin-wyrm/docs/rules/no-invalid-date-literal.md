@@ -32,4 +32,10 @@ Valid date:
 new Date('07-20-1969');
 ```
 
+Valid date (with `Date.parse()`):
+
+```tsx
+Date.parse('07-20-1969');
+```
+
 <!-- end auto-generated rule header -->

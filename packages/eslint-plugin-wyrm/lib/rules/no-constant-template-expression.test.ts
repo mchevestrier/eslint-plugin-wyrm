@@ -185,6 +185,29 @@ const str = \`true_baz\`;
       },
     },
     {
+      name: 'Template expression with a constant boolean value (false)',
+      code: `const bool = false;
+const str = \`\${bool}_baz\`;
+`,
+      errors: [
+        {
+          messageId: 'noConstantTemplateExpression',
+          suggestions: [
+            {
+              messageId: 'replaceByString',
+              data: { value: 'false' },
+              output: `const bool = false;
+const str = \`false_baz\`;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With spaces inside',
       code: `const foo = 'foobar';
 const str = \`Ok_\${notLiteral}_Ok_\${    foo    }_baz\`;

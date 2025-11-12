@@ -1,10 +1,14 @@
+import markdownPlugin from '@eslint/markdown';
 import { RuleTester } from '@typescript-eslint/rule-tester';
+import jsoncParser from 'jsonc-eslint-parser';
+import yamlParser from 'yaml-eslint-parser';
 
 import { checkFormatting } from '../utils/checkFormatting.js';
 
 import rule, { name } from './no-empty-comment.js';
 
 const ruleTester = new RuleTester({
+  plugins: { markdown: markdownPlugin },
   languageOptions: {
     parserOptions: {
       ecmaFeatures: { jsx: true },
@@ -20,6 +24,44 @@ ruleTester.run(name, rule, {
 `,
       after() {
         checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a JSONC file',
+      filename: 'foo.json',
+      languageOptions: {
+        parser: jsoncParser,
+      },
+      code: `{
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a YAML file',
+      filename: 'foo.yml',
+      languageOptions: {
+        parser: yamlParser,
+      },
+      code: `# ok
+`,
+      after() {
+        // Not formatted
+      },
+    },
+    {
+      name: 'With a Markdown file',
+      filename: 'foo.md',
+      // 'language' is not supported by typings, but still transmitted
+      // @ts-expect-error - 'language' does not exist in type 'ValidTestCase'
+      language: 'markdown/commonmark',
+      code: `# ok
+<!-- Ok -->
+`,
+      after() {
+        // Not formatted
       },
     },
     {
@@ -74,6 +116,15 @@ ruleTester.run(name, rule, {
     {
       name: 'Empty inline comment #docs',
       code: `//
+`,
+      errors: [{ messageId: 'noEmptyComment' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Trailing inline comment',
+      code: `debugger; //
 `,
       errors: [{ messageId: 'noEmptyComment' }],
       after() {
@@ -166,6 +217,17 @@ ruleTester.run(name, rule, {
       },
     },
     {
+      name: 'Padding comment (with `allowPadding: true`) next to a block comment',
+      options: [{ allowPadding: true }],
+      code: `/* Ok */
+//
+`,
+      errors: [{ messageId: 'noEmptyComment' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Empty comment in JSX',
       code: `function Foo() {
   return (
@@ -179,6 +241,34 @@ ruleTester.run(name, rule, {
       errors: [{ messageId: 'noEmptyComment' }],
       after() {
         checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a JSONC file',
+      filename: 'foo.json',
+      languageOptions: {
+        parser: jsoncParser,
+      },
+      code: `//
+{
+}
+`,
+      errors: [{ messageId: 'noEmptyComment' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a YAML file',
+      filename: 'foo.yml',
+      languageOptions: {
+        parser: yamlParser,
+      },
+      code: `#
+`,
+      errors: [{ messageId: 'noEmptyComment' }],
+      after() {
+        // Not formatted
       },
     },
   ],

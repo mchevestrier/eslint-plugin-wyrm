@@ -36,6 +36,14 @@ ruleTester.run(name, rule, {
       },
     },
     {
+      name: 'Not JSX',
+      code: `'use strict';
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'JSX fragment in return statement',
       code: `export function MyComponent() {
   return <div />;

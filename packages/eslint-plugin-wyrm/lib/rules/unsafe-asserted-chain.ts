@@ -58,6 +58,7 @@ export default createRule({
 
         if (propertyAccess.type !== AST_NODE_TYPES.MemberExpression) return;
 
+        /* v8 ignore if -- @preserve */
         if (!propertyAccess.optional) {
           console.error(
             'ChainExpression > MemberExpression.optional should always be true',
@@ -69,15 +70,7 @@ export default createRule({
 
         const type = services.getTypeAtLocation(node);
 
-        if (
-          type.isUnion() &&
-          type.types.some((t) => {
-            if (t.flags & ts.TypeFlags.Undefined) return true;
-            if (t.flags & ts.TypeFlags.Any) return true;
-            if (t.flags & ts.TypeFlags.Unknown) return true;
-            return false;
-          })
-        ) {
+        if (type.isUnion() && type.types.some((t) => t.flags & ts.TypeFlags.Undefined)) {
           return;
         }
 

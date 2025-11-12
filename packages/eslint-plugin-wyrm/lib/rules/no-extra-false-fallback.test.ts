@@ -86,6 +86,89 @@ const bits = arr.filter((elt) => elt);
         checkFormatting(this);
       },
     },
+    {
+      name: 'Fallback in Block at the program root',
+      code: `declare const foo: string;
+{
+  return foo || false;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a predicate: function is not passed to a call expression',
+      code: `const foo = (it) => it || false;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a predicate: function is not the first argument to a call expression',
+      code: `[].filter(foo, (it) => it || false);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a predicate: function is not the argument of a member expression call',
+      code: `filter((it) => it || false, foo);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a predicate: call expression method is not an identifier',
+      code: `[0, 1, 2]['filter']((it) => it || false);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a predicate: array method is not one of the boolean-returning methods',
+      code: `[].push((it) => it || false);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a boolean cast: other unary expression',
+      code: `+(it || false);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a boolean cast: single negation',
+      code: `!(it || false);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a boolean cast: single negation wrapped in other unary expression',
+      code: `+!(it || false);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a boolean cast: callee is not an identifier',
+      code: `(1 ? Boolean : Error)(it || false);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

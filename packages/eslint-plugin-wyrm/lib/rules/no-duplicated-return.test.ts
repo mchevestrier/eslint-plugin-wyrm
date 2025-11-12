@@ -97,6 +97,94 @@ ruleTester.run(name, rule, {
         // Not formatted
       },
     },
+    {
+      name: 'With an arrow function and no block statement',
+      code: `const foo = () => 42;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With empty returns in consequent and alternate branches',
+      code: `function foo() {
+  if (Math.random()) {
+    if (Math.random()) {
+      console.log('ok');
+      return;
+    } else {
+      console.log('ok');
+      return;
+    }
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With empty return in consequent branch but no alternate branch',
+      code: `function foo() {
+  if (Math.random()) {
+    if (Math.random()) {
+      console.log('ok');
+      return;
+    }
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With empty return in `try` block but not in `catch` block',
+      code: `function foo() {
+  if (Math.random()) {
+    try {
+      JSON.stringify('{}');
+      return;
+    } catch {}
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With empty return in `try` block and no `catch` block',
+      code: `function foo() {
+  if (Math.random()) {
+    try {
+      JSON.stringify('{}');
+      return;
+    } finally {
+    }
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a `finally` block that always returns',
+      code: `function foo() {
+  if (Math.random()) {
+    try {
+      JSON.stringify('{}');
+    } finally {
+      return;
+    }
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

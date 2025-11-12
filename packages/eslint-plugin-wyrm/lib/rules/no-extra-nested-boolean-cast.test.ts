@@ -64,6 +64,74 @@ const bits = arr.filter((elt) => elt);
         checkFormatting(this);
       },
     },
+    {
+      name: 'Boolean call at the program root',
+      code: `declare const foo: string;
+Boolean(foo);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Boolean call in Block at the program root',
+      code: `declare const foo: string;
+{
+  return Boolean(foo);
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a predicate: function is not passed to a call expression',
+      code: `const foo = (it) => Boolean(it);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a predicate: function is not the first argument to a call expression',
+      code: `[].filter(foo, (it) => Boolean(it));
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a predicate: function is not the argument of a member expression call',
+      code: `filter((it) => Boolean(it), foo);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a predicate: call expression method is not an identifier',
+      code: `[0, 1, 2]['filter']((it) => Boolean(it));
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a boolean cast: single negation',
+      code: `[].filter((it) => !it);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a boolean cast: single negation wrapped in other unary expression',
+      code: `[].filter((it) => +!it);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

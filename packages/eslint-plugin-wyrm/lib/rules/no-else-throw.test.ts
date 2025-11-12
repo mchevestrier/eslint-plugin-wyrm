@@ -17,6 +17,29 @@ foo();
         checkFormatting(this);
       },
     },
+    {
+      name: 'Empty consequent block',
+      code: `if (cond) {
+} else {
+  foo();
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Consequent block does not always throw',
+      code: `if (cond) {
+  if (Math.random()) throw Error('oh no!');
+} else {
+  foo();
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

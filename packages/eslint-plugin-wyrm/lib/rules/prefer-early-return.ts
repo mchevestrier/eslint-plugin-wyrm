@@ -72,19 +72,19 @@ export default createRule({
           (consequentVolume / alternateVolume >= VOLUME_RATIO_THRESHOLD &&
             consequentVolume > 4));
 
-      if (ifStatement.alternate && shouldSwitchConsequentAndAlternate) {
+      const { alternate } = ifStatement;
+
+      if (alternate && shouldSwitchConsequentAndAlternate) {
         context.report({
           node: ifStatement,
           messageId: 'preferEarlyReturn',
           *fix(fixer) {
-            if (!ifStatement.alternate) return;
-
             const testText = context.sourceCode.getText(ifStatement.test);
             yield fixer.replaceText(ifStatement.test, `!(${testText})`);
 
-            const alternateText = context.sourceCode.getText(ifStatement.alternate);
+            const alternateText = context.sourceCode.getText(alternate);
             yield fixer.replaceText(ifStatement.consequent, alternateText);
-            yield fixer.remove(ifStatement.alternate);
+            yield fixer.remove(alternate);
 
             const consequentText = context.sourceCode.getText(ifStatement.consequent);
             yield fixer.insertTextAfter(ifStatement, consequentText);
@@ -106,6 +106,11 @@ export default createRule({
         returnStatementIndex + 1,
       );
 
+      const firstSubsequentStatement = subsequentStatements.at(0);
+      const lastSubsequentStatement = subsequentStatements.at(-1);
+      /* v8 ignore if -- @preserve */
+      if (!firstSubsequentStatement || !lastSubsequentStatement) return;
+
       const subsequentVolume = subsequentStatements.reduce(
         (acc, s) => acc + computeStatementVolume(s),
         0,
@@ -121,11 +126,6 @@ export default createRule({
           node: ifStatement,
           messageId: 'preferEarlyReturn',
           *fix(fixer) {
-            const firstSubsequentStatement = subsequentStatements.at(0);
-            const lastSubsequentStatement = subsequentStatements.at(-1);
-            if (!firstSubsequentStatement) return;
-            if (!lastSubsequentStatement) return;
-
             yield fixer.removeRange([
               firstSubsequentStatement.range[0],
               lastSubsequentStatement.range[1],
@@ -160,8 +160,8 @@ export default createRule({
   },
 });
 
-function alwaysReturns(stmt: TSESTree.Statement | null): boolean {
-  if (stmt === null) return false;
+function alwaysReturns(stmt: TSESTree.Statement | null | undefined): boolean {
+  if (stmt == null) return false;
 
   if (stmt.type === AST_NODE_TYPES.ReturnStatement) return true;
 
@@ -174,11 +174,13 @@ function alwaysReturns(stmt: TSESTree.Statement | null): boolean {
   }
 
   if (stmt.type === AST_NODE_TYPES.TryStatement) {
-    if (stmt.finalizer) {
-      return alwaysReturns(stmt.block) && alwaysReturns(stmt.finalizer);
+    if (!stmt.finalizer) {
+      return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
     }
 
-    return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body ?? null);
+    if (alwaysReturns(stmt.finalizer)) return true;
+
+    return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
   }
 
   return false;

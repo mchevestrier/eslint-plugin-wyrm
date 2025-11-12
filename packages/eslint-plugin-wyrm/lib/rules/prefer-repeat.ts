@@ -161,9 +161,19 @@ function extractRepeatedStringFromTemplateLiteral(
   if (expr.expressions.length !== 1) return None;
   if (expr.expressions[0]?.type !== AST_NODE_TYPES.Identifier) return None;
   if (expr.expressions[0].name !== acc.name) return None;
-  if (expr.quasis.length !== 2) return None;
-  const quasi = expr.quasis.map((q) => q.value.cooked).find(Boolean);
-  return Option.fromUndef(quasi);
+  // if (expr.quasis.length !== 2) return None;
+  const nonEmptyQuasis = expr.quasis.map((q) => q.value.cooked).filter(Boolean);
+  const firstQuasi = nonEmptyQuasis.at(0);
+  if (!firstQuasi) return None;
+  if (nonEmptyQuasis.length === 1) {
+    return Some(firstQuasi);
+  }
+
+  if (nonEmptyQuasis.every((quasi) => quasi === firstQuasi)) {
+    return Some(firstQuasi.repeat(nonEmptyQuasis.length));
+  }
+
+  return None;
 }
 
 function extractRepeatedStringFromCallExpression(

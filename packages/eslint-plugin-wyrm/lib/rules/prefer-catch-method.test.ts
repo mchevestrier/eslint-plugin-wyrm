@@ -10,12 +10,14 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'Correct usage of `Promise.prototype.catch()` #docs',
-      code: `let result = await getStuff()
-  .catch((err: unknown) => {
-    console.error(err);
-    return null;
-  });
+      code: `let result = await getStuff().catch((err: unknown) => {
+  console.error(err);
+  return null;
+});
 `,
+      after() {
+        checkFormatting(this);
+      },
     },
     {
       name: '`try` block with no async operation #docs',
@@ -27,6 +29,85 @@ try {
   result = null;
 }
 `,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`try` block with no `catch` handler',
+      code: `let result;
+try {
+  result = await getStuff();
+} finally {
+  console.log('done');
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`catch` block has a `return` statement',
+      code: `let result;
+try {
+  result = await getStuff();
+} catch {
+  result = null;
+  return result;
+}
+
+console.log(result);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`finally` block has a `return` statement',
+      code: `let result;
+try {
+  result = await getStuff();
+} catch {
+  result = null;
+} finally {
+  return result;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Assignment in `try` block is not to an identifier',
+      code: `let result;
+try {
+  ({ result }) = await getStuff();
+} catch {
+  result = null;
+}
+
+console.log(result);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Several assignment in `try` block with an `await` expression as initializer',
+      code: `let result;
+let foo;
+try {
+  result = await getStuff();
+  foo = await getMoreStuff();
+} catch {
+  result = null;
+}
+
+console.log(result);
+`,
+      after() {
+        checkFormatting(this);
+      },
     },
     {
       name: 'The variable is used after being declared so we do not touch it',
@@ -41,6 +122,77 @@ try {
   result = null;
 }
 console.log(result);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`try` block has no assignment',
+      code: `let result;
+try {
+  await getStuff();
+} catch (err) {
+  console.error(err);
+  result = null;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`result` variable is not in scope',
+      code: `try {
+  result = await getStuff();
+} catch (err) {
+  console.error(err);
+  result = null;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`result` variable is an import',
+      code: `import { result } from './foo';
+try {
+  result = await getStuff();
+} catch (err) {
+  console.error(err);
+  result = null;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`result` variable is declared in the outer scope',
+      code: `let result;
+function foo() {
+  try {
+    result = await getStuff();
+  } catch (err) {
+    console.error(err);
+    result = null;
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`result` variable is const',
+      code: `const result = undefined;
+try {
+  result = await getStuff();
+} catch (err) {
+  console.error(err);
+  result = null;
+}
 `,
       after() {
         checkFormatting(this);
@@ -111,6 +263,44 @@ let result = await getStuff()
   });
 console.log(result);
 if (msg) console.log(msg);
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`try` block has several `await` statements',
+      code: `let result;
+try {
+  result = await getStuff();
+  await sendMoreStuff();
+} catch {
+  result = null;
+}
+
+console.log(result);
+`,
+      errors: [
+        {
+          messageId: 'preferCatchMethod',
+          suggestions: [
+            {
+              messageId: 'useCatchMethod',
+              output: `
+let result = await getStuff()
+  .then((val0) => {
+    await sendMoreStuff();
+    return val0;
+  })
+  .catch(() => {
+    return null;
+  });
+
+console.log(result);
 `,
             },
           ],
@@ -386,6 +576,72 @@ let result = await getFoo()
     return undefined;
   });
 console.log(result);
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With several inline declarations',
+      code: `let foo, result, bar;
+try {
+  result = await getStuff();
+} catch (err) {
+  console.error(err);
+  result = null;
+}
+foo = 'ok';
+`,
+      errors: [
+        {
+          messageId: 'preferCatchMethod',
+          suggestions: [
+            {
+              messageId: 'useCatchMethod',
+              output: `let foo , bar;
+let result = await getStuff()
+  .catch((err: unknown) => {
+    console.error(err);
+    return null;
+  });
+foo = 'ok';
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With several inline declarations (`result` is first)',
+      code: `let result, foo, bar;
+try {
+  result = await getStuff();
+} catch (err) {
+  console.error(err);
+  result = null;
+}
+foo = 'ok';
+`,
+      errors: [
+        {
+          messageId: 'preferCatchMethod',
+          suggestions: [
+            {
+              messageId: 'useCatchMethod',
+              output: `let  foo, bar;
+let result = await getStuff()
+  .catch((err: unknown) => {
+    console.error(err);
+    return null;
+  });
+foo = 'ok';
 `,
             },
           ],

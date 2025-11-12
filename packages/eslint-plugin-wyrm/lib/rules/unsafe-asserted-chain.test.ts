@@ -56,9 +56,45 @@ const str = (foo?.bar as unknown)?.toUpperCase();
       },
     },
     {
+      name: 'Optional chain asserted as union containing any',
+      code: `declare const foo: { bar: string | number } | null;
+const str = (foo?.bar as string | any)?.toUpperCase();
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a non-null assertion on an optional chain. Already checked by `@typescript-eslint/no-non-null-asserted-optional-chain`.',
+      code: `declare const foo: { bar: string | number } | null;
+const str = (foo?.bar! as string).toUpperCase();
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Optional chain asserted as union containing unknown',
+      code: `declare const foo: { bar: string | number } | null;
+const str = (foo?.bar as string | unknown)?.toUpperCase();
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Optional chain asserted as nullable indexed access type',
       code: `declare const foo: { bar?: string | number };
 const str = (foo?.bar as (typeof foo)['bar'])?.toString();
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Type assertion is not on a chain expression',
+      code: `declare const foo: string | undefined;
+const str = (foo as string).toString();
 `,
       after() {
         checkFormatting(this);

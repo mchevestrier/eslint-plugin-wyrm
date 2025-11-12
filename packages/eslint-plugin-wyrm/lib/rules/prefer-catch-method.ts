@@ -80,6 +80,7 @@ export default createRule({
         if (variable.scope !== scope) return;
 
         const def = variable.defs.at(-1);
+        /** v8 ignore if -- @preserve */
         if (!def) return;
         if (def.node.type !== AST_NODE_TYPES.VariableDeclarator) return;
         if (def.node.parent.kind !== 'let') return;
@@ -114,6 +115,7 @@ export default createRule({
         }
 
         function getAwaitThenExpression() {
+          /* v8 ignore if -- @preserve */
           if (!firstBlockAssignment) return '';
           const awaitExpression = context.sourceCode.getText(firstBlockAssignment.right);
           const otherStatements = block.body.filter(
@@ -136,6 +138,7 @@ ${indent}})`;
         }
 
         function getErrorParameter() {
+          /* v8 ignore if -- @preserve */
           if (!handler) return '';
           const { param } = handler;
           if (!param) return '';
@@ -146,14 +149,13 @@ ${indent}})`;
         }
 
         function getHandlerText() {
-          if (!handler) return '';
-
           const fallbackValueText = fallbackValue
             ? context.sourceCode.getText(fallbackValue)
             : 'undefined';
           const handlerAssignmentText = `${indent}return ${fallbackValueText};`;
 
-          const statements = handler.body.body.filter(
+          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+          const statements = handler!.body.body.filter(
             (stmt) =>
               stmt.type !== AST_NODE_TYPES.ExpressionStatement ||
               !handlerAssignment ||
@@ -177,7 +179,21 @@ ${indent}})`;
               messageId: 'useCatchMethod',
               *fix(fixer) {
                 if (decl.parent.declarations.length > 1) {
+                  // Preserve multiple inline declarations
                   yield fixer.remove(decl);
+
+                  const declIndex = decl.parent.declarations.findIndex(
+                    (d) => d.id === decl.id,
+                  );
+                  if (declIndex === 0) {
+                    const commaToken = context.sourceCode.getTokenAfter(decl);
+                    /* v8 ignore else -- @preserve */
+                    if (commaToken) yield fixer.remove(commaToken);
+                  } else {
+                    const commaToken = context.sourceCode.getTokenBefore(decl);
+                    /* v8 ignore else -- @preserve */
+                    if (commaToken) yield fixer.remove(commaToken);
+                  }
                 } else {
                   yield fixer.remove(decl.parent);
                 }

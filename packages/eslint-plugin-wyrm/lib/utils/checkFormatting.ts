@@ -1,5 +1,7 @@
 /* eslint-disable unicorn/no-instanceof-builtins, sonarjs/no-primitive-wrappers */
 
+/* v8 ignore file -- @preserve */
+
 import type { InvalidTestCase, ValidTestCase } from '@typescript-eslint/rule-tester';
 import { diffStringsUnified } from 'jest-diff';
 import * as prettier from 'prettier';

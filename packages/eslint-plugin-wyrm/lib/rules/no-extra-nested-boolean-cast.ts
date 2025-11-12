@@ -97,6 +97,7 @@ function isBooleanCall(node: TSESTree.CallExpression): boolean {
 }
 
 function isInCondition(node: TSESTree.Node): boolean {
+  /* v8 ignore if -- @preserve */
   if (!node.parent) return false;
 
   switch (node.parent.type) {
@@ -137,6 +138,7 @@ function isPredicate(
 }
 
 function isReturnedFromPredicate(node: TSESTree.Node): boolean {
+  /* v8 ignore if -- @preserve */
   if (!node.parent) return false;
 
   switch (node.parent.type) {
@@ -170,6 +172,7 @@ function isReturnedFromPredicate(node: TSESTree.Node): boolean {
 }
 
 function isInBooleanCast(node: TSESTree.Node) {
+  /* v8 ignore if -- @preserve */
   if (!node.parent) return false;
 
   switch (node.parent.type) {

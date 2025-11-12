@@ -19,6 +19,29 @@ ruleTester.run(name, rule, {
         checkFormatting(this);
       },
     },
+    {
+      name: 'Empty consequent block',
+      code: `if (cond) {
+} else {
+  foo();
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Consequent block does not always break',
+      code: `if (cond) {
+  if (Math.random()) break;
+} else {
+  foo();
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

@@ -38,6 +38,17 @@ ruleTester.run(name, rule, {
         checkFormatting(this);
       },
     },
+    {
+      name: 'Empty return',
+      code: `function foo(cond: boolean) {
+  cond ? console.log('ok') : console.log('no');
+  return;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

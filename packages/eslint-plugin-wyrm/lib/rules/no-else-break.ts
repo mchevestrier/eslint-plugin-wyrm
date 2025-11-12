@@ -35,6 +35,7 @@ export default createRule({
             messageId: 'noElseBreak',
             *fix(fixer) {
               const firstToken = context.sourceCode.getTokenBefore(alternate);
+              /* v8 ignore else -- @preserve */
               if (firstToken) yield fixer.remove(firstToken);
               yield fixer.remove(alternate);
 

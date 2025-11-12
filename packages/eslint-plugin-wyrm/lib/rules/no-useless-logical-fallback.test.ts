@@ -50,6 +50,36 @@ ruleTester.run(name, rule, {
       },
     },
     {
+      name: '`|| true` when the left side is not exclusively a boolean',
+      code: `function quux(foo: boolean | number) {
+  return foo || true;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`&& false` when the left side is not exclusively a boolean',
+      code: `function quux(foo: boolean | number) {
+  return foo && false;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`&& true` when the left side is not exclusively a boolean',
+      code: `function quux(foo: boolean | number) {
+  return foo && true;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: "`|| ''` when the left side is not exclusively a string",
       code: `function quux(foo: string | number) {
   return foo || '';
@@ -63,6 +93,26 @@ ruleTester.run(name, rule, {
       name: '`|| 0` when the left side is not exclusively a number',
       code: `function quux(foo: string | number) {
   return foo || 0;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`||` expression when the right side is not a literal',
+      code: `function quux(foo: string | number) {
+  return foo || Math.cos(0);
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`&&` expression when the right side is not a literal',
+      code: `function quux(foo: string | number) {
+  return foo && Math.cos(0);
 }
 `,
       after() {
@@ -267,6 +317,56 @@ ruleTester.run(name, rule, {
               messageId: 'removeLogicalFallback',
               data: { expression: '|| 0' },
               output: `function quux(foo: number) {
+  return foo;
+}
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `null ?? null`',
+      code: `function quux(foo: null) {
+  return foo ?? null;
+}
+`,
+      errors: [
+        {
+          messageId: 'noUselessLogicalFallback',
+          suggestions: [
+            {
+              messageId: 'removeLogicalFallback',
+              data: { expression: '?? null' },
+              output: `function quux(foo: null) {
+  return foo;
+}
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `undefined ?? undefined`',
+      code: `function quux(foo: undefined) {
+  return foo ?? undefined;
+}
+`,
+      errors: [
+        {
+          messageId: 'noUselessLogicalFallback',
+          suggestions: [
+            {
+              messageId: 'removeLogicalFallback',
+              data: { expression: '?? undefined' },
+              output: `function quux(foo: undefined) {
   return foo;
 }
 `,

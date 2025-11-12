@@ -64,6 +64,8 @@ export default createRule({
           case '??':
             checkNullishCoalescingExpression(node);
             break;
+
+          /* v8 ignore next -- @preserve */
           default: {
             const check: never = node.operator;
             console.error(`Unexpected operator for LogicalExpression: ${check}`);

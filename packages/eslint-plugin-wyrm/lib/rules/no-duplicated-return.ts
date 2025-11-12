@@ -73,6 +73,7 @@ export default createRule({
       context.report({ node: ifStatement, messageId: 'noDuplicatedReturn' });
 
       const lastStatement = subsequentStatements.at(-1);
+      /* v8 ignore else -- @preserve */
       if (lastStatement) {
         context.report({ node: lastStatement, messageId: 'noDuplicatedReturn' });
       }
@@ -86,8 +87,8 @@ export default createRule({
   },
 });
 
-function alwaysReturns(stmt: TSESTree.Statement | null): boolean {
-  if (stmt === null) return false;
+function alwaysReturns(stmt: TSESTree.Statement | null | undefined): boolean {
+  if (stmt == null) return false;
 
   if (stmt.type === AST_NODE_TYPES.ReturnStatement) return true;
 
@@ -100,11 +101,13 @@ function alwaysReturns(stmt: TSESTree.Statement | null): boolean {
   }
 
   if (stmt.type === AST_NODE_TYPES.TryStatement) {
-    if (stmt.finalizer) {
-      return alwaysReturns(stmt.block) && alwaysReturns(stmt.finalizer);
+    if (!stmt.finalizer) {
+      return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
     }
 
-    return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body ?? null);
+    if (alwaysReturns(stmt.finalizer)) return true;
+
+    return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
   }
 
   return false;

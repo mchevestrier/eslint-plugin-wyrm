@@ -41,7 +41,7 @@ export default createRule({
     for (const comment of comments) {
       if (!isEmptyComment(comment)) continue;
 
-      if (options.allowPadding && isStackedComment(comment, comments)) continue;
+      if (options.allowPadding && isPaddingComment(comment, comments)) continue;
 
       context.report({
         node: comment,
@@ -58,7 +58,7 @@ function isEmptyComment(comment: TSESTree.Comment): boolean {
   return !content;
 }
 
-function isStackedComment(
+function isPaddingComment(
   comment: TSESTree.Comment,
   comments: TSESTree.Comment[],
 ): boolean {

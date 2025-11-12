@@ -38,7 +38,7 @@ export default createRule({
             const left = maybeWrapInBooleanCast(node.left);
             const right = maybeWrapInBooleanCast(node.right);
 
-            const newText = `${left} ${node.operator} ${right}`;
+            const newText = `(${left} ${node.operator} ${right})`;
             return fixer.replaceText(parentCast.value, newText);
           },
         });
@@ -49,6 +49,7 @@ export default createRule({
       const txt = context.sourceCode.getText(node);
 
       const prev = context.sourceCode.getTokenBefore(node);
+      /* v8 ignore if -- @preserve */
       if (!prev) return txt;
 
       const allComments = context.sourceCode.getAllComments();
@@ -78,8 +79,15 @@ function isBooleanLike(expr: TSESTree.Expression): boolean {
 
   if (expr.type === AST_NODE_TYPES.BinaryExpression) {
     switch (expr.operator) {
+      // Not sure if these two cases are possible
+      // as they're normally parsed as LogicalExpression nodes
+      /* v8 ignore next -- @preserve */
       case '&&':
+        return true;
+      /* v8 ignore next -- @preserve */
       case '||':
+        return true;
+
       case '!=':
       case '!==':
       case '==':
@@ -104,9 +112,7 @@ function isBooleanLike(expr: TSESTree.Expression): boolean {
   return false;
 }
 
-function getParentBooleanCast(node: TSESTree.Node): Option<TSESTree.Node> {
-  if (!node.parent) return None;
-
+function getParentBooleanCast(node: TSESTree.LogicalExpression): Option<TSESTree.Node> {
   if (
     node.parent.type === AST_NODE_TYPES.UnaryExpression &&
     isDoubleNegation(node.parent)
