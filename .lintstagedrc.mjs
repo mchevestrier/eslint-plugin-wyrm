@@ -13,6 +13,7 @@ const config = {
 
   '**/*': (stagedFiles) => [
     `pnpx prettier --ignore-unknown --check ${stagedFiles.join(' ')}`,
+    'pnpm run manypkg:check',
   ],
 };
 export default config;

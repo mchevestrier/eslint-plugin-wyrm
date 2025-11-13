@@ -47,9 +47,6 @@ export default defineConfig([
     rules: {
       'no-else-return': 'error',
 
-      // See https://github.com/eslint/eslint/issues/20272
-      '@typescript-eslint/unified-signatures': 'off',
-
       'unicorn/prevent-abbreviations': 'off',
       'unicorn/no-useless-undefined': 'off',
       'unicorn/throw-new-error': 'off',
@@ -58,6 +55,8 @@ export default defineConfig([
       'unicorn/no-negated-condition': 'off',
       'unicorn/no-array-reduce': 'off',
       'unicorn/prefer-spread': 'off',
+
+      'sonarjs/deprecation': 'off',
 
       'shopify/prefer-early-return': 'error',
     },

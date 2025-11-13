@@ -85,6 +85,11 @@ export default defineConfig([
           alphabetize: { order: 'asc', caseInsensitive: true },
         },
       ],
+
+      'import-x/named': 'off',
+      'import-x/namespace': 'off',
+      'import-x/default': 'off',
+      'import-x/no-named-as-default-member': 'off',
     },
   },
 
@@ -281,9 +286,6 @@ export default defineConfig([
         { allowNumber: true, allowNever: true, allowBoolean: true },
       ],
 
-      // See https://github.com/eslint/eslint/issues/20272
-      '@typescript-eslint/unified-signatures': 'off',
-
       '@typescript-eslint/strict-boolean-expressions': 'off',
       '@typescript-eslint/prefer-readonly-parameter-types': 'off',
       '@typescript-eslint/consistent-type-definitions': 'off',
@@ -301,13 +303,17 @@ export default defineConfig([
       'unicorn/no-null': 'off',
       'unicorn/no-useless-undefined': 'off',
       'unicorn/prefer-ternary': 'off',
+      'unicorn/no-unnecessary-polyfills': 'off',
 
       'sonarjs/no-dead-store': 'error',
       'sonarjs/cognitive-complexity': ['error', 20],
 
+      'sonarjs/deprecation': 'off',
       'sonarjs/no-empty-test-file': 'off',
       'sonarjs/slow-regex': 'off',
       'sonarjs/todo-tag': 'off',
+      'sonarjs/aws-restricted-ip-admin-access': 'off',
+      'sonarjs/no-hardcoded-ip': 'off',
 
       '@stylistic/quotes': [
         'error',
@@ -325,7 +331,6 @@ export default defineConfig([
   {
     files: ['**/*.md'],
     plugins: {
-      // @ts-expect-error - Types of parameters 'context' and 'context' are incompatible.
       markdown,
     },
     language: 'markdown/gfm',

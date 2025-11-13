@@ -37,12 +37,5 @@ export default defineConfig([
     },
   },
 
-  {
-    rules: {
-      // See https://github.com/eslint/eslint/issues/20272
-      '@typescript-eslint/unified-signatures': 'off',
-    },
-  },
-
   wyrm.configs.strictTypeChecked,
 ]);
