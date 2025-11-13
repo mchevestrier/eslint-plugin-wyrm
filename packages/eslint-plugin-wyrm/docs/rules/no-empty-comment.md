@@ -68,3 +68,7 @@ Empty padding comments (with `allowPadding: true`):
 | `allowPadding` | Whether to allow empty padding comments stacked next to non-empty comments. Default: `true` | Boolean |
 
 <!-- end auto-generated rule options list -->
+
+## Prior Art
+
+- Pylint: [empty-comment](https://pylint.readthedocs.io/en/stable/user_guide/messages/refactor/empty-comment.html)

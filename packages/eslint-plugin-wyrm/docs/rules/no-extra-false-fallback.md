@@ -81,3 +81,7 @@ const val: boolean = bar && (foo ?? false);
 ```
 
 <!-- end auto-generated rule header -->
+
+## Prior Art
+
+- Pylint: [simplifiable-condition](https://pylint.readthedocs.io/en/stable/user_guide/messages/refactor/simplifiable-condition.html)

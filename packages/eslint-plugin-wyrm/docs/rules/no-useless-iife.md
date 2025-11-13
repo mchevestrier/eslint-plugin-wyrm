@@ -39,3 +39,7 @@ const foo = (() => {
 ```
 
 <!-- end auto-generated rule header -->
+
+## Prior Art
+
+- go-critic: [unlambda](https://go-critic.com/overview.html#unlambda)
