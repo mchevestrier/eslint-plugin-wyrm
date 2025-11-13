@@ -26,6 +26,7 @@
   },
   "main": "./dist/index.js",
   "scripts": {
+    "attw": "attw --pack .",
     "prebuild": "node scripts/generate-index-file.js",
     "build": "tsdown",
     "prefix:docs": "pnpm run build",
@@ -49,6 +50,7 @@
     "typescript": "^5.9.3"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "^0.18.2",
     "@eslint/markdown": "^7.5.0",
     "@typescript-eslint/rule-tester": "^8.46.2",
     "@vitest/coverage-v8": "4.0.3",
