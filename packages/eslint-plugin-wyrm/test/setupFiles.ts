@@ -18,6 +18,7 @@ RuleTester.describeSkip = vitest.describe.skip;
 const failOnConsole = vitestFailOnConsole as unknown as VitestFailOnConsole;
 
 failOnConsole({
+  shouldFailOnLog: true,
   shouldFailOnAssert: true,
   shouldFailOnDebug: true,
   shouldFailOnInfo: true,

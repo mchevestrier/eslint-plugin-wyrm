@@ -12,10 +12,12 @@ export { default as 'no-extra-nested-boolean-cast' } from './no-extra-nested-boo
 export { default as 'no-invalid-date-literal' } from './no-invalid-date-literal.js';
 export { default as 'no-jsx-statement' } from './no-jsx-statement.js';
 export { default as 'no-optional-type-guard-param' } from './no-optional-type-guard-param.js';
+export { default as 'no-return-to-void' } from './no-return-to-void.js';
 export { default as 'no-suspicious-jsx-semicolon' } from './no-suspicious-jsx-semicolon.js';
 export { default as 'no-ternary-return' } from './no-ternary-return.js';
 export { default as 'no-useless-iife' } from './no-useless-iife.js';
 export { default as 'no-useless-logical-fallback' } from './no-useless-logical-fallback.js';
+export { default as 'no-useless-return-undefined' } from './no-useless-return-undefined.js';
 export { default as 'no-whitespace-property' } from './no-whitespace-property.js';
 export { default as 'prefer-catch-method' } from './prefer-catch-method.js';
 export { default as 'prefer-early-return' } from './prefer-early-return.js';
