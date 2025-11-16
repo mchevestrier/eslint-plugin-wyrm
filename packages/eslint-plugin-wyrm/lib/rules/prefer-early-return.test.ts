@@ -122,6 +122,17 @@ ruleTester.run(name, rule, {
 }
 `,
     },
+    {
+      name: 'With a returned complex expression',
+      code: `function foo(cond1: boolean, bar: string) {
+  if (cond1) {
+    return bar.toUpperCase().at(2) === bar.toLowerCase().at(2);
+  }
+
+  return 17;
+}
+`,
+    },
   ],
   invalid: [
     {

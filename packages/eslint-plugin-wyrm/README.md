@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/eslint-plugin-wyrm.svg?color=7f52af&labelColor=26272b)](https://www.npmjs.com/package/eslint-plugin-wyrm)
 [![GitHub release](https://img.shields.io/github/v/release/mchevestrier/eslint-plugin-wyrm?color=7f52af&labelColor=26272b)](https://github.com/mchevestrier/eslint-plugin-wyrm/releases/latest)
-[![GitHub License](https://img.shields.io/badge/license-MIT-232428.svg?color=7f52af&labelColor=26272b)](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/main/LICENSE.md)
+[![GitHub License](https://img.shields.io/badge/license-MIT-232428.svg?color=7f52af&labelColor=26272b)](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/LICENSE.md)
 
 ## Installation
 

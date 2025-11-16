@@ -358,7 +358,9 @@ ruleTester.run(name, rule, {
     {
       skip: true,
       name: '`Array().fill()` with `reduce` and `+`',
-      code: `const x = Array(3).fill().reduce((acc, _) => acc + '*', '');
+      code: `const x = Array(3)
+  .fill()
+  .reduce((acc, _) => acc + '*', '');
 `,
       errors: [
         {

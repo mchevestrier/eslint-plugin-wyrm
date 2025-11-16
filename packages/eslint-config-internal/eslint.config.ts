@@ -18,7 +18,13 @@ import * as tseslint from 'typescript-eslint';
 
 export default defineConfig([
   {
-    ignores: ['**/dist/*', 'examples/*', '**/coverage/*'],
+    ignores: [
+      '**/dist/*',
+      'examples/*',
+      '**/coverage/*',
+      '**/.stryker-tmp/*',
+      '**/report/*',
+    ],
   },
 
   {
@@ -144,7 +150,7 @@ export default defineConfig([
       'arrow-body-style': 'error',
       camelcase: 'error',
       'capitalized-comments': 'off',
-      complexity: 'error',
+      complexity: ['error', { variant: 'modified' }],
       'consistent-return': 'error',
       'default-case': 'error',
       'default-case-last': 'error',

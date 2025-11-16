@@ -1,7 +1,7 @@
 import path from 'node:path';
 
 import type { TSESTree } from '@typescript-eslint/utils';
-import { AST_NODE_TYPES } from '@typescript-eslint/utils';
+import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils';
 
 import { createRule } from '../utils/createRule.js';
 
@@ -22,23 +22,43 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
-    function getNormalizedStatement(stmt: TSESTree.Statement): string {
-      if (stmt.type === AST_NODE_TYPES.ReturnStatement && stmt.argument === null) {
-        return '';
-      }
-
-      if (stmt.type !== AST_NODE_TYPES.BlockStatement) {
-        return context.sourceCode.getText(stmt).trim();
-      }
-
-      return getNormalizedStatements(stmt.body);
+    function getTokensForStatements(stmts: TSESTree.Statement[]): TSESTree.Token[] {
+      const normalized = normalizeStatements(stmts);
+      return normalized.flatMap((stmt) => context.sourceCode.getTokens(stmt));
     }
 
-    function getNormalizedStatements(stmts: TSESTree.Statement[]): string {
-      return stmts
-        .map((stmt) => getNormalizedStatement(stmt))
-        .join('\n')
-        .trim();
+    function compareStatementLists(
+      a: TSESTree.Statement[],
+      b: TSESTree.Statement[],
+    ): boolean {
+      return compareTokens(getTokensForStatements(a), getTokensForStatements(b));
+    }
+
+    function compareStatements(
+      a: TSESTree.Statement[] | TSESTree.Statement,
+      b: TSESTree.Statement[] | TSESTree.Statement,
+    ): boolean {
+      return compareStatementLists(getStatements(a), getStatements(b));
+    }
+
+    function checkStatements(
+      ifStatement: TSESTree.IfStatement,
+      subsequentStatements: TSESTree.Statement[],
+    ) {
+      if (ifStatement.alternate) return;
+
+      if (!alwaysReturns(ifStatement.consequent)) return;
+
+      const same = compareStatements(ifStatement.consequent, subsequentStatements);
+      if (!same) return;
+
+      context.report({ node: ifStatement, messageId: 'noDuplicatedReturn' });
+
+      const lastStatement = subsequentStatements.at(-1);
+      /* v8 ignore else -- @preserve */
+      if (lastStatement) {
+        context.report({ node: lastStatement, messageId: 'noDuplicatedReturn' });
+      }
     }
 
     function checkBody(
@@ -50,32 +70,11 @@ export default createRule({
       if (node.body.type !== AST_NODE_TYPES.BlockStatement) return;
       const { body } = node.body;
 
-      const ifStatement = body.findLast(
-        (stmt) => stmt.type === AST_NODE_TYPES.IfStatement,
-      );
+      for (const stmt of body) {
+        if (stmt.type !== AST_NODE_TYPES.IfStatement) continue;
+        const subsequentStatements = body.slice(body.indexOf(stmt) + 1);
 
-      if (!ifStatement) return;
-      if (ifStatement.alternate) return;
-      const ifStatementIndex = body.indexOf(ifStatement);
-
-      if (!alwaysReturns(ifStatement.consequent)) return;
-
-      const normalizedConsequentStatements = getNormalizedStatement(
-        ifStatement.consequent,
-      );
-
-      const subsequentStatements = body.slice(ifStatementIndex + 1);
-      const normalizedSubsequentStatements =
-        getNormalizedStatements(subsequentStatements);
-
-      if (normalizedConsequentStatements !== normalizedSubsequentStatements) return;
-
-      context.report({ node: ifStatement, messageId: 'noDuplicatedReturn' });
-
-      const lastStatement = subsequentStatements.at(-1);
-      /* v8 ignore else -- @preserve */
-      if (lastStatement) {
-        context.report({ node: lastStatement, messageId: 'noDuplicatedReturn' });
+        checkStatements(stmt, subsequentStatements);
       }
     }
 
@@ -87,8 +86,49 @@ export default createRule({
   },
 });
 
+function compareTokens(tokensA: TSESTree.Token[], tokensB: TSESTree.Token[]): boolean {
+  const [a, ...restA] = tokensA;
+  const [b, ...restB] = tokensB;
+
+  if (a === undefined && b === undefined) return true;
+
+  if (a === undefined) return false;
+  if (b === undefined) return false;
+
+  if (!areTokensEqual(a, b)) {
+    return false;
+  }
+
+  return compareTokens(restA, restB);
+}
+
+function areTokensEqual(a: TSESTree.Token, b: TSESTree.Token): boolean {
+  if (a.type !== b.type) return false;
+
+  if (a.type === AST_TOKEN_TYPES.String) {
+    return a.value.slice(1, -1) === b.value.slice(1, -1);
+  }
+
+  return a.value === b.value;
+}
+
+function normalizeStatements(stmts: TSESTree.Statement[]): TSESTree.Statement[] {
+  return stmts.flatMap((stmt) => {
+    if (stmt.type === AST_NODE_TYPES.ReturnStatement && stmt.argument === null) {
+      return [];
+    }
+    return [stmt];
+  });
+}
+
+function getStatements(stmt: TSESTree.Statement[] | TSESTree.Statement) {
+  if (Array.isArray(stmt)) return stmt;
+  if (stmt.type === AST_NODE_TYPES.BlockStatement) return stmt.body;
+  return [stmt];
+}
+
 function alwaysReturns(stmt: TSESTree.Statement | null | undefined): boolean {
-  if (stmt == null) return false;
+  if (stmt == null) return true;
 
   if (stmt.type === AST_NODE_TYPES.ReturnStatement) return true;
 
@@ -100,15 +140,13 @@ function alwaysReturns(stmt: TSESTree.Statement | null | undefined): boolean {
     return alwaysReturns(stmt.consequent) && alwaysReturns(stmt.alternate);
   }
 
-  if (stmt.type === AST_NODE_TYPES.TryStatement) {
-    if (!stmt.finalizer) {
-      return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
-    }
+  if (stmt.type !== AST_NODE_TYPES.TryStatement) return false;
 
-    if (alwaysReturns(stmt.finalizer)) return true;
-
+  if (!stmt.finalizer) {
     return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
   }
 
-  return false;
+  if (alwaysReturns(stmt.finalizer)) return true;
+
+  return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
 }

@@ -132,6 +132,51 @@ Boolean(foo);
         checkFormatting(this);
       },
     },
+    {
+      name: 'Call expression in condition test, but callee is not an identifier',
+      code: `declare const bar: number;
+
+if (Math.floor(bar)) {
+  console.log('foo!');
+}
+`,
+    },
+    {
+      name: 'Call expression in condition test, but not a Boolean call',
+      code: `declare const bar: string;
+
+if (Error(bar)) {
+  console.log('foo!');
+}
+`,
+    },
+    {
+      name: 'Simple negation',
+      code: `declare const foo: string;
+
+if (!foo) {
+  console.log('foo!');
+}
+`,
+    },
+    {
+      name: 'Simple negation wrapped in other unary expression',
+      code: `declare const foo: string;
+
+if (+!foo) {
+  console.log('foo!');
+}
+`,
+    },
+    {
+      name: 'Other unary expression wrapped in simple negation',
+      code: `declare const foo: string;
+
+if (!+foo) {
+  console.log('foo!');
+}
+`,
+    },
   ],
   invalid: [
     {
@@ -408,6 +453,36 @@ if ((!!bar)! && ((!!foo satisfies boolean) || (!!baz as any))) {
           endColumn: 53,
         },
       ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant double negation in return of `every` method predicate',
+      code: `declare const arr: string[];
+const foo = arr.every((elt) => !!elt);
+`,
+      errors: [{ messageId: 'noExtraBooleanCastInPredicate' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant double negation in return of `some` method predicate',
+      code: `declare const arr: string[];
+const foo = arr.some((elt) => !!elt);
+`,
+      errors: [{ messageId: 'noExtraBooleanCastInPredicate' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant double negation in return of `findIndex` method predicate',
+      code: `declare const arr: string[];
+const foo = arr.findIndex((elt) => !!elt);
+`,
+      errors: [{ messageId: 'noExtraBooleanCastInPredicate' }],
       after() {
         checkFormatting(this);
       },

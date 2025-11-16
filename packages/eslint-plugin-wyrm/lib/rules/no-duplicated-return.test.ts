@@ -87,17 +87,6 @@ ruleTester.run(name, rule, {
       },
     },
     {
-      name: 'Currently the rule depends on consistent formatting',
-      code: `function foo() {
-  if (Math.random()) return "";
-  return '';
-}
-`,
-      after() {
-        // Not formatted
-      },
-    },
-    {
       name: 'With an arrow function and no block statement',
       code: `const foo = () => 42;
 `,
@@ -183,6 +172,182 @@ ruleTester.run(name, rule, {
 `,
       after() {
         checkFormatting(this);
+      },
+    },
+    {
+      name: 'An empty `yield` statement is not ignored',
+      code: `function foo() {
+  if (Math.random()) {
+    console.log('ok');
+    return;
+  }
+  console.log('ok');
+  yield;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Without semicolons',
+      code: `function foo() {
+  if (Math.random()) {
+    yield
+    Foo()
+    return
+  }
+  yieldFoo()
+}
+`,
+      after() {
+        // Not formatted
+      },
+    },
+    {
+      name: 'With different template literals',
+      code: `function foo() {
+  if (Math.random()) {
+    return \`
+\`;
+  }
+  return \`
+   \`;
+}
+`,
+      after() {
+        // Not formatted
+      },
+    },
+    {
+      name: 'With duplicate `if`/`else` blocks, not always returning',
+      code: `function foo() {
+  if (Math.random()) {
+    if (Math.cos(0)) {
+      return 42;
+    } else {
+      console.log(105);
+    }
+  }
+  if (Math.cos(0)) {
+    return 42;
+  } else {
+    console.log(105);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With duplicate `try`/`catch` blocks, not always returning',
+      code: `function foo() {
+  if (Math.random()) {
+    try {
+      JSON.parse('{}');
+    } catch {
+      return 105;
+    }
+  }
+  try {
+    JSON.parse('{}');
+  } catch {
+    return 105;
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With duplicate `try`/`catch`/`finally` blocks, but only returning in `try` block',
+      code: `function foo() {
+  if (Math.random()) {
+    try {
+      return JSON.parse('{}');
+    } catch {
+      console.log('oh no');
+    } finally {
+      console.log('done');
+    }
+  }
+  try {
+    return JSON.parse('{}');
+  } catch {
+    console.log('oh no');
+  } finally {
+    console.log('done');
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With duplicate `try`/`catch`/`finally` blocks, but only returning in `catch` block',
+      code: `function foo() {
+  if (Math.random()) {
+    try {
+      JSON.parse('{}');
+    } catch {
+      return 105;
+    } finally {
+      console.log('done');
+    }
+  }
+  try {
+    JSON.parse('{}');
+  } catch {
+    return 105;
+  } finally {
+    console.log('done');
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'TypeScript nodes with different types',
+      code: `function foo() {
+  if (Math.random()) {
+    return ("bar" as unknown)?.toUpperCase();
+  }
+  return ('bar' as any)?.toUpperCase();
+}
+`,
+      after() {
+        // Not formatted
+      },
+    },
+    {
+      name: 'Returning different strings',
+      code: `function foo() {
+  if (Math.random()) {
+    return "bar";
+  }
+  return 'baz';
+}
+`,
+      after() {
+        // Not formatted
+      },
+    },
+    {
+      name: 'Returning different identifiers',
+      code: `function foo() {
+  if (Math.random()) {
+    return bar;
+  }
+  return baz;
+}
+`,
+      after() {
+        // Not formatted
       },
     },
   ],
@@ -289,6 +454,24 @@ ruleTester.run(name, rule, {
       },
     },
     {
+      name: 'With duplicated branches and a comment inside statements in one of the branches',
+      code: `function foo() {
+  if (Math.random()) {
+    console.log('ok1');
+    // This comment only appears here
+    console.log('ok2');
+    return;
+  }
+  console.log('ok1');
+  console.log('ok2');
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With duplicated branches and empty returns (with a redundant return statement in the subsequent branch)',
       code: `function foo() {
   if (Math.random()) {
@@ -314,6 +497,257 @@ ruleTester.run(name, rule, {
       errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
       after() {
         checkFormatting(this);
+      },
+    },
+    {
+      name: 'With duplicate `if`/`else` blocks',
+      code: `function foo() {
+  if (Math.random()) {
+    if (Math.cos(0)) {
+      return 42;
+    } else {
+      return 105;
+    }
+  }
+  if (Math.cos(0)) {
+    return 42;
+  } else {
+    return 105;
+  }
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With duplicate `try`/`catch` blocks',
+      code: `function foo() {
+  if (Math.random()) {
+    try {
+      return JSON.parse('{}');
+    } catch {
+      return 105;
+    }
+  }
+  try {
+    return JSON.parse('{}');
+  } catch {
+    return 105;
+  }
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With duplicate `try`/`finally` blocks, always returning in `try` block',
+      code: `function foo() {
+  if (Math.random()) {
+    try {
+      return JSON.parse('{}');
+    } finally {
+      console.log(105);
+    }
+  }
+  try {
+    return JSON.parse('{}');
+  } finally {
+    console.log(105);
+  }
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With duplicate `try`/`finally` blocks, always returning in `finally` block',
+      code: `function foo() {
+  if (Math.random()) {
+    try {
+      JSON.parse('{}');
+    } finally {
+      return 105;
+    }
+  }
+  try {
+    JSON.parse('{}');
+  } finally {
+    return 105;
+  }
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With duplicate `try`/`catch`/`finally` blocks, always returning in `try`/`catch`',
+      code: `function foo() {
+  if (Math.random()) {
+    try {
+      return JSON.parse('{}');
+    } catch {
+      return 105;
+    } finally {
+      console.log('done');
+    }
+  }
+  try {
+    return JSON.parse('{}');
+  } catch {
+    return 105;
+  } finally {
+    console.log('done');
+  }
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Leading or trailing space is trimmed from statements',
+      code: `function foo() {
+  if (Math.random()) {
+    console.log('ok');    
+    console.log('ok');
+    return;
+  }
+  console.log('ok');
+  console.log('ok');
+  return;
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        // Not formatted
+      },
+    },
+    {
+      name: 'With a `do while` loop',
+      code: `function foo() {
+  if (Math.random()) {
+    do {
+      console.log('ok');
+      console.log('ok');
+    } while (0);
+    return;
+  }
+  do {
+    console.log('ok');
+    console.log('ok');
+  } while (0);
+  return;
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'The rule does not depend on consistent formatting',
+      code: `function foo() {
+  if (Math.random()) return "";
+  return '';
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        // Not formatted
+      },
+    },
+    {
+      name: 'The rule does not depend on consistent spacing',
+      code: `function foo() {
+  if (Math.random()) return  '';
+  return '';
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        // Not formatted
+      },
+    },
+    {
+      name: 'Comparing statements with TypeScript nodes',
+      code: `function foo() {
+  if (Math.random()) {
+    return 'foo' as any;
+  }
+  return 'foo' as any;
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Comparing statements with TypeScript nodes and inconsistent formatting',
+      code: `function foo() {
+  if (Math.random()) {
+    return "foo" as any;
+  }
+  return 'foo' as any;
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        // Not formatted
+      },
+    },
+    {
+      name: 'TypeScript nodes - assignment expression',
+      code: `let bar;
+function foo() {
+  if (Math.random()) {
+    bar = "bar" as any;
+    return;
+  }
+  bar = 'bar' as any;
+  return;
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        // Not formatted
+      },
+    },
+    {
+      name: 'TypeScript nodes - conditional expression',
+      code: `function foo() {
+  if (Math.random()) {
+    return 1 ? "bar" as any : "foo" as any;
+  }
+  return 1 ? 'bar' as any : 'foo' as any;
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        // Not formatted
+      },
+    },
+    {
+      name: 'TypeScript nodes - chain expression',
+      code: `function foo() {
+  if (Math.random()) {
+    return ("bar" as any)?.toUpperCase();
+  }
+  return ('bar' as any)?.toUpperCase();
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        // Not formatted
       },
     },
   ],

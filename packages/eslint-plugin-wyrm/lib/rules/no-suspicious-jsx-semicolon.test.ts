@@ -54,6 +54,21 @@ ruleTester.run(name, rule, {
         checkFormatting(this);
       },
     },
+    {
+      name: 'Unsuspicious text with a trailing comma',
+      code: `export function MyComponent() {
+  return (
+    <div>
+      <div />
+      foo,
+    </div>
+  );
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

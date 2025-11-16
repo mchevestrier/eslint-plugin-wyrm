@@ -24,14 +24,16 @@ export default createRule({
     return {
       ExpressionStatement(node) {
         if (
-          node.expression.type === AST_NODE_TYPES.JSXElement ||
-          node.expression.type === AST_NODE_TYPES.JSXFragment
+          node.expression.type !== AST_NODE_TYPES.JSXElement &&
+          node.expression.type !== AST_NODE_TYPES.JSXFragment
         ) {
-          context.report({
-            node,
-            messageId: 'noJsxExpressionStatement',
-          });
+          return;
         }
+
+        context.report({
+          node,
+          messageId: 'noJsxExpressionStatement',
+        });
       },
     };
   },

@@ -33,6 +33,7 @@
     "**/*.mjs",
     "**/*.cjs",
     "**/*.lintstagedrc.mjs",
+    "**/.markdownlint-cli2.mjs",
     "**/*.eslint-doc-generatorrc.ts"
   ],
   "exclude": ["**/dist/", "**/coverage/"]

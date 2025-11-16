@@ -173,17 +173,15 @@ function alwaysReturns(stmt: TSESTree.Statement | null | undefined): boolean {
     return alwaysReturns(stmt.consequent) && alwaysReturns(stmt.alternate);
   }
 
-  if (stmt.type === AST_NODE_TYPES.TryStatement) {
-    if (!stmt.finalizer) {
-      return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
-    }
+  if (stmt.type !== AST_NODE_TYPES.TryStatement) return false;
 
-    if (alwaysReturns(stmt.finalizer)) return true;
-
+  if (!stmt.finalizer) {
     return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
   }
 
-  return false;
+  if (alwaysReturns(stmt.finalizer)) return true;
+
+  return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
 }
 
 /** A subjective indicator of how nested some code is */
