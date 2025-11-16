@@ -15,6 +15,7 @@ export { default as 'no-suspicious-jsx-semicolon' } from './no-suspicious-jsx-se
 export { default as 'no-ternary-return' } from './no-ternary-return.js';
 export { default as 'no-useless-iife' } from './no-useless-iife.js';
 export { default as 'no-useless-logical-fallback' } from './no-useless-logical-fallback.js';
+export { default as 'no-whitespace-property' } from './no-whitespace-property.js';
 export { default as 'prefer-catch-method' } from './prefer-catch-method.js';
 export { default as 'prefer-early-return' } from './prefer-early-return.js';
 export { default as 'prefer-repeat' } from './prefer-repeat.js';

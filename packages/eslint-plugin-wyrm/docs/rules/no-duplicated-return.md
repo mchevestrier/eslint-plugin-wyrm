@@ -40,3 +40,23 @@ function foo() {
 ```
 
 <!-- end auto-generated rule header -->
+
+## When not to use this rule
+
+Having several branches with the same statements is sometimes necessary for TypeScript to correctly narrow types with flow analysis:
+
+```ts
+function foo(arg: string): string;
+function foo(arg: number): number;
+function foo(arg: string | number): string | number {
+  return arg;
+}
+
+function id(x: string | number) {
+  if (typeof x === 'string') {
+    return foo(x);
+  }
+
+  return foo(x);
+}
+```
