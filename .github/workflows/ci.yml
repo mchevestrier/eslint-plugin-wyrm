@@ -61,14 +61,14 @@ jobs:
       - name: 💄 prettier
         run: pnpm run -r --reporter-hide-prefix lint:format
 
-      - name: ⬢ eslint
-        run: pnpm run -r --reporter-hide-prefix lint:js
-
       - name: 🟦 typescript
         run: pnpm run lint:types
 
       - name: ✂️ knip
         run: pnpm run knip
+
+      - name: ⬢ eslint
+        run: pnpm run -r --reporter-hide-prefix lint:js
 
   tests:
     runs-on: ubuntu-latest

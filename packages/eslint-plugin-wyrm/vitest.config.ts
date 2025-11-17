@@ -5,6 +5,7 @@ export default defineConfig({
     exclude: ['dist/*', 'coverage/*', 'node_modules/*', '.stryker-tmp/*', 'reports/*'],
     setupFiles: ['./test/setupFiles.ts'],
     coverage: {
+      reporter: ['text', 'html', 'clover', 'json', 'lcov'],
       provider: 'v8',
       include: ['lib/rules', 'lib/utils'],
       exclude: ['lib/rules/index.ts', 'lib/rules/fixtures/'],
