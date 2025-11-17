@@ -10,7 +10,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'Whitespace inside text #docs',
-      code: `const obj = { 'foo bar': 42 };
+      code: `
+const obj = { 'foo bar': 42 };
 `,
       after() {
         checkFormatting(this);
@@ -18,7 +19,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Property key is not a literal',
-      code: `const obj = { foo: 42 };
+      code: `
+const obj = { foo: 42 };
 `,
       after() {
         checkFormatting(this);
@@ -26,7 +28,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Property key is a boolean literal',
-      code: `const obj = { [true]: 42 };
+      code: `
+const obj = { [true]: 42 };
 `,
       after() {
         checkFormatting(this);
@@ -36,7 +39,8 @@ ruleTester.run(name, rule, {
   invalid: [
     {
       name: 'Leading whitespace #docs',
-      code: `const obj = { ' foo': 42 };
+      code: `
+const obj = { ' foo': 42 };
 `,
       errors: [{ messageId: 'noWhitespace' }],
       after() {
@@ -45,7 +49,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Trailing whitespace #docs',
-      code: `const obj = { 'foo ': 42 };
+      code: `
+const obj = { 'foo ': 42 };
 `,
       errors: [{ messageId: 'noWhitespace' }],
       after() {
@@ -54,7 +59,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Leading and trailing whitespace',
-      code: `const obj = { ' foo ': 42 };
+      code: `
+const obj = { ' foo ': 42 };
 `,
       errors: [{ messageId: 'noWhitespace' }],
       after() {
@@ -63,7 +69,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'TypeScript object type declaration #docs',
-      code: `type Obj = { ' foo': 42 };
+      code: `
+type Obj = { ' foo': 42 };
 `,
       errors: [{ messageId: 'noWhitespace' }],
       after() {

@@ -10,7 +10,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'Useful IIFE #docs',
-      code: `const foo = (() => {
+      code: `
+const foo = (() => {
   if (bar) return 42;
   if (baz) return 17;
   return 105;
@@ -22,7 +23,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Useful IIFE (with `else`)',
-      code: `const foo = (() => {
+      code: `
+const foo = (() => {
   if (bar) return 42;
   if (baz) return 17;
   else return 105;
@@ -34,7 +36,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Useful IIFE (`await` expression in Program root)',
-      code: `(async () => {
+      code: `
+(async () => {
   await foo();
 })();
 `,
@@ -44,7 +47,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Async IIFE in Block in Program root',
-      code: `{
+      code: `
+{
   (async () => {
     await foo();
   })();
@@ -56,14 +60,16 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Useless IIFE with empty body',
-      code: `const x = (() => {})(); // Should just be: const x = undefined;
+      code: `
+const x = (() => {})(); // Should just be: const x = undefined;
 `,
     },
   ],
   invalid: [
     {
       name: 'Useless IIFE with arrow function #docs (expression body)',
-      code: `const x = (() => 2)();
+      code: `
+const x = (() => 2)();
 `,
       errors: [
         {
@@ -71,7 +77,8 @@ ruleTester.run(name, rule, {
           suggestions: [
             {
               messageId: 'removeIIFE',
-              output: `const x = 2;
+              output: `
+const x = 2;
 `,
             },
           ],
@@ -83,7 +90,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Useless IIFE with arrow function (block body)',
-      code: `const x = (() => {
+      code: `
+const x = (() => {
   return 2;
 })();
 `,
@@ -93,7 +101,8 @@ ruleTester.run(name, rule, {
           suggestions: [
             {
               messageId: 'removeIIFE',
-              output: `const x = 2;
+              output: `
+const x = 2;
 `,
             },
           ],
@@ -105,7 +114,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Useless IIFE with arrow function and empty return',
-      code: `const x = (() => {
+      code: `
+const x = (() => {
   return;
 })();
 `,
@@ -115,7 +125,8 @@ ruleTester.run(name, rule, {
           suggestions: [
             {
               messageId: 'removeIIFE',
-              output: `const x = undefined;
+              output: `
+const x = undefined;
 `,
             },
           ],
@@ -127,7 +138,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Useless IIFE with unnamed function expression',
-      code: `const x = (function () {
+      code: `
+const x = (function () {
   return 2;
 })();
 `,
@@ -137,7 +149,8 @@ ruleTester.run(name, rule, {
           suggestions: [
             {
               messageId: 'removeIIFE',
-              output: `const x = 2;
+              output: `
+const x = 2;
 `,
             },
           ],
@@ -149,7 +162,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Useless IIFE with named function expression',
-      code: `const x = (function fn() {
+      code: `
+const x = (function fn() {
   return 2;
 })();
 `,
@@ -159,7 +173,8 @@ ruleTester.run(name, rule, {
           suggestions: [
             {
               messageId: 'removeIIFE',
-              output: `const x = 2;
+              output: `
+const x = 2;
 `,
             },
           ],
@@ -171,7 +186,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Useless IIFE (await expression in async function)',
-      code: `async function quux() {
+      code: `
+async function quux() {
   (async () => {
     await foo();
   })();
@@ -183,7 +199,8 @@ ruleTester.run(name, rule, {
           suggestions: [
             {
               messageId: 'removeIIFE',
-              output: `async function quux() {
+              output: `
+async function quux() {
   {
     await foo();
   };
@@ -199,7 +216,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Useless IIFE (await expression in async arrow function)',
-      code: `const quux = async () => {
+      code: `
+const quux = async () => {
   (async () => {
     await foo();
   })();
@@ -211,7 +229,8 @@ ruleTester.run(name, rule, {
           suggestions: [
             {
               messageId: 'removeIIFE',
-              output: `const quux = async () => {
+              output: `
+const quux = async () => {
   {
     await foo();
   };
@@ -227,7 +246,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Useless IIFE (await expression in async function expression)',
-      code: `const quux = async function () {
+      code: `
+const quux = async function () {
   (async () => {
     await foo();
   })();
@@ -239,7 +259,8 @@ ruleTester.run(name, rule, {
           suggestions: [
             {
               messageId: 'removeIIFE',
-              output: `const quux = async function () {
+              output: `
+const quux = async function () {
   {
     await foo();
   };
@@ -255,7 +276,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Useless IIFE (wrapped imperative logic) #docs',
-      code: `function quux() {
+      code: `
+function quux() {
   (() => {
     foo();
     bar();
@@ -269,7 +291,8 @@ ruleTester.run(name, rule, {
           suggestions: [
             {
               messageId: 'removeIIFE',
-              output: `function quux() {
+              output: `
+function quux() {
   {
     foo();
     bar();
@@ -287,7 +310,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Useless IIFE (async in Program root but no `await` expression)',
-      code: `(async () => {
+      code: `
+(async () => {
   foo();
 })();
 `,
@@ -297,7 +321,8 @@ ruleTester.run(name, rule, {
           suggestions: [
             {
               messageId: 'removeIIFE',
-              output: `{
+              output: `
+{
   foo();
 };
 `,

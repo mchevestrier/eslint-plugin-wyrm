@@ -378,6 +378,52 @@ function MyComponent() {
         checkFormatting(this);
       },
     },
+    {
+      name: 'Everything exotic is considered as actual work by default',
+      code: `
+function MyComponent() {
+  const foo = useMemo(() => {
+    with ({}) {
+      // Do nothing
+    }
+    return;
+  }, []);
+
+  return foo;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'No dependency array',
+      code: `
+function MyComponent() {
+  const foo = useMemo(() => 42);
+
+  return foo;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Dependency array is not an array literal',
+      code: `
+const deps = [];
+
+function MyComponent() {
+  const foo = useMemo(() => 42, deps);
+
+  return foo;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -446,6 +492,36 @@ function MyComponent() {
       code: `
 function MyComponent() {
   const foo = React.useMemo(() => 42, []);
+
+  return foo;
+}
+`,
+      errors: [{ messageId: 'noUselessUseMemo' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Empty body',
+      code: `
+function MyComponent() {
+  const foo = useMemo(() => {}, []);
+
+  return foo;
+}
+`,
+      errors: [{ messageId: 'noUselessUseMemo' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Body with only an empty return',
+      code: `
+function MyComponent() {
+  const foo = useMemo(() => {
+    return;
+  }, []);
 
   return foo;
 }

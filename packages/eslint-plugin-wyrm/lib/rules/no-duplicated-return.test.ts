@@ -10,7 +10,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'No duplicated return #docs',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) return null;
   if (Math.random()) return null;
   return 42;
@@ -22,7 +23,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'No early return in branch',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) console.log('ok');
   console.log('ok');
 }
@@ -33,7 +35,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'No `if` statement',
-      code: `function foo() {
+      code: `
+function foo() {
   console.log('ok');
 }
 `,
@@ -43,7 +46,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: '`if` statement is the last statement',
-      code: `function foo() {
+      code: `
+function foo() {
   console.log('ok');
   if (Math.random()) {
     console.log('ok');
@@ -57,7 +61,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With an alternate branch',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     console.log('ok');
     return;
@@ -73,7 +78,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With the same statements but not the same return values',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     console.log('ok');
     return 42;
@@ -88,7 +94,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With an arrow function and no block statement',
-      code: `const foo = () => 42;
+      code: `
+const foo = () => 42;
 `,
       after() {
         checkFormatting(this);
@@ -96,7 +103,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With empty returns in consequent and alternate branches',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     if (Math.random()) {
       console.log('ok');
@@ -114,7 +122,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With empty return in consequent branch but no alternate branch',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     if (Math.random()) {
       console.log('ok');
@@ -129,7 +138,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With empty return in `try` block but not in `catch` block',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     try {
       JSON.stringify('{}');
@@ -144,7 +154,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With empty return in `try` block and no `catch` block',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     try {
       JSON.stringify('{}');
@@ -160,7 +171,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a `finally` block that always returns',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     try {
       JSON.stringify('{}');
@@ -176,7 +188,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'An empty `yield` statement is not ignored',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     console.log('ok');
     return;
@@ -191,7 +204,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Without semicolons',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     yield
     Foo()
@@ -206,7 +220,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With different template literals',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     return \`
 \`;
@@ -221,7 +236,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With duplicate `if`/`else` blocks, not always returning',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     if (Math.cos(0)) {
       return 42;
@@ -242,7 +258,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With duplicate `try`/`catch` blocks, not always returning',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     try {
       JSON.parse('{}');
@@ -263,7 +280,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With duplicate `try`/`catch`/`finally` blocks, but only returning in `try` block',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     try {
       return JSON.parse('{}');
@@ -288,7 +306,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With duplicate `try`/`catch`/`finally` blocks, but only returning in `catch` block',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     try {
       JSON.parse('{}');
@@ -313,7 +332,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'TypeScript nodes with different types',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     return ("bar" as unknown)?.toUpperCase();
   }
@@ -326,7 +346,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Returning different strings',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     return "bar";
   }
@@ -339,7 +360,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Returning different identifiers',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     return bar;
   }
@@ -354,7 +376,8 @@ ruleTester.run(name, rule, {
   invalid: [
     {
       name: 'Return value is the same for the early return and the final return #docs',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) return null;
   return null;
 }
@@ -366,7 +389,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With several early returns',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) return null;
   if (Math.random()) return null;
   return null;
@@ -379,7 +403,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With an arrow function',
-      code: `const foo = () => {
+      code: `
+const foo = () => {
   if (Math.random()) return null;
   return null;
 };
@@ -391,7 +416,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a function expression',
-      code: `const foo = function () {
+      code: `
+const foo = function () {
   if (Math.random()) return null;
   return null;
 };
@@ -403,7 +429,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'A convoluted example where return values are actually not invariant (but the condition is still unnecessary)',
-      code: `function foo() {
+      code: `
+function foo() {
   let bar = 'ok';
   const changeBar = () => {
     if (Math.random() > 0.5) {
@@ -424,7 +451,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With duplicated branches and empty returns #docs',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     console.log('ok');
     return;
@@ -439,7 +467,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With duplicated branches and a comment in one of the branches',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     // This comment only appears here
     console.log('ok');
@@ -455,7 +484,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With duplicated branches and a comment inside statements in one of the branches',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     console.log('ok1');
     // This comment only appears here
@@ -473,7 +503,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With duplicated branches and empty returns (with a redundant return statement in the subsequent branch)',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     console.log('ok');
     return;
@@ -489,7 +520,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With two empty returns',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) return;
   return;
 }
@@ -501,7 +533,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With duplicate `if`/`else` blocks',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     if (Math.cos(0)) {
       return 42;
@@ -523,7 +556,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With duplicate `try`/`catch` blocks',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     try {
       return JSON.parse('{}');
@@ -545,7 +579,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With duplicate `try`/`finally` blocks, always returning in `try` block',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     try {
       return JSON.parse('{}');
@@ -567,7 +602,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With duplicate `try`/`finally` blocks, always returning in `finally` block',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     try {
       JSON.parse('{}');
@@ -589,7 +625,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With duplicate `try`/`catch`/`finally` blocks, always returning in `try`/`catch`',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     try {
       return JSON.parse('{}');
@@ -615,7 +652,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Leading or trailing space is trimmed from statements',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     console.log('ok');    
     console.log('ok');
@@ -633,7 +671,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a `do while` loop',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     do {
       console.log('ok');
@@ -655,7 +694,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'The rule does not depend on consistent formatting',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) return "";
   return '';
 }
@@ -667,7 +707,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'The rule does not depend on consistent spacing',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) return  '';
   return '';
 }
@@ -679,7 +720,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Comparing statements with TypeScript nodes',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     return 'foo' as any;
   }
@@ -693,7 +735,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Comparing statements with TypeScript nodes and inconsistent formatting',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     return "foo" as any;
   }
@@ -707,7 +750,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'TypeScript nodes - assignment expression',
-      code: `let bar;
+      code: `
+let bar;
 function foo() {
   if (Math.random()) {
     bar = "bar" as any;
@@ -724,7 +768,8 @@ function foo() {
     },
     {
       name: 'TypeScript nodes - conditional expression',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     return 1 ? "bar" as any : "foo" as any;
   }
@@ -738,7 +783,8 @@ function foo() {
     },
     {
       name: 'TypeScript nodes - chain expression',
-      code: `function foo() {
+      code: `
+function foo() {
   if (Math.random()) {
     return ("bar" as any)?.toUpperCase();
   }

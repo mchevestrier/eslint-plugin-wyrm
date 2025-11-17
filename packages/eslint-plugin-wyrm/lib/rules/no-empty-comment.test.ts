@@ -20,7 +20,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'Not an empty comment #docs',
-      code: `// Ok
+      code: `
+// Ok
 `,
       after() {
         checkFormatting(this);
@@ -32,7 +33,8 @@ ruleTester.run(name, rule, {
       languageOptions: {
         parser: jsoncParser,
       },
-      code: `{
+      code: `
+{
 }
 `,
       after() {
@@ -45,7 +47,8 @@ ruleTester.run(name, rule, {
       languageOptions: {
         parser: yamlParser,
       },
-      code: `# ok
+      code: `
+# ok
 `,
       after() {
         // Not formatted
@@ -57,7 +60,8 @@ ruleTester.run(name, rule, {
       // 'language' is not supported by typings, but still transmitted
       // @ts-expect-error - 'language' does not exist in type 'ValidTestCase'
       language: 'markdown/commonmark',
-      code: `# ok
+      code: `
+# ok
 <!-- Ok -->
 `,
       after() {
@@ -66,7 +70,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Not an empty block comment',
-      code: `/* . */
+      code: `
+/* . */
 `,
       after() {
         checkFormatting(this);
@@ -74,7 +79,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Not an empty JSDoc comment',
-      code: `/** @param {string} */
+      code: `
+/** @param {string} */
 `,
       after() {
         checkFormatting(this);
@@ -82,7 +88,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Not an empty multi-line JSDoc comment',
-      code: `/**
+      code: `
+/**
  * @param {string}
  */
 `,
@@ -92,7 +99,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Empty padding comments (with default options)',
-      code: `//
+      code: `
+//
 // Ok
 //
 `,
@@ -103,7 +111,8 @@ ruleTester.run(name, rule, {
     {
       name: 'Empty padding comments (with `allowPadding: true`) #docs',
       options: [{ allowPadding: true }],
-      code: `//
+      code: `
+//
 // Ok
 //
 `,
@@ -115,7 +124,8 @@ ruleTester.run(name, rule, {
   invalid: [
     {
       name: 'Empty inline comment #docs',
-      code: `//
+      code: `
+//
 `,
       errors: [{ messageId: 'noEmptyComment' }],
       after() {
@@ -124,7 +134,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Trailing inline comment',
-      code: `debugger; //
+      code: `
+debugger; //
 `,
       errors: [{ messageId: 'noEmptyComment' }],
       after() {
@@ -133,7 +144,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Empty inline comment with spaces',
-      code: `//  
+      code: `
+//  
 `,
       errors: [{ messageId: 'noEmptyComment' }],
       after() {
@@ -142,7 +154,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Empty block comment #docs',
-      code: `/* */
+      code: `
+/* */
 `,
       errors: [{ messageId: 'noEmptyComment' }],
       after() {
@@ -151,7 +164,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Empty JSDoc comment #docs',
-      code: `/** */
+      code: `
+/** */
 `,
       errors: [{ messageId: 'noEmptyComment' }],
       after() {
@@ -160,7 +174,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Empty multi-line JSDoc comment',
-      code: `/**
+      code: `
+/**
  *
  */
 `,
@@ -172,7 +187,8 @@ ruleTester.run(name, rule, {
     {
       name: 'Empty padding comments (with `allowPadding: false`) #docs',
       options: [{ allowPadding: false }],
-      code: `//
+      code: `
+//
 // Ok
 //
 `,
@@ -184,7 +200,8 @@ ruleTester.run(name, rule, {
     {
       name: 'Empty inline comment with no neighbors (with `allowPadding: true`)',
       options: [{ allowPadding: true }],
-      code: `//
+      code: `
+//
 `,
       errors: [{ messageId: 'noEmptyComment' }],
       after() {
@@ -194,7 +211,8 @@ ruleTester.run(name, rule, {
     {
       name: 'Empty inline comment isolated from non-empty neighbors (with `allowPadding: true`)',
       options: [{ allowPadding: true }],
-      code: `//
+      code: `
+//
 
 // Not empty
 `,
@@ -206,7 +224,8 @@ ruleTester.run(name, rule, {
     {
       name: 'Too many empty padding comments (with `allowPadding: true`) #docs',
       options: [{ allowPadding: true }],
-      code: `//
+      code: `
+//
 // Ok
 //
 //
@@ -219,7 +238,8 @@ ruleTester.run(name, rule, {
     {
       name: 'Padding comment (with `allowPadding: true`) next to a block comment',
       options: [{ allowPadding: true }],
-      code: `/* Ok */
+      code: `
+/* Ok */
 //
 `,
       errors: [{ messageId: 'noEmptyComment' }],
@@ -229,7 +249,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Empty comment in JSX',
-      code: `function Foo() {
+      code: `
+function Foo() {
   return (
     <div>
       {/* */}
@@ -249,7 +270,8 @@ ruleTester.run(name, rule, {
       languageOptions: {
         parser: jsoncParser,
       },
-      code: `//
+      code: `
+//
 {
 }
 `,
@@ -264,7 +286,8 @@ ruleTester.run(name, rule, {
       languageOptions: {
         parser: yamlParser,
       },
-      code: `#
+      code: `
+#
 `,
       errors: [{ messageId: 'noEmptyComment' }],
       after() {

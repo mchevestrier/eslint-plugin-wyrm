@@ -16,7 +16,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'No suspicious semicolon or comma #docs',
-      code: `export function MyComponent() {
+      code: `
+export function MyComponent() {
   return <div />;
 }
 `,
@@ -26,7 +27,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Explicit lonely semicolon',
-      code: `export function MyComponent() {
+      code: `
+export function MyComponent() {
   return <div>{';'}</div>;
 }
 `,
@@ -36,7 +38,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Lonely comma, but not trailing',
-      code: `export function MyComponent() {
+      code: `
+export function MyComponent() {
   return <div> ,</div>;
 }
 `,
@@ -46,7 +49,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Lonely comma, but not suspicious',
-      code: `export function MyComponent() {
+      code: `
+export function MyComponent() {
   return <div>,</div>;
 }
 `,
@@ -56,7 +60,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Unsuspicious text with a trailing comma',
-      code: `export function MyComponent() {
+      code: `
+export function MyComponent() {
   return (
     <div>
       <div />
@@ -73,7 +78,8 @@ ruleTester.run(name, rule, {
   invalid: [
     {
       name: 'A suspicious-looking semicolon #docs',
-      code: `export function MyComponent() {
+      code: `
+export function MyComponent() {
   return (
     <div>
       <div>With a trailing semicolon at the end of the line</div>;
@@ -88,7 +94,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'A suspicious-looking comma #docs',
-      code: `export function MyComponent() {
+      code: `
+export function MyComponent() {
   return (
     <div>
       <div>With a trailing comma at the end of the line</div>,
@@ -103,7 +110,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Lonely semicolon, but not trailing. Still somehow suspicious',
-      code: `export function MyComponent() {
+      code: `
+export function MyComponent() {
   return <div> ;</div>;
 }
 `,

@@ -21,7 +21,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'With no return from `forEach` callback #docs',
-      code: `[1, 2, 3].forEach((it) => {
+      code: `
+[1, 2, 3].forEach((it) => {
   console.log(it);
 });
 `,
@@ -31,7 +32,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a return from `map` callback',
-      code: `[1, 2, 3].map((it) => {
+      code: `
+[1, 2, 3].map((it) => {
   return it + 2;
 });
 `,
@@ -41,7 +43,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Callback is not passed to anything',
-      code: `const cb = (it): void => {
+      code: `
+const cb = (it): void => {
   return 42;
 };
 `,
@@ -51,7 +54,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With empty return from `forEach` callback #docs',
-      code: `[1, 2, 3].forEach((it) => {
+      code: `
+[1, 2, 3].forEach((it) => {
   return;
 });
 `,
@@ -61,7 +65,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With an `any` typed callback',
-      code: `function foo(fn: any) {
+      code: `
+function foo(fn: any) {
   fn();
 }
 foo(() => {
@@ -75,7 +80,8 @@ foo(() => {
     },
     {
       name: 'Callee accepts no param',
-      code: `function foo() {
+      code: `
+function foo() {
   fn();
 }
 foo(() => {
@@ -91,7 +97,8 @@ foo(() => {
   invalid: [
     {
       name: 'With return from `forEach` callback #docs',
-      code: `[1, 2, 3].forEach((it) => {
+      code: `
+[1, 2, 3].forEach((it) => {
   return 42;
 });
 `,
@@ -102,7 +109,8 @@ foo(() => {
     },
     {
       name: 'With a function expression',
-      code: `[1, 2, 3].forEach(function (it) {
+      code: `
+[1, 2, 3].forEach(function (it) {
   return 42;
 });
 `,
@@ -113,7 +121,8 @@ foo(() => {
     },
     {
       name: 'With a block body',
-      code: `function foo(fn: () => void) {
+      code: `
+function foo(fn: () => void) {
   fn();
 }
 foo(() => {
@@ -127,7 +136,8 @@ foo(() => {
     },
     {
       name: 'With an inline body',
-      code: `function foo(fn: () => void) {
+      code: `
+function foo(fn: () => void) {
   fn();
 }
 foo(() => 42);
@@ -139,7 +149,8 @@ foo(() => 42);
     },
     {
       name: 'With `return undefined` from `forEach` callback #docs',
-      code: `[1, 2, 3].forEach((it) => {
+      code: `
+[1, 2, 3].forEach((it) => {
   return undefined;
 });
 `,
@@ -150,7 +161,8 @@ foo(() => 42);
     },
     {
       name: 'With return in `while` loop',
-      code: `[1, 2].forEach((it) => {
+      code: `
+[1, 2].forEach((it) => {
   while (1) {
     return 42;
   }
@@ -163,7 +175,8 @@ foo(() => 42);
     },
     {
       name: 'With return in `for` loop',
-      code: `[1, 2].forEach((it) => {
+      code: `
+[1, 2].forEach((it) => {
   for (let i = 0; i < it; i++) {
     return 42;
   }
@@ -176,7 +189,8 @@ foo(() => 42);
     },
     {
       name: 'With return in `for...in` loop',
-      code: `[1, 2].forEach((it) => {
+      code: `
+[1, 2].forEach((it) => {
   for (let k in it) {
     return 42;
   }
@@ -189,7 +203,8 @@ foo(() => 42);
     },
     {
       name: 'With return in `for...of` loop',
-      code: `[1, 2].forEach((it) => {
+      code: `
+[1, 2].forEach((it) => {
   for (let n of [it]) {
     return 42;
   }
@@ -202,7 +217,8 @@ foo(() => 42);
     },
     {
       name: 'With return in `try` block',
-      code: `[1, 2].forEach((it) => {
+      code: `
+[1, 2].forEach((it) => {
   try {
     return 42;
   } catch {
@@ -217,7 +233,8 @@ foo(() => 42);
     },
     {
       name: 'With return in `catch` block',
-      code: `[1, 2].forEach((it) => {
+      code: `
+[1, 2].forEach((it) => {
   try {
     JSON.parse('{');
   } catch {
@@ -232,7 +249,8 @@ foo(() => 42);
     },
     {
       name: 'With return in `finally` block',
-      code: `[1, 2].forEach((it) => {
+      code: `
+[1, 2].forEach((it) => {
   try {
     JSON.parse('{}');
   } finally {
@@ -247,7 +265,8 @@ foo(() => 42);
     },
     {
       name: 'With some undefined return from `forEach` callback #docs',
-      code: `[1, 2, 3].forEach((it) => {
+      code: `
+[1, 2, 3].forEach((it) => {
   if (Math.cos(0)) return 42;
   return undefined;
 });

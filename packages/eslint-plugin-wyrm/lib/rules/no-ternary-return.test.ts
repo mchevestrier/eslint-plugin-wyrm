@@ -10,7 +10,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'No ternary return #docs',
-      code: `function foo(cond: boolean) {
+      code: `
+function foo(cond: boolean) {
   if (cond) return 42;
   return 105;
 }
@@ -21,7 +22,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Inline arrow function #docs',
-      code: `const foo = (cond: boolean) => (cond ? 42 : 105);
+      code: `
+const foo = (cond: boolean) => (cond ? 42 : 105);
 `,
       after() {
         checkFormatting(this);
@@ -30,7 +32,8 @@ ruleTester.run(name, rule, {
     {
       name: 'Single line ternary return (with `allowSingleLine: true`)',
       options: [{ allowSingleLine: true }],
-      code: `function foo(cond: boolean) {
+      code: `
+function foo(cond: boolean) {
   return cond ? 42 : 105;
 }
 `,
@@ -40,7 +43,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Empty return',
-      code: `function foo(cond: boolean) {
+      code: `
+function foo(cond: boolean) {
   cond ? console.log('ok') : console.log('no');
   return;
 }
@@ -53,11 +57,13 @@ ruleTester.run(name, rule, {
   invalid: [
     {
       name: 'Ternary return #docs',
-      code: `function foo(cond: boolean) {
+      code: `
+function foo(cond: boolean) {
   return cond ? 42 : 105;
 }
 `,
-      output: `function foo(cond: boolean) {
+      output: `
+function foo(cond: boolean) {
   if (cond) {return 42;}
   else {return 105;}
 }
@@ -69,11 +75,13 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Ternary return in block arrow function',
-      code: `const foo = (cond: boolean) => {
+      code: `
+const foo = (cond: boolean) => {
   return cond ? 42 : 105;
 };
 `,
-      output: `const foo = (cond: boolean) => {
+      output: `
+const foo = (cond: boolean) => {
   if (cond) {return 42;}
   else {return 105;}
 };
@@ -85,17 +93,20 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Nested ternary return',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   return cond1 ? 42 : cond2 ? 105 : 0;
 }
 `,
       output: [
-        `function foo(cond1: boolean, cond2: boolean) {
+        `
+function foo(cond1: boolean, cond2: boolean) {
   if (cond1) {return 42;}
   else {return cond2 ? 105 : 0;}
 }
 `,
-        `function foo(cond1: boolean, cond2: boolean) {
+        `
+function foo(cond1: boolean, cond2: boolean) {
   if (cond1) {return 42;}
   else {if (cond2) {return 105;}
         else {return 0;}}
@@ -109,17 +120,20 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Nested ternary return with ternary in consequent',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   return cond1 ? (cond2 ? 105 : 0) : 42;
 }
 `,
       output: [
-        `function foo(cond1: boolean, cond2: boolean) {
+        `
+function foo(cond1: boolean, cond2: boolean) {
   if (cond1) {return cond2 ? 105 : 0;}
   else {return 42;}
 }
 `,
-        `function foo(cond1: boolean, cond2: boolean) {
+        `
+function foo(cond1: boolean, cond2: boolean) {
   if (cond1) {if (cond2) {return 105;}
               else {return 0;}}
   else {return 42;}
@@ -133,7 +147,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Multi-line ternary return',
-      code: `function foo(cond: boolean) {
+      code: `
+function foo(cond: boolean) {
   return cond
     ? {
         prop: 42,
@@ -141,7 +156,8 @@ ruleTester.run(name, rule, {
     : { prop: 105 };
 }
 `,
-      output: `function foo(cond: boolean) {
+      output: `
+function foo(cond: boolean) {
   if (cond) {return {
         prop: 42,
       };}
@@ -156,7 +172,8 @@ ruleTester.run(name, rule, {
     {
       name: 'Multi-line ternary return (with `allowSingleLine: true`)',
       options: [{ allowSingleLine: true }],
-      code: `function foo(cond: boolean) {
+      code: `
+function foo(cond: boolean) {
   return cond
     ? {
         prop: 42,
@@ -164,7 +181,8 @@ ruleTester.run(name, rule, {
     : { prop: 105 };
 }
 `,
-      output: `function foo(cond: boolean) {
+      output: `
+function foo(cond: boolean) {
   if (cond) {return {
         prop: 42,
       };}

@@ -55,7 +55,6 @@ async function checkWithPrettier(testCase: TestCase) {
   const formatted = await prettier.format(code, config);
   const formattedWithNewLine = `\n${formatted}`;
 
-  if (formatted === code) return; // TODO: remove this line
   if (formattedWithNewLine === code) return;
 
   const diff = diffStringsUnified(formattedWithNewLine, code);

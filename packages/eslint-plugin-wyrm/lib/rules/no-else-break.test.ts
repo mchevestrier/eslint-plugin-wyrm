@@ -10,7 +10,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'No `else` block necessary #docs',
-      code: `while (true) {
+      code: `
+while (true) {
   if (cond) break;
   foo();
 }
@@ -21,7 +22,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Empty consequent block',
-      code: `if (cond) {
+      code: `
+if (cond) {
 } else {
   foo();
 }
@@ -32,7 +34,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Consequent block does not always break',
-      code: `if (cond) {
+      code: `
+if (cond) {
   if (Math.random()) break;
 } else {
   foo();
@@ -46,12 +49,14 @@ ruleTester.run(name, rule, {
   invalid: [
     {
       name: 'Unnecessary `else` block after `break` #docs',
-      code: `while (true) {
+      code: `
+while (true) {
   if (cond) break;
   else foo();
 }
 `,
-      output: `while (true) {
+      output: `
+while (true) {
   if (cond) break;
    foo();
 }
@@ -63,7 +68,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Unnecessary `else` block after `break` (block condition)',
-      code: `while (true) {
+      code: `
+while (true) {
   if (cond) {
     break;
   } else {
@@ -71,7 +77,8 @@ ruleTester.run(name, rule, {
   }
 }
 `,
-      output: `while (true) {
+      output: `
+while (true) {
   if (cond) {
     break;
   }  foo();
@@ -84,7 +91,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Unnecessary `else if` block after `break`',
-      code: `while (true) {
+      code: `
+while (true) {
   if (cond) {
     break;
   } else if (quux) {
@@ -92,7 +100,8 @@ ruleTester.run(name, rule, {
   }
 }
 `,
-      output: `while (true) {
+      output: `
+while (true) {
   if (cond) {
     break;
   }  if (quux) {

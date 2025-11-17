@@ -21,7 +21,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'Template expression typed as string #docs',
-      code: `declare const foo: string;
+      code: `
+declare const foo: string;
 const str = \`\${foo}_baz\`;
 `,
       after() {
@@ -30,7 +31,8 @@ const str = \`\${foo}_baz\`;
     },
     {
       name: 'Template expression typed as boolean',
-      code: `declare const foo: boolean;
+      code: `
+declare const foo: boolean;
 const str = \`\${foo}_baz\`;
 `,
       after() {
@@ -39,7 +41,8 @@ const str = \`\${foo}_baz\`;
     },
     {
       name: 'Template expression with a constant BigInt value',
-      code: `const n = 42n;
+      code: `
+const n = 42n;
 const str = \`\${n}_baz\`;
 `,
       after() {
@@ -48,7 +51,8 @@ const str = \`\${n}_baz\`;
     },
     {
       name: 'Template expression with a 10 character string value (as long as the default `minAllowedLength` value) #docs',
-      code: `const n = 'aaaaaaaaaa';
+      code: `
+const n = 'aaaaaaaaaa';
 const str = \`\${n}_baz\`;
 `,
       after() {
@@ -58,7 +62,8 @@ const str = \`\${n}_baz\`;
     {
       name: 'With an empty string (`minAllowedLength: 0`)',
       options: [{ minAllowedLength: 0 }],
-      code: `const foo = '';
+      code: `
+const foo = '';
 const str = \`\${foo}_baz\`;
 `,
       after() {
@@ -68,7 +73,8 @@ const str = \`\${foo}_baz\`;
     {
       name: 'With a 4 character string (`minAllowedLength: 3`)',
       options: [{ minAllowedLength: 3 }],
-      code: `const foo = '1234';
+      code: `
+const foo = '1234';
 const str = \`\${foo}_baz\`;
 `,
       after() {
@@ -78,7 +84,8 @@ const str = \`\${foo}_baz\`;
     {
       name: 'With a 4 character string (`minAllowedLength: 4`)',
       options: [{ minAllowedLength: 4 }],
-      code: `const foo = '1234';
+      code: `
+const foo = '1234';
 const str = \`\${foo}_baz\`;
 `,
       after() {
@@ -87,7 +94,8 @@ const str = \`\${foo}_baz\`;
     },
     {
       name: 'Reusing an identifier is allowed',
-      code: `const foo = 'foobar';
+      code: `
+const foo = 'foobar';
 const str1 = \`\${foo}_baz\`;
 const str2 = \`\${foo}_quux\`;
 `,
@@ -97,7 +105,8 @@ const str2 = \`\${foo}_quux\`;
     },
     {
       name: 'Using an exported identifier is allowed',
-      code: `export const foo = 'foobar';
+      code: `
+export const foo = 'foobar';
 const str = \`\${foo}_baz\`;
 `,
       after() {
@@ -106,7 +115,8 @@ const str = \`\${foo}_baz\`;
     },
     {
       name: 'A template literal with spaces is allowed',
-      code: `export const foo = 'foobar';
+      code: `
+export const foo = 'foobar';
 const str = \`Value: \${foo}\`;
 `,
       after() {
@@ -117,7 +127,8 @@ const str = \`Value: \${foo}\`;
   invalid: [
     {
       name: 'Template expression with a constant string value #docs',
-      code: `const foo = 'foobar';
+      code: `
+const foo = 'foobar';
 const str = \`\${foo}_baz\`;
 `,
       errors: [
@@ -127,7 +138,8 @@ const str = \`\${foo}_baz\`;
             {
               messageId: 'replaceByString',
               data: { value: 'foobar' },
-              output: `const foo = 'foobar';
+              output: `
+const foo = 'foobar';
 const str = \`foobar_baz\`;
 `,
             },
@@ -140,7 +152,8 @@ const str = \`foobar_baz\`;
     },
     {
       name: 'Template expression with a constant number value #docs',
-      code: `const n = 42;
+      code: `
+const n = 42;
 const str = \`\${n}_baz\`;
 `,
       errors: [
@@ -150,7 +163,8 @@ const str = \`\${n}_baz\`;
             {
               messageId: 'replaceByString',
               data: { value: '42' },
-              output: `const n = 42;
+              output: `
+const n = 42;
 const str = \`42_baz\`;
 `,
             },
@@ -163,7 +177,8 @@ const str = \`42_baz\`;
     },
     {
       name: 'Template expression with a constant boolean value #docs',
-      code: `const bool = true;
+      code: `
+const bool = true;
 const str = \`\${bool}_baz\`;
 `,
       errors: [
@@ -173,7 +188,8 @@ const str = \`\${bool}_baz\`;
             {
               messageId: 'replaceByString',
               data: { value: 'true' },
-              output: `const bool = true;
+              output: `
+const bool = true;
 const str = \`true_baz\`;
 `,
             },
@@ -186,7 +202,8 @@ const str = \`true_baz\`;
     },
     {
       name: 'Template expression with a constant boolean value (false)',
-      code: `const bool = false;
+      code: `
+const bool = false;
 const str = \`\${bool}_baz\`;
 `,
       errors: [
@@ -196,7 +213,8 @@ const str = \`\${bool}_baz\`;
             {
               messageId: 'replaceByString',
               data: { value: 'false' },
-              output: `const bool = false;
+              output: `
+const bool = false;
 const str = \`false_baz\`;
 `,
             },
@@ -209,7 +227,8 @@ const str = \`false_baz\`;
     },
     {
       name: 'With spaces inside',
-      code: `const foo = 'foobar';
+      code: `
+const foo = 'foobar';
 const str = \`Ok_\${notLiteral}_Ok_\${    foo    }_baz\`;
 `,
       errors: [
@@ -219,7 +238,8 @@ const str = \`Ok_\${notLiteral}_Ok_\${    foo    }_baz\`;
             {
               messageId: 'replaceByString',
               data: { value: 'foobar' },
-              output: `const foo = 'foobar';
+              output: `
+const foo = 'foobar';
 const str = \`Ok_\${notLiteral}_Ok_foobar_baz\`;
 `,
             },
@@ -232,7 +252,8 @@ const str = \`Ok_\${notLiteral}_Ok_foobar_baz\`;
     },
     {
       name: 'With an empty string',
-      code: `const foo = '';
+      code: `
+const foo = '';
 const str = \`\${foo}_baz\`;
 `,
       errors: [
@@ -242,7 +263,8 @@ const str = \`\${foo}_baz\`;
             {
               messageId: 'replaceByString',
               data: { value: '' },
-              output: `const foo = '';
+              output: `
+const foo = '';
 const str = \`_baz\`;
 `,
             },
@@ -256,7 +278,8 @@ const str = \`_baz\`;
     {
       name: 'With a 4 character string (`minAllowedLength: 5`)',
       options: [{ minAllowedLength: 5 }],
-      code: `const foo = '1234';
+      code: `
+const foo = '1234';
 const str = \`\${foo}_baz\`;
 `,
       errors: [
@@ -266,7 +289,8 @@ const str = \`\${foo}_baz\`;
             {
               messageId: 'replaceByString',
               data: { value: '1234' },
-              output: `const foo = '1234';
+              output: `
+const foo = '1234';
 const str = \`1234_baz\`;
 `,
             },
@@ -280,7 +304,8 @@ const str = \`1234_baz\`;
     {
       name: 'With a 14 character string (`minAllowedLength: 15`) #docs',
       options: [{ minAllowedLength: 15 }],
-      code: `const foo = '12345678901234';
+      code: `
+const foo = '12345678901234';
 const str = \`\${foo}_baz\`;
 `,
       errors: [
@@ -290,7 +315,8 @@ const str = \`\${foo}_baz\`;
             {
               messageId: 'replaceByString',
               data: { value: '12345678901234' },
-              output: `const foo = '12345678901234';
+              output: `
+const foo = '12345678901234';
 const str = \`12345678901234_baz\`;
 `,
             },
@@ -303,7 +329,8 @@ const str = \`12345678901234_baz\`;
     },
     {
       name: 'With a literal string value as the expression',
-      code: `const str = \`\${'foobar'}_baz\`;
+      code: `
+const str = \`\${'foobar'}_baz\`;
 `,
       errors: [
         {
@@ -312,7 +339,8 @@ const str = \`12345678901234_baz\`;
             {
               messageId: 'replaceByString',
               data: { value: 'foobar' },
-              output: `const str = \`foobar_baz\`;
+              output: `
+const str = \`foobar_baz\`;
 `,
             },
           ],
@@ -324,7 +352,8 @@ const str = \`12345678901234_baz\`;
     },
     {
       name: 'With a literal number value as the expression',
-      code: `const str = \`\${42}_baz\`;
+      code: `
+const str = \`\${42}_baz\`;
 `,
       errors: [
         {
@@ -333,7 +362,8 @@ const str = \`12345678901234_baz\`;
             {
               messageId: 'replaceByString',
               data: { value: '42' },
-              output: `const str = \`42_baz\`;
+              output: `
+const str = \`42_baz\`;
 `,
             },
           ],

@@ -10,7 +10,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'No extra boolean cast #docs',
-      code: `declare const foo: string;
+      code: `
+declare const foo: string;
 declare const bar: string;
 declare const baz: string;
 
@@ -24,7 +25,8 @@ if (bar && (foo || baz)) {
     },
     {
       name: 'Short-circuiting expression #docs',
-      code: `declare const foo: string;
+      code: `
+declare const foo: string;
 declare const bar: string;
 declare const baz: string;
 
@@ -36,7 +38,8 @@ const val = !!bar && (!!foo || !!baz);
     },
     {
       name: 'Double negation in array method predicate, but not in return position',
-      code: `declare const arr: string[];
+      code: `
+declare const arr: string[];
 const isOkay = arr.filter((elt) => {
   const foo = barbaz(!!elt);
   return 'ok';
@@ -48,7 +51,8 @@ const isOkay = arr.filter((elt) => {
     },
     {
       name: 'Array method call takes no predicate',
-      code: `declare const arr: string[];
+      code: `
+declare const arr: string[];
 const bits = arr.map((elt) => !!elt);
 `,
       after() {
@@ -57,7 +61,8 @@ const bits = arr.map((elt) => !!elt);
     },
     {
       name: 'Array method predicate with no extra boolean cast',
-      code: `declare const arr: string[];
+      code: `
+declare const arr: string[];
 const bits = arr.filter((elt) => elt);
 `,
       after() {
@@ -66,7 +71,8 @@ const bits = arr.filter((elt) => elt);
     },
     {
       name: 'Boolean call at the program root',
-      code: `declare const foo: string;
+      code: `
+declare const foo: string;
 Boolean(foo);
 `,
       after() {
@@ -75,7 +81,8 @@ Boolean(foo);
     },
     {
       name: 'Boolean call in Block at the program root',
-      code: `declare const foo: string;
+      code: `
+declare const foo: string;
 {
   return Boolean(foo);
 }
@@ -86,7 +93,8 @@ Boolean(foo);
     },
     {
       name: 'Not a predicate: function is not passed to a call expression',
-      code: `const foo = (it) => Boolean(it);
+      code: `
+const foo = (it) => Boolean(it);
 `,
       after() {
         checkFormatting(this);
@@ -94,7 +102,8 @@ Boolean(foo);
     },
     {
       name: 'Not a predicate: function is not the first argument to a call expression',
-      code: `[].filter(foo, (it) => Boolean(it));
+      code: `
+[].filter(foo, (it) => Boolean(it));
 `,
       after() {
         checkFormatting(this);
@@ -102,7 +111,8 @@ Boolean(foo);
     },
     {
       name: 'Not a predicate: function is not the argument of a member expression call',
-      code: `filter((it) => Boolean(it), foo);
+      code: `
+filter((it) => Boolean(it), foo);
 `,
       after() {
         checkFormatting(this);
@@ -110,7 +120,8 @@ Boolean(foo);
     },
     {
       name: 'Not a predicate: call expression method is not an identifier',
-      code: `[0, 1, 2]['filter']((it) => Boolean(it));
+      code: `
+[0, 1, 2]['filter']((it) => Boolean(it));
 `,
       after() {
         checkFormatting(this);
@@ -118,7 +129,8 @@ Boolean(foo);
     },
     {
       name: 'Not a boolean cast: single negation',
-      code: `[].filter((it) => !it);
+      code: `
+[].filter((it) => !it);
 `,
       after() {
         checkFormatting(this);
@@ -126,7 +138,8 @@ Boolean(foo);
     },
     {
       name: 'Not a boolean cast: single negation wrapped in other unary expression',
-      code: `[].filter((it) => +!it);
+      code: `
+[].filter((it) => +!it);
 `,
       after() {
         checkFormatting(this);
@@ -134,7 +147,8 @@ Boolean(foo);
     },
     {
       name: 'Call expression in condition test, but callee is not an identifier',
-      code: `declare const bar: number;
+      code: `
+declare const bar: number;
 
 if (Math.floor(bar)) {
   console.log('foo!');
@@ -143,7 +157,8 @@ if (Math.floor(bar)) {
     },
     {
       name: 'Call expression in condition test, but not a Boolean call',
-      code: `declare const bar: string;
+      code: `
+declare const bar: string;
 
 if (Error(bar)) {
   console.log('foo!');
@@ -152,7 +167,8 @@ if (Error(bar)) {
     },
     {
       name: 'Simple negation',
-      code: `declare const foo: string;
+      code: `
+declare const foo: string;
 
 if (!foo) {
   console.log('foo!');
@@ -161,7 +177,8 @@ if (!foo) {
     },
     {
       name: 'Simple negation wrapped in other unary expression',
-      code: `declare const foo: string;
+      code: `
+declare const foo: string;
 
 if (+!foo) {
   console.log('foo!');
@@ -170,7 +187,8 @@ if (+!foo) {
     },
     {
       name: 'Other unary expression wrapped in simple negation',
-      code: `declare const foo: string;
+      code: `
+declare const foo: string;
 
 if (!+foo) {
   console.log('foo!');
@@ -181,7 +199,8 @@ if (!+foo) {
   invalid: [
     {
       name: 'Redundant double negation #docs',
-      code: `declare const foo: string;
+      code: `
+declare const foo: string;
 
 if (!!foo) {
   console.log('foo!');
@@ -190,8 +209,8 @@ if (!!foo) {
       errors: [
         {
           messageId: 'noExtraBooleanCastInCondition',
-          line: 3,
-          endLine: 3,
+          line: 4,
+          endLine: 4,
           column: 5,
           endColumn: 10,
         },
@@ -202,13 +221,14 @@ if (!!foo) {
     },
     {
       name: 'Redundant double negation inside of another boolean cast #docs',
-      code: `const x = Boolean(!!foo);
+      code: `
+const x = Boolean(!!foo);
 `,
       errors: [
         {
           messageId: 'noExtraBooleanCastInsideAnother',
-          line: 1,
-          endLine: 1,
+          line: 2,
+          endLine: 2,
           column: 19,
           endColumn: 24,
         },
@@ -219,13 +239,14 @@ if (!!foo) {
     },
     {
       name: 'Redundant double negation within a logical expression inside of another boolean cast',
-      code: `const x = Boolean(!!foo && foo.length > 0);
+      code: `
+const x = Boolean(!!foo && foo.length > 0);
 `,
       errors: [
         {
           messageId: 'noExtraBooleanCastInsideAnother',
-          line: 1,
-          endLine: 1,
+          line: 2,
+          endLine: 2,
           column: 19,
           endColumn: 24,
         },
@@ -236,13 +257,14 @@ if (!!foo) {
     },
     {
       name: 'Redundant double negation inside of another double negation',
-      code: `const x = !!(!!foo && foo.length > 0);
+      code: `
+const x = !!(!!foo && foo.length > 0);
 `,
       errors: [
         {
           messageId: 'noExtraBooleanCastInsideAnother',
-          line: 1,
-          endLine: 1,
+          line: 2,
+          endLine: 2,
           column: 14,
           endColumn: 19,
         },
@@ -253,14 +275,15 @@ if (!!foo) {
     },
     {
       name: 'Redundant double negation in return of array method predicate #docs',
-      code: `declare const arr: string[];
+      code: `
+declare const arr: string[];
 const isOkay = arr.filter((elt) => !!elt);
 `,
       errors: [
         {
           messageId: 'noExtraBooleanCastInPredicate',
-          line: 2,
-          endLine: 2,
+          line: 3,
+          endLine: 3,
           column: 36,
           endColumn: 41,
         },
@@ -271,14 +294,15 @@ const isOkay = arr.filter((elt) => !!elt);
     },
     {
       name: 'Redundant Boolean call in return of array method predicate',
-      code: `declare const arr: string[];
+      code: `
+declare const arr: string[];
 const isOkay = arr.filter((elt) => Boolean(elt));
 `,
       errors: [
         {
           messageId: 'noExtraBooleanCastInPredicate',
-          line: 2,
-          endLine: 2,
+          line: 3,
+          endLine: 3,
           column: 36,
           endColumn: 48,
         },
@@ -289,14 +313,15 @@ const isOkay = arr.filter((elt) => Boolean(elt));
     },
     {
       name: 'Redundant double negation in return of array method predicate, with optional chaining',
-      code: `declare const arr: string[] | undefined;
+      code: `
+declare const arr: string[] | undefined;
 const isOkay = arr?.filter((elt) => !!elt);
 `,
       errors: [
         {
           messageId: 'noExtraBooleanCastInPredicate',
-          line: 2,
-          endLine: 2,
+          line: 3,
+          endLine: 3,
           column: 37,
           endColumn: 42,
         },
@@ -307,7 +332,8 @@ const isOkay = arr?.filter((elt) => !!elt);
     },
     {
       name: 'Redundant double negation in return of array method predicate with body',
-      code: `declare const arr: string[];
+      code: `
+declare const arr: string[];
 const isOkay = arr.filter((elt) => {
   return !!elt;
 });
@@ -315,8 +341,8 @@ const isOkay = arr.filter((elt) => {
       errors: [
         {
           messageId: 'noExtraBooleanCastInPredicate',
-          line: 3,
-          endLine: 3,
+          line: 4,
+          endLine: 4,
           column: 10,
           endColumn: 15,
         },
@@ -327,7 +353,8 @@ const isOkay = arr.filter((elt) => {
     },
     {
       name: 'Redundant double negation in return of array method predicate with conditional return',
-      code: `declare const arr: string[];
+      code: `
+declare const arr: string[];
 const isOkay = arr.filter((elt) => {
   if (1) return !!elt;
   return 'ok';
@@ -336,8 +363,8 @@ const isOkay = arr.filter((elt) => {
       errors: [
         {
           messageId: 'noExtraBooleanCastInPredicate',
-          line: 3,
-          endLine: 3,
+          line: 4,
+          endLine: 4,
           column: 17,
           endColumn: 22,
         },
@@ -348,7 +375,8 @@ const isOkay = arr.filter((elt) => {
     },
     {
       name: 'Redundant double negations in logical sub-expressions #docs',
-      code: `declare const foo: string;
+      code: `
+declare const foo: string;
 declare const bar: string;
 declare const baz: string;
 
@@ -359,22 +387,22 @@ if (!!bar && (!!foo || !!baz)) {
       errors: [
         {
           messageId: 'noExtraBooleanCastInCondition',
-          line: 5,
-          endLine: 5,
+          line: 6,
+          endLine: 6,
           column: 5,
           endColumn: 10,
         },
         {
           messageId: 'noExtraBooleanCastInCondition',
-          line: 5,
-          endLine: 5,
+          line: 6,
+          endLine: 6,
           column: 15,
           endColumn: 20,
         },
         {
           messageId: 'noExtraBooleanCastInCondition',
-          line: 5,
-          endLine: 5,
+          line: 6,
+          endLine: 6,
           column: 24,
           endColumn: 29,
         },
@@ -385,7 +413,8 @@ if (!!bar && (!!foo || !!baz)) {
     },
     {
       name: 'Redundant Boolean calls #docs',
-      code: `declare const foo: string;
+      code: `
+declare const foo: string;
 declare const bar: string;
 declare const baz: string;
 
@@ -396,22 +425,22 @@ if (Boolean(bar) && (Boolean(foo) || Boolean(baz))) {
       errors: [
         {
           messageId: 'noExtraBooleanCastInCondition',
-          line: 5,
-          endLine: 5,
+          line: 6,
+          endLine: 6,
           column: 5,
           endColumn: 17,
         },
         {
           messageId: 'noExtraBooleanCastInCondition',
-          line: 5,
-          endLine: 5,
+          line: 6,
+          endLine: 6,
           column: 22,
           endColumn: 34,
         },
         {
           messageId: 'noExtraBooleanCastInCondition',
-          line: 5,
-          endLine: 5,
+          line: 6,
+          endLine: 6,
           column: 38,
           endColumn: 50,
         },
@@ -422,7 +451,8 @@ if (Boolean(bar) && (Boolean(foo) || Boolean(baz))) {
     },
     {
       name: 'Redundant double negations nested in type assertions #docs',
-      code: `declare const foo: string;
+      code: `
+declare const foo: string;
 declare const bar: string;
 declare const baz: string;
 
@@ -433,22 +463,22 @@ if ((!!bar)! && ((!!foo satisfies boolean) || (!!baz as any))) {
       errors: [
         {
           messageId: 'noExtraBooleanCastInCondition',
-          line: 5,
-          endLine: 5,
+          line: 6,
+          endLine: 6,
           column: 6,
           endColumn: 11,
         },
         {
           messageId: 'noExtraBooleanCastInCondition',
-          line: 5,
-          endLine: 5,
+          line: 6,
+          endLine: 6,
           column: 19,
           endColumn: 24,
         },
         {
           messageId: 'noExtraBooleanCastInCondition',
-          line: 5,
-          endLine: 5,
+          line: 6,
+          endLine: 6,
           column: 48,
           endColumn: 53,
         },
@@ -459,7 +489,8 @@ if ((!!bar)! && ((!!foo satisfies boolean) || (!!baz as any))) {
     },
     {
       name: 'Redundant double negation in return of `every` method predicate',
-      code: `declare const arr: string[];
+      code: `
+declare const arr: string[];
 const foo = arr.every((elt) => !!elt);
 `,
       errors: [{ messageId: 'noExtraBooleanCastInPredicate' }],
@@ -469,7 +500,8 @@ const foo = arr.every((elt) => !!elt);
     },
     {
       name: 'Redundant double negation in return of `some` method predicate',
-      code: `declare const arr: string[];
+      code: `
+declare const arr: string[];
 const foo = arr.some((elt) => !!elt);
 `,
       errors: [{ messageId: 'noExtraBooleanCastInPredicate' }],
@@ -479,7 +511,8 @@ const foo = arr.some((elt) => !!elt);
     },
     {
       name: 'Redundant double negation in return of `findIndex` method predicate',
-      code: `declare const arr: string[];
+      code: `
+declare const arr: string[];
 const foo = arr.findIndex((elt) => !!elt);
 `,
       errors: [{ messageId: 'noExtraBooleanCastInPredicate' }],

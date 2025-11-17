@@ -21,7 +21,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'With no return from `forEach` callback',
-      code: `[1, 2, 3].forEach((it) => {
+      code: `
+[1, 2, 3].forEach((it) => {
   console.log(it);
 });
 `,
@@ -31,7 +32,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Callback is not passed to anything',
-      code: `const cb = (it): void => {
+      code: `
+const cb = (it): void => {
   return undefined;
 };
 `,
@@ -41,7 +43,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With empty return from `forEach` callback',
-      code: `[1, 2, 3].forEach((it) => {
+      code: `
+[1, 2, 3].forEach((it) => {
   return;
 });
 `,
@@ -51,7 +54,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With non-undefined return from `forEach` callback #docs',
-      code: `[1, 2, 3].forEach((it) => {
+      code: `
+[1, 2, 3].forEach((it) => {
   return 42;
 });
 `,
@@ -61,7 +65,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: '`useEffect()` with cleanup function and empty return',
-      code: `declare const UNDEFINED_VOID_ONLY: unique symbol;
+      code: `
+declare const UNDEFINED_VOID_ONLY: unique symbol;
 type Destructor = () => void | { [UNDEFINED_VOID_ONLY]: never };
 type EffectCallback = () => void | Destructor;
 declare function useEffect(effect: EffectCallback): void;
@@ -79,7 +84,8 @@ useEffect(() => {
     },
     {
       name: '`useEffect()` with cleanup function',
-      code: `declare const UNDEFINED_VOID_ONLY: unique symbol;
+      code: `
+declare const UNDEFINED_VOID_ONLY: unique symbol;
 type Destructor = () => void | { [UNDEFINED_VOID_ONLY]: never };
 type EffectCallback = () => void | Destructor;
 declare function useEffect(effect: EffectCallback): void;
@@ -97,7 +103,8 @@ useEffect(() => {
     },
     {
       name: '`useEffect()` with empty body',
-      code: `declare const UNDEFINED_VOID_ONLY: unique symbol;
+      code: `
+declare const UNDEFINED_VOID_ONLY: unique symbol;
 type Destructor = () => void | { [UNDEFINED_VOID_ONLY]: never };
 type EffectCallback = () => void | Destructor;
 declare function useEffect(effect: EffectCallback): void;
@@ -110,7 +117,8 @@ useEffect(() => {});
     },
     {
       name: '`useEffect()` with cleanup function and some returned values',
-      code: `declare const UNDEFINED_VOID_ONLY: unique symbol;
+      code: `
+declare const UNDEFINED_VOID_ONLY: unique symbol;
 type Destructor = () => void | { [UNDEFINED_VOID_ONLY]: never };
 type EffectCallback = () => void | Destructor;
 declare function useEffect(effect: EffectCallback): void;
@@ -128,7 +136,8 @@ useEffect(() => {
     },
     {
       name: 'With an inline body but not returning an identifier',
-      code: `function foo(fn: () => void) {
+      code: `
+function foo(fn: () => void) {
   fn();
 }
 foo(() => 42);
@@ -139,7 +148,8 @@ foo(() => 42);
     },
     {
       name: 'With an inline body returning an identifier but not `undefined`',
-      code: `function foo(fn: () => void) {
+      code: `
+function foo(fn: () => void) {
   fn();
 }
 foo(() => foo);
@@ -150,7 +160,8 @@ foo(() => foo);
     },
     {
       name: 'Callee does not accept a void-returning callback',
-      code: `function foo(fn: () => undefined) {
+      code: `
+function foo(fn: () => undefined) {
   fn();
 }
 foo(() => undefined);
@@ -161,7 +172,8 @@ foo(() => undefined);
     },
     {
       name: 'Callee accepts an `any` typed callback',
-      code: `function foo(fn: any) {
+      code: `
+function foo(fn: any) {
   fn();
 }
 foo(() => undefined);
@@ -172,7 +184,8 @@ foo(() => undefined);
     },
     {
       name: 'Callee accepts no argument',
-      code: `function foo() {}
+      code: `
+function foo() {}
 foo(() => undefined);
 `,
       after() {
@@ -183,7 +196,8 @@ foo(() => undefined);
   invalid: [
     {
       name: 'With `return undefined` from `forEach` callback #docs',
-      code: `[1, 2, 3].forEach((it) => {
+      code: `
+[1, 2, 3].forEach((it) => {
   console.log(it);
   return undefined;
 });
@@ -195,7 +209,8 @@ foo(() => undefined);
     },
     {
       name: 'With a function expression',
-      code: `[1, 2, 3].forEach(function (it) {
+      code: `
+[1, 2, 3].forEach(function (it) {
   console.log(it);
   return undefined;
 });
@@ -207,7 +222,8 @@ foo(() => undefined);
     },
     {
       name: 'With a block body',
-      code: `function foo(fn: () => void) {
+      code: `
+function foo(fn: () => void) {
   fn();
 }
 foo(() => {
@@ -221,7 +237,8 @@ foo(() => {
     },
     {
       name: 'With a union type with `void`',
-      code: `function foo(fn: () => void | string) {
+      code: `
+function foo(fn: () => void | string) {
   fn();
 }
 foo(() => {
@@ -235,7 +252,8 @@ foo(() => {
     },
     {
       name: 'With `return undefined` and an empty return',
-      code: `function foo(fn: (() => void) | (() => string)) {
+      code: `
+function foo(fn: (() => void) | (() => string)) {
   fn();
 }
 foo(() => {
@@ -250,7 +268,8 @@ foo(() => {
     },
     {
       name: 'With an inline body',
-      code: `function foo(fn: () => void) {
+      code: `
+function foo(fn: () => void) {
   fn();
 }
 foo(() => undefined);
@@ -262,7 +281,8 @@ foo(() => undefined);
     },
     {
       name: 'With return in `while` loop',
-      code: `[1, 2].forEach((it) => {
+      code: `
+[1, 2].forEach((it) => {
   while (1) {
     return undefined;
   }
@@ -275,7 +295,8 @@ foo(() => undefined);
     },
     {
       name: 'With return in `for` loop',
-      code: `[1, 2].forEach((it) => {
+      code: `
+[1, 2].forEach((it) => {
   for (let i = 0; i < it; i++) {
     return undefined;
   }
@@ -288,7 +309,8 @@ foo(() => undefined);
     },
     {
       name: 'With return in `for...in` loop',
-      code: `[1, 2].forEach((it) => {
+      code: `
+[1, 2].forEach((it) => {
   for (let k in it) {
     return undefined;
   }
@@ -301,7 +323,8 @@ foo(() => undefined);
     },
     {
       name: 'With return in `for...of` loop',
-      code: `[1, 2].forEach((it) => {
+      code: `
+[1, 2].forEach((it) => {
   for (let n of [it]) {
     return undefined;
   }
@@ -314,7 +337,8 @@ foo(() => undefined);
     },
     {
       name: 'With return in `try` block',
-      code: `[1, 2].forEach((it) => {
+      code: `
+[1, 2].forEach((it) => {
   try {
     return undefined;
   } catch {
@@ -329,7 +353,8 @@ foo(() => undefined);
     },
     {
       name: 'With return in `catch` block',
-      code: `[1, 2].forEach((it) => {
+      code: `
+[1, 2].forEach((it) => {
   try {
     JSON.parse('{');
   } catch {
@@ -344,7 +369,8 @@ foo(() => undefined);
     },
     {
       name: 'With return in `finally` block',
-      code: `[1, 2].forEach((it) => {
+      code: `
+[1, 2].forEach((it) => {
   try {
     JSON.parse('{}');
   } finally {
@@ -359,7 +385,8 @@ foo(() => undefined);
     },
     {
       name: '`useEffect()` with no cleanup function',
-      code: `declare const UNDEFINED_VOID_ONLY: unique symbol;
+      code: `
+declare const UNDEFINED_VOID_ONLY: unique symbol;
 type Destructor = () => void | { [UNDEFINED_VOID_ONLY]: never };
 type EffectCallback = () => void | Destructor;
 declare function useEffect(effect: EffectCallback): void;
@@ -376,7 +403,8 @@ useEffect(() => {
     },
     {
       name: '`useEffect()` with inline `undefined` return',
-      code: `declare const UNDEFINED_VOID_ONLY: unique symbol;
+      code: `
+declare const UNDEFINED_VOID_ONLY: unique symbol;
 type Destructor = () => void | { [UNDEFINED_VOID_ONLY]: never };
 type EffectCallback = () => void | Destructor;
 declare function useEffect(effect: EffectCallback): void;

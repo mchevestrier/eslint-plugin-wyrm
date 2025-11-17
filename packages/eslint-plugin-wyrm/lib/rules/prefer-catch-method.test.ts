@@ -10,7 +10,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'Correct usage of `Promise.prototype.catch()` #docs',
-      code: `let result = await getStuff().catch((err: unknown) => {
+      code: `
+let result = await getStuff().catch((err: unknown) => {
   console.error(err);
   return null;
 });
@@ -21,7 +22,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: '`try` block with no async operation #docs',
-      code: `let result;
+      code: `
+let result;
 try {
   result = JSON.stringify('{}');
 } catch (err) {
@@ -35,7 +37,8 @@ try {
     },
     {
       name: '`try` block with no `catch` handler',
-      code: `let result;
+      code: `
+let result;
 try {
   result = await getStuff();
 } finally {
@@ -48,7 +51,8 @@ try {
     },
     {
       name: '`catch` block has a `return` statement',
-      code: `let result;
+      code: `
+let result;
 try {
   result = await getStuff();
 } catch {
@@ -64,7 +68,8 @@ console.log(result);
     },
     {
       name: '`finally` block has a `return` statement',
-      code: `let result;
+      code: `
+let result;
 try {
   result = await getStuff();
 } catch {
@@ -79,7 +84,8 @@ try {
     },
     {
       name: 'Assignment in `try` block is not to an identifier',
-      code: `let result;
+      code: `
+let result;
 try {
   ({ result }) = await getStuff();
 } catch {
@@ -94,7 +100,8 @@ console.log(result);
     },
     {
       name: 'Several assignment in `try` block with an `await` expression as initializer',
-      code: `let result;
+      code: `
+let result;
 let foo;
 try {
   result = await getStuff();
@@ -111,7 +118,8 @@ console.log(result);
     },
     {
       name: 'The variable is used after being declared so we do not touch it',
-      code: `let result = 42;
+      code: `
+let result = 42;
 console.log(result);
 
 console.log('Fetching stuff');
@@ -129,7 +137,8 @@ console.log(result);
     },
     {
       name: '`try` block has no assignment',
-      code: `let result;
+      code: `
+let result;
 try {
   await getStuff();
 } catch (err) {
@@ -143,7 +152,8 @@ try {
     },
     {
       name: '`result` variable is not in scope',
-      code: `try {
+      code: `
+try {
   result = await getStuff();
 } catch (err) {
   console.error(err);
@@ -156,7 +166,8 @@ try {
     },
     {
       name: '`result` variable is an import',
-      code: `import { result } from './foo';
+      code: `
+import { result } from './foo';
 try {
   result = await getStuff();
 } catch (err) {
@@ -170,7 +181,8 @@ try {
     },
     {
       name: '`result` variable is declared in the outer scope',
-      code: `let result;
+      code: `
+let result;
 function foo() {
   try {
     result = await getStuff();
@@ -186,7 +198,8 @@ function foo() {
     },
     {
       name: '`result` variable is const',
-      code: `const result = undefined;
+      code: `
+const result = undefined;
 try {
   result = await getStuff();
 } catch (err) {
@@ -202,7 +215,8 @@ try {
   invalid: [
     {
       name: 'Conditional assignment based on asynchronous result #docs',
-      code: `let result;
+      code: `
+let result;
 try {
   result = await getStuff();
 } catch (err) {
@@ -217,6 +231,7 @@ try {
             {
               messageId: 'useCatchMethod',
               output: `
+
 let result = await getStuff()
   .catch((err: unknown) => {
     console.error(err);
@@ -233,7 +248,8 @@ let result = await getStuff()
     },
     {
       name: 'With several assignments in `catch` block',
-      code: `let result;
+      code: `
+let result;
 console.log('Fetching stuff');
 let msg = '';
 try {
@@ -253,6 +269,7 @@ if (msg) console.log(msg);
             {
               messageId: 'useCatchMethod',
               output: `
+
 console.log('Fetching stuff');
 let msg = '';
 let result = await getStuff()
@@ -274,7 +291,8 @@ if (msg) console.log(msg);
     },
     {
       name: '`try` block has several `await` statements',
-      code: `let result;
+      code: `
+let result;
 try {
   result = await getStuff();
   await sendMoreStuff();
@@ -291,6 +309,7 @@ console.log(result);
             {
               messageId: 'useCatchMethod',
               output: `
+
 let result = await getStuff()
   .then((val0) => {
     await sendMoreStuff();
@@ -312,7 +331,8 @@ console.log(result);
     },
     {
       name: 'With multiple statements in block',
-      code: `let result;
+      code: `
+let result;
 console.log('Fetching stuff');
 try {
   result = await getStuff();
@@ -330,6 +350,7 @@ console.log(result);
             {
               messageId: 'useCatchMethod',
               output: `
+
 console.log('Fetching stuff');
 let result = await getStuff()
   .then((val0) => {
@@ -352,7 +373,8 @@ console.log(result);
     },
     {
       name: 'With multiple conditional assignments',
-      code: `let result;
+      code: `
+let result;
 console.log('Fetching stuff');
 let msg = '';
 try {
@@ -373,6 +395,7 @@ if (msg) console.log(msg);
             {
               messageId: 'useCatchMethod',
               output: `
+
 console.log('Fetching stuff');
 let msg = '';
 let result = await getStuff()
@@ -398,7 +421,8 @@ if (msg) console.log(msg);
     },
     {
       name: 'Error parameter has a type',
-      code: `let result;
+      code: `
+let result;
 try {
   result = await getStuff();
 } catch (err: Error) {
@@ -412,6 +436,7 @@ try {
             {
               messageId: 'useCatchMethod',
               output: `
+
 let result = await getStuff()
   .catch((err: Error) => {
     return null;
@@ -427,7 +452,8 @@ let result = await getStuff()
     },
     {
       name: 'No error parameter',
-      code: `let result;
+      code: `
+let result;
 try {
   result = await getStuff();
 } catch {
@@ -441,6 +467,7 @@ try {
             {
               messageId: 'useCatchMethod',
               output: `
+
 let result = await getStuff()
   .catch(() => {
     return null;
@@ -456,7 +483,8 @@ let result = await getStuff()
     },
     {
       name: 'Error parameter is destructured',
-      code: `let result;
+      code: `
+let result;
 try {
   result = await getStuff();
 } catch ({ message }: Error) {
@@ -470,6 +498,7 @@ try {
             {
               messageId: 'useCatchMethod',
               output: `
+
 let result = await getStuff()
   .catch(({ message }: Error) => {
     return message;
@@ -485,7 +514,8 @@ let result = await getStuff()
     },
     {
       name: 'Result parameter name should not conflict with existing scope',
-      code: `let result;
+      code: `
+let result;
 let val0 = 42;
 try {
   result = await getStuff();
@@ -502,6 +532,7 @@ try {
             {
               messageId: 'useCatchMethod',
               output: `
+
 let val0 = 42;
 let result = await getStuff()
   .then((val2) => {
@@ -523,7 +554,8 @@ let result = await getStuff()
     },
     {
       name: 'Without reassignment in `catch` block',
-      code: `let result = 42;
+      code: `
+let result = 42;
 try {
   result = await getFoo();
 } catch (error) {
@@ -538,6 +570,7 @@ console.log(result);
             {
               messageId: 'useCatchMethod',
               output: `
+
 let result = await getFoo()
   .catch((error: unknown) => {
     console.error(error);
@@ -555,7 +588,8 @@ console.log(result);
     },
     {
       name: 'With implicit undefined assignment',
-      code: `let result;
+      code: `
+let result;
 try {
   result = await getFoo();
 } catch (error) {
@@ -570,6 +604,7 @@ console.log(result);
             {
               messageId: 'useCatchMethod',
               output: `
+
 let result = await getFoo()
   .catch((error: unknown) => {
     console.error(error);
@@ -587,7 +622,8 @@ console.log(result);
     },
     {
       name: 'With several inline declarations',
-      code: `let foo, result, bar;
+      code: `
+let foo, result, bar;
 try {
   result = await getStuff();
 } catch (err) {
@@ -602,7 +638,8 @@ foo = 'ok';
           suggestions: [
             {
               messageId: 'useCatchMethod',
-              output: `let foo , bar;
+              output: `
+let foo , bar;
 let result = await getStuff()
   .catch((err: unknown) => {
     console.error(err);
@@ -620,7 +657,8 @@ foo = 'ok';
     },
     {
       name: 'With several inline declarations (`result` is first)',
-      code: `let result, foo, bar;
+      code: `
+let result, foo, bar;
 try {
   result = await getStuff();
 } catch (err) {
@@ -635,7 +673,8 @@ foo = 'ok';
           suggestions: [
             {
               messageId: 'useCatchMethod',
-              output: `let  foo, bar;
+              output: `
+let  foo, bar;
 let result = await getStuff()
   .catch((err: unknown) => {
     console.error(err);

@@ -10,7 +10,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'With early returns #docs',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   if (!cond1) return 42;
   if (cond2) return 105;
   return 0;
@@ -22,7 +23,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With no body',
-      code: `const foo = () => 42;
+      code: `
+const foo = () => 42;
 `,
       after() {
         checkFormatting(this);
@@ -30,7 +32,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With several statements in consequent block',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   if (!cond1) return 42;
 
   if (cond2) {
@@ -49,7 +52,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a wrapping `if` statement with an alternate branch',
-      code: `function foo(cond1: boolean) {
+      code: `
+function foo(cond1: boolean) {
   if (cond1) {
     console.log(42);
     console.log(105);
@@ -61,7 +65,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With no returns in if statement at all',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   if (cond1) {
     if (cond2) {
       console.log(105);
@@ -88,7 +93,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With `try`/`catch`/`finally` statement where `catch` does not always return',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   if (cond1) {
     console.log(105);
   } else {
@@ -107,7 +113,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With `try`/`finally` statement where `finally` does not always return',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   if (cond1) {
     console.log(105);
   } else {
@@ -124,7 +131,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a returned complex expression',
-      code: `function foo(cond1: boolean, bar: string) {
+      code: `
+function foo(cond1: boolean, bar: string) {
   if (cond1) {
     return bar.toUpperCase().at(2) === bar.toLowerCase().at(2);
   }
@@ -135,7 +143,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a wrapping `if` statement and a single line consequent',
-      code: `function foo(cond1: boolean, bar: string) {
+      code: `
+function foo(cond1: boolean, bar: string) {
   if (cond1) {
     throw Error(bar);
   }
@@ -146,7 +155,8 @@ ruleTester.run(name, rule, {
   invalid: [
     {
       name: 'Condition with more code than the alternate branch #docs',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   if (cond1) {
     if (cond2) return 105;
     return 0;
@@ -154,7 +164,8 @@ ruleTester.run(name, rule, {
   return 42;
 }
 `,
-      output: `function foo(cond1: boolean, cond2: boolean) {
+      output: `
+function foo(cond1: boolean, cond2: boolean) {
   if (!(cond1)) {
     return 42;
   } else {
@@ -171,7 +182,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With more statements',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   console.log('Hello');
   if (!Math.random()) return 17;
 
@@ -185,7 +197,8 @@ ruleTester.run(name, rule, {
   return 42;
 }
 `,
-      output: `function foo(cond1: boolean, cond2: boolean) {
+      output: `
+function foo(cond1: boolean, cond2: boolean) {
   console.log('Hello');
   if (!Math.random()) return 17;
 
@@ -208,7 +221,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With an arrow function',
-      code: `const foo = (cond1: boolean, cond2: boolean) => {
+      code: `
+const foo = (cond1: boolean, cond2: boolean) => {
   if (cond1) {
     if (cond2) return 105;
     return 0;
@@ -216,7 +230,8 @@ ruleTester.run(name, rule, {
   return 42;
 };
 `,
-      output: `const foo = (cond1: boolean, cond2: boolean) => {
+      output: `
+const foo = (cond1: boolean, cond2: boolean) => {
   if (!(cond1)) {
     return 42;
   } else {
@@ -233,7 +248,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a function expression',
-      code: `const foo = function (cond1: boolean, cond2: boolean) {
+      code: `
+const foo = function (cond1: boolean, cond2: boolean) {
   if (cond1) {
     if (cond2) return 105;
     return 0;
@@ -241,7 +257,8 @@ ruleTester.run(name, rule, {
   return 42;
 };
 `,
-      output: `const foo = function (cond1: boolean, cond2: boolean) {
+      output: `
+const foo = function (cond1: boolean, cond2: boolean) {
   if (!(cond1)) {
     return 42;
   } else {
@@ -258,7 +275,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a return statement in the alternate block only #docs',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   if (cond1) {
     if (cond2) {
       console.log(105);
@@ -274,7 +292,8 @@ ruleTester.run(name, rule, {
   return 17;
 }
 `,
-      output: `function foo(cond1: boolean, cond2: boolean) {
+      output: `
+function foo(cond1: boolean, cond2: boolean) {
   if (!(cond1)) {
     console.log('ok');
     return 42;
@@ -297,7 +316,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a long consequent block and a short alternate block',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   if (cond1) {
     if (cond2) {
       console.log(105);
@@ -320,7 +340,8 @@ ruleTester.run(name, rule, {
   }
 }
 `,
-      output: `function foo(cond1: boolean, cond2: boolean) {
+      output: `
+function foo(cond1: boolean, cond2: boolean) {
   if (!(cond1)) {
     quux();
     return 42;
@@ -350,14 +371,16 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a wrapping if statement',
-      code: `function foo(cond1: boolean) {
+      code: `
+function foo(cond1: boolean) {
   if (cond1) {
     console.log(42);
     console.log(105);
   }
 }
 `,
-      output: `function foo(cond1: boolean) {
+      output: `
+function foo(cond1: boolean) {
   if (!(cond1)) { return; } else {
     console.log(42);
     console.log(105);
@@ -371,7 +394,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With conditional returns in alternate branch only',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   if (cond1) {
     if (cond2) {
       console.log(105);
@@ -395,7 +419,8 @@ ruleTester.run(name, rule, {
   return 17;
 }
 `,
-      output: `function foo(cond1: boolean, cond2: boolean) {
+      output: `
+function foo(cond1: boolean, cond2: boolean) {
   if (!(cond1)) {
     if (Math.cos(0) > 0.5) return 333;
     else return 42;
@@ -426,7 +451,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With `try` statement in an `else` branch that always returns',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   if (cond1) {
     if (cond2) {
       console.log(105);
@@ -453,7 +479,8 @@ ruleTester.run(name, rule, {
   return 17;
 }
 `,
-      output: `function foo(cond1: boolean, cond2: boolean) {
+      output: `
+function foo(cond1: boolean, cond2: boolean) {
   if (!(cond1)) {
     try {
       return JSON.parse('{}');
@@ -487,7 +514,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With `try`/`finally` statement where `finally` always returns',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   if (cond1) {
     console.log(105);
   } else {
@@ -501,7 +529,8 @@ ruleTester.run(name, rule, {
   return 17;
 }
 `,
-      output: `function foo(cond1: boolean, cond2: boolean) {
+      output: `
+function foo(cond1: boolean, cond2: boolean) {
   if (!(cond1)) {
     try {
       JSON.parse('{}');
@@ -522,7 +551,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With `try`/`catch`/`finally` statement where `try` and `catch` always return',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   if (cond1) {
     console.log(105);
   } else {
@@ -538,7 +568,8 @@ ruleTester.run(name, rule, {
   return 17;
 }
 `,
-      output: `function foo(cond1: boolean, cond2: boolean) {
+      output: `
+function foo(cond1: boolean, cond2: boolean) {
   if (!(cond1)) {
     try {
       return JSON.parse('{}');
@@ -561,7 +592,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With `try`/`catch`/`finally` statement where `finally` always returns',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   if (cond1) {
     console.log(105);
   } else {
@@ -577,7 +609,8 @@ ruleTester.run(name, rule, {
   return 17;
 }
 `,
-      output: `function foo(cond1: boolean, cond2: boolean) {
+      output: `
+function foo(cond1: boolean, cond2: boolean) {
   if (!(cond1)) {
     try {
       return JSON.parse('{}');
@@ -600,7 +633,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With too many statements in consequent block',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   if (!cond1) return 42;
 
   if (cond2) {
@@ -614,7 +648,8 @@ ruleTester.run(name, rule, {
   return 0;
 }
 `,
-      output: `function foo(cond1: boolean, cond2: boolean) {
+      output: `
+function foo(cond1: boolean, cond2: boolean) {
   if (!cond1) return 42;
 
   if (!(cond2)) {
@@ -637,7 +672,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a `for` and a `while` loop in the consequent block',
-      code: `function foo(cond1: boolean, cond2: boolean) {
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
   if (!cond1) return 42;
 
   if (cond2) {
@@ -661,7 +697,8 @@ ruleTester.run(name, rule, {
   return 0;
 }
 `,
-      output: `function foo(cond1: boolean, cond2: boolean) {
+      output: `
+function foo(cond1: boolean, cond2: boolean) {
   if (!cond1) return 42;
 
   if (!(cond2)) {

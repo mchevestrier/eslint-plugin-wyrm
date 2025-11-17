@@ -10,7 +10,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'Parameter is not optional #docs',
-      code: `function isString(x: unknown): x is string {
+      code: `
+function isString(x: unknown): x is string {
   return typeof x === 'string';
 }
 `,
@@ -20,7 +21,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Parameter is not optional but uses `undefined` #docs',
-      code: `function isString(x: string | undefined): x is string {
+      code: `
+function isString(x: string | undefined): x is string {
   return typeof x === 'string';
 }
 `,
@@ -30,7 +32,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Arrow function expression',
-      code: `const isString = (x: unknown): x is string => {
+      code: `
+const isString = (x: unknown): x is string => {
   return typeof x === 'string';
 };
 `,
@@ -40,7 +43,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Function expression',
-      code: `const isString = function (x: unknown): x is string {
+      code: `
+const isString = function (x: unknown): x is string {
   return typeof x === 'string';
 };
 `,
@@ -50,7 +54,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Function has no return type',
-      code: `function isString(x?: unknown) {
+      code: `
+function isString(x?: unknown) {
   return typeof x === 'string';
 }
 `,
@@ -60,7 +65,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Function return type is not a type predicate',
-      code: `function isString(x?: unknown): boolean {
+      code: `
+function isString(x?: unknown): boolean {
   return typeof x === 'string';
 }
 `,
@@ -70,7 +76,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Function has an optional argument but not the one referenced in the type predicate',
-      code: `function isString(x: unknown, y?: boolean): x is string {
+      code: `
+function isString(x: unknown, y?: boolean): x is string {
   return typeof x === 'string';
 }
 `,
@@ -80,7 +87,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Function returns a type predicate but the argument is missing',
-      code: `function isString(): x is string {
+      code: `
+function isString(): x is string {
   return typeof x === 'string';
 }
 `,
@@ -90,7 +98,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Parameter is a binding pattern',
-      code: `function isString({ x }: { x?: unknown }): x is string {
+      code: `
+function isString({ x }: { x?: unknown }): x is string {
   return typeof x === 'string';
 }
 `,
@@ -100,7 +109,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Type predicate parameter is `this` keyword',
-      code: `function isString(x?: unknown): this is string {
+      code: `
+function isString(x?: unknown): this is string {
   return typeof x === 'string';
 }
 `,
@@ -112,7 +122,8 @@ ruleTester.run(name, rule, {
   invalid: [
     {
       name: 'Parameter used in type predicate is optional #docs',
-      code: `function isString(x?: unknown): x is string {
+      code: `
+function isString(x?: unknown): x is string {
   return typeof x === 'string';
 }
 `,
@@ -123,7 +134,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Parameter used in `asserts` type predicate is optional #docs',
-      code: `function isString(x?: unknown): asserts x is string {
+      code: `
+function isString(x?: unknown): asserts x is string {
   if (typeof x !== 'string') throw Error('oh no');
 }
 `,
@@ -134,7 +146,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Arrow function expression',
-      code: `const isString = (x?: unknown): x is string => {
+      code: `
+const isString = (x?: unknown): x is string => {
   return typeof x === 'string';
 };
 `,
@@ -145,7 +158,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Function expression',
-      code: `const isString = function (x?: unknown): x is string {
+      code: `
+const isString = function (x?: unknown): x is string {
   return typeof x === 'string';
 };
 `,
@@ -156,7 +170,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With several arguments',
-      code: `function isString(x: unknown, y?: unknown): y is string {
+      code: `
+function isString(x: unknown, y?: unknown): y is string {
   return typeof x === 'string';
 }
 `,

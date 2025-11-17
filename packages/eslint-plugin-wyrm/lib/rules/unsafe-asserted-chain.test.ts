@@ -21,7 +21,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'Optional chain asserted as nullable #docs',
-      code: `declare const foo: { bar: string | number } | null;
+      code: `
+declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as string | undefined)?.toUpperCase();
 `,
       after() {
@@ -30,7 +31,8 @@ const str = (foo?.bar as string | undefined)?.toUpperCase();
     },
     {
       name: 'Optional chain asserted as nullable union',
-      code: `declare const foo: { bar: string | number } | null;
+      code: `
+declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as string | number | undefined)?.toString();
 `,
       after() {
@@ -39,7 +41,8 @@ const str = (foo?.bar as string | number | undefined)?.toString();
     },
     {
       name: 'Optional chain asserted as any #docs',
-      code: `declare const foo: { bar: string | number } | null;
+      code: `
+declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as any)?.toUpperCase();
 `,
       after() {
@@ -48,7 +51,8 @@ const str = (foo?.bar as any)?.toUpperCase();
     },
     {
       name: 'Optional chain asserted as unknown #docs',
-      code: `declare const foo: { bar: string | number } | null;
+      code: `
+declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as unknown)?.toUpperCase();
 `,
       after() {
@@ -57,7 +61,8 @@ const str = (foo?.bar as unknown)?.toUpperCase();
     },
     {
       name: 'Optional chain asserted as union containing any',
-      code: `declare const foo: { bar: string | number } | null;
+      code: `
+declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as string | any)?.toUpperCase();
 `,
       after() {
@@ -66,7 +71,8 @@ const str = (foo?.bar as string | any)?.toUpperCase();
     },
     {
       name: 'With a non-null assertion on an optional chain. Already checked by `@typescript-eslint/no-non-null-asserted-optional-chain`.',
-      code: `declare const foo: { bar: string | number } | null;
+      code: `
+declare const foo: { bar: string | number } | null;
 const str = (foo?.bar! as string).toUpperCase();
 `,
       after() {
@@ -75,7 +81,8 @@ const str = (foo?.bar! as string).toUpperCase();
     },
     {
       name: 'Optional chain asserted as union containing unknown',
-      code: `declare const foo: { bar: string | number } | null;
+      code: `
+declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as string | unknown)?.toUpperCase();
 `,
       after() {
@@ -84,7 +91,8 @@ const str = (foo?.bar as string | unknown)?.toUpperCase();
     },
     {
       name: 'Optional chain asserted as nullable indexed access type',
-      code: `declare const foo: { bar?: string | number };
+      code: `
+declare const foo: { bar?: string | number };
 const str = (foo?.bar as (typeof foo)['bar'])?.toString();
 `,
       after() {
@@ -93,7 +101,8 @@ const str = (foo?.bar as (typeof foo)['bar'])?.toString();
     },
     {
       name: 'Type assertion is not on a chain expression',
-      code: `declare const foo: string | undefined;
+      code: `
+declare const foo: string | undefined;
 const str = (foo as string).toString();
 `,
       after() {
@@ -104,7 +113,8 @@ const str = (foo as string).toString();
   invalid: [
     {
       name: 'Optional chain asserted as not undefined #docs',
-      code: `declare const foo: { bar: string | number } | null;
+      code: `
+declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as string).toUpperCase();
 `,
       errors: [{ messageId: 'unsafeAssertionOnOptionalChain' }],
@@ -114,7 +124,8 @@ const str = (foo?.bar as string).toUpperCase();
     },
     {
       name: 'Optional chain call expression asserted as not undefined #docs',
-      code: `declare const foo: { bar: () => string | number } | null;
+      code: `
+declare const foo: { bar: () => string | number } | null;
 const str = (foo?.bar() as string | number)?.toString();
 `,
       errors: [{ messageId: 'unsafeAssertionOnOptionalChain' }],
@@ -124,7 +135,8 @@ const str = (foo?.bar() as string | number)?.toString();
     },
     {
       name: 'Optional chain asserted as non nullable indexed access type',
-      code: `declare const foo: { bar: string | number } | null;
+      code: `
+declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as NonNullable<typeof foo>['bar']).toString();
 `,
       errors: [{ messageId: 'unsafeAssertionOnOptionalChain' }],

@@ -16,7 +16,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'JSX element in return statement #docs',
-      code: `export function MyComponent() {
+      code: `
+export function MyComponent() {
   return <div />;
 }
 `,
@@ -26,7 +27,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'JSX element in variable initialization #docs',
-      code: `export function MyComponent() {
+      code: `
+export function MyComponent() {
   const jsx = <div />;
   return jsx;
 }
@@ -37,7 +39,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'Not JSX',
-      code: `'use strict';
+      code: `
+'use strict';
 `,
       after() {
         checkFormatting(this);
@@ -45,7 +48,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'JSX fragment in return statement',
-      code: `export function MyComponent() {
+      code: `
+export function MyComponent() {
   return <div />;
 }
 `,
@@ -55,7 +59,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'JSX fragment in variable initialization',
-      code: `export function MyComponent() {
+      code: `
+export function MyComponent() {
   const jsx = <div />;
   return jsx;
 }
@@ -68,7 +73,8 @@ ruleTester.run(name, rule, {
   invalid: [
     {
       name: 'JSX element in expression statement',
-      code: `export function MyComponent() {
+      code: `
+export function MyComponent() {
   <div />;
 }
 `,
@@ -79,7 +85,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'JSX fragment in expression statement #docs',
-      code: `export function MyComponent() {
+      code: `
+export function MyComponent() {
   <></>;
 }
 `,
@@ -90,7 +97,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'JSX in arrow function body',
-      code: `export function MyComponent() {
+      code: `
+export function MyComponent() {
   const fn = () => {
     <div />;
   };

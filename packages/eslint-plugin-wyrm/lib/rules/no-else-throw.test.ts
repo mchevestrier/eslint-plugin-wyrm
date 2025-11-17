@@ -10,7 +10,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'No `else` block necessary #docs',
-      code: `if (cond) throw Error('oh no!');
+      code: `
+if (cond) throw Error('oh no!');
 foo();
 `,
       after() {
@@ -19,7 +20,8 @@ foo();
     },
     {
       name: 'Empty consequent block',
-      code: `if (cond) {
+      code: `
+if (cond) {
 } else {
   foo();
 }
@@ -30,7 +32,8 @@ foo();
     },
     {
       name: 'Consequent block does not always throw',
-      code: `if (cond) {
+      code: `
+if (cond) {
   if (Math.random()) throw Error('oh no!');
 } else {
   foo();
@@ -44,10 +47,12 @@ foo();
   invalid: [
     {
       name: 'Unnecessary `else` block after `throw` #docs',
-      code: `if (cond) throw Error('oh no!');
+      code: `
+if (cond) throw Error('oh no!');
 else foo();
 `,
-      output: `if (cond) throw Error('oh no!');
+      output: `
+if (cond) throw Error('oh no!');
  foo();
 `,
       errors: [{ messageId: 'noElseThrow' }],
@@ -57,13 +62,15 @@ else foo();
     },
     {
       name: 'Unnecessary `else` block after `throw` (block condition)',
-      code: `if (cond) {
+      code: `
+if (cond) {
   throw Error('oh no!');
 } else {
   foo();
 }
 `,
-      output: `if (cond) {
+      output: `
+if (cond) {
   throw Error('oh no!');
 }  foo();
 `,
@@ -74,13 +81,15 @@ else foo();
     },
     {
       name: 'Unnecessary `else if` block after `throw`',
-      code: `if (cond) {
+      code: `
+if (cond) {
   throw Error('oh no!');
 } else if (quux) {
   foo();
 }
 `,
-      output: `if (cond) {
+      output: `
+if (cond) {
   throw Error('oh no!');
 }  if (quux) {
   foo();

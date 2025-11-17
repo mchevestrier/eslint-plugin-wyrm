@@ -16,7 +16,8 @@ ruleTester.run(name, rule, {
   valid: [
     {
       name: 'No JSX expression container',
-      code: `function Foo() {
+      code: `
+function Foo() {
   return <div>Ok</div>;
 }
 `,
@@ -26,7 +27,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'JSX expression container is not empty #docs',
-      code: `function Foo({ children }: PropsWithChildren) {
+      code: `
+function Foo({ children }: PropsWithChildren) {
   return <div>{children}</div>;
 }
 `,
@@ -36,7 +38,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'JSX expression container contains a ternary expression',
-      code: `function Foo({ children }: PropsWithChildren) {
+      code: `
+function Foo({ children }: PropsWithChildren) {
   return <div>{Math.cos(0) ? children : null}</div>;
 }
 `,
@@ -46,7 +49,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'JSX expression container contains a non-empty literal',
-      code: `function Foo({ children }: PropsWithChildren) {
+      code: `
+function Foo({ children }: PropsWithChildren) {
   return <div>{'foo!'}</div>;
 }
 `,
@@ -56,7 +60,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'JSX expression container with a comment #docs',
-      code: `function Foo() {
+      code: `
+function Foo() {
   return (
     <div>
       {/* A comment */}
@@ -71,7 +76,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a JSX attribute and a false value',
-      code: `function Foo() {
+      code: `
+function Foo() {
   return <Bar quux={false} />;
 }
 `,
@@ -81,7 +87,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a JSX attribute and a null value',
-      code: `function Foo() {
+      code: `
+function Foo() {
   return <Bar quux={null} />;
 }
 `,
@@ -91,7 +98,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a JSX attribute and an empty string',
-      code: `function Foo() {
+      code: `
+function Foo() {
   return <Bar quux={''} />;
 }
 `,
@@ -101,7 +109,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'With a JSX attribute and an undefined value',
-      code: `function Foo() {
+      code: `
+function Foo() {
   return <Bar quux={undefined} />;
 }
 `,
@@ -113,7 +122,8 @@ ruleTester.run(name, rule, {
   invalid: [
     {
       name: 'Empty JSX expression container #docs',
-      code: `function Foo() {
+      code: `
+function Foo() {
   return (
     <div>
       {}
@@ -129,7 +139,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'JSX expression container with only a literal `null` #docs',
-      code: `function Foo() {
+      code: `
+function Foo() {
   return <div>{null}</div>;
 }
 `,
@@ -140,7 +151,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'JSX expression container with only a literal `undefined` #docs',
-      code: `function Foo() {
+      code: `
+function Foo() {
   return <div>{undefined}</div>;
 }
 `,
@@ -151,7 +163,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'JSX expression container with only a literal `false` #docs',
-      code: `function Foo() {
+      code: `
+function Foo() {
   return <div>{false}</div>;
 }
 `,
@@ -162,7 +175,8 @@ ruleTester.run(name, rule, {
     },
     {
       name: 'JSX expression container with only a literal empty string #docs',
-      code: `function Foo() {
+      code: `
+function Foo() {
   return <div>{''}</div>;
 }
 `,
