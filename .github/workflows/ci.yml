@@ -48,6 +48,10 @@ jobs:
         run: pnpm run attw
         working-directory: ./packages/eslint-plugin-wyrm/
 
+      - name: 📖 publint
+        run: pnpm run publint
+        working-directory: ./packages/eslint-plugin-wyrm/
+
       - name: ✒️ eslint-doc-generator
         run: pnpm run -r --reporter-hide-prefix lint:docs
 
