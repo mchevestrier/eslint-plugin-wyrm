@@ -1,4 +1,4 @@
-export function SuspiciousSemicolon() {
+export function NoSuspiciousJsxSemicolon() {
   return (
     <div>
       {/* eslint-disable-next-line wyrm/no-suspicious-jsx-semicolon */}
