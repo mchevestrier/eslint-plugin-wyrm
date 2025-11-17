@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - master
+    tags:
+      - '!**'
   pull_request:
     branches:
       - master
@@ -155,3 +157,36 @@ jobs:
       - name: Validate PR commits with commitlint
         if: github.event_name == 'pull_request'
         run: pnpm commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+
+  preview:
+    runs-on: ubuntu-latest
+
+    needs: [checks, tests]
+    if: ${{ github.event_name != 'push' || github.event.head_commit.author.username != 'github-actions[bot]' }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+        name: Install pnpm
+        with:
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: 'pnpm'
+          cache-dependency-path: 'pnpm-lock.yaml'
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile --prefer-offline --ignore-scripts
+
+      - name: ⛏️ build
+        run: pnpm run build
+        working-directory: ./packages/eslint-plugin-wyrm/
+
+      - name: 📦 pkg.pr.new
+        run: pnpx pkg-pr-new publish './packages/eslint-plugin-wyrm/' --no-template --compact --packageManager=pnpm
