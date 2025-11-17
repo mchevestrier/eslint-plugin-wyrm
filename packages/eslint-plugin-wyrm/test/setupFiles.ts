@@ -24,4 +24,6 @@ failOnConsole({
   shouldFailOnInfo: true,
   shouldFailOnWarn: true,
   shouldFailOnError: true,
+
+  shouldPrintMessage: true,
 });

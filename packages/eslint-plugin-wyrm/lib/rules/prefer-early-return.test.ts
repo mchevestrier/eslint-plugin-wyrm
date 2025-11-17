@@ -133,6 +133,15 @@ ruleTester.run(name, rule, {
 }
 `,
     },
+    {
+      name: 'With a wrapping `if` statement and a single line consequent',
+      code: `function foo(cond1: boolean, bar: string) {
+  if (cond1) {
+    throw Error(bar);
+  }
+}
+`,
+    },
   ],
   invalid: [
     {

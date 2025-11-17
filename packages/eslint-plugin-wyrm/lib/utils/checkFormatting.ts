@@ -52,12 +52,13 @@ async function checkWithPrettier(testCase: TestCase) {
     parser: 'typescript',
   };
 
-  const isFormatted = await prettier.check(code, config);
-  if (isFormatted) return;
-
   const formatted = await prettier.format(code, config);
+  const formattedWithNewLine = `\n${formatted}`;
 
-  const diff = diffStringsUnified(formatted, code);
+  if (formatted === code) return; // TODO: remove this line
+  if (formattedWithNewLine === code) return;
+
+  const diff = diffStringsUnified(formattedWithNewLine, code);
 
   const msg = `
 > "${name}"

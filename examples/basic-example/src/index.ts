@@ -9,6 +9,7 @@ export * from './rules/no-extra-false-fallback.js';
 export * from './rules/no-extra-nested-boolean-cast.js';
 export * from './rules/no-invalid-date-literal.js';
 export * from './rules/no-return-to-void.js';
+export * from './rules/no-sloppy-length-check.js';
 export * from './rules/no-ternary-return.js';
 export * from './rules/no-useless-iife.js';
 export * from './rules/no-useless-logical-fallback.js';

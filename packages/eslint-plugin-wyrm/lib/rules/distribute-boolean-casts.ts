@@ -13,7 +13,7 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Enforce that boolean casts are distributed over logical expressions',
-      recommended: true,
+      strict: true,
     },
     fixable: 'code',
     schema: [],

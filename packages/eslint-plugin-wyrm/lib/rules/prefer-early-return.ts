@@ -13,7 +13,7 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Require early returns when possible',
-      recommended: true,
+      strict: true,
     },
     fixable: 'code',
     schema: [],
@@ -40,6 +40,10 @@ export default createRule({
       if (!ifStatement) return;
 
       if (body.length === 1 && !ifStatement.alternate) {
+        const MAXIMUM_CONSEQUENT_VOLUME = 1;
+        const consequentVolume = computeStatementVolume(ifStatement.consequent);
+        if (consequentVolume <= MAXIMUM_CONSEQUENT_VOLUME) return;
+
         context.report({
           node: ifStatement,
           messageId: 'preferEarlyReturn',
