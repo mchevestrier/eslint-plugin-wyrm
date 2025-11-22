@@ -3,6 +3,7 @@ import path from 'node:path';
 
 import { AST_NODE_TYPES, type TSESTree } from '@typescript-eslint/utils';
 
+import { compareTokens } from '../utils/compareTokens.js';
 import { createRule } from '../utils/createRule.js';
 import { None, Some, type Option } from '../utils/option.js';
 
@@ -50,11 +51,46 @@ export default createRule({
     }
 
     function isFirstIdent(variableName: string): boolean {
-      return /^first[^a-z]/u.test(variableName) || /^FIRST[^A-Z]/u.test(variableName);
+      return (
+        /^first(?:[^a-z].*|)$/u.test(variableName) ||
+        /^FIRST(?:[^A-Z].*|)$/u.test(variableName)
+      );
     }
 
     function isLastIdent(variableName: string): boolean {
-      return /^last[^a-z]/u.test(variableName) || /^LAST[^A-Z]/u.test(variableName);
+      return (
+        /^last(?:[^a-z].*|)$/u.test(variableName) ||
+        /^LAST(?:[^A-Z].*|)$/u.test(variableName)
+      );
+    }
+
+    function hasFirstIdent(node: TSESTree.Node) {
+      return hasIdent(node, isFirstIdent);
+    }
+
+    function hasLastIdent(node: TSESTree.Node) {
+      return hasIdent(node, isLastIdent);
+    }
+
+    function hasIdent(node: TSESTree.Node, pred: (name: string) => boolean): boolean {
+      switch (node.type) {
+        case AST_NODE_TYPES.Identifier:
+          return pred(node.name);
+
+        case AST_NODE_TYPES.MemberExpression:
+          return hasIdent(node.object, pred) || hasIdent(node.property, pred);
+
+        case AST_NODE_TYPES.TSAsExpression:
+        case AST_NODE_TYPES.TSSatisfiesExpression:
+        case AST_NODE_TYPES.TSNonNullExpression:
+          return hasIdent(node.expression, pred);
+
+        case AST_NODE_TYPES.CallExpression:
+          return hasIdent(node.callee, pred);
+
+        default:
+          return false;
+      }
     }
 
     function unwrapExpr(node: TSESTree.Node) {
@@ -73,6 +109,16 @@ export default createRule({
       const callee = unwrapExpr(expr.callee);
       if (callee.type !== AST_NODE_TYPES.MemberExpression) return false;
       if (callee.property.type !== AST_NODE_TYPES.Identifier) return false;
+
+      // lastFoos.at(0)
+      if (hasLastIdent(callee.object)) {
+        return false;
+      }
+
+      // foos.at(-1).at(0)
+      if (isLastExpr(callee.object)) {
+        return false;
+      }
 
       // foo.find()
       if (callee.property.name === 'find') return true;
@@ -96,6 +142,16 @@ export default createRule({
           return isCallExprFirstExpr(expr);
 
         case AST_NODE_TYPES.MemberExpression:
+          // lastFoos[0]
+          if (hasLastIdent(expr.object)) {
+            return false;
+          }
+
+          // foos.at(-1)[0]
+          if (isLastExpr(expr.object)) {
+            return false;
+          }
+
           // foo[0]
           return (
             expr.property.type === AST_NODE_TYPES.Literal && expr.property.value === 0
@@ -110,6 +166,16 @@ export default createRule({
       const callee = unwrapExpr(expr.callee);
       if (callee.type !== AST_NODE_TYPES.MemberExpression) return false;
       if (callee.property.type !== AST_NODE_TYPES.Identifier) return false;
+
+      // firstFoos.at(-1)
+      if (hasFirstIdent(callee.object)) {
+        return false;
+      }
+
+      // foos.at(0).at(-1)
+      if (isFirstExpr(callee.object)) {
+        return false;
+      }
 
       // foo.findLast()
       if (callee.property.name === 'findLast') return true;
@@ -128,6 +194,16 @@ export default createRule({
     }
 
     function isMemberExprLastExpr(expr: TSESTree.MemberExpression) {
+      // firstFoos[firstFoos.length - 1]
+      if (hasFirstIdent(expr.object)) {
+        return false;
+      }
+
+      // foos[0][foos[0] - 1]
+      if (isFirstExpr(expr.object)) {
+        return false;
+      }
+
       // foo[foo.length - 1]
 
       if (expr.property.type !== AST_NODE_TYPES.BinaryExpression) return false;
@@ -142,11 +218,12 @@ export default createRule({
       if (left.property.type !== AST_NODE_TYPES.Identifier) return false;
       if (left.property.name !== 'length') return false;
 
-      if (left.object.type !== AST_NODE_TYPES.Identifier) return false;
-      if (expr.object.type !== AST_NODE_TYPES.Identifier) return false;
-      if (expr.object.name !== left.object.name) return false;
+      // foo[...]
+      const leftTokens = context.sourceCode.getTokens(expr.object);
+      // ...[foo ...]
+      const rightTokens = context.sourceCode.getTokens(left.object);
 
-      return true;
+      return compareTokens(leftTokens, rightTokens);
     }
 
     function isLastExpr(node: TSESTree.Node): boolean {
@@ -198,6 +275,21 @@ export default createRule({
 
       Property(node) {
         checkAssignment(node.key, node.value, node);
+      },
+
+      ArrayPattern(node) {
+        if (node.parent.type !== AST_NODE_TYPES.VariableDeclarator) return;
+        if (node.parent.init?.type !== AST_NODE_TYPES.Identifier) return;
+
+        const [first] = node.elements;
+
+        if (
+          first?.type === AST_NODE_TYPES.Identifier &&
+          isLastIdent(first.name) &&
+          !isLastIdent(node.parent.init.name)
+        ) {
+          context.report({ node: first, messageId: 'noLastFirst' });
+        }
       },
     };
   },

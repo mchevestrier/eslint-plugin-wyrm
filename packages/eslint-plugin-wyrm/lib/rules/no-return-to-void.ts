@@ -81,7 +81,8 @@ export default createRule({
           callee: TSESTree.Expression,
         ): boolean {
           const type = services.getTypeAtLocation(callee);
-          const signatures = type.getCallSignatures();
+          const signatures = getCallSignatures(type);
+          if (!signatures.length) return false;
 
           return signatures.every((sig) => signatureOnlyHasVoidReturningCallback(sig));
         }
@@ -89,6 +90,11 @@ export default createRule({
     };
   },
 });
+
+function getCallSignatures(type: ts.Type): readonly ts.Signature[] {
+  if (!type.isUnion()) return type.getCallSignatures();
+  return type.types.flatMap((t) => getCallSignatures(t));
+}
 
 function getAllReturnStatements(node: TSESTree.Node | null): TSESTree.ReturnStatement[] {
   if (!node) return [];
@@ -116,11 +122,18 @@ function getAllReturnStatements(node: TSESTree.Node | null): TSESTree.ReturnStat
     case AST_NODE_TYPES.CatchClause:
       return getAllReturnStatements(node.body);
 
+    case AST_NODE_TYPES.DoWhileStatement:
     case AST_NODE_TYPES.WhileStatement:
     case AST_NODE_TYPES.ForStatement:
     case AST_NODE_TYPES.ForInStatement:
     case AST_NODE_TYPES.ForOfStatement:
       return getAllReturnStatements(node.body);
+
+    case AST_NODE_TYPES.SwitchCase:
+      return node.consequent.flatMap((stmt) => getAllReturnStatements(stmt));
+
+    case AST_NODE_TYPES.SwitchStatement:
+      return node.cases.flatMap((c) => getAllReturnStatements(c));
 
     default:
       return [];

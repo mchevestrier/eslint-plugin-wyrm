@@ -42,6 +42,30 @@ ruleTester.run(name, rule, {
       },
     },
     {
+      name: 'With return from `map` callback (optional chaining)',
+      code: `
+declare const arr: number[] | null;
+export const x = arr?.map((it) => {
+  return it + 2;
+});
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With return from `filter` callback (optional chaining)',
+      code: `
+declare const arr: number[] | null;
+export const x = arr?.filter((it) => {
+  return it === 2;
+});
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Callback is not passed to anything',
       code: `
 const cb = (it): void => {
@@ -93,6 +117,18 @@ foo(() => {
         checkFormatting(this);
       },
     },
+    {
+      name: 'With no signature',
+      code: `
+foo(() => {
+  if (Math.random()) return;
+  return undefined;
+});
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -100,6 +136,19 @@ foo(() => {
       code: `
 [1, 2, 3].forEach((it) => {
   return 42;
+});
+`,
+      errors: [{ messageId: 'noReturnToVoid' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With return from `forEach` callback (optional chaining)',
+      code: `
+declare const arr: number[] | null;
+export const x = arr?.forEach((it) => {
+  return it + 2;
 });
 `,
       errors: [{ messageId: 'noReturnToVoid' }],
@@ -174,11 +223,26 @@ foo(() => 42);
       },
     },
     {
+      name: 'With return in `do while` loop',
+      code: `
+[1, 2].forEach((it) => {
+  do {
+    return 42;
+  } while (1);
+});
+`,
+      errors: [{ messageId: 'noReturnToVoid' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With return in `for` loop',
       code: `
 [1, 2].forEach((it) => {
   for (let i = 0; i < it; i++) {
     return 42;
+    debugger;
   }
 });
 `,
@@ -193,6 +257,7 @@ foo(() => 42);
 [1, 2].forEach((it) => {
   for (let k in it) {
     return 42;
+    continue;
   }
 });
 `,
@@ -207,6 +272,7 @@ foo(() => 42);
 [1, 2].forEach((it) => {
   for (let n of [it]) {
     return 42;
+    break;
   }
 });
 `,
@@ -255,6 +321,24 @@ foo(() => 42);
     JSON.parse('{}');
   } finally {
     return 42;
+  }
+});
+`,
+      errors: [{ messageId: 'noReturnToVoid' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With return in `switch` statement',
+      code: `
+[1, 2, 3].forEach((it) => {
+  switch (it) {
+    case 1:
+      return 42;
+
+    default:
+      console.log(it);
   }
 });
 `,

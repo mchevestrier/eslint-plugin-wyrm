@@ -95,7 +95,7 @@ const str = \`\${foo}_baz\`;
     {
       name: 'Reusing an identifier is allowed',
       code: `
-const foo = 'foobar';
+const foo = 'foo';
 const str1 = \`\${foo}_baz\`;
 const str2 = \`\${foo}_quux\`;
 `,
@@ -106,7 +106,7 @@ const str2 = \`\${foo}_quux\`;
     {
       name: 'Using an exported identifier is allowed',
       code: `
-export const foo = 'foobar';
+export const foo = 'foo';
 const str = \`\${foo}_baz\`;
 `,
       after() {
@@ -116,8 +116,39 @@ const str = \`\${foo}_baz\`;
     {
       name: 'A template literal with spaces is allowed',
       code: `
-export const foo = 'foobar';
+const foo = 'foo';
 const str = \`Value: \${foo}\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Enum value as the only expression',
+      code: `
+enum Foo {
+  Bar = 'bar',
+  Baz = 'baz',
+}
+const str = \`\${Foo.Bar}\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Call expressions are allowed',
+      code: `
+const str = \`\${indent(2)}\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With multiple call expressions',
+      code: `
+const str = \`\${indent(2)}\${indent(2)}_foo\`;
 `,
       after() {
         checkFormatting(this);
@@ -328,6 +359,31 @@ const str = \`12345678901234_baz\`;
       },
     },
     {
+      name: 'With a member expression as the expression',
+      code: `
+const foo = { bar: 'foobar' } as const;
+const str = \`\${foo.bar}_baz\`;
+`,
+      errors: [
+        {
+          messageId: 'noConstantTemplateExpression',
+          suggestions: [
+            {
+              messageId: 'replaceByString',
+              data: { value: 'foobar' },
+              output: `
+const foo = { bar: 'foobar' } as const;
+const str = \`foobar_baz\`;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With a literal string value as the expression',
       code: `
 const str = \`\${'foobar'}_baz\`;
@@ -364,6 +420,37 @@ const str = \`\${42}_baz\`;
               data: { value: '42' },
               output: `
 const str = \`42_baz\`;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Enum value but not the only expression',
+      code: `
+enum Foo {
+  Bar = 'bar',
+  Baz = 'baz',
+}
+const str = \`foo_\${Foo.Bar}\`;
+`,
+      errors: [
+        {
+          messageId: 'noConstantTemplateExpression',
+          suggestions: [
+            {
+              messageId: 'replaceByString',
+              data: { value: 'bar' },
+              output: `
+enum Foo {
+  Bar = 'bar',
+  Baz = 'baz',
+}
+const str = \`foo_bar\`;
 `,
             },
           ],

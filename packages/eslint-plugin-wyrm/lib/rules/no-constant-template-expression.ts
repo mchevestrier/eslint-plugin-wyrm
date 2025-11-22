@@ -18,8 +18,9 @@
 
 import path from 'node:path';
 
+import type { TSESTree, TSESLint } from '@typescript-eslint/utils';
 import { AST_NODE_TYPES, ESLintUtils, ASTUtils } from '@typescript-eslint/utils';
-import type * as ts from 'typescript';
+import * as ts from 'typescript';
 
 import { createRule } from '../utils/createRule.js';
 
@@ -56,6 +57,81 @@ export default createRule({
   },
   defaultOptions: [{ minAllowedLength: DEFAULT_MIN_ALLOWED_LENGTH }],
   create(context, [options]) {
+    function checkExpression(
+      expr: TSESTree.Expression,
+      quasis: TSESTree.TemplateElement[],
+      scope: TSESLint.Scope.Scope,
+    ) {
+      if (expr.type === AST_NODE_TYPES.Identifier) {
+        const variable = ASTUtils.findVariable(scope, expr);
+        if (variable) {
+          const { references, defs } = variable;
+          if (references.length > 2) return;
+
+          const def = defs.at(-1);
+          if (
+            def?.parent?.type === AST_NODE_TYPES.VariableDeclaration &&
+            (def.parent.parent.type === AST_NODE_TYPES.ExportNamedDeclaration ||
+              def.parent.parent.type === AST_NODE_TYPES.ExportDefaultDeclaration)
+          ) {
+            return;
+          }
+        }
+      }
+
+      const services = ESLintUtils.getParserServices(context);
+      const checker = services.program.getTypeChecker();
+
+      const type = services.getTypeAtLocation(expr);
+
+      const value = getLiteralValue(type, checker);
+      if (value === null) return;
+
+      if (value.length >= options.minAllowedLength) return;
+
+      const sym = services.getSymbolAtLocation(expr);
+      if (
+        sym &&
+        sym.getFlags() & ts.SymbolFlags.EnumMember &&
+        !quasis.some((quasi) => quasi.value.cooked)
+      ) {
+        return;
+      }
+
+      context.report({
+        node: expr,
+        messageId: 'noConstantTemplateExpression',
+        data: { value },
+        suggest: [
+          {
+            messageId: 'replaceByString',
+            data: { value },
+            *fix(fixer) {
+              const [identStart, identEnd] = expr.range;
+
+              const previousQuasi = quasis
+                .toReversed()
+                .find((quasi) => quasi.range[1] <= identStart);
+              const nextQuasi = quasis.find((quasi) => quasi.range[0] >= identEnd);
+
+              /* v8 ignore if -- @preserve */
+              if (!previousQuasi || !nextQuasi) {
+                const msg = 'No previous/next quasi found. This should never happen.';
+                console.error(msg);
+                return;
+              }
+
+              const start = previousQuasi.range[1];
+              const end = nextQuasi.range[0];
+
+              const range = [start - 2, end + 1] as const;
+              yield fixer.replaceTextRange(range, value);
+            },
+          },
+        ],
+      });
+    }
+
     return {
       TemplateLiteral(node) {
         const { expressions, quasis } = node;
@@ -65,65 +141,7 @@ export default createRule({
         const scope = context.sourceCode.getScope(node);
 
         for (const expr of expressions) {
-          if (expr.type === AST_NODE_TYPES.Identifier) {
-            const variable = ASTUtils.findVariable(scope, expr);
-            if (variable) {
-              const { references, defs } = variable;
-              if (references.length > 2) continue;
-
-              const def = defs.at(-1);
-              if (
-                def?.parent?.type === AST_NODE_TYPES.VariableDeclaration &&
-                (def.parent.parent.type === AST_NODE_TYPES.ExportNamedDeclaration ||
-                  def.parent.parent.type === AST_NODE_TYPES.ExportDefaultDeclaration)
-              ) {
-                continue;
-              }
-            }
-          }
-
-          const services = ESLintUtils.getParserServices(context);
-          const checker = services.program.getTypeChecker();
-
-          const type = services.getTypeAtLocation(expr);
-
-          const value = getLiteralValue(type, checker);
-          if (value === null) continue;
-
-          if (value.length >= options.minAllowedLength) return;
-
-          context.report({
-            node: expr,
-            messageId: 'noConstantTemplateExpression',
-            data: { value },
-            suggest: [
-              {
-                messageId: 'replaceByString',
-                data: { value },
-                *fix(fixer) {
-                  const [identStart, identEnd] = expr.range;
-
-                  const previousQuasi = quasis
-                    .toReversed()
-                    .find((quasi) => quasi.range[1] <= identStart);
-                  const nextQuasi = quasis.find((quasi) => quasi.range[0] >= identEnd);
-
-                  /* v8 ignore if -- @preserve */
-                  if (!previousQuasi || !nextQuasi) {
-                    const msg = 'No previous/next quasi found. This should never happen.';
-                    console.error(msg);
-                    return;
-                  }
-
-                  const start = previousQuasi.range[1];
-                  const end = nextQuasi.range[0];
-
-                  const range = [start - 2, end + 1] as const;
-                  yield fixer.replaceTextRange(range, value);
-                },
-              },
-            ],
-          });
+          checkExpression(expr, quasis, scope);
         }
       },
     };

@@ -81,7 +81,8 @@ while (true) {
 while (true) {
   if (cond) {
     continue;
-  }  foo();
+  }  
+  foo();
 }
 `,
       errors: [{ messageId: 'noElseContinue' }],
@@ -107,6 +108,32 @@ while (true) {
   }  if (quux) {
     foo();
   }
+}
+`,
+      errors: [{ messageId: 'noElseContinue' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Unnecessary `else` multiline block after `continue` (block condition)',
+      code: `
+while (true) {
+  if (cond) {
+    continue;
+  } else {
+    foo();
+    bar();
+  }
+}
+`,
+      output: `
+while (true) {
+  if (cond) {
+    continue;
+  }  
+  foo();
+  bar();
 }
 `,
       errors: [{ messageId: 'noElseContinue' }],

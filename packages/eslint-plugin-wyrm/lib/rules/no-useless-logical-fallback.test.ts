@@ -53,6 +53,27 @@ function quux(foo: boolean | number) {
       },
     },
     {
+      name: '`?? null` with record access',
+      code: `
+declare const dict: Record<string, string>;
+const str = dict['key'] ?? null;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Possibly `null` with optional chaining and fallback to `|| null`',
+      code: `
+function quux(foo: string[] | null) {
+  return foo?.[0] ?? null;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: '`|| true` when the left side is not exclusively a boolean',
       code: `
 function quux(foo: boolean | number) {
@@ -400,6 +421,31 @@ function quux(foo: undefined) {
 function quux(foo: undefined) {
   return foo;
 }
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`?? undefined` with record access (and "noUncheckedIndexedAccess": true)',
+      code: `
+declare const dict: Record<string, string>;
+const str = dict['key'] ?? undefined;
+`,
+      errors: [
+        {
+          messageId: 'noUselessLogicalFallback',
+          suggestions: [
+            {
+              messageId: 'removeLogicalFallback',
+              data: { expression: '?? undefined' },
+              output: `
+declare const dict: Record<string, string>;
+const str = dict['key'];
 `,
             },
           ],

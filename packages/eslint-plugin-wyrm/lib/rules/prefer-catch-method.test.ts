@@ -247,6 +247,39 @@ let result = await getStuff()
       },
     },
     {
+      name: 'With a type annotation',
+      code: `
+let result: string | null;
+try {
+  result = await getStuff();
+} catch (err) {
+  console.error(err);
+  result = null;
+}
+`,
+      errors: [
+        {
+          messageId: 'preferCatchMethod',
+          suggestions: [
+            {
+              messageId: 'useCatchMethod',
+              output: `
+
+let result: string | null = await getStuff()
+  .catch((err: unknown) => {
+    console.error(err);
+    return null;
+  });
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With several assignments in `catch` block',
       code: `
 let result;

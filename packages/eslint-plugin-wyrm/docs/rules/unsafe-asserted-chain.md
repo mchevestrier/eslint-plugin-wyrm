@@ -10,7 +10,7 @@ This rule supplements the [`@typescript-eslint/no-non-null-asserted-optional-cha
 
 It checks for type assertions on optional chain expressions (`?.`) where the asserted type doesn't include `undefined`.
 
-Optional chaining can return `undefined` by default, so this is likely a mistake.
+Optional chaining can return `undefined` by definition, so this is likely a mistake.
 
 This rule only makes sense if you have `strictNullChecks` enabled in your `tsconfig.json` (this is the default for `strict: true`).
 

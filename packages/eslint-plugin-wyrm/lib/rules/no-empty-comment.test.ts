@@ -98,6 +98,53 @@ ruleTester.run(name, rule, {
       },
     },
     {
+      name: 'Multi-line block comment with stars',
+      code: `
+/*
+ **
+ */
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Block comment with small line of asterisks',
+      code: `
+/****/
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Block comment with small line of asterisks and spaces',
+      code: `
+/* ** */
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Block comment with line of asterisks',
+      code: `
+/*********/
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Block comment with line of asterisks and spaces',
+      code: `
+/* ******* */
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Empty padding comments (with default options)',
       code: `
 //
@@ -229,6 +276,18 @@ debugger; //
 // Ok
 //
 //
+`,
+      errors: [{ messageId: 'noEmptyComment' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Empty block comment below a non-empty line comment',
+      options: [{ allowPadding: true }],
+      code: `
+// Ok
+/* */
 `,
       errors: [{ messageId: 'noEmptyComment' }],
       after() {

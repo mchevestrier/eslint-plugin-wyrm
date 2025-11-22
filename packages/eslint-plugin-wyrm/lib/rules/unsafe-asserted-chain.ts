@@ -5,7 +5,7 @@
  *
  * It checks for type assertions on optional chain expressions (`?.`) where the asserted type doesn't include `undefined`.
  *
- * Optional chaining can return `undefined` by default, so this is likely a mistake.
+ * Optional chaining can return `undefined` by definition, so this is likely a mistake.
  *
  * This rule only makes sense if you have `strictNullChecks` enabled in your `tsconfig.json` (this is the default for `strict: true`).
  *
@@ -26,6 +26,8 @@ import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 import * as ts from 'typescript';
 
 import { createRule } from '../utils/createRule.js';
+import type { Option } from '../utils/option.js';
+import { None, Some } from '../utils/option.js';
 
 export const { name } = path.parse(import.meta.filename);
 
@@ -48,23 +50,7 @@ export default createRule({
   create(context) {
     return {
       TSAsExpression(node) {
-        if (node.expression.type !== AST_NODE_TYPES.ChainExpression) return;
-
-        let propertyAccess: TSESTree.Node = node.expression.expression;
-
-        if (node.expression.expression.type === AST_NODE_TYPES.CallExpression) {
-          propertyAccess = node.expression.expression.callee;
-        }
-
-        if (propertyAccess.type !== AST_NODE_TYPES.MemberExpression) return;
-
-        /* v8 ignore if -- @preserve */
-        if (!propertyAccess.optional) {
-          console.error(
-            'ChainExpression > MemberExpression.optional should always be true',
-          );
-          return;
-        }
+        if (!hasOptionalChaining(node.expression)) return;
 
         const services = ESLintUtils.getParserServices(context);
 
@@ -82,3 +68,38 @@ export default createRule({
     };
   },
 });
+
+function hasOptionalChaining(expression: TSESTree.Expression) {
+  if (expression.type === AST_NODE_TYPES.TSNonNullExpression) return false;
+
+  if (
+    expression.type === AST_NODE_TYPES.ChainExpression ||
+    expression.type === AST_NODE_TYPES.TSSatisfiesExpression ||
+    expression.type === AST_NODE_TYPES.TSAsExpression
+  ) {
+    return hasOptionalChaining(expression.expression);
+  }
+
+  if (
+    expression.type !== AST_NODE_TYPES.MemberExpression &&
+    expression.type !== AST_NODE_TYPES.CallExpression
+  ) {
+    return false;
+  }
+
+  const memberExpression = unwrapMemberExpression(expression);
+
+  if (!memberExpression.some) return false;
+  if (memberExpression.value.optional) return true;
+
+  return hasOptionalChaining(memberExpression.value.object);
+}
+
+function unwrapMemberExpression(
+  expr: TSESTree.CallExpression | TSESTree.MemberExpression,
+): Option<TSESTree.MemberExpression> {
+  if (expr.type === AST_NODE_TYPES.MemberExpression) return Some(expr);
+
+  if (expr.callee.type !== AST_NODE_TYPES.MemberExpression) return None;
+  return Some(expr.callee);
+}

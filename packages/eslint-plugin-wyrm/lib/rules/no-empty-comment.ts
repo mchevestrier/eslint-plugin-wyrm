@@ -65,7 +65,6 @@ function isPaddingComment(
   if (comment.type !== AST_TOKEN_TYPES.Line) return false;
 
   return comments.some((otherComment) => {
-    if (otherComment === comment) return false;
     if (otherComment.type !== AST_TOKEN_TYPES.Line) return false;
     if (isEmptyComment(otherComment)) return false;
 

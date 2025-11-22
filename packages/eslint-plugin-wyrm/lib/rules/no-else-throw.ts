@@ -40,10 +40,11 @@ export default createRule({
               yield fixer.remove(alternate);
 
               if (alternate.type === AST_NODE_TYPES.BlockStatement) {
+                const indent = ' '.repeat(node.loc.start.column);
                 const bodyText = alternate.body
                   .map((stmt) => context.sourceCode.getText(stmt))
-                  .join('\n');
-                yield fixer.insertTextAfter(node, bodyText);
+                  .join(`\n${indent}`);
+                yield fixer.insertTextAfter(node, `\n${indent}${bodyText}`);
                 return;
               }
 

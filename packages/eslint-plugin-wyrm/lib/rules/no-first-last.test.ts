@@ -27,6 +27,42 @@ const lastFoo = arr[arr.length - 1];
       },
     },
     {
+      name: 'Not the first last',
+      code: `
+const NOT_THE_FIRST_FOO = arr.at(-1);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not the last first',
+      code: `
+const NOT_THE_LAST_FOO = arr[0];
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Last first `last` with property access',
+      code: `
+const lastFoo = last.foo[0];
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'First last `first` with property access',
+      code: `
+const firstFoo = first.foo.at(-1);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Last last (with `findLast`)',
       code: `
 const lastFoo = arr.findLast(() => true);
@@ -66,6 +102,69 @@ const firstFoo = arr.find(() => true);
       name: 'Lasting peace',
       code: `
 const lastingPeace = arr.at(0);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not the right method name',
+      code: `
+const lastFoo = arr.method(0);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Last first of last with property access',
+      code: `
+const lastFoo = lastFoos.bar[0] as string | undefined;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Last first of last with index access',
+      code: `
+const lastFoo = foos.bar.baz[foos.bar.baz.length - 1]![0];
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Last first of last with method access',
+      code: `
+const lastFoo = foos.bar.baz.at(-1).at(0);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'First last of first with property access',
+      code: `
+const firstFoo = firstFoos.bar.at(-1) as string | undefined;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'First last of first with index access',
+      code: `
+const firstFoo = foos.bar.baz[0]![foos.bar.baz[0]!.length - 1];
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'First last of first with method access',
+      code: `
+const firstFoo = foos.bar.baz[0]!.at(-1);
 `,
       after() {
         checkFormatting(this);
@@ -326,6 +425,79 @@ const firstFoo = (1 ? foo : bar)[foo.length - 1];
         checkFormatting(this);
       },
     },
+    {
+      name: 'First last of first',
+      code: `
+const firstFoo = firstFoos.at(-1);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'First last of first (indexing syntax)',
+      code: `
+const firstFoo = firstFoos[firstFoos.length - 1];
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Last first of last',
+      code: `
+const lastFoo = lastFoos[0];
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Last first of last (method syntax)',
+      code: `
+const lastFoo = lastFoos.at(0);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Last first of last with destructuring syntax',
+      code: `
+const [lastFoo] = lastFoos;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'First first with destructuring syntax',
+      code: `
+const [firstFoo] = foo;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Array destructuring with assignment',
+      code: `
+let lastFoo;
+[lastFoo] = foo;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Array destructuring with non-identifier initializer',
+      code: `
+let [lastFoo] = [foo, bar];
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -506,6 +678,66 @@ const foo = {
 };
 `,
       errors: [{ messageId: 'noLastFirst' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Last first with destructuring syntax',
+      code: `
+const [lastFoo] = foo;
+`,
+      errors: [{ messageId: 'noLastFirst' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Last first and first second with destructuring syntax',
+      code: `
+const [lastFoo, firstFoo] = foo;
+`,
+      errors: [{ messageId: 'noLastFirst' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Last of the first "Not the last"',
+      code: `
+const lastFoo = NOT_THE_LAST[0];
+`,
+      errors: [{ messageId: 'noLastFirst' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'First last with index access, chained member expressions and non-null assertion',
+      code: `
+const firstFoo = foos.bar.baz![foos.bar.baz!.length - 1];
+`,
+      errors: [{ messageId: 'noFirstLast' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'First last with index access, chained member expressions and `satisfies` expression',
+      code: `
+const firstFoo = (foos satisfies any)[(foos satisfies any).length - 1];
+`,
+      errors: [{ messageId: 'noFirstLast' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'First last with index access, chained member expressions and `as` expression',
+      code: `
+const firstFoo = (foos as any)[(foos as any).length - 1];
+`,
+      errors: [{ messageId: 'noFirstLast' }],
       after() {
         checkFormatting(this);
       },

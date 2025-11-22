@@ -50,6 +50,17 @@ const isOkay = arr.filter((elt) => {
       },
     },
     {
+      name: 'Boolean cast is in conditional expression, but not in test position',
+      code: `
+declare const foo: string;
+
+1 ? !!foo : 0;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Array method call takes no predicate',
       code: `
 declare const arr: string[];
@@ -510,12 +521,69 @@ const foo = arr.some((elt) => !!elt);
       },
     },
     {
+      name: 'Redundant double negation in return of `find` method predicate',
+      code: `
+declare const arr: string[];
+const foo = arr.find((elt) => !!elt);
+`,
+      errors: [{ messageId: 'noExtraBooleanCastInPredicate' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Redundant double negation in return of `findIndex` method predicate',
       code: `
 declare const arr: string[];
 const foo = arr.findIndex((elt) => !!elt);
 `,
       errors: [{ messageId: 'noExtraBooleanCastInPredicate' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant double negation in return of `findLast` method predicate',
+      code: `
+declare const arr: string[];
+const foo = arr.findLast((elt) => !!elt);
+`,
+      errors: [{ messageId: 'noExtraBooleanCastInPredicate' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant double negation in return of `findLastIndex` method predicate',
+      code: `
+declare const arr: string[];
+const foo = arr.findLastIndex((elt) => !!elt);
+`,
+      errors: [{ messageId: 'noExtraBooleanCastInPredicate' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant double negation in return of array method predicate, with function expression',
+      code: `
+declare const arr: string[];
+const foo = arr.findLastIndex(function (elt) {
+  return !!elt;
+});
+`,
+      errors: [{ messageId: 'noExtraBooleanCastInPredicate' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant double negation inside method predicate, but in test of conditional expression',
+      code: `
+declare const arr: string[];
+const foo = arr.filter((elt) => (!!elt ? 1 : 0));
+`,
+      errors: [{ messageId: 'noExtraBooleanCastInCondition' }],
       after() {
         checkFormatting(this);
       },

@@ -109,6 +109,26 @@ const str = (foo as string).toString();
         checkFormatting(this);
       },
     },
+    {
+      name: 'Type assertion is on a call expression',
+      code: `
+declare const foo: () => string | undefined;
+const str = (foo() as string).toString();
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a non optional property access on an optional member expression',
+      code: `
+declare const foo: { bar: { baz: string | number } } | null;
+const str = (foo?.bar.baz as string | undefined).toUpperCase();
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -138,6 +158,61 @@ const str = (foo?.bar() as string | number)?.toString();
       code: `
 declare const foo: { bar: string | number } | null;
 const str = (foo?.bar as NonNullable<typeof foo>['bar']).toString();
+`,
+      errors: [{ messageId: 'unsafeAssertionOnOptionalChain' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a non optional property access on an optional member expression',
+      code: `
+declare const foo: { bar: { baz: string | number } } | null;
+const str = (foo?.bar.baz as string).toUpperCase();
+`,
+      errors: [{ messageId: 'unsafeAssertionOnOptionalChain' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a non optional call expression on an optional member expression',
+      code: `
+declare const foo: { bar: { baz: () => string | number } } | null;
+const str = (foo?.bar.baz() as string).toUpperCase();
+`,
+      errors: [{ messageId: 'unsafeAssertionOnOptionalChain' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a non optional property access on a nested optional member expression',
+      code: `
+declare const foo: { bar: { baz: { quux: string | number } } } | null;
+const str = (foo?.bar.baz.quux as string).toUpperCase();
+`,
+      errors: [{ messageId: 'unsafeAssertionOnOptionalChain' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a non optional call expression on a nested optional member expression',
+      code: `
+declare const foo: { bar: { baz: { quux: () => string | number } } } | null;
+const str = (foo?.bar.baz.quux() as string).toUpperCase();
+`,
+      errors: [{ messageId: 'unsafeAssertionOnOptionalChain' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With an optional property access on a member expression with a non null assertion',
+      code: `
+declare const foo: { bar?: { baz: { quux: string | number } } } | null;
+const str = (foo!.bar?.baz.quux as string).toUpperCase();
 `,
       errors: [{ messageId: 'unsafeAssertionOnOptionalChain' }],
       after() {

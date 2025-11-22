@@ -35,6 +35,33 @@ const obj = { [true]: 42 };
         checkFormatting(this);
       },
     },
+    {
+      name: 'With more than one leading whitespace',
+      code: `
+const obj = { '  foo': 42 };
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With more than one trailing whitespace',
+      code: `
+const obj = { 'foo  ': 42 };
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With several leading and trailing whitespace',
+      code: `
+const obj = { '  foo  ': 42 };
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -51,6 +78,16 @@ const obj = { ' foo': 42 };
       name: 'Trailing whitespace #docs',
       code: `
 const obj = { 'foo ': 42 };
+`,
+      errors: [{ messageId: 'noWhitespace' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Trailing whitespace with internal space',
+      code: `
+const obj = { 'foo bar ': 42 };
 `,
       errors: [{ messageId: 'noWhitespace' }],
       after() {

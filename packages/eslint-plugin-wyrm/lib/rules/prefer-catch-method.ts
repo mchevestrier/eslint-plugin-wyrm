@@ -86,6 +86,10 @@ export default createRule({
         if (def.node.parent.kind !== 'let') return;
         const decl = def.node;
 
+        const typeAnnotation = def.node.id.typeAnnotation
+          ? context.sourceCode.getText(def.node.id.typeAnnotation)
+          : '';
+
         if (
           variable.references.some(
             (ref) => ref.isRead() && ref.identifier.range[1] < node.range[0],
@@ -202,10 +206,12 @@ ${indent}})`;
                 const handlerText = getHandlerText();
                 const awaitThenExpression = getAwaitThenExpression();
 
+                const declarationText = `let ${variableName}${typeAnnotation}`;
+
                 yield fixer.remove(node);
                 yield fixer.insertTextBefore(
                   node,
-                  `let ${variableName} = ${awaitThenExpression}\n${indent}.catch((${errorParam}) => {\n  ${handlerText}\n  });`,
+                  `${declarationText} = ${awaitThenExpression}\n${indent}.catch((${errorParam}) => {\n  ${handlerText}\n  });`,
                 );
               },
             },

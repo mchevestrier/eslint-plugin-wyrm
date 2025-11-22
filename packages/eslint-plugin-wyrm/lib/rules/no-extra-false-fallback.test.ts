@@ -20,6 +20,35 @@ if (bar && foo) {
       },
     },
     {
+      name: 'Logical expression operator is `&&`',
+      code: `
+if (bar && false) {
+  console.log('foo!');
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'False fallback is in conditional expression, but not in test position',
+      code: `
+1 ? foo || false : 0;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Double unary expression but not a boolean cast',
+      code: `
+!+(foo || false);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Constant condition: this is likely a mistake but not covered by this rule. See `no-constant-condition` or `@typescript-eslint/no-unnecessary-condition`.',
       code: `
 if (foo || true) {
@@ -69,6 +98,16 @@ const isOkay = arr.filter((elt) => {
   const foo = barbaz(elt ?? false);
   return 'ok';
 });
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'False fallback in array method predicate, but not in arrow function body',
+      code: `
+declare const arr: Array<string | undefined>;
+const isOkay = arr.filter((elt = foo ?? false) => elt);
 `,
       after() {
         checkFormatting(this);
@@ -560,6 +599,202 @@ if ((bar ?? false)! && (((foo) satisfies boolean) || ((baz ?? false) as any))) {
 if ((bar ?? false)! && (((foo ?? false) satisfies boolean) || ((baz) as any))) {
   console.log('foo!');
 }
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant `false` fallback in return of array method predicate (`every`)',
+      code: `
+declare const arr: Array<string | null>;
+const isOkay = arr.every((elt) => elt ?? false);
+`,
+      errors: [
+        {
+          messageId: 'noExtraFalseFallbackInPredicate',
+          suggestions: [
+            {
+              messageId: 'removeFalseFallback',
+              output: `
+declare const arr: Array<string | null>;
+const isOkay = arr.every((elt) => elt);
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant `false` fallback in return of array method predicate (`some`)',
+      code: `
+declare const arr: Array<string | null>;
+const isOkay = arr.some((elt) => elt ?? false);
+`,
+      errors: [
+        {
+          messageId: 'noExtraFalseFallbackInPredicate',
+          suggestions: [
+            {
+              messageId: 'removeFalseFallback',
+              output: `
+declare const arr: Array<string | null>;
+const isOkay = arr.some((elt) => elt);
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant `false` fallback in return of array method predicate (`find`)',
+      code: `
+declare const arr: Array<string | null>;
+const isOkay = arr.find((elt) => elt ?? false);
+`,
+      errors: [
+        {
+          messageId: 'noExtraFalseFallbackInPredicate',
+          suggestions: [
+            {
+              messageId: 'removeFalseFallback',
+              output: `
+declare const arr: Array<string | null>;
+const isOkay = arr.find((elt) => elt);
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant `false` fallback in return of array method predicate (`findIndex`)',
+      code: `
+declare const arr: Array<string | null>;
+const isOkay = arr.findIndex((elt) => elt ?? false);
+`,
+      errors: [
+        {
+          messageId: 'noExtraFalseFallbackInPredicate',
+          suggestions: [
+            {
+              messageId: 'removeFalseFallback',
+              output: `
+declare const arr: Array<string | null>;
+const isOkay = arr.findIndex((elt) => elt);
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant `false` fallback in return of array method predicate (`findLast`)',
+      code: `
+declare const arr: Array<string | null>;
+const isOkay = arr.findLast((elt) => elt ?? false);
+`,
+      errors: [
+        {
+          messageId: 'noExtraFalseFallbackInPredicate',
+          suggestions: [
+            {
+              messageId: 'removeFalseFallback',
+              output: `
+declare const arr: Array<string | null>;
+const isOkay = arr.findLast((elt) => elt);
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant `false` fallback in return of array method predicate (`findLastIndex`)',
+      code: `
+declare const arr: Array<string | null>;
+const isOkay = arr.findLastIndex((elt) => elt ?? false);
+`,
+      errors: [
+        {
+          messageId: 'noExtraFalseFallbackInPredicate',
+          suggestions: [
+            {
+              messageId: 'removeFalseFallback',
+              output: `
+declare const arr: Array<string | null>;
+const isOkay = arr.findLastIndex((elt) => elt);
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant `false` fallback in return of array method predicate, with a function expression',
+      code: `
+declare const arr: Array<string | null>;
+const isOkay = arr.some(function (elt) {
+  return elt ?? false;
+});
+`,
+      errors: [
+        {
+          messageId: 'noExtraFalseFallbackInPredicate',
+          suggestions: [
+            {
+              messageId: 'removeFalseFallback',
+              output: `
+declare const arr: Array<string | null>;
+const isOkay = arr.some(function (elt) {
+  return elt;
+});
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'False fallback inside array method predicate, but in test of ternary condition',
+      code: `
+declare const arr: Array<string | undefined>;
+const isOkay = arr.filter((elt) => ((foo ?? false) ? elt : 0));
+`,
+      errors: [
+        {
+          messageId: 'noExtraFalseFallbackInCondition',
+          suggestions: [
+            {
+              messageId: 'removeFalseFallback',
+              output: `
+declare const arr: Array<string | undefined>;
+const isOkay = arr.filter((elt) => ((foo) ? elt : 0));
 `,
             },
           ],

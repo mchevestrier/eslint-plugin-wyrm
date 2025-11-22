@@ -2,6 +2,9 @@ import { defineConfig } from 'vitest/config';
 
 export default defineConfig({
   test: {
+    env: {
+      NODE_ENV: 'test',
+    },
     exclude: ['dist/*', 'coverage/*', 'node_modules/*', '.stryker-tmp/*', 'reports/*'],
     setupFiles: ['./test/setupFiles.ts'],
     coverage: {

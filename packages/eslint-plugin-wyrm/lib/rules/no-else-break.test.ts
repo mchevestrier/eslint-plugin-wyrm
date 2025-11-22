@@ -81,7 +81,8 @@ while (true) {
 while (true) {
   if (cond) {
     break;
-  }  foo();
+  }  
+  foo();
 }
 `,
       errors: [{ messageId: 'noElseBreak' }],
@@ -107,6 +108,32 @@ while (true) {
   }  if (quux) {
     foo();
   }
+}
+`,
+      errors: [{ messageId: 'noElseBreak' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Unnecessary `else` multiline block after `break` (block condition)',
+      code: `
+while (true) {
+  if (cond) {
+    break;
+  } else {
+    foo();
+    bar();
+  }
+}
+`,
+      output: `
+while (true) {
+  if (cond) {
+    break;
+  }  
+  foo();
+  bar();
 }
 `,
       errors: [{ messageId: 'noElseBreak' }],

@@ -29,8 +29,6 @@ export default createRule({
       },
 
       JSXExpressionContainer(node) {
-        if (node.expression.type === AST_NODE_TYPES.JSXEmptyExpression) return;
-
         switch (node.expression.type) {
           case AST_NODE_TYPES.Literal:
             if (node.expression.value === null) break;

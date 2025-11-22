@@ -159,7 +159,7 @@ function isReturnedFromPredicate(node: TSESTree.Node): boolean {
       return false;
 
     case AST_NODE_TYPES.ArrowFunctionExpression:
-      return node.parent.body === node && isPredicate(node.parent);
+      return isPredicate(node.parent);
 
     case AST_NODE_TYPES.IfStatement:
     case AST_NODE_TYPES.ConditionalExpression:

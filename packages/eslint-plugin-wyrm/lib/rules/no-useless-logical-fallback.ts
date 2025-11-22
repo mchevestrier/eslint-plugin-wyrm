@@ -24,6 +24,7 @@
 import path from 'node:path';
 
 import { AST_NODE_TYPES, ESLintUtils, type TSESTree } from '@typescript-eslint/utils';
+import * as ts from 'typescript';
 
 import { createRule } from '../utils/createRule.js';
 
@@ -214,7 +215,11 @@ export default createRule({
 
     function checkNullishCoalescingExpression(node: TSESTree.LogicalExpression) {
       // undefined ?? undefined
-      if (isUndefinedLiteral(node.right) && !isPossiblyNull(node.left)) {
+      if (
+        isUndefinedLiteral(node.right) &&
+        !isPossiblyNull(node.left) &&
+        isPossiblyUndefined(node.left)
+      ) {
         const expression = '?? undefined';
         context.report({
           node,
@@ -234,7 +239,11 @@ export default createRule({
       }
 
       // null ?? null
-      if (isNullLiteral(node.right) && !isPossiblyUndefined(node.left)) {
+      if (
+        isNullLiteral(node.right) &&
+        !isPossiblyUndefined(node.left) &&
+        isPossiblyNull(node.left)
+      ) {
         const expression = '?? null';
         context.report({
           node,
@@ -306,7 +315,7 @@ export default createRule({
       const type = services.getTypeAtLocation(expr);
 
       if (type.isUnion()) {
-        return type.types.includes(undefinedType);
+        return type.types.some((t) => t.getFlags() & ts.TypeFlags.Undefined);
       }
 
       return type === undefinedType;

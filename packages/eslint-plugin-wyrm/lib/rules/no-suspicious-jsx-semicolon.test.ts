@@ -74,6 +74,58 @@ export function MyComponent() {
         checkFormatting(this);
       },
     },
+    {
+      name: 'Lonely semicolon, but not trailing',
+      code: `
+export function MyComponent() {
+  return <div> ;</div>;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With JSX text at the beginning and a trailing semicolon at the end',
+      code: `
+export function MyComponent() {
+  return (
+    <div>
+      On behalf of <strong>{companyName}</strong>;
+    </div>
+  );
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With JSX text at the beginning and a trailing comma at the end',
+      code: `
+export function MyComponent() {
+  return (
+    <div>
+      On behalf of <strong>{companyName}</strong>,
+    </div>
+  );
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a trailing semicolon after a JSX expression container',
+      code: `
+export function MyComponent() {
+  return <div>{companyName};</div>;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -109,10 +161,33 @@ export function MyComponent() {
       },
     },
     {
-      name: 'Lonely semicolon, but not trailing. Still somehow suspicious',
+      name: 'With a fragment',
       code: `
 export function MyComponent() {
-  return <div> ;</div>;
+  return (
+    <div>
+      <>
+        <div>With a trailing semicolon after the fragment</div>
+      </>
+      ;
+    </div>
+  );
+}
+`,
+      errors: [{ messageId: 'noSuspiciousJsxSemicolon' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Trailing semicolon, no JSX text at the beginning',
+      code: `
+export function MyComponent() {
+  return (
+    <div>
+      <strong>{companyName}</strong>;
+    </div>
+  );
 }
 `,
       errors: [{ messageId: 'noSuspiciousJsxSemicolon' }],

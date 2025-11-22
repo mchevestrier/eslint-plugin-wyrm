@@ -45,6 +45,15 @@ const foo = !!bar && baz.length > 2 && !!quux.description;
       },
     },
     {
+      name: 'Double unary expression but not a boolean cast',
+      code: `
+!+(bar && baz.length);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Grandparent unary expression is not a boolean cast',
       code: `
 +!(bar && baz.length);
@@ -112,14 +121,14 @@ const foo = ((!!(bar) && baz.length > 2) && !!(quux.description));
     {
       name: 'Nullish coalescing expressions are wrapped in a boolean cast',
       code: `
-const foo = !!(bar && baz.length > 2 && (quux.description ?? 'Default description'));
+const foo = !!(!bar && baz.length > 2 && (quux.description ?? 'Default description'));
 `,
       output: [
         `
-const foo = (!!(bar && baz.length > 2) && !!(quux.description ?? 'Default description'));
+const foo = (!!(!bar && baz.length > 2) && !!(quux.description ?? 'Default description'));
 `,
         `
-const foo = ((!!(bar) && baz.length > 2) && !!(quux.description ?? 'Default description'));
+const foo = ((!bar && baz.length > 2) && !!(quux.description ?? 'Default description'));
 `,
       ],
       errors: [{ messageId: 'distributeBooleanCast' }],
@@ -268,6 +277,19 @@ const foo = !!(bar && +'2');
 `,
       output: `
 const foo = (!!(bar) && !!(+'2'));
+`,
+      errors: [{ messageId: 'distributeBooleanCast' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Number literal is not boolean-like',
+      code: `
+const foo = !!(true && 2);
+`,
+      output: `
+const foo = (true && !!(2));
 `,
       errors: [{ messageId: 'distributeBooleanCast' }],
       after() {

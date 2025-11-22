@@ -72,7 +72,8 @@ if (cond) {
       output: `
 if (cond) {
   throw Error('oh no!');
-}  foo();
+}  
+foo();
 `,
       errors: [{ messageId: 'noElseThrow' }],
       after() {
@@ -93,6 +94,32 @@ if (cond) {
   throw Error('oh no!');
 }  if (quux) {
   foo();
+}
+`,
+      errors: [{ messageId: 'noElseThrow' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Unnecessary `else` multiline block after `throw` (block condition)',
+      code: `
+while (true) {
+  if (cond) {
+    throw Error('oh no');
+  } else {
+    foo();
+    bar();
+  }
+}
+`,
+      output: `
+while (true) {
+  if (cond) {
+    throw Error('oh no');
+  }  
+  foo();
+  bar();
 }
 `,
       errors: [{ messageId: 'noElseThrow' }],

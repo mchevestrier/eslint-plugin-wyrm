@@ -30,6 +30,7 @@ export default createRule({
       if (typeof value !== 'string') return;
 
       if (!value.startsWith(' ') && !value.endsWith(' ')) return;
+      if (value.startsWith('  ') || value.endsWith('  ')) return;
 
       context.report({ node: key, messageId: 'noWhitespace' });
     }
