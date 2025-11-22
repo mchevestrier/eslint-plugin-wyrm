@@ -4,6 +4,7 @@ const config = {
 
   '**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}': (stagedFiles) => [
     `pnpm run eslint ${stagedFiles.join(' ')}`,
+    `pnpm run dogfooding ${stagedFiles.join(' ')}`,
     'pnpm run lint:types',
     'pnpm run knip',
     'pnpm run -r test',

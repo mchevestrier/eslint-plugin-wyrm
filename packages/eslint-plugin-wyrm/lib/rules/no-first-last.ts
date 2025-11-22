@@ -29,13 +29,11 @@ export default createRule({
     function getIdentifierName(ident: TSESTree.Node): Option<string> {
       if (ident.type === AST_NODE_TYPES.Identifier) return Some(ident.name);
 
-      if (ident.type === AST_NODE_TYPES.Literal) {
-        const { value } = ident;
-        if (typeof value !== 'string') return None;
-        return Some(value);
-      }
+      if (ident.type !== AST_NODE_TYPES.Literal) return None;
 
-      return None;
+      const { value } = ident;
+      if (typeof value !== 'string') return None;
+      return Some(value);
     }
 
     function checkAssignment(
@@ -123,15 +121,13 @@ export default createRule({
       // foo.find()
       if (callee.property.name === 'find') return true;
 
-      // foo.at(0)
-      if (callee.property.name === 'at') {
-        const [arg] = expr.arguments;
-        if (!arg) return false;
-        if (arg.type !== AST_NODE_TYPES.Literal) return false;
-        return arg.value === 0;
-      }
+      if (callee.property.name !== 'at') return false;
 
-      return false;
+      // foo.at(0)
+      const [arg] = expr.arguments;
+      if (!arg) return false;
+      if (arg.type !== AST_NODE_TYPES.Literal) return false;
+      return arg.value === 0;
     }
 
     function isFirstExpr(node: TSESTree.Node): boolean {
@@ -180,17 +176,15 @@ export default createRule({
       // foo.findLast()
       if (callee.property.name === 'findLast') return true;
 
-      // foo.at(-1)
-      if (callee.property.name === 'at') {
-        const [arg] = expr.arguments;
-        if (!arg) return false;
-        if (arg.type !== AST_NODE_TYPES.UnaryExpression) return false;
-        if (arg.operator !== '-') return false;
-        if (arg.argument.type !== AST_NODE_TYPES.Literal) return false;
-        return arg.argument.value === 1;
-      }
+      if (callee.property.name !== 'at') return false;
 
-      return false;
+      // foo.at(-1)
+      const [arg] = expr.arguments;
+      if (!arg) return false;
+      if (arg.type !== AST_NODE_TYPES.UnaryExpression) return false;
+      if (arg.operator !== '-') return false;
+      if (arg.argument.type !== AST_NODE_TYPES.Literal) return false;
+      return arg.argument.value === 1;
     }
 
     function isMemberExprLastExpr(expr: TSESTree.MemberExpression) {
