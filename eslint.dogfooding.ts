@@ -4,4 +4,12 @@ import baseConfig from './eslint.config.js';
 
 import wyrm from 'eslint-plugin-wyrm';
 
-export default defineConfig([...baseConfig, wyrm.configs.strictTypeChecked]);
+export default defineConfig([
+  ...baseConfig,
+  wyrm.configs.strictTypeChecked,
+  {
+    rules: {
+      'wyrm/no-unassigned-todo': 'off',
+    },
+  },
+]);
