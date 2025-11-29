@@ -8,9 +8,10 @@ import vitest from '@vitest/eslint-plugin';
 import { defineConfig } from 'eslint/config';
 import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
 import eslintPlugin from 'eslint-plugin-eslint-plugin';
-import { importX, createNodeResolver } from 'eslint-plugin-import-x';
+import { createNodeResolver, importX } from 'eslint-plugin-import-x';
 import n from 'eslint-plugin-n';
 import * as packageJson from 'eslint-plugin-package-json';
+import perfectionist from 'eslint-plugin-perfectionist';
 import * as sonarjs from 'eslint-plugin-sonarjs';
 import eslintPluginUnicorn from 'eslint-plugin-unicorn';
 import globals from 'globals';
@@ -44,7 +45,7 @@ export default defineConfig([
 
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
-    plugins: { js, '@stylistic': stylistic },
+    plugins: { js, '@stylistic': stylistic, perfectionist },
     extends: ['js/recommended'],
     languageOptions: {
       globals: globals.node,
@@ -329,6 +330,10 @@ export default defineConfig([
         'single',
         { avoidEscape: true, allowTemplateLiterals: 'avoidEscape' },
       ],
+
+      'perfectionist/sort-named-imports': 'error',
+      'perfectionist/sort-named-exports': 'error',
+      'perfectionist/sort-exports': 'error',
     },
   },
 

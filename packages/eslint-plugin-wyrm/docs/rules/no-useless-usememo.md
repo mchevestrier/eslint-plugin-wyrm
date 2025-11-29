@@ -58,3 +58,4 @@ function MyComponent() {
 
 - [`react-hooks/exhaustive-deps`](https://react.dev/reference/eslint-plugin-react-hooks/lints/exhaustive-deps)
 - [`react-hooks/rules-of-hooks`](https://react.dev/reference/eslint-plugin-react-hooks/lints/rules-of-hooks)
+- [`react-x/no-unnecessary-use-memo`](https://www.eslint-react.xyz/docs/rules/no-unnecessary-use-memo)

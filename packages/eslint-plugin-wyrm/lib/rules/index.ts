@@ -11,6 +11,7 @@ export { default as 'no-empty-jsx-expression' } from './no-empty-jsx-expression.
 export { default as 'no-extra-false-fallback' } from './no-extra-false-fallback.js';
 export { default as 'no-extra-nested-boolean-cast' } from './no-extra-nested-boolean-cast.js';
 export { default as 'no-first-last' } from './no-first-last.js';
+export { default as 'no-inline-jsdoc-tag' } from './no-inline-jsdoc-tag.js';
 export { default as 'no-invalid-date-literal' } from './no-invalid-date-literal.js';
 export { default as 'no-jsx-statement' } from './no-jsx-statement.js';
 export { default as 'no-optional-type-guard-param' } from './no-optional-type-guard-param.js';

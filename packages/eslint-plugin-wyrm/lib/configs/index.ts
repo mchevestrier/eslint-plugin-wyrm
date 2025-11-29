@@ -1,4 +1,4 @@
-import type { RuleModule, FlatConfig } from '@typescript-eslint/utils/ts-eslint';
+import type { FlatConfig, RuleModule } from '@typescript-eslint/utils/ts-eslint';
 
 import { plugin } from '../plugin.js';
 import * as allRules from '../rules/index.js';

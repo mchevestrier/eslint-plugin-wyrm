@@ -231,6 +231,34 @@ if (!!foo) {
       },
     },
     {
+      name: 'Redundant double negation in `while` test',
+      code: `
+declare const foo: string;
+
+while (!!foo) {
+  console.log('foo!');
+}
+`,
+      errors: [{ messageId: 'noExtraBooleanCastInCondition' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant double negation in `do while` test',
+      code: `
+declare const foo: string;
+
+do {
+  console.log('foo!');
+} while (!!foo);
+`,
+      errors: [{ messageId: 'noExtraBooleanCastInCondition' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Redundant double negation inside of another boolean cast #docs',
       code: `
 const x = Boolean(!!foo);

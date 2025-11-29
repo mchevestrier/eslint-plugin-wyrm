@@ -3,7 +3,7 @@ import path from 'node:path';
 import { AST_NODE_TYPES, type TSESTree } from '@typescript-eslint/utils';
 
 import { createRule } from '../utils/createRule.js';
-import { None, Some, type Option } from '../utils/option.js';
+import { None, type Option, Some } from '../utils/option.js';
 
 export const { name } = path.parse(import.meta.filename);
 

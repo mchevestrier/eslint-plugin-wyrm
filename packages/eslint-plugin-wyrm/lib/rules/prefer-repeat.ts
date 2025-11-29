@@ -4,7 +4,7 @@ import type { TSESTree } from '@typescript-eslint/utils';
 import { AST_NODE_TYPES } from '@typescript-eslint/utils';
 
 import { createRule } from '../utils/createRule.js';
-import { Option, Some, None } from '../utils/option.js';
+import { None, Option, Some } from '../utils/option.js';
 
 export const { name } = path.parse(import.meta.filename);
 
