@@ -43,6 +43,18 @@ function foo(_bar: string) {
       },
     },
     {
+      name: 'With read references to other identifiers',
+      code: `
+function foo(_bar: string) {
+  const baz = 'ok';
+  return baz;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Function parameter with trailing underscore is used',
       code: `
 function foo(bar_: string) {

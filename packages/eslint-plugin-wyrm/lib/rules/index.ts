@@ -6,6 +6,7 @@ export { default as 'no-duplicated-return' } from './no-duplicated-return.js';
 export { default as 'no-else-break' } from './no-else-break.js';
 export { default as 'no-else-continue' } from './no-else-continue.js';
 export { default as 'no-else-throw' } from './no-else-throw.js';
+export { default as 'no-empty-attribute' } from './no-empty-attribute.js';
 export { default as 'no-empty-comment' } from './no-empty-comment.js';
 export { default as 'no-empty-jsx-expression' } from './no-empty-jsx-expression.js';
 export { default as 'no-extra-false-fallback' } from './no-extra-false-fallback.js';
