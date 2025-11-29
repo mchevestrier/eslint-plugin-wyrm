@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -79,7 +79,7 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -105,7 +105,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -131,11 +131,19 @@ jobs:
       - name: 🐶 dogfooding
         run: pnpm run dogfooding
 
+  typos:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+      - name: Spell Check Repo
+        uses: crate-ci/typos@v1.40.0
+
   commitlint:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -169,7 +177,7 @@ jobs:
     if: ${{ github.event_name != 'push' || github.event.head_commit.author.username != 'github-actions[bot]' }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -193,4 +201,4 @@ jobs:
         working-directory: ./packages/eslint-plugin-wyrm/
 
       - name: 📦 pkg.pr.new
-        run: pnpx pkg-pr-new publish './packages/eslint-plugin-wyrm/' --no-template --compact --packageManager=pnpm
+        run: pnpx pkg-pr-new@0.0.61 publish './packages/eslint-plugin-wyrm/' --no-template --compact --packageManager=pnpm
