@@ -107,5 +107,5 @@ if (arr.length >= 2) {
 
 ## Related
 
-- [unicorn/explicit-length-check](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/explicit-length-check.md)
-- [sonarjs/no-collection-size-mischeck](https://sonarsource.github.io/rspec/#/rspec/S3981/javascript)
+- [`unicorn/explicit-length-check`](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/explicit-length-check.md)
+- [`sonarjs/no-collection-size-mischeck`](https://sonarsource.github.io/rspec/#/rspec/S3981/javascript)

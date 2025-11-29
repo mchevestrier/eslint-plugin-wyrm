@@ -115,7 +115,12 @@ async function generateExamplesForRule(ruleName: string) {
 
   const ast = ts.createSourceFile('source.ts', testContent, ts.ScriptTarget.Latest);
 
-  type TestCase = { name: string; code: string; output: string | undefined };
+  type TestCase = {
+    name: string;
+    code: string;
+    output: string | undefined;
+    filename: string | undefined;
+  };
   const validTestCases: TestCase[] = [];
   const invalidTestCases: TestCase[] = [];
 
@@ -149,6 +154,7 @@ async function generateExamplesForRule(ruleName: string) {
     let name: string | undefined = undefined;
     let code: string | undefined = undefined;
     let output: string | undefined = undefined;
+    let filename: string | undefined = undefined;
     for (const prop of node.properties) {
       if (!ts.isPropertyAssignment(prop)) continue;
       if (!ts.isIdentifier(prop.name)) continue;
@@ -162,6 +168,9 @@ async function generateExamplesForRule(ruleName: string) {
       if (prop.name.text === 'output') {
         output = extractOutputLiteralValue(prop.initializer);
       }
+      if (prop.name.text === 'filename') {
+        filename = extractStringLiteralValue(prop.initializer);
+      }
     }
 
     if (typeof name === 'undefined') {
@@ -171,7 +180,7 @@ async function generateExamplesForRule(ruleName: string) {
       throw Error('No code property found in test case');
     }
 
-    return { name, code, output };
+    return { name, code, output, filename };
   }
 
   function extractTestCases(node: ts.Node): TestCase[] {
@@ -218,11 +227,15 @@ async function generateExamplesForRule(ruleName: string) {
 // Automatically fixed to:${testCase.output}
 `
       : '';
+    const filename = testCase.filename
+      ? `// ${testCase.filename}
+`
+      : '';
 
     return `
 ${testCase.name}:
 \`\`\`tsx
-
+${filename}
 ${testCase.code}
 ${output}\`\`\`
 `;
@@ -232,9 +245,10 @@ ${output}\`\`\`
     const docPragma = ' #docs';
     return testCases
       .filter(({ name }) => name.includes(docPragma))
-      .map(({ name, code, output }) => ({
+      .map(({ name, code, output, filename }) => ({
         code,
         output,
+        filename,
         name: name.replace(new RegExp(`${docPragma}.*`, 'u'), ''),
       }))
       .map((testCase) => formatExample(testCase))

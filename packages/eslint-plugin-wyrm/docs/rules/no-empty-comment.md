@@ -71,4 +71,4 @@ Empty padding comments (with `allowPadding: true`):
 
 ## Prior Art
 
-- Pylint: [empty-comment](https://pylint.readthedocs.io/en/stable/user_guide/messages/refactor/empty-comment.html)
+- Pylint: [`empty-comment`](https://pylint.readthedocs.io/en/stable/user_guide/messages/refactor/empty-comment.html)

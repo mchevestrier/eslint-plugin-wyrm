@@ -44,8 +44,8 @@ const foo = (() => {
 
 It is recommended that you also enable the following rule along with this one:
 
-- ESLint: [no-lone-blocks](https://eslint.org/docs/latest/rules/no-lone-blocks)
+- ESLint: [`no-lone-blocks`](https://eslint.org/docs/latest/rules/no-lone-blocks)
 
 ## Prior Art
 
-- go-critic: [unlambda](https://go-critic.com/overview.html#unlambda)
+- go-critic: [`unlambda`](https://go-critic.com/overview.html#unlambda)

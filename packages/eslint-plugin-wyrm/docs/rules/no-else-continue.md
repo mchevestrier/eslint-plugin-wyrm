@@ -38,10 +38,10 @@ while (true) {
 
 ## Related
 
-- [wyrm/no-else-break](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-else-break.md)
-- [wyrm/no-else-throw](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-else-throw.md)
-- ESLint: [no-else-return](https://eslint.org/docs/latest/rules/no-else-return)
+- [`wyrm/no-else-break`](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-else-break.md)
+- [`wyrm/no-else-throw`](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-else-throw.md)
+- ESLint: [`no-else-return`](https://eslint.org/docs/latest/rules/no-else-return)
 
 ## Prior Art
 
-- Pylint: [no-else-continue](https://pylint.readthedocs.io/en/stable/user_guide/messages/refactor/no-else-continue.html)
+- Pylint: [`no-else-continue`](https://pylint.readthedocs.io/en/stable/user_guide/messages/refactor/no-else-continue.html)
