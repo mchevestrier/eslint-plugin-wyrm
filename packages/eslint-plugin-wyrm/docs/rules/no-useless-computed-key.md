@@ -11,13 +11,19 @@
 Useless computed key:
 
 ```tsx
-const obj = { ['foobar']: 42 };
+const obj = { ['foo-bar']: 42 };
 
 // Automatically fixed to:
-const obj = { foobar: 42 };
+const obj = { 'foo-bar': 42 };
 ```
 
 ### Correct ✅
+
+String literal key:
+
+```tsx
+const obj = { 'foo-bar': 42 };
+```
 
 Identifier key:
 

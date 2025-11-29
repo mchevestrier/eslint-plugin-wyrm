@@ -145,6 +145,8 @@ function isInCondition(node: TSESTree.Node): boolean {
 
     case AST_NODE_TYPES.IfStatement:
     case AST_NODE_TYPES.ConditionalExpression:
+    case AST_NODE_TYPES.DoWhileStatement:
+    case AST_NODE_TYPES.WhileStatement:
       return node === node.parent.test;
 
     default:

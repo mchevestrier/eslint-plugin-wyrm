@@ -166,6 +166,142 @@ export function noConvolutedLogicalExpression10Fixed(foo: number | undefined) {
   return foo;
 }
 
+export function noConvolutedLogicalExpression11(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  // eslint-disable-next-line wyrm/no-convoluted-logical-expressions
+  return (foo || bar) && (foo || baz);
+}
+
+export function noConvolutedLogicalExpression11Fixed(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  return foo || (bar && baz);
+}
+
+export function noConvolutedLogicalExpression12(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  // eslint-disable-next-line wyrm/no-convoluted-logical-expressions
+  return (foo ?? bar) && (foo ?? baz);
+}
+
+export function noConvolutedLogicalExpression12Fixed(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  return foo ?? (bar && baz);
+}
+
+export function noConvolutedLogicalExpression13(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  // eslint-disable-next-line wyrm/no-convoluted-logical-expressions
+  return (foo && bar) ?? (foo && baz);
+}
+
+export function noConvolutedLogicalExpression13Fixed(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  return foo && (bar ?? baz);
+}
+
+export function noConvolutedLogicalExpression14(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  // eslint-disable-next-line wyrm/no-convoluted-logical-expressions
+  return (foo ?? bar) || (foo ?? baz);
+}
+
+export function noConvolutedLogicalExpression14Fixed(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  return foo ?? (bar || baz);
+}
+
+export function noConvolutedLogicalExpression15(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  // eslint-disable-next-line wyrm/no-convoluted-logical-expressions
+  return (foo || bar) ?? (foo || baz);
+}
+
+export function noConvolutedLogicalExpression15Fixed(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  return foo || (bar ?? baz);
+}
+
+export function noConvolutedLogicalExpression16(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  // eslint-disable-next-line wyrm/no-convoluted-logical-expressions, @typescript-eslint/no-unnecessary-condition
+  return foo ?? bar ?? foo ?? baz;
+}
+
+export function noConvolutedLogicalExpression16Fixed(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  return foo ?? bar ?? baz;
+}
+
+export function noConvolutedLogicalExpression17(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  // eslint-disable-next-line wyrm/no-convoluted-logical-expressions, @typescript-eslint/no-unnecessary-condition
+  return foo || bar || foo || baz;
+}
+
+export function noConvolutedLogicalExpression17Fixed(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  return foo || bar || baz;
+}
+
+export function noConvolutedLogicalExpression18(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  // eslint-disable-next-line wyrm/no-convoluted-logical-expressions, @typescript-eslint/no-unnecessary-condition
+  return foo && bar && foo && baz;
+}
+
+export function noConvolutedLogicalExpression18Fixed(
+  foo: number | undefined,
+  bar: number | undefined,
+  baz: number | undefined,
+) {
+  return foo && bar && baz;
+}
+
 // Not simplifiable:
 
 export function notConvolutedLogicalExpression1(

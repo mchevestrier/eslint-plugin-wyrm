@@ -117,15 +117,6 @@ const x = (quux ? foo : 0) && (!quux ? bar : 0);
       },
     },
     {
-      name: 'Conjunction of disjunctions #docs',
-      code: `
-const x = (foo || bar) && (foo || baz);
-`,
-      after() {
-        checkFormatting(this);
-      },
-    },
-    {
       name: 'Conjunction with repeated identifier',
       code: `
 const x = foo && (foo && bar);
@@ -159,15 +150,6 @@ const x = foo || (quux && bar);
 `,
       after() {
         checkFormatting(this);
-      },
-    },
-    {
-      name: 'Conjunction of conjunctions',
-      code: `
-const x = (foo && bar) && (foo && baz);
-`,
-      after() {
-        // Not formatted
       },
     },
     {
@@ -265,7 +247,7 @@ const x = foo;
       },
     },
     {
-      name: 'Disjunction with distributed conjunction #docs',
+      name: 'Disjunction with distributed conjunctions #docs',
       code: `
 const x = (foo && bar) || (foo && baz);
 `,
@@ -275,6 +257,84 @@ const x = foo && (bar || baz);
       errors: [{ messageId: 'noConvolutedLogicalExpression' }],
       after() {
         checkFormatting(this);
+      },
+    },
+    {
+      name: 'Conjunction with distributed disjunctions #docs',
+      code: `
+const x = (foo || bar) && (foo || baz);
+`,
+      output: `
+const x = foo || (bar && baz);
+`,
+      errors: [{ messageId: 'noConvolutedLogicalExpression' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Disjunction with distributed nullish coalescing',
+      code: `
+const x = (foo ?? bar) || (foo ?? baz);
+`,
+      output: `
+const x = foo ?? (bar || baz);
+`,
+      errors: [{ messageId: 'noConvolutedLogicalExpression' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Conjunction with distributed nullish coalescing',
+      code: `
+const x = (foo ?? bar) && (foo ?? baz);
+`,
+      output: `
+const x = foo ?? (bar && baz);
+`,
+      errors: [{ messageId: 'noConvolutedLogicalExpression' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Nullish coalescing with distributed disjunction ',
+      code: `
+const x = (foo || bar) ?? (foo || baz);
+`,
+      output: `
+const x = foo || (bar ?? baz);
+`,
+      errors: [{ messageId: 'noConvolutedLogicalExpression' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Nullish coalescing with distributed conjunction ',
+      code: `
+const x = (foo && bar) ?? (foo && baz);
+`,
+      output: `
+const x = foo && (bar ?? baz);
+`,
+      errors: [{ messageId: 'noConvolutedLogicalExpression' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Conjunction with distributed conjunctions',
+      code: `
+const x = (foo && bar) && (foo && baz);
+`,
+      output: `
+const x = foo && (bar && baz);
+`,
+      errors: [{ messageId: 'noConvolutedLogicalExpression' }],
+      after() {
+        // Not formatted
       },
     },
     {

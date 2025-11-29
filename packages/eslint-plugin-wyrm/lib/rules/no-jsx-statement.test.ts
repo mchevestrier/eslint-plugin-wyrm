@@ -72,7 +72,7 @@ export function MyComponent() {
   ],
   invalid: [
     {
-      name: 'JSX element in expression statement',
+      name: 'JSX element in expression statement #docs',
       code: `
 export function MyComponent() {
   <div />;

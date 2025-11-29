@@ -31,7 +31,7 @@ const DEFAULT_MIN_ALLOWED_LENGTH = 10;
 export default createRule({
   name,
   meta: {
-    type: 'problem',
+    type: 'suggestion',
     docs: {
       description: 'Disallow constant string expressions in template literals',
       requiresTypeChecking: true,

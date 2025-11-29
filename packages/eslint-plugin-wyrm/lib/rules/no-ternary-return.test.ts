@@ -92,7 +92,7 @@ const foo = (cond: boolean) => {
       },
     },
     {
-      name: 'Nested ternary return',
+      name: 'Nested ternary return #docs',
       code: `
 function foo(cond1: boolean, cond2: boolean) {
   return cond1 ? 42 : cond2 ? 105 : 0;

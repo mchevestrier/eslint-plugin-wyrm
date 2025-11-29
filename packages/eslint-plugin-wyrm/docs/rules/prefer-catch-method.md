@@ -18,6 +18,13 @@ try {
   console.error(err);
   result = null;
 }
+
+// Can be fixed to:
+
+let result = await getStuff().catch((err: unknown) => {
+  console.error(err);
+  return null;
+});
 ```
 
 ### Correct ✅

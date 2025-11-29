@@ -15,7 +15,6 @@ export default createRule({
         'Forbid referencing parameters marked as unused with a leading underscore',
       strict: true,
     },
-    fixable: 'code',
     schema: [],
     messages: {
       noUnusedParamRead:

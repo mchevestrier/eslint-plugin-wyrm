@@ -31,6 +31,10 @@ Template expression with a constant string value:
 ```tsx
 const foo = 'foobar';
 const str = `${foo}_baz`;
+
+// Can be fixed to:
+const foo = 'foobar';
+const str = `foobar_baz`;
 ```
 
 Template expression with a constant number value:
@@ -38,6 +42,10 @@ Template expression with a constant number value:
 ```tsx
 const n = 42;
 const str = `${n}_baz`;
+
+// Can be fixed to:
+const n = 42;
+const str = `42_baz`;
 ```
 
 Template expression with a constant boolean value:
@@ -45,6 +53,10 @@ Template expression with a constant boolean value:
 ```tsx
 const bool = true;
 const str = `${bool}_baz`;
+
+// Can be fixed to:
+const bool = true;
+const str = `true_baz`;
 ```
 
 With a 14 character string (`minAllowedLength: 15`):
@@ -52,6 +64,10 @@ With a 14 character string (`minAllowedLength: 15`):
 ```tsx
 const foo = '12345678901234';
 const str = `${foo}_baz`;
+
+// Can be fixed to:
+const foo = '12345678901234';
+const str = `12345678901234_baz`;
 ```
 
 ### Correct ✅

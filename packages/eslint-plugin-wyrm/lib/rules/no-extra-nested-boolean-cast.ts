@@ -31,7 +31,7 @@ export const { name } = path.parse(import.meta.filename);
 export default createRule({
   name,
   meta: {
-    type: 'problem',
+    type: 'suggestion',
     docs: {
       description: 'Forbid extra boolean casts in conditions and predicates',
       strict: true,

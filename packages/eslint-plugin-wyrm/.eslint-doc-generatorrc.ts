@@ -119,32 +119,11 @@ async function generateExamplesForRule(ruleName: string) {
     name: string;
     code: string;
     output: string | undefined;
+    suggestion: string | undefined;
     filename: string | undefined;
   };
   const validTestCases: TestCase[] = [];
   const invalidTestCases: TestCase[] = [];
-
-  function extractStringLiteralValue(node: ts.Node): string {
-    if (ts.isStringLiteral(node)) return node.text;
-    if (ts.isNoSubstitutionTemplateLiteral(node)) return node.text;
-    throw Error('Argument passed to extractStringLiteralValue() was not a string node');
-  }
-
-  function extractOutputLiteralValue(node: ts.Node): string | undefined {
-    if (ts.isArrayLiteralExpression(node)) {
-      const lastElement = node.elements.at(-1);
-      if (!lastElement) {
-        throw Error('Test case output is an empty array');
-      }
-      return extractStringLiteralValue(lastElement);
-    }
-
-    if (node.kind === ts.SyntaxKind.NullKeyword) {
-      return undefined;
-    }
-
-    return extractStringLiteralValue(node);
-  }
 
   function extractTestCase(node: ts.Node): TestCase {
     if (!ts.isObjectLiteralExpression(node)) {
@@ -154,6 +133,7 @@ async function generateExamplesForRule(ruleName: string) {
     let name: string | undefined = undefined;
     let code: string | undefined = undefined;
     let output: string | undefined = undefined;
+    let suggestion: string | undefined = undefined;
     let filename: string | undefined = undefined;
     for (const prop of node.properties) {
       if (!ts.isPropertyAssignment(prop)) continue;
@@ -168,6 +148,9 @@ async function generateExamplesForRule(ruleName: string) {
       if (prop.name.text === 'output') {
         output = extractOutputLiteralValue(prop.initializer);
       }
+      if (prop.name.text === 'errors') {
+        suggestion = extractSuggestionFromErrors(prop.initializer);
+      }
       if (prop.name.text === 'filename') {
         filename = extractStringLiteralValue(prop.initializer);
       }
@@ -180,7 +163,7 @@ async function generateExamplesForRule(ruleName: string) {
       throw Error('No code property found in test case');
     }
 
-    return { name, code, output, filename };
+    return { name, code, output, suggestion, filename };
   }
 
   function extractTestCases(node: ts.Node): TestCase[] {
@@ -227,6 +210,11 @@ async function generateExamplesForRule(ruleName: string) {
 // Automatically fixed to:${testCase.output}
 `
       : '';
+    const suggestion = testCase.suggestion
+      ? `
+// Can be fixed to:${testCase.suggestion}
+`
+      : '';
     const filename = testCase.filename
       ? `// ${testCase.filename}
 `
@@ -237,7 +225,7 @@ ${testCase.name}:
 \`\`\`tsx
 ${filename}
 ${testCase.code}
-${output}\`\`\`
+${output || suggestion}\`\`\`
 `;
   }
 
@@ -245,9 +233,10 @@ ${output}\`\`\`
     const docPragma = ' #docs';
     return testCases
       .filter(({ name }) => name.includes(docPragma))
-      .map(({ name, code, output, filename }) => ({
+      .map(({ name, code, output, suggestion, filename }) => ({
         code,
         output,
+        suggestion,
         filename,
         name: name.replace(new RegExp(`${docPragma}.*`, 'u'), ''),
       }))
@@ -277,4 +266,61 @@ ${validExamples}
 `;
 
   return examples;
+}
+
+function extractStringLiteralValue(node: ts.Node): string {
+  if (ts.isStringLiteral(node)) return node.text;
+  if (ts.isNoSubstitutionTemplateLiteral(node)) return node.text;
+  throw Error('Argument passed to extractStringLiteralValue() was not a string node');
+}
+
+function extractOutputLiteralValue(node: ts.Node): string | undefined {
+  if (ts.isArrayLiteralExpression(node)) {
+    const lastElement = node.elements.at(-1);
+    if (!lastElement) {
+      throw Error('Test case output is an empty array');
+    }
+    return extractStringLiteralValue(lastElement);
+  }
+
+  if (node.kind === ts.SyntaxKind.NullKeyword) {
+    return undefined;
+  }
+
+  return extractStringLiteralValue(node);
+}
+
+function extractSuggestionFromErrors(node: ts.Node): string | undefined {
+  if (!ts.isArrayLiteralExpression(node)) return undefined;
+  const [error] = node.elements;
+  if (!error) return undefined;
+  if (!ts.isObjectLiteralExpression(error)) return undefined;
+
+  for (const prop of error.properties) {
+    if (!ts.isPropertyAssignment(prop)) continue;
+    if (!ts.isIdentifier(prop.name)) continue;
+
+    if (prop.name.text !== 'suggestions') continue;
+
+    return extractOutputFromSuggestions(prop.initializer);
+  }
+
+  return undefined;
+}
+
+function extractOutputFromSuggestions(suggestions: ts.Expression): string | undefined {
+  if (!ts.isArrayLiteralExpression(suggestions)) return undefined;
+  const [suggestion] = suggestions.elements;
+  if (!suggestion) return undefined;
+
+  if (!ts.isObjectLiteralExpression(suggestion)) return undefined;
+  for (const prop of suggestion.properties) {
+    if (!ts.isPropertyAssignment(prop)) continue;
+    if (!ts.isIdentifier(prop.name)) continue;
+
+    if (prop.name.text !== 'output') continue;
+    return extractOutputLiteralValue(prop.initializer);
+  }
+
+  return undefined;
 }

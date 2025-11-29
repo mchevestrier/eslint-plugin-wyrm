@@ -211,6 +211,7 @@ function computeStatementVolume(stmt: TSESTree.Statement | null): number {
         computeStatementVolume(stmt.finalizer)
       );
 
+    case AST_NODE_TYPES.DoWhileStatement:
     case AST_NODE_TYPES.WhileStatement:
     case AST_NODE_TYPES.ForStatement:
     case AST_NODE_TYPES.ForInStatement:

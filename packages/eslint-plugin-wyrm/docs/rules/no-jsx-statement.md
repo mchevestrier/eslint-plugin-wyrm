@@ -6,6 +6,14 @@
 
 ### Incorrect ❌
 
+JSX element in expression statement:
+
+```tsx
+export function MyComponent() {
+  <div />;
+}
+```
+
 JSX fragment in expression statement:
 
 ```tsx

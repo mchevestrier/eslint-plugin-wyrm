@@ -33,12 +33,20 @@ Redundant `false` fallback:
 if (foo ?? false) {
   console.log('foo!');
 }
+
+// Can be fixed to:
+if (foo) {
+  console.log('foo!');
+}
 ```
 
 Redundant `false` fallback inside of a boolean cast:
 
 ```tsx
 const x = Boolean(foo ?? false);
+
+// Can be fixed to:
+const x = Boolean(foo);
 ```
 
 Redundant `false` fallback in return of array method predicate:
@@ -46,12 +54,21 @@ Redundant `false` fallback in return of array method predicate:
 ```tsx
 declare const arr: Array<string | null>;
 const isOkay = arr.filter((elt) => elt ?? false);
+
+// Can be fixed to:
+declare const arr: Array<string | null>;
+const isOkay = arr.filter((elt) => elt);
 ```
 
 Redundant `false` fallback in logical sub-expressions:
 
 ```tsx
 if ((bar ?? false) && (foo ?? false)) {
+  console.log('foo!');
+}
+
+// Can be fixed to:
+if (bar && (foo ?? false)) {
   console.log('foo!');
 }
 ```

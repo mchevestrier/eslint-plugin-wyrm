@@ -12,6 +12,9 @@ Useless IIFE with arrow function:
 
 ```tsx
 const x = (() => 2)();
+
+// Can be fixed to:
+const x = 2;
 ```
 
 Useless IIFE (wrapped imperative logic):
@@ -23,6 +26,15 @@ function quux() {
     bar();
     baz();
   })();
+}
+
+// Can be fixed to:
+function quux() {
+  {
+    foo();
+    bar();
+    baz();
+  }
 }
 ```
 

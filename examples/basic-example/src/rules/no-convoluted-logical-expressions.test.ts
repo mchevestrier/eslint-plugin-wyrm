@@ -22,6 +22,22 @@ import {
   noConvolutedLogicalExpression9Fixed,
   noConvolutedLogicalExpression10,
   noConvolutedLogicalExpression10Fixed,
+  noConvolutedLogicalExpression11,
+  noConvolutedLogicalExpression11Fixed,
+  noConvolutedLogicalExpression12,
+  noConvolutedLogicalExpression12Fixed,
+  noConvolutedLogicalExpression13,
+  noConvolutedLogicalExpression13Fixed,
+  noConvolutedLogicalExpression14,
+  noConvolutedLogicalExpression14Fixed,
+  noConvolutedLogicalExpression15,
+  noConvolutedLogicalExpression15Fixed,
+  noConvolutedLogicalExpression16,
+  noConvolutedLogicalExpression16Fixed,
+  noConvolutedLogicalExpression17,
+  noConvolutedLogicalExpression17Fixed,
+  noConvolutedLogicalExpression18,
+  noConvolutedLogicalExpression18Fixed,
 } from './no-convoluted-logical-expressions.js';
 
 describe('no-convoluted-logical-expressions', () => {
@@ -167,6 +183,126 @@ describe('no-convoluted-logical-expressions', () => {
         const fixedResult = noConvolutedLogicalExpression10Fixed(foo);
         expect(fixedResult).toBe(unfixedResult);
       }),
+    );
+  });
+
+  test('fixing the logical expression should not change results for noConvolutedLogicalExpression11()', () => {
+    fc.assert(
+      fc.property(
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        (foo, bar, baz) => {
+          const unfixedResult = noConvolutedLogicalExpression11(foo, bar, baz);
+          const fixedResult = noConvolutedLogicalExpression11Fixed(foo, bar, baz);
+          expect(fixedResult).toBe(unfixedResult);
+        },
+      ),
+    );
+  });
+
+  test('fixing the logical expression should not change results for noConvolutedLogicalExpression12()', () => {
+    fc.assert(
+      fc.property(
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        (foo, bar, baz) => {
+          const unfixedResult = noConvolutedLogicalExpression12(foo, bar, baz);
+          const fixedResult = noConvolutedLogicalExpression12Fixed(foo, bar, baz);
+          expect(fixedResult).toBe(unfixedResult);
+        },
+      ),
+    );
+  });
+
+  test('fixing the logical expression should not change results for noConvolutedLogicalExpression13()', () => {
+    fc.assert(
+      fc.property(
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        (foo, bar, baz) => {
+          const unfixedResult = noConvolutedLogicalExpression13(foo, bar, baz);
+          const fixedResult = noConvolutedLogicalExpression13Fixed(foo, bar, baz);
+          expect(fixedResult).toBe(unfixedResult);
+        },
+      ),
+    );
+  });
+
+  test('fixing the logical expression should not change results for noConvolutedLogicalExpression14()', () => {
+    fc.assert(
+      fc.property(
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        (foo, bar, baz) => {
+          const unfixedResult = noConvolutedLogicalExpression14(foo, bar, baz);
+          const fixedResult = noConvolutedLogicalExpression14Fixed(foo, bar, baz);
+          expect(fixedResult).toBe(unfixedResult);
+        },
+      ),
+    );
+  });
+
+  test('fixing the logical expression should not change results for noConvolutedLogicalExpression15()', () => {
+    fc.assert(
+      fc.property(
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        (foo, bar, baz) => {
+          const unfixedResult = noConvolutedLogicalExpression15(foo, bar, baz);
+          const fixedResult = noConvolutedLogicalExpression15Fixed(foo, bar, baz);
+          expect(fixedResult).toBe(unfixedResult);
+        },
+      ),
+    );
+  });
+
+  test('fixing the logical expression should not change results for noConvolutedLogicalExpression16()', () => {
+    fc.assert(
+      fc.property(
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        (foo, bar, baz) => {
+          const unfixedResult = noConvolutedLogicalExpression16(foo, bar, baz);
+          const fixedResult = noConvolutedLogicalExpression16Fixed(foo, bar, baz);
+          expect(fixedResult).toBe(unfixedResult);
+        },
+      ),
+    );
+  });
+
+  test('fixing the logical expression should not change results for noConvolutedLogicalExpression17()', () => {
+    fc.assert(
+      fc.property(
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        (foo, bar, baz) => {
+          const unfixedResult = noConvolutedLogicalExpression17(foo, bar, baz);
+          const fixedResult = noConvolutedLogicalExpression17Fixed(foo, bar, baz);
+          expect(fixedResult).toBe(unfixedResult);
+        },
+      ),
+    );
+  });
+
+  test('fixing the logical expression should not change results for noConvolutedLogicalExpression18()', () => {
+    fc.assert(
+      fc.property(
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        fc.option(fc.float(), { nil: undefined }),
+        (foo, bar, baz) => {
+          const unfixedResult = noConvolutedLogicalExpression18(foo, bar, baz);
+          const fixedResult = noConvolutedLogicalExpression18Fixed(foo, bar, baz);
+          expect(fixedResult).toBe(unfixedResult);
+        },
+      ),
     );
   });
 });

@@ -139,11 +139,11 @@ export default createRule({
           node.left.type === AST_NODE_TYPES.LogicalExpression &&
           node.right.type === AST_NODE_TYPES.LogicalExpression
         ) {
-          // Disjunction with distributed conjunction
+          // Distributive law
+          const isDistributed: boolean = node.left.operator === node.right.operator;
+
           if (
-            node.operator === '||' &&
-            node.left.operator === '&&' &&
-            node.right.operator === '&&' &&
+            isDistributed &&
             node.left.left.type === AST_NODE_TYPES.Identifier &&
             node.right.left.type === AST_NODE_TYPES.Identifier &&
             node.left.left.name === node.right.left.name
@@ -151,7 +151,9 @@ export default createRule({
             const identifierName = node.left.left.name;
             const leftText = context.sourceCode.getText(node.left.right);
             const rightText = context.sourceCode.getText(node.right.right);
-            const text = `${identifierName} && (${leftText} || ${rightText})`;
+            const op = node.operator;
+            const distributedOp = node.left.operator;
+            const text = `${identifierName} ${distributedOp} (${leftText} ${op} ${rightText})`;
 
             context.report({
               node,

@@ -10,6 +10,8 @@ This rule disallows returning a ternary expression from the body of a function.
 
 It is essentially the opposite of the [`unicorn/prefer-ternary`](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-ternary.md) ESLint rule.
 
+This rule can help automatically "unwrap" nested ternary conditions.
+
 ## Cases
 
 ### Incorrect ❌
@@ -27,6 +29,27 @@ function foo(cond: boolean) {
     return 42;
   } else {
     return 105;
+  }
+}
+```
+
+Nested ternary return:
+
+```tsx
+function foo(cond1: boolean, cond2: boolean) {
+  return cond1 ? 42 : cond2 ? 105 : 0;
+}
+
+// Automatically fixed to:
+function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {
+    return 42;
+  } else {
+    if (cond2) {
+      return 105;
+    } else {
+      return 0;
+    }
   }
 }
 ```

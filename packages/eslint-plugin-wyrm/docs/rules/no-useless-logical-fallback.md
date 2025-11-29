@@ -39,6 +39,11 @@ With `?? undefined`:
 function quux(foo: string | undefined) {
   return foo ?? undefined;
 }
+
+// Can be fixed to:
+function quux(foo: string | undefined) {
+  return foo;
+}
 ```
 
 With `?? null`:
@@ -46,6 +51,11 @@ With `?? null`:
 ```tsx
 function quux(foo: string | null) {
   return foo ?? null;
+}
+
+// Can be fixed to:
+function quux(foo: string | null) {
+  return foo;
 }
 ```
 
@@ -55,6 +65,11 @@ With `|| false`:
 function quux(foo: boolean) {
   return foo || false;
 }
+
+// Can be fixed to:
+function quux(foo: boolean) {
+  return foo;
+}
 ```
 
 With `&& true`:
@@ -62,6 +77,11 @@ With `&& true`:
 ```tsx
 function quux(foo: boolean) {
   return foo && true;
+}
+
+// Can be fixed to:
+function quux(foo: boolean) {
+  return foo;
 }
 ```
 
@@ -71,6 +91,11 @@ With `&& false` (constant expression):
 function quux(foo: boolean) {
   return foo && false;
 }
+
+// Can be fixed to:
+function quux(foo: boolean) {
+  return foo;
+}
 ```
 
 With `|| true` (constant expression):
@@ -79,6 +104,11 @@ With `|| true` (constant expression):
 function quux(foo: boolean) {
   return foo || true;
 }
+
+// Can be fixed to:
+function quux(foo: boolean) {
+  return foo;
+}
 ```
 
 `|| ''` when the left side is exclusively a string:
@@ -86,6 +116,11 @@ function quux(foo: boolean) {
 ```tsx
 function quux(foo: string) {
   return foo || '';
+}
+
+// Can be fixed to:
+function quux(foo: string) {
+  return foo;
 }
 ```
 

@@ -294,6 +294,20 @@ foo(() => undefined);
       },
     },
     {
+      name: 'With return in `do while` loop',
+      code: `
+[1, 2].forEach((it) => {
+  do {
+    return undefined;
+  } while (1);
+});
+`,
+      errors: [{ messageId: 'noUselessReturnUndefined' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With return in `for` loop',
       code: `
 [1, 2].forEach((it) => {

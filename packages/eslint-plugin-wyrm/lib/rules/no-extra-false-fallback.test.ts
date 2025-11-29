@@ -804,5 +804,61 @@ const isOkay = arr.filter((elt) => ((foo) ? elt : 0));
         checkFormatting(this);
       },
     },
+    {
+      name: 'Redundant `false` fallback in `while` test',
+      code: `
+while (foo ?? false) {
+  console.log('foo!');
+}
+`,
+      errors: [
+        {
+          messageId: 'noExtraFalseFallbackInCondition',
+          data: { operator: '??' },
+          suggestions: [
+            {
+              messageId: 'removeFalseFallback',
+              data: { operator: '??' },
+              output: `
+while (foo) {
+  console.log('foo!');
+}
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Redundant `false` fallback in `do while` test',
+      code: `
+do {
+  console.log('foo!');
+} while (foo ?? false);
+`,
+      errors: [
+        {
+          messageId: 'noExtraFalseFallbackInCondition',
+          data: { operator: '??' },
+          suggestions: [
+            {
+              messageId: 'removeFalseFallback',
+              data: { operator: '??' },
+              output: `
+do {
+  console.log('foo!');
+} while (foo);
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
 });

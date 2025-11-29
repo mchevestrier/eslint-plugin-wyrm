@@ -12,6 +12,9 @@ Not using `String.prototype.repeat`:
 
 ```tsx
 const x = Array.from({ length: 3 }).reduce((acc) => `${acc}*`, '');
+
+// Can be fixed to:
+const x = '*'.repeat(3);
 ```
 
 ### Correct ✅

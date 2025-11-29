@@ -15,7 +15,7 @@ const ruleTester = new RuleTester({
 ruleTester.run(name, rule, {
   valid: [
     {
-      name: 'Useful `useMemo()` - with dependencies #docs',
+      name: 'Useful `useMemo()`: with dependencies #docs',
       code: `
 function MyComponent() {
   const [baz, setBaz] = useState(42);
@@ -29,7 +29,7 @@ function MyComponent() {
       },
     },
     {
-      name: 'Useful `useMemo()` - doing actual work #docs',
+      name: 'Useful `useMemo()`: doing actual work #docs',
       code: `
 import { factorial } from './factorial';
 
@@ -44,7 +44,7 @@ function MyComponent() {
       },
     },
     {
-      name: 'Useful `useMemo()` - doing actual work (declaration first)',
+      name: 'Useful `useMemo()`: doing actual work (declaration first)',
       code: `
 import { factorial } from './factorial';
 
@@ -62,7 +62,7 @@ function MyComponent() {
       },
     },
     {
-      name: 'Useful `useMemo()` - doing actual work (assignment first)',
+      name: 'Useful `useMemo()`: doing actual work (assignment first)',
       code: `
 import { factorial } from './factorial';
 
@@ -456,7 +456,7 @@ function MyComponent() {
       },
     },
     {
-      name: 'Useless `useMemo()` (with a function expression)',
+      name: 'Useless `useMemo()`: with a function expression',
       code: `
 function MyComponent() {
   const foo = useMemo(function () {
@@ -472,7 +472,7 @@ function MyComponent() {
       },
     },
     {
-      name: 'Useless `useMemo()` (with return statement)',
+      name: 'Useless `useMemo()`: with return statement',
       code: `
 function MyComponent() {
   const foo = useMemo(() => {

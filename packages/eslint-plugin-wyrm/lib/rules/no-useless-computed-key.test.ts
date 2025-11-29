@@ -18,6 +18,15 @@ const obj = { 'foobar': 42 };
       },
     },
     {
+      name: 'String literal key #docs (with dash)',
+      code: `
+const obj = { 'foo-bar': 42 };
+`,
+      after() {
+        // Not formatted
+      },
+    },
+    {
       name: 'Identifier key #docs',
       code: `
 const obj = { foobar: 42 };
@@ -47,12 +56,38 @@ const obj = { [105]: 42 };
   ],
   invalid: [
     {
-      name: 'Useless computed key #docs',
+      name: 'Useless computed key',
       code: `
 const obj = { ['foobar']: 42 };
 `,
       output: `
 const obj = { 'foobar': 42 };
+`,
+      errors: [{ messageId: 'noUselessComputedKey' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Useless computed key #docs (with dash)',
+      code: `
+const obj = { ['foo-bar']: 42 };
+`,
+      output: `
+const obj = { 'foo-bar': 42 };
+`,
+      errors: [{ messageId: 'noUselessComputedKey' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Useless computed key (with period)',
+      code: `
+const obj = { ['foo.bar']: 42 };
+`,
+      output: `
+const obj = { 'foo.bar': 42 };
 `,
       errors: [{ messageId: 'noUselessComputedKey' }],
       after() {

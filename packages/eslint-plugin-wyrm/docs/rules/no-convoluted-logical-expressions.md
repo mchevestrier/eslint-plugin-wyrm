@@ -53,13 +53,22 @@ const x = foo && (foo || bar);
 const x = foo;
 ```
 
-Disjunction with distributed conjunction:
+Disjunction with distributed conjunctions:
 
 ```tsx
 const x = (foo && bar) || (foo && baz);
 
 // Automatically fixed to:
 const x = foo && (bar || baz);
+```
+
+Conjunction with distributed disjunctions:
+
+```tsx
+const x = (foo || bar) && (foo || baz);
+
+// Automatically fixed to:
+const x = foo || (bar && baz);
 ```
 
 Nullish fallback to ternary condition with reverse test:
@@ -77,12 +86,6 @@ No possible simplification:
 
 ```tsx
 const x = quux ? (foo ?? null) : bar;
-```
-
-Conjunction of disjunctions:
-
-```tsx
-const x = (foo || bar) && (foo || baz);
 ```
 
 <!-- end auto-generated rule header -->

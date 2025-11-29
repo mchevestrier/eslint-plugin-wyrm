@@ -678,10 +678,16 @@ function foo(cond1: boolean, cond2: boolean) {
 
   if (cond2) {
     while (Math.cos(0)) {
-      for (key in Math) {
+      for (const key in Math) {
         console.log('ok');
       }
     }
+
+    do {
+      for (const key in Math) {
+        console.log('ok');
+      }
+    } while (Math.cos(0));
 
     for (let i = 0; i < 3; i++) {
       console.log('ok');
@@ -705,10 +711,16 @@ function foo(cond1: boolean, cond2: boolean) {
     return 0;
   } else {
     while (Math.cos(0)) {
-      for (key in Math) {
+      for (const key in Math) {
         console.log('ok');
       }
     }
+
+    do {
+      for (const key in Math) {
+        console.log('ok');
+      }
+    } while (Math.cos(0));
 
     for (let i = 0; i < 3; i++) {
       console.log('ok');

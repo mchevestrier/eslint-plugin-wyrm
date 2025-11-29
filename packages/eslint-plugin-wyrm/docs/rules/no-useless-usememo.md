@@ -29,7 +29,7 @@ function MyComponent() {
 
 ### Correct ✅
 
-Useful `useMemo()` - with dependencies:
+Useful `useMemo()`: with dependencies:
 
 ```tsx
 function MyComponent() {
@@ -40,7 +40,7 @@ function MyComponent() {
 }
 ```
 
-Useful `useMemo()` - doing actual work:
+Useful `useMemo()`: doing actual work:
 
 ```tsx
 import { factorial } from './factorial';
