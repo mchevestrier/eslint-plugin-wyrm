@@ -12,6 +12,9 @@ An entire logical expression wrapped in a boolean cast:
 
 ```tsx
 const foo = !!(bar && baz.length > 2 && quux.description);
+
+// Automatically fixed to:
+const foo = !!bar && baz.length > 2 && !!quux.description;
 ```
 
 ### Correct ✅

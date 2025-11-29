@@ -12,6 +12,9 @@ Useless computed key:
 
 ```tsx
 const obj = { ['foobar']: 42 };
+
+// Automatically fixed to:
+const obj = { foobar: 42 };
 ```
 
 ### Correct ✅

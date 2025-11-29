@@ -27,12 +27,12 @@ export function noExtraFalseFallback3(cond1: string | undefined) {
   return 42;
 }
 
-export function noExtraFalseFallback4(arr: (string | null)[]) {
+export function noExtraFalseFallback4(arr: Array<string | null>) {
   // eslint-disable-next-line wyrm/no-extra-false-fallback
   return arr.some((item) => item ?? false);
 }
 
-export function noExtraFalseFallback5(arr: (string | undefined)[]) {
+export function noExtraFalseFallback5(arr: Array<string | undefined>) {
   // eslint-disable-next-line wyrm/no-extra-false-fallback, @typescript-eslint/no-unnecessary-condition
   return arr.some((item) => item || false);
 }

@@ -18,6 +18,16 @@ function foo(cond1: boolean, cond2: boolean) {
   }
   return 42;
 }
+
+// Automatically fixed to:
+function foo(cond1: boolean, cond2: boolean) {
+  if (!cond1) {
+    return 42;
+  } else {
+    if (cond2) return 105;
+    return 0;
+  }
+}
 ```
 
 With a return statement in the alternate block only:
@@ -32,6 +42,23 @@ function foo(cond1: boolean, cond2: boolean) {
   } else {
     console.log('ok');
     return 42;
+  }
+
+  console.log(17);
+
+  return 17;
+}
+
+// Automatically fixed to:
+function foo(cond1: boolean, cond2: boolean) {
+  if (!cond1) {
+    console.log('ok');
+    return 42;
+  } else {
+    if (cond2) {
+      console.log(105);
+    }
+    console.log(0);
   }
 
   console.log(17);

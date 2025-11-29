@@ -115,7 +115,7 @@ async function generateExamplesForRule(ruleName: string) {
 
   const ast = ts.createSourceFile('source.ts', testContent, ts.ScriptTarget.Latest);
 
-  type TestCase = { name: string; code: string };
+  type TestCase = { name: string; code: string; output: string | undefined };
   const validTestCases: TestCase[] = [];
   const invalidTestCases: TestCase[] = [];
 
@@ -125,6 +125,22 @@ async function generateExamplesForRule(ruleName: string) {
     throw Error('Argument passed to extractStringLiteralValue() was not a string node');
   }
 
+  function extractOutputLiteralValue(node: ts.Node): string | undefined {
+    if (ts.isArrayLiteralExpression(node)) {
+      const lastElement = node.elements.at(-1);
+      if (!lastElement) {
+        throw Error('Test case output is an empty array');
+      }
+      return extractStringLiteralValue(lastElement);
+    }
+
+    if (node.kind === ts.SyntaxKind.NullKeyword) {
+      return undefined;
+    }
+
+    return extractStringLiteralValue(node);
+  }
+
   function extractTestCase(node: ts.Node): TestCase {
     if (!ts.isObjectLiteralExpression(node)) {
       throw Error('Not an object literal expression');
@@ -132,6 +148,7 @@ async function generateExamplesForRule(ruleName: string) {
 
     let name: string | undefined = undefined;
     let code: string | undefined = undefined;
+    let output: string | undefined = undefined;
     for (const prop of node.properties) {
       if (!ts.isPropertyAssignment(prop)) continue;
       if (!ts.isIdentifier(prop.name)) continue;
@@ -142,6 +159,9 @@ async function generateExamplesForRule(ruleName: string) {
       if (prop.name.text === 'code') {
         code = extractStringLiteralValue(prop.initializer);
       }
+      if (prop.name.text === 'output') {
+        output = extractOutputLiteralValue(prop.initializer);
+      }
     }
 
     if (typeof name === 'undefined') {
@@ -151,7 +171,7 @@ async function generateExamplesForRule(ruleName: string) {
       throw Error('No code property found in test case');
     }
 
-    return { name, code };
+    return { name, code, output };
   }
 
   function extractTestCases(node: ts.Node): TestCase[] {
@@ -193,12 +213,18 @@ async function generateExamplesForRule(ruleName: string) {
   ts.forEachChild(ast, visit);
 
   function formatExample(testCase: TestCase): string {
+    const output = testCase.output
+      ? `
+// Automatically fixed to:${testCase.output}
+`
+      : '';
+
     return `
 ${testCase.name}:
 \`\`\`tsx
 
 ${testCase.code}
-\`\`\`
+${output}\`\`\`
 `;
   }
 
@@ -206,8 +232,9 @@ ${testCase.code}
     const docPragma = ' #docs';
     return testCases
       .filter(({ name }) => name.includes(docPragma))
-      .map(({ name, code }) => ({
+      .map(({ name, code, output }) => ({
         code,
+        output,
         name: name.replace(new RegExp(`${docPragma}.*`, 'u'), ''),
       }))
       .map((testCase) => formatExample(testCase))

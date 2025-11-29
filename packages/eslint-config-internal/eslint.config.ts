@@ -182,6 +182,7 @@ export default defineConfig([
       'no-iterator': 'error',
       'no-label-var': 'error',
       'no-labels': 'error',
+      'no-lone-blocks': 'error',
       'no-lonely-if': 'error',
       'no-multi-assign': 'error',
       'no-multi-str': 'error',
@@ -251,7 +252,7 @@ export default defineConfig([
       '@typescript-eslint/no-loop-func': 'error',
       'dot-notation': 'off',
       '@typescript-eslint/dot-notation': 'error',
-
+      '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
       '@typescript-eslint/no-magic-numbers': [
         'error',
         { ignore: [-3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] },

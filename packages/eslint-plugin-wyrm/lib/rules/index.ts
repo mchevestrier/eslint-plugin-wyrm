@@ -1,6 +1,7 @@
 // GENERATED FILE - DO NOT EDIT
 export { default as 'distribute-boolean-casts' } from './distribute-boolean-casts.js';
 export { default as 'no-constant-template-expression' } from './no-constant-template-expression.js';
+export { default as 'no-convoluted-logical-expressions' } from './no-convoluted-logical-expressions.js';
 export { default as 'no-duplicated-return' } from './no-duplicated-return.js';
 export { default as 'no-else-break' } from './no-else-break.js';
 export { default as 'no-else-continue' } from './no-else-continue.js';

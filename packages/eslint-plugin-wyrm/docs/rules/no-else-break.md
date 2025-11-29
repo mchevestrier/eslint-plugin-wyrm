@@ -15,6 +15,12 @@ while (true) {
   if (cond) break;
   else foo();
 }
+
+// Automatically fixed to:
+while (true) {
+  if (cond) break;
+  foo();
+}
 ```
 
 ### Correct ✅

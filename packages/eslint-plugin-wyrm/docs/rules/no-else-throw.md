@@ -13,6 +13,10 @@ Unnecessary `else` block after `throw`:
 ```tsx
 if (cond) throw Error('oh no!');
 else foo();
+
+// Automatically fixed to:
+if (cond) throw Error('oh no!');
+foo();
 ```
 
 ### Correct ✅

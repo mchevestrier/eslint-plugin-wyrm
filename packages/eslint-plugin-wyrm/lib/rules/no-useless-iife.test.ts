@@ -731,7 +731,37 @@ async function quux() {
 async function quux() {
   {
     await foo();
-  };
+  }
+}
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Useless awaited async IIFE (await expression in async function)',
+      code: `
+async function quux() {
+  await (async () => {
+    await foo();
+  })();
+}
+`,
+      errors: [
+        {
+          messageId: 'noUselessIIFE',
+          suggestions: [
+            {
+              messageId: 'removeIIFE',
+              output: `
+async function quux() {
+  {
+    await foo();
+  }
 }
 `,
             },
@@ -761,7 +791,7 @@ const quux = async () => {
 const quux = async () => {
   {
     await foo();
-  };
+  }
 };
 `,
             },
@@ -791,7 +821,7 @@ const quux = async function () {
 const quux = async function () {
   {
     await foo();
-  };
+  }
 };
 `,
             },
@@ -825,7 +855,7 @@ function quux() {
     foo();
     bar();
     baz();
-  };
+  }
 }
 `,
             },
@@ -852,7 +882,7 @@ function quux() {
               output: `
 {
   foo();
-};
+}
 `,
             },
           ],
@@ -890,7 +920,7 @@ function quux() {
   do {
     foo();
   } while (bar);
-};
+}
 `,
             },
           ],
@@ -928,7 +958,7 @@ function quux() {
   }
 
   1 ? foo() : 0;
-};
+}
 `,
             },
           ],
@@ -974,7 +1004,7 @@ function quux() {
   for (const key in obj) {
     continue;
   }
-};
+}
 `,
             },
           ],
@@ -1018,7 +1048,7 @@ function quux() {
     default:
       continue;
   }
-};
+}
 `,
             },
           ],
@@ -1058,7 +1088,7 @@ function quux() {
   } finally {
     debugger;
   }
-};
+}
 `,
             },
           ],
@@ -1100,7 +1130,7 @@ function quux() {
 
     [foo()]: 105,
   };
-};
+}
 `,
             },
           ],
@@ -1126,7 +1156,7 @@ function quux() {
               output: `
 {
   quux(42);
-};
+}
 `,
             },
           ],
@@ -1158,7 +1188,7 @@ function quux() {
   continue;
   break;
   import('./foo').then((mod) => mod);
-};
+}
 `,
             },
           ],
@@ -1190,7 +1220,7 @@ function quux() {
   export {};
   export default foo;
   export * as quux from './quux';
-};
+}
 `,
             },
           ],
@@ -1236,7 +1266,7 @@ function quux() {
   }
   const bar = async () => 105;
   const baz = function () {};
-};
+}
 `,
             },
           ],
@@ -1268,7 +1298,7 @@ class Klass {
   method() {
     {
       foo();
-    };
+    }
   }
 }
 `,

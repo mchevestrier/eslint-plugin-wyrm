@@ -20,6 +20,15 @@ Ternary return:
 function foo(cond: boolean) {
   return cond ? 42 : 105;
 }
+
+// Automatically fixed to:
+function foo(cond: boolean) {
+  if (cond) {
+    return 42;
+  } else {
+    return 105;
+  }
+}
 ```
 
 ### Correct ✅

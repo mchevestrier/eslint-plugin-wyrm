@@ -3,6 +3,7 @@ import path from 'node:path';
 import { AST_NODE_TYPES, type TSESTree } from '@typescript-eslint/utils';
 
 import { createRule } from '../utils/createRule.js';
+import { None, Some, type Option } from '../utils/option.js';
 
 export const { name } = path.parse(import.meta.filename);
 
@@ -73,7 +74,9 @@ export default createRule({
           return;
         }
 
-        if (node.parent.type !== AST_NODE_TYPES.ExpressionStatement) return;
+        const maybeParent = getCallExprParentStatement(node);
+        if (!maybeParent.some) return;
+        const parent = maybeParent.value;
 
         if (!hasAwait(body)) {
           context.report({
@@ -84,7 +87,7 @@ export default createRule({
                 messageId: 'removeIIFE',
                 fix(fixer) {
                   const txt = context.sourceCode.getText(callee.body);
-                  return fixer.replaceText(node, txt);
+                  return fixer.replaceText(parent, txt);
                 },
               },
             ],
@@ -92,7 +95,7 @@ export default createRule({
           return;
         }
 
-        if (isStatementInAsyncFunction(node.parent)) {
+        if (isStatementInAsyncFunction(parent)) {
           context.report({
             node,
             messageId: 'noUselessIIFE',
@@ -101,7 +104,7 @@ export default createRule({
                 messageId: 'removeIIFE',
                 fix(fixer) {
                   const txt = context.sourceCode.getText(callee.body);
-                  return fixer.replaceText(node, txt);
+                  return fixer.replaceText(parent, txt);
                 },
               },
             ],
@@ -111,6 +114,16 @@ export default createRule({
     };
   },
 });
+
+function getCallExprParentStatement(
+  node: TSESTree.CallExpression | TSESTree.AwaitExpression,
+): Option<TSESTree.ExpressionStatement> {
+  if (node.parent.type === AST_NODE_TYPES.ExpressionStatement) return Some(node.parent);
+  if (node.parent.type === AST_NODE_TYPES.AwaitExpression) {
+    return getCallExprParentStatement(node.parent);
+  }
+  return None;
+}
 
 function isStatementInAsyncFunction(stmt: TSESTree.ExpressionStatement): boolean {
   if (stmt.parent.type !== AST_NODE_TYPES.BlockStatement) return false;

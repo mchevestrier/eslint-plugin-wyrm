@@ -46,6 +46,7 @@ export default defineConfig([
   {
     rules: {
       'no-else-return': 'error',
+      'no-lone-blocks': 'error',
 
       'unicorn/prevent-abbreviations': 'off',
       'unicorn/no-useless-undefined': 'off',
@@ -59,6 +60,8 @@ export default defineConfig([
       'sonarjs/deprecation': 'off',
 
       'shopify/prefer-early-return': 'error',
+
+      '@typescript-eslint/array-type': ['error', { default: 'array-simple' }],
     },
   },
 
