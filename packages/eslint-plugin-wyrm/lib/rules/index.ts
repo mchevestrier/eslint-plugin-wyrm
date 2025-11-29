@@ -15,6 +15,7 @@ export { default as 'no-inline-jsdoc-tag' } from './no-inline-jsdoc-tag.js';
 export { default as 'no-invalid-date-literal' } from './no-invalid-date-literal.js';
 export { default as 'no-jsx-statement' } from './no-jsx-statement.js';
 export { default as 'no-optional-type-guard-param' } from './no-optional-type-guard-param.js';
+export { default as 'no-redundant-function-declaration' } from './no-redundant-function-declaration.js';
 export { default as 'no-return-to-void' } from './no-return-to-void.js';
 export { default as 'no-sloppy-length-check' } from './no-sloppy-length-check.js';
 export { default as 'no-suspicious-jsx-semicolon' } from './no-suspicious-jsx-semicolon.js';
