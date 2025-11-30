@@ -222,7 +222,7 @@ export function noConvolutedLogicalExpression14(
   bar: number | undefined,
   baz: number | undefined,
 ) {
-  // eslint-disable-next-line wyrm/no-convoluted-logical-expressions
+  // eslint-disable-next-line wyrm/no-convoluted-logical-expressions, @typescript-eslint/no-unnecessary-condition
   return (foo ?? bar) || (foo ?? baz);
 }
 
@@ -256,7 +256,6 @@ export function noConvolutedLogicalExpression16(
   bar: number | undefined,
   baz: number | undefined,
 ) {
-  // eslint-disable-next-line wyrm/no-convoluted-logical-expressions, @typescript-eslint/no-unnecessary-condition
   return foo ?? bar ?? foo ?? baz;
 }
 
@@ -273,7 +272,6 @@ export function noConvolutedLogicalExpression17(
   bar: number | undefined,
   baz: number | undefined,
 ) {
-  // eslint-disable-next-line wyrm/no-convoluted-logical-expressions, @typescript-eslint/no-unnecessary-condition
   return foo || bar || foo || baz;
 }
 
@@ -290,7 +288,6 @@ export function noConvolutedLogicalExpression18(
   bar: number | undefined,
   baz: number | undefined,
 ) {
-  // eslint-disable-next-line wyrm/no-convoluted-logical-expressions, @typescript-eslint/no-unnecessary-condition
   return foo && bar && foo && baz;
 }
 
