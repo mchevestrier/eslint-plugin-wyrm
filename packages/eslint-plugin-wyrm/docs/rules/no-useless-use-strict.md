@@ -48,4 +48,5 @@ class Klass {
 
 ## Related
 
+- ESLint: [`strict`](https://eslint.org/docs/latest/rules/strict)
 - [`unicorn/prefer-module`](https://github.com/sindresorhus/eslint-plugin-unicorn/blob/main/docs/rules/prefer-module.md)

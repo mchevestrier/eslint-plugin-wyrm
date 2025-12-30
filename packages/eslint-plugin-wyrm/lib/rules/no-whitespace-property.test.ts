@@ -62,6 +62,33 @@ const obj = { '  foo  ': 42 };
         checkFormatting(this);
       },
     },
+    {
+      name: 'With an empty property',
+      code: `
+const obj = { '': 42 };
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With only a single whitespace',
+      code: `
+const obj = { ' ': 42 };
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With only two whitespace characters',
+      code: `
+const obj = { '  ': 42 };
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

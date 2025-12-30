@@ -52,6 +52,12 @@ TODO comment with no JSDoc tag:
 // TODO: You can't index the bus without quantifying the neural AGP program
 ```
 
+`// @ts-check`:
+
+```tsx
+// @ts-check
+```
+
 <!-- end auto-generated rule header -->
 
 ## Options

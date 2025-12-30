@@ -124,6 +124,26 @@ const str = \`Value: \${foo}\`;
       },
     },
     {
+      name: 'A string literal union is allowed',
+      code: `
+declare const foo: 'foo' | 'bar';
+const str = \`\${foo}_baz\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'A number literal union is allowed',
+      code: `
+declare const foo: 42 | 105;
+const str = \`\${foo}_baz\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Enum value as the only expression',
       code: `
 enum Foo {

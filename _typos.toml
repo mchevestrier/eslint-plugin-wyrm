@@ -1,3 +1,15 @@
+[default]
+extend-ignore-re = [
+  "TOOD",
+  # Custom ignore regex patterns: https://github.com/crate-ci/typos/blob/master/docs/reference.md#example-configurations
+  "(?Rm)^.*(#|//)\\s*spellchecker:disable-line$",
+  "(?s)(#|//)\\s*spellchecker:off.*?\\n\\s*(#|//)\\s*spellchecker:on",
+  "(#|//)\\s*spellchecker:ignore-next-line\\n.*",
+]
+
 [default.extend-identifiers]
 # Immediately Invoked Function Expressions
 IIFEs = "IIFEs"
+
+[files]
+extend-exclude = ["packages/eslint-plugin-wyrm/CHANGELOG.md"]

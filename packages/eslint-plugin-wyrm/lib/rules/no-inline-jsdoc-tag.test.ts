@@ -28,6 +28,17 @@ ruleTester.run(name, rule, {
       },
     },
     {
+      name: '`@deprecated` JSDoc tag in valid JSDoc comment (multiline)',
+      code: `
+/**
+ * @deprecated Use the haptic hard drive instead
+ */
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Deprecated comment with no JSDoc tag #docs',
       code: `
 // Deprecated: Use the open-source TLS capacitor, then you can hack the redundant sensor
@@ -58,6 +69,15 @@ ruleTester.run(name, rule, {
       name: '`@foobar` JSDoc tag',
       code: `
 // @foobar
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`@foobar` JSDoc tag in valid JSDoc comment',
+      code: `
+/** @foobar */
 `,
       after() {
         checkFormatting(this);
@@ -130,6 +150,69 @@ ruleTester.run(name, rule, {
 `,
       after() {
         // Not formatted
+      },
+    },
+    {
+      name: '`// @ts-check` #docs',
+      code: `
+// @ts-check
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`// @ts-ignore`',
+      code: `
+// @ts-ignore
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`// @ts-expect-error`',
+      code: `
+// @ts-expect-error
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`// @flow`',
+      code: `
+// @flow
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`// @flow strict`',
+      code: `
+// @flow strict
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`/* @flow */`',
+      code: `
+/* @flow */
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`/** @flow */`',
+      code: `
+/** @flow */
+`,
+      after() {
+        checkFormatting(this);
       },
     },
   ],
