@@ -88,22 +88,203 @@ export default createRule({
       }
     }
 
+    function checkNegationTautology(
+      node: TSESTree.LogicalExpression,
+      left: TSESTree.Identifier,
+      right: TSESTree.UnaryExpression,
+    ) {
+      // Negation tautology
+      if (right.operator !== '!') return;
+      if (right.argument.type !== AST_NODE_TYPES.Identifier) return;
+      if (right.argument.name !== left.name) return;
+
+      const identifierName = left.name;
+      context.report({
+        node,
+        messageId: 'noConvolutedLogicalExpression',
+        fix(fixer) {
+          return fixer.replaceText(node, identifierName);
+        },
+      });
+    }
+
+    function checkSimpleTautology(
+      node: TSESTree.LogicalExpression,
+      left: TSESTree.Identifier,
+      right: TSESTree.Identifier,
+    ) {
+      // Tautology
+      if (left.name !== right.name) return;
+      const identifierName = left.name;
+
+      context.report({
+        node,
+        messageId: 'noConvolutedLogicalExpression',
+        fix(fixer) {
+          return fixer.replaceText(node, identifierName);
+        },
+      });
+    }
+
+    function checkAbsorptionLaw(
+      node: TSESTree.LogicalExpression,
+      left: TSESTree.Identifier,
+      right: TSESTree.LogicalExpression,
+    ) {
+      // Absorption law
+      const isDisjunctionWithConjunction =
+        node.operator === '||' && right.operator === '&&';
+      const isConjunctionWithDisjunction =
+        node.operator === '&&' && right.operator === '||';
+      const isAbsorbed = isDisjunctionWithConjunction || isConjunctionWithDisjunction;
+
+      if (
+        isAbsorbed &&
+        right.left.type === AST_NODE_TYPES.Identifier &&
+        left.name === right.left.name
+      ) {
+        context.report({
+          node,
+          messageId: 'noConvolutedLogicalExpression',
+          fix(fixer) {
+            return fixer.replaceText(node, context.sourceCode.getText(node.left));
+          },
+        });
+      }
+    }
+
+    function checkLogicalExpressions(
+      node: TSESTree.LogicalExpression,
+      left: TSESTree.LogicalExpression,
+      right: TSESTree.LogicalExpression,
+    ) {
+      // Distributive law
+      const isDistributed: boolean = left.operator === right.operator;
+
+      if (
+        isDistributed &&
+        left.left.type === AST_NODE_TYPES.Identifier &&
+        right.left.type === AST_NODE_TYPES.Identifier &&
+        left.left.name === right.left.name
+      ) {
+        const identifierName = left.left.name;
+        const leftText = context.sourceCode.getText(left.right);
+        const rightText = context.sourceCode.getText(right.right);
+        const op = node.operator;
+        const distributedOp = left.operator;
+        const text = `${identifierName} ${distributedOp} (${leftText} ${op} ${rightText})`;
+
+        context.report({
+          node,
+          messageId: 'noConvolutedLogicalExpression',
+          fix(fixer) {
+            return fixer.replaceText(node, text);
+          },
+        });
+      }
+    }
+
+    function checkBinaryExpressions(
+      node: TSESTree.LogicalExpression,
+      left: TSESTree.BinaryExpression,
+      right: TSESTree.BinaryExpression,
+    ) {
+      checkInequalityTautology(node, left, right);
+      // eslint-disable-next-line sonarjs/arguments-order
+      checkInequalityTautology(node, right, left);
+
+      checkComparisonTautology(node, left, right);
+      // eslint-disable-next-line sonarjs/arguments-order
+      checkComparisonTautology(node, right, left);
+    }
+
+    function checkInequalityTautology(
+      node: TSESTree.LogicalExpression,
+      left: TSESTree.BinaryExpression,
+      right: TSESTree.BinaryExpression,
+    ) {
+      if (left.left.type !== AST_NODE_TYPES.Identifier) return;
+      if (left.right.type !== AST_NODE_TYPES.Identifier) return;
+      if (right.left.type !== AST_NODE_TYPES.Identifier) return;
+      if (right.right.type !== AST_NODE_TYPES.Identifier) return;
+
+      if (left.operator !== '!=' && left.operator !== '!==') return;
+      if (right.operator !== '==' && right.operator !== '===') return;
+
+      if (left.left.name !== right.left.name && left.left.name !== right.right.name) {
+        return;
+      }
+      if (left.right.name !== right.left.name && left.right.name !== right.right.name) {
+        return;
+      }
+
+      context.report({
+        node,
+        messageId: 'noConvolutedLogicalExpression',
+        fix(fixer) {
+          return fixer.replaceText(node, context.sourceCode.getText(right));
+        },
+      });
+    }
+
+    function checkComparisonTautology(
+      node: TSESTree.LogicalExpression,
+      left: TSESTree.BinaryExpression,
+      right: TSESTree.BinaryExpression,
+    ) {
+      if (left.left.type !== AST_NODE_TYPES.Identifier) return;
+      if (left.right.type !== AST_NODE_TYPES.Identifier) return;
+      if (right.left.type !== AST_NODE_TYPES.Identifier) return;
+      if (right.right.type !== AST_NODE_TYPES.Identifier) return;
+
+      if (
+        left.operator !== '>' &&
+        left.operator !== '<' &&
+        left.operator !== '>=' &&
+        left.operator !== '<='
+      ) {
+        return;
+      }
+      if (right.operator !== '==' && right.operator !== '===') return;
+
+      if (left.left.name !== right.left.name && left.left.name !== right.right.name) {
+        return;
+      }
+      if (left.right.name !== right.left.name && left.right.name !== right.right.name) {
+        return;
+      }
+
+      context.report({
+        node,
+        messageId: 'noConvolutedLogicalExpression',
+        fix(fixer) {
+          return fixer.replaceText(node, context.sourceCode.getText(right));
+        },
+      });
+    }
+
     return {
       LogicalExpression(node) {
         if (
           node.left.type === AST_NODE_TYPES.Identifier &&
           node.right.type === AST_NODE_TYPES.Identifier
         ) {
-          if (node.left.name !== node.right.name) return;
-          const identifierName = node.left.name;
-          // Tautology
-          context.report({
-            node,
-            messageId: 'noConvolutedLogicalExpression',
-            fix(fixer) {
-              return fixer.replaceText(node, identifierName);
-            },
-          });
+          checkSimpleTautology(node, node.left, node.right);
+          return;
+        }
+
+        if (
+          node.left.type === AST_NODE_TYPES.Identifier &&
+          node.right.type === AST_NODE_TYPES.UnaryExpression
+        ) {
+          checkNegationTautology(node, node.left, node.right);
+          return;
+        }
+        if (
+          node.left.type === AST_NODE_TYPES.UnaryExpression &&
+          node.right.type === AST_NODE_TYPES.Identifier
+        ) {
+          checkNegationTautology(node, node.right, node.left);
           return;
         }
 
@@ -111,27 +292,15 @@ export default createRule({
           node.left.type === AST_NODE_TYPES.Identifier &&
           node.right.type === AST_NODE_TYPES.LogicalExpression
         ) {
-          // Absorption law
-          const isDisjunctionWithConjunction =
-            node.operator === '||' && node.right.operator === '&&';
-          const isConjunctionWithDisjunction =
-            node.operator === '&&' && node.right.operator === '||';
-          const isAbsorbed = isDisjunctionWithConjunction || isConjunctionWithDisjunction;
+          checkAbsorptionLaw(node, node.left, node.right);
+          return;
+        }
 
-          if (
-            isAbsorbed &&
-            node.right.left.type === AST_NODE_TYPES.Identifier &&
-            node.left.name === node.right.left.name
-          ) {
-            const identifierName = node.left.name;
-            context.report({
-              node,
-              messageId: 'noConvolutedLogicalExpression',
-              fix(fixer) {
-                return fixer.replaceText(node, identifierName);
-              },
-            });
-          }
+        if (
+          node.left.type === AST_NODE_TYPES.LogicalExpression &&
+          node.right.type === AST_NODE_TYPES.Identifier
+        ) {
+          checkAbsorptionLaw(node, node.right, node.left);
           return;
         }
 
@@ -139,31 +308,15 @@ export default createRule({
           node.left.type === AST_NODE_TYPES.LogicalExpression &&
           node.right.type === AST_NODE_TYPES.LogicalExpression
         ) {
-          // Distributive law
-          const isDistributed: boolean = node.left.operator === node.right.operator;
-
-          if (
-            isDistributed &&
-            node.left.left.type === AST_NODE_TYPES.Identifier &&
-            node.right.left.type === AST_NODE_TYPES.Identifier &&
-            node.left.left.name === node.right.left.name
-          ) {
-            const identifierName = node.left.left.name;
-            const leftText = context.sourceCode.getText(node.left.right);
-            const rightText = context.sourceCode.getText(node.right.right);
-            const op = node.operator;
-            const distributedOp = node.left.operator;
-            const text = `${identifierName} ${distributedOp} (${leftText} ${op} ${rightText})`;
-
-            context.report({
-              node,
-              messageId: 'noConvolutedLogicalExpression',
-              fix(fixer) {
-                return fixer.replaceText(node, text);
-              },
-            });
-          }
+          checkLogicalExpressions(node, node.left, node.right);
           return;
+        }
+
+        if (
+          node.left.type === AST_NODE_TYPES.BinaryExpression &&
+          node.right.type === AST_NODE_TYPES.BinaryExpression
+        ) {
+          checkBinaryExpressions(node, node.left, node.right);
         }
 
         if (

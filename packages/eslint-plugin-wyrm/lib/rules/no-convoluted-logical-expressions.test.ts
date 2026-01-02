@@ -179,6 +179,42 @@ const x = (foo && bar) || (fnord && baz);
         checkFormatting(this);
       },
     },
+    {
+      name: 'Identifier and unary expression (not a negation)',
+      code: `
+foo || +foo;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Identifier and unary expression with a non-identifier argument',
+      code: `
+foo || !0;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Identifier and unary expression with a different identifier',
+      code: `
+foo || !bar;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Binary expressions with different identifiers',
+      code: `
+foo === bar || baz !== quux;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -240,6 +276,32 @@ const x = foo && (foo || bar);
 `,
       output: `
 const x = foo;
+`,
+      errors: [{ messageId: 'noConvolutedLogicalExpression' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Absorption law: `(A && B) || A === A` (symmetry)',
+      code: `
+const x = (foo && bar) || foo;
+`,
+      output: `
+const x = foo && bar;
+`,
+      errors: [{ messageId: 'noConvolutedLogicalExpression' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Absorption law: `(A || B) && A === A` (symmetry)',
+      code: `
+const x = (foo || bar) && foo;
+`,
+      output: `
+const x = foo || bar;
 `,
       errors: [{ messageId: 'noConvolutedLogicalExpression' }],
       after() {
@@ -437,6 +499,118 @@ const x = (quux ? foo : null) || (fnord ? bar : null);
 const x = quux && foo ? foo : fnord ? bar : null;
 `,
       errors: [{ messageId: 'noConvolutedLogicalExpression' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Negation tautology',
+      code: `
+foo && !foo;
+foo || !foo;
+!foo && foo;
+!foo || foo;
+`,
+      output: `
+foo;
+foo;
+foo;
+foo;
+`,
+      errors: [
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Inequality tautology',
+      code: `
+a === n && a != n;
+a === n && a !== n;
+a == n && a != n;
+a == n && a !== n;
+n === a && a != n;
+n === a && a !== n;
+a === n && n != a;
+a === n && n !== a;
+
+a !== n && a === n;
+a === n || a != n;
+`,
+      output: `
+a === n;
+a === n;
+a == n;
+a == n;
+n === a;
+n === a;
+a === n;
+a === n;
+
+a === n;
+a === n;
+`,
+      errors: [
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Number comparison tautology',
+      code: `
+a === n && a >= n;
+n === a && a <= n;
+a === n && a > n;
+a === n && a < n;
+n === a && a >= n;
+a === n && n >= a;
+n === a && a > n;
+a === n && n < a;
+
+n < a && a === n;
+a === n || n < a;
+`,
+      output: `
+a === n;
+n === a;
+a === n;
+a === n;
+n === a;
+a === n;
+n === a;
+a === n;
+
+a === n;
+a === n;
+`,
+      errors: [
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+        { messageId: 'noConvolutedLogicalExpression' },
+      ],
       after() {
         checkFormatting(this);
       },
