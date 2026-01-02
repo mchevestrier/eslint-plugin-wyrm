@@ -13,17 +13,17 @@
   },
   "devDependencies": {
     "@eslint/core": "^1.0.0",
-    "@eslint/js": "^9.39.1",
+    "@eslint/js": "^9.39.2",
     "@shopify/eslint-plugin": "^50.0.0",
-    "@typescript-eslint/parser": "^8.47.0",
-    "eslint": "^9.39.1",
+    "@typescript-eslint/parser": "^8.51.0",
+    "eslint": "^9.39.2",
     "eslint-plugin-sonarjs": "^3.0.5",
     "eslint-plugin-unicorn": "^62.0.0",
     "eslint-plugin-wyrm": "workspace:*",
-    "fast-check": "^4.3.0",
+    "fast-check": "^4.5.3",
     "jiti": "^2.6.1",
-    "prettier": "^3.6.2",
-    "typescript-eslint": "^8.47.0",
-    "vitest": "^4.0.13"
+    "prettier": "^3.7.4",
+    "typescript-eslint": "^8.51.0",
+    "vitest": "^4.0.16"
   }
 }

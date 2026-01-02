@@ -17,22 +17,22 @@
     "prepare": "husky"
   },
   "devDependencies": {
-    "@commitlint/cli": "^20.1.0",
-    "@commitlint/config-conventional": "^20.0.0",
+    "@commitlint/cli": "^20.3.0",
+    "@commitlint/config-conventional": "^20.3.0",
     "@eslint-plugin-wyrm/eslint-config-internal": "workspace:*",
     "@manypkg/cli": "^0.25.1",
     "@types/node": "^24.10.1",
-    "eslint": "^9.39.1",
+    "eslint": "^9.39.2",
     "eslint-plugin-wyrm": "workspace:*",
     "husky": "^9.1.7",
     "jiti": "^2.6.1",
-    "knip": "^5.70.1",
+    "knip": "^5.78.0",
     "lint-staged": "^16.2.7",
-    "prettier": "^3.6.2",
-    "prettier-plugin-packagejson": "^2.5.19",
+    "prettier": "^3.7.4",
+    "prettier-plugin-packagejson": "^2.5.20",
     "typescript": "~5.9.3"
   },
-  "packageManager": "pnpm@10.24.0+sha512.01ff8ae71b4419903b65c60fb2dc9d34cf8bb6e06d03bde112ef38f7a34d6904c424ba66bea5cdcf12890230bf39f9580473140ed9c946fef328b6e5238a345a",
+  "packageManager": "pnpm@10.27.0+sha512.72d699da16b1179c14ba9e64dc71c9a40988cbdc65c264cb0e489db7de917f20dcf4d64d8723625f2969ba52d4b7e2a1170682d9ac2a5dcaeaab732b7e16f04a",
   "engines": {
     "node": ">=24.0.0"
   }

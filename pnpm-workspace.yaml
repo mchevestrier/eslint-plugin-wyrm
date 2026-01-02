@@ -2,6 +2,16 @@ packages:
   - 'packages/*'
   - 'examples/*'
 
+strictDepBuilds: true
 onlyBuiltDependencies:
   - esbuild
   - unrs-resolver
+
+blockExoticSubdeps: true
+
+minimumReleaseAge: 1200
+
+trustPolicy: no-downgrade
+trustPolicyIgnoreAfter: 43200
+trustPolicyExclude:
+  - ts-api-utils@2.3.0
