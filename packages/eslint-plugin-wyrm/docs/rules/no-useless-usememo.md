@@ -1,4 +1,6 @@
-# Forbid useless `useMemo()` (`wyrm/no-useless-usememo`)
+# wyrm/no-useless-usememo
+
+📝 Forbid useless `useMemo()`.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 

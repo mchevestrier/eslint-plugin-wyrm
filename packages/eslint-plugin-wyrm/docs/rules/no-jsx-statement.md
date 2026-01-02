@@ -1,4 +1,6 @@
-# Forbid JSX expression statements (`wyrm/no-jsx-statement`)
+# wyrm/no-jsx-statement
+
+📝 Forbid JSX expression statements.
 
 💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 

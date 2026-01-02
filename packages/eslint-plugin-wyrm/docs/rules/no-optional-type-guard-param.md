@@ -1,4 +1,6 @@
-# Forbid optional parameters in type guards (`wyrm/no-optional-type-guard-param`)
+# wyrm/no-optional-type-guard-param
+
+📝 Forbid optional parameters in type guards.
 
 💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 

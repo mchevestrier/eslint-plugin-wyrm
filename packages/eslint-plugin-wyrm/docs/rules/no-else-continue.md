@@ -1,4 +1,6 @@
-# Forbid unnecessary `else` block after a `continue` statement (`wyrm/no-else-continue`)
+# wyrm/no-else-continue
+
+📝 Forbid unnecessary `else` block after a `continue` statement.
 
 💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 

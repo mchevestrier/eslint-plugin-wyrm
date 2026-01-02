@@ -1,4 +1,6 @@
-# Enforce usage of `String.prototype.repeat` (`wyrm/prefer-repeat`)
+# wyrm/prefer-repeat
+
+📝 Enforce usage of `String.prototype.repeat`.
 
 💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 

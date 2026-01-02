@@ -1,4 +1,6 @@
-# Disallow invalid date literals (`wyrm/no-invalid-date-literal`)
+# wyrm/no-invalid-date-literal
+
+📝 Disallow invalid date literals.
 
 💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 

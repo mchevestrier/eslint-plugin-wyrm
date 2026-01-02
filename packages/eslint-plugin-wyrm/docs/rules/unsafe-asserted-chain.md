@@ -1,4 +1,6 @@
-# Disallow unsafe type assertions on optional chained expressions (`wyrm/unsafe-asserted-chain`)
+# wyrm/unsafe-asserted-chain
+
+📝 Disallow unsafe type assertions on optional chained expressions.
 
 💼 This rule is enabled in the ☑️ `strictTypeChecked` config.
 

@@ -1,4 +1,6 @@
-# Forbid iterating over empty literals (`wyrm/no-empty-literal-iteration`)
+# wyrm/no-empty-literal-iteration
+
+📝 Forbid iterating over empty literals.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 

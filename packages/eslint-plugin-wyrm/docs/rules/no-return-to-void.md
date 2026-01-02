@@ -1,4 +1,6 @@
-# Forbid returning values in void-returning callbacks (`wyrm/no-return-to-void`)
+# wyrm/no-return-to-void
+
+📝 Forbid returning values in void-returning callbacks.
 
 💼 This rule is enabled in the ☑️ `strictTypeChecked` config.
 

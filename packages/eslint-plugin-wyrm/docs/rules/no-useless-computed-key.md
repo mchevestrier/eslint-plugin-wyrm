@@ -1,4 +1,6 @@
-# Forbid useless computed keys (`wyrm/no-useless-computed-key`)
+# wyrm/no-useless-computed-key
+
+📝 Forbid useless computed keys.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 

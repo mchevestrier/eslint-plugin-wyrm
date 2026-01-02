@@ -1,4 +1,6 @@
-# Forbid confusing naming for "first" or "last" (`wyrm/no-first-last`)
+# wyrm/no-first-last
+
+📝 Forbid confusing naming for "first" or "last".
 
 💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 

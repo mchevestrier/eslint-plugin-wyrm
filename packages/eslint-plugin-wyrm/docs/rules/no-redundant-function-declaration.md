@@ -1,4 +1,6 @@
-# Forbid redundant function declarations (`wyrm/no-redundant-function-declaration`)
+# wyrm/no-redundant-function-declaration
+
+📝 Forbid redundant function declarations.
 
 💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 

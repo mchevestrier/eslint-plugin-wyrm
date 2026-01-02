@@ -1,4 +1,6 @@
-# Forbid extra boolean casts in conditions and predicates (`wyrm/no-extra-nested-boolean-cast`)
+# wyrm/no-extra-nested-boolean-cast
+
+📝 Forbid extra boolean casts in conditions and predicates.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 

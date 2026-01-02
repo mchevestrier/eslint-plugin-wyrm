@@ -1,4 +1,6 @@
-# Forbid unassigned TODO comments (`wyrm/no-unassigned-todo`)
+# wyrm/no-unassigned-todo
+
+📝 Forbid unassigned TODO comments.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 

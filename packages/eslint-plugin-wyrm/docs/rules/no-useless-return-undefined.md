@@ -1,4 +1,6 @@
-# Forbid returning `undefined` in void-returning callbacks (`wyrm/no-useless-return-undefined`)
+# wyrm/no-useless-return-undefined
+
+📝 Forbid returning `undefined` in void-returning callbacks.
 
 💼 This rule is enabled in the ☑️ `strictTypeChecked` config.
 

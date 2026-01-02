@@ -1,4 +1,6 @@
-# Forbid extra `?? false` in conditions and predicates (`wyrm/no-extra-false-fallback`)
+# wyrm/no-extra-false-fallback
+
+📝 Forbid extra `?? false` in conditions and predicates.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 

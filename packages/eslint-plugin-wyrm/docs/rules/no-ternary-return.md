@@ -1,4 +1,6 @@
-# Disallow ternary conditions in return statements (`wyrm/no-ternary-return`)
+# wyrm/no-ternary-return
+
+📝 Disallow ternary conditions in return statements.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 

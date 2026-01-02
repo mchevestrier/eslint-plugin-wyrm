@@ -1,4 +1,6 @@
-# Enforce usage of `Promise.prototype.catch()` when it improves readability (`wyrm/prefer-catch-method`)
+# wyrm/prefer-catch-method
+
+📝 Enforce usage of `Promise.prototype.catch()` when it improves readability.
 
 💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 

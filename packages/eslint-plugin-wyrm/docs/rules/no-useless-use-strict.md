@@ -1,4 +1,6 @@
-# Forbid useless "use strict" directives (`wyrm/no-useless-use-strict`)
+# wyrm/no-useless-use-strict
+
+📝 Forbid useless "use strict" directives.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 

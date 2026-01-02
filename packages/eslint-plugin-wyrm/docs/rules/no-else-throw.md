@@ -1,4 +1,6 @@
-# Forbid unnecessary `else` block after a `throw` statement (`wyrm/no-else-throw`)
+# wyrm/no-else-throw
+
+📝 Forbid unnecessary `else` block after a `throw` statement.
 
 💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 

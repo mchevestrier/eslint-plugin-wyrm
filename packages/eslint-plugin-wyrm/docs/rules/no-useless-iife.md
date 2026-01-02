@@ -1,4 +1,6 @@
-# Forbid useless IIFEs (`wyrm/no-useless-iife`)
+# wyrm/no-useless-iife
+
+📝 Forbid useless IIFEs.
 
 💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 

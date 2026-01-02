@@ -1,4 +1,6 @@
-# Forbid referencing parameters marked as unused with a leading underscore (`wyrm/no-unused-param-read`)
+# wyrm/no-unused-param-read
+
+📝 Forbid referencing parameters marked as unused with a leading underscore.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 

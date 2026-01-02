@@ -1,4 +1,6 @@
-# Forbid suspicious semicolons in JSX (`wyrm/no-suspicious-jsx-semicolon`)
+# wyrm/no-suspicious-jsx-semicolon
+
+📝 Forbid suspicious semicolons in JSX.
 
 💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 

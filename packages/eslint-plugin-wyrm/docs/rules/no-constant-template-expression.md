@@ -1,4 +1,6 @@
-# Disallow constant string expressions in template literals (`wyrm/no-constant-template-expression`)
+# wyrm/no-constant-template-expression
+
+📝 Disallow constant string expressions in template literals.
 
 💼 This rule is enabled in the ☑️ `strictTypeChecked` config.
 

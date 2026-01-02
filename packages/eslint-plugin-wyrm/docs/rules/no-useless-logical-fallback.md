@@ -1,4 +1,6 @@
-# Forbid useless fallback values for logical expressions (`wyrm/no-useless-logical-fallback`)
+# wyrm/no-useless-logical-fallback
+
+📝 Forbid useless fallback values for logical expressions.
 
 💼 This rule is enabled in the following configs: ✅ `recommendedTypeChecked`, ☑️ `strictTypeChecked`.
 

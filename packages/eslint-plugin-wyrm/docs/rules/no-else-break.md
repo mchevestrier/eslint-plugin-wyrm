@@ -1,4 +1,6 @@
-# Forbid unnecessary `else` block after a `break` statement (`wyrm/no-else-break`)
+# wyrm/no-else-break
+
+📝 Forbid unnecessary `else` block after a `break` statement.
 
 💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 

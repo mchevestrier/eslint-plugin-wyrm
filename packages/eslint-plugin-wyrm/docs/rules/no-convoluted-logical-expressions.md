@@ -1,4 +1,6 @@
-# Forbid simplifiable logical expressions (`wyrm/no-convoluted-logical-expressions`)
+# wyrm/no-convoluted-logical-expressions
+
+📝 Forbid simplifiable logical expressions.
 
 💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 

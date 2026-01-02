@@ -1,4 +1,6 @@
-# Forbid disallowed comments like FIXME, XXX, HACK (`wyrm/no-disallowed-warning-comments`)
+# wyrm/no-disallowed-warning-comments
+
+📝 Forbid disallowed comments like FIXME, XXX, HACK.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 

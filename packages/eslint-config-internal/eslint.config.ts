@@ -316,6 +316,7 @@ export default defineConfig([
       'unicorn/no-unnecessary-polyfills': 'off',
 
       'sonarjs/no-dead-store': 'error',
+      'sonarjs/no-commented-code': 'error',
       'sonarjs/cognitive-complexity': ['error', 20],
 
       'sonarjs/deprecation': 'off',

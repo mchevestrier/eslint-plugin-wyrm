@@ -1,4 +1,6 @@
-# Forbid leading or trailing whitespace in object keys (`wyrm/no-whitespace-property`)
+# wyrm/no-whitespace-property
+
+📝 Forbid leading or trailing whitespace in object keys.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 

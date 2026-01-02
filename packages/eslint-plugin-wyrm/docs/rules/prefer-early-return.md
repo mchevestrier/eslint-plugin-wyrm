@@ -1,4 +1,6 @@
-# Require early returns when possible (`wyrm/prefer-early-return`)
+# wyrm/prefer-early-return
+
+📝 Require early returns when possible.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 

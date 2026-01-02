@@ -1,4 +1,6 @@
-# Forbid some empty JSX attributes (`wyrm/no-empty-attribute`)
+# wyrm/no-empty-attribute
+
+📝 Forbid some empty JSX attributes.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 

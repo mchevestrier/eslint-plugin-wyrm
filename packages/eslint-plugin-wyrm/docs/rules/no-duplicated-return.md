@@ -1,4 +1,6 @@
-# Forbid duplicated branches with early returns (`wyrm/no-duplicated-return`)
+# wyrm/no-duplicated-return
+
+📝 Forbid duplicated branches with early returns.
 
 💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 

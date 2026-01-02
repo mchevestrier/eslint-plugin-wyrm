@@ -1,4 +1,6 @@
-# Enforce that boolean casts are distributed over logical expressions (`wyrm/distribute-boolean-casts`)
+# wyrm/distribute-boolean-casts
+
+📝 Enforce that boolean casts are distributed over logical expressions.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 

@@ -1,4 +1,6 @@
-# Forbid sloppy collection size checks (`wyrm/no-sloppy-length-check`)
+# wyrm/no-sloppy-length-check
+
+📝 Forbid sloppy collection size checks.
 
 💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 

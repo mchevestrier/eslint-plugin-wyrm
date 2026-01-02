@@ -1,4 +1,6 @@
-# Forbid JSDoc tags in code comments (`wyrm/no-inline-jsdoc-tag`)
+# wyrm/no-inline-jsdoc-tag
+
+📝 Forbid JSDoc tags in code comments.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 
