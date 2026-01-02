@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.0.10](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.9...eslint-plugin-wyrm-v0.0.10) (2026-01-02)
+
+
+### Bug Fixes
+
+* add more tautologies ([9002744](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/900274405c0b9bc86106a7c7cab58c9a87495e02))
+* add no-disallowed-warning-comments ([c7487e7](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/c7487e7396cb959225a8dba1f90651eaadb9e517))
+* negated fallback ([68dc22a](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/68dc22ab962815b02cfa302684c7e490ae8c5f1e))
+
 ## [0.0.9](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.8...eslint-plugin-wyrm-v0.0.9) (2025-11-30)
 
 
