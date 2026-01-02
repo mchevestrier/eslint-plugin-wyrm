@@ -49,6 +49,7 @@ export default createRule({
       noNumberOrZero:
         '`|| 0` on a number is equivalent to checking for `NaN`. You should be explicit and use `Number.isNaN()` instead',
       replaceByIsNaNCheck: 'Use `Number.isNaN()` instead',
+      replaceByTrue: 'Use `true` instead',
     },
   },
   defaultOptions: [],
@@ -256,6 +257,28 @@ export default createRule({
               fix(fixer) {
                 const leftText = context.sourceCode.getText(node.left);
                 return fixer.replaceText(node, leftText);
+              },
+            },
+          ],
+        });
+      }
+
+      // foo ?? !foo
+      if (
+        node.left.type === AST_NODE_TYPES.Identifier &&
+        node.right.type === AST_NODE_TYPES.UnaryExpression &&
+        node.right.operator === '!' &&
+        node.right.argument.type === AST_NODE_TYPES.Identifier &&
+        node.left.name === node.right.argument.name
+      ) {
+        context.report({
+          node,
+          messageId: 'replaceByTrue',
+          suggest: [
+            {
+              messageId: 'replaceByTrue',
+              fix(fixer) {
+                return fixer.replaceText(node.right, 'true');
               },
             },
           ],

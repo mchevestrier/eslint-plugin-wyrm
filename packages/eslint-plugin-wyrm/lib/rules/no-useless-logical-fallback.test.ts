@@ -150,6 +150,42 @@ function quux(foo: string | number) {
         checkFormatting(this);
       },
     },
+    {
+      name: '`??` with some string literal fallback',
+      code: `
+foo ?? 'ok';
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`??` with some identifier fallback',
+      code: `
+foo ?? bar;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`??` with some unary expression fallback',
+      code: `
+foo ?? +foo;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`??` with some negated identifier fallback',
+      code: `
+foo ?? !bar;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -446,6 +482,28 @@ const str = dict['key'] ?? undefined;
               output: `
 declare const dict: Record<string, string>;
 const str = dict['key'];
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Negated fallback',
+      code: `
+foo ?? !foo;
+`,
+      errors: [
+        {
+          messageId: 'replaceByTrue',
+          suggestions: [
+            {
+              messageId: 'replaceByTrue',
+              output: `
+foo ?? true;
 `,
             },
           ],

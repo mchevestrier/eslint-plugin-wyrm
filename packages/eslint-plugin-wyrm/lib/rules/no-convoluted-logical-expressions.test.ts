@@ -207,9 +207,90 @@ foo || !bar;
       },
     },
     {
-      name: 'Binary expressions with different identifiers',
+      name: 'Equality expressions but the left left element is not an identifier',
+      code: `
+42 === bar || bar !== quux;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Equality expressions but the left right element is not an identifier',
+      code: `
+foo === 42 || foo !== quux;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Equality expressions but the right left element is not an identifier',
+      code: `
+foo === bar || 42 !== bar;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Equality expressions but the right right element is not an identifier',
+      code: `
+foo === bar || foo !== 42;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Binary expressions with inequality but not equality operators',
+      code: `
+foo in bar || foo !== bar;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Binary expressions with comparison but not equality operators',
+      code: `
+foo in bar || foo >= bar;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Equality expressions with different identifiers',
       code: `
 foo === bar || baz !== quux;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Equality expressions with only one common identifier',
+      code: `
+foo === bar || foo !== baz;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Comparison expressions with different identifiers',
+      code: `
+foo === bar || baz > quux;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Comparison expressions with only one common identifier',
+      code: `
+foo === bar || foo > baz;
 `,
       after() {
         checkFormatting(this);
