@@ -2,6 +2,7 @@ import path from 'node:path';
 
 import type { TSESTree } from '@typescript-eslint/utils';
 import { AST_NODE_TYPES } from '@typescript-eslint/utils';
+import type { RuleContext } from '@typescript-eslint/utils/ts-eslint';
 
 import { createRule } from '../utils/createRule.js';
 
@@ -149,8 +150,8 @@ export default createRule({
             const consequentText = context.sourceCode.getText(ifStatement.consequent);
             yield fixer.insertTextAfter(ifStatement, ` else ${consequentText}`);
 
-            const testText = context.sourceCode.getText(ifStatement.test);
-            yield fixer.replaceText(ifStatement.test, `!(${testText})`);
+            const negatedTestText = negateExpression(ifStatement.test, context);
+            yield fixer.replaceText(ifStatement.test, negatedTestText);
           },
         });
       }
@@ -163,6 +164,53 @@ export default createRule({
     };
   },
 });
+
+function negateExpression(
+  expr: TSESTree.Expression,
+  context: Readonly<RuleContext<'preferEarlyReturn', []>>,
+): string {
+  if (expr.type === AST_NODE_TYPES.UnaryExpression && expr.operator === '!') {
+    return context.sourceCode.getText(expr.argument);
+  }
+
+  if (
+    expr.type === AST_NODE_TYPES.BinaryExpression &&
+    isNegatableOperator(expr.operator)
+  ) {
+    return `${context.sourceCode.getText(expr.left)} ${negatedBinaryOperator[expr.operator]} ${context.sourceCode.getText(expr.right)}`;
+  }
+
+  if (expr.type === AST_NODE_TYPES.LogicalExpression && expr.operator !== '??') {
+    return `${negateExpression(expr.left, context)} ${negatedLogicalOperator[expr.operator]} ${negateExpression(expr.right, context)}`;
+  }
+
+  const testText = context.sourceCode.getText(expr);
+  return `!(${testText})`;
+}
+
+type ValueOf<T> = T[keyof T];
+
+function isNegatableOperator(
+  op: ValueOf<TSESTree.BinaryOperatorToText>,
+): op is keyof typeof negatedBinaryOperator {
+  return op in negatedBinaryOperator;
+}
+
+const negatedBinaryOperator = {
+  '===': '!==',
+  '==': '!=',
+  '!==': '===',
+  '!=': '==',
+  '>=': '<',
+  '>': '<=',
+  '<=': '>',
+  '<': '>=',
+};
+
+const negatedLogicalOperator = {
+  '&&': '||',
+  '||': '&&',
+};
 
 function alwaysReturns(stmt: TSESTree.Statement | null | undefined): boolean {
   if (stmt == null) return false;

@@ -12,6 +12,10 @@ updates:
       interval: 'weekly'
     cooldown:
       default-days: 7
+    ignore:
+      - dependency-name: '@types/node'
+        update-types:
+          - 'version-update:semver-major'
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: 'github-actions'

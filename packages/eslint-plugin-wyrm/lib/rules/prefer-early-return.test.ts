@@ -741,5 +741,86 @@ function foo(cond1: boolean, cond2: boolean) {
         checkFormatting(this);
       },
     },
+    {
+      name: 'With a negated condition test',
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
+  if (!cond1) {
+    if (cond2) return 105;
+    return 0;
+  }
+  return 42;
+}
+`,
+      output: `
+function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {
+    return 42;
+  } else {
+    if (cond2) return 105;
+    return 0;
+  }
+  
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a conjunction in the condition test',
+      code: `
+function foo(foo: number, bar: number) {
+  if (foo === 37 && 3 > bar) {
+    if (512 > bar) return 105;
+    return 0;
+  }
+  return 42;
+}
+`,
+      output: `
+function foo(foo: number, bar: number) {
+  if (foo !== 37 || 3 <= bar) {
+    return 42;
+  } else {
+    if (512 > bar) return 105;
+    return 0;
+  }
+  
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a disjunction in the condition test',
+      code: `
+function foo(foo: number, bar: number) {
+  if (37 != foo || bar >= 3) {
+    if (512 > bar) return 105;
+    return 0;
+  }
+  return 42;
+}
+`,
+      output: `
+function foo(foo: number, bar: number) {
+  if (37 == foo && bar < 3) {
+    return 42;
+  } else {
+    if (512 > bar) return 105;
+    return 0;
+  }
+  
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
 });
