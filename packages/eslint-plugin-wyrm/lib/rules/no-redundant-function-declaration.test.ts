@@ -27,6 +27,15 @@ const foo = function () {};
       },
     },
     {
+      name: 'Variable declaration with destructuring',
+      code: `
+const { name } = function foo() {};
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Named function expression but not in a variable declaration',
       code: `
 baz(function foo() {});

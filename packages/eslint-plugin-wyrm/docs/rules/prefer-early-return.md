@@ -87,5 +87,4 @@ function foo(cond1: boolean, cond2: boolean) {
 
 It is recommended that you also enable the following rules along with this one:
 
-- ESLint: [`no-else-return`](https://eslint.org/docs/latest/rules/no-else-return)
-- [`sonarjs/no-inverted-boolean-check`](https://sonarsource.github.io/rspec/#/rspec/S1940/javascript)
+- [`wyrm/no-else-return`](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-else-return.md)

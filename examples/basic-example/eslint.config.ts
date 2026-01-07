@@ -45,7 +45,7 @@ export default defineConfig([
 
   {
     rules: {
-      'no-else-return': 'error',
+      'no-else-return': ['error', { allowElseIf: false }],
       'no-lone-blocks': 'error',
 
       'unicorn/prevent-abbreviations': 'off',

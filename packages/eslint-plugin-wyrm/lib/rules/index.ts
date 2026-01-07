@@ -6,6 +6,7 @@ export { default as 'no-disallowed-warning-comments' } from './no-disallowed-war
 export { default as 'no-duplicated-return' } from './no-duplicated-return.js';
 export { default as 'no-else-break' } from './no-else-break.js';
 export { default as 'no-else-continue' } from './no-else-continue.js';
+export { default as 'no-else-return' } from './no-else-return.js';
 export { default as 'no-else-throw' } from './no-else-throw.js';
 export { default as 'no-empty-attribute' } from './no-empty-attribute.js';
 export { default as 'no-empty-comment' } from './no-empty-comment.js';

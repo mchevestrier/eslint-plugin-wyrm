@@ -40,7 +40,9 @@ export default createRule({
 
       if (!ifStatement) return;
 
-      if (body.length === 1 && !ifStatement.alternate) {
+      const { consequent, alternate } = ifStatement;
+
+      if (body.length === 1 && !alternate) {
         const MAXIMUM_CONSEQUENT_VOLUME = 1;
         const consequentVolume = computeStatementVolume(ifStatement.consequent);
         if (consequentVolume <= MAXIMUM_CONSEQUENT_VOLUME) return;
@@ -61,12 +63,51 @@ export default createRule({
         return;
       }
 
-      const consequentAlwaysReturn = alwaysReturns(ifStatement.consequent);
-      const alternateAlwaysReturn = alwaysReturns(ifStatement.alternate);
+      if (ifStatement === body.at(-1) && alternate && neverReturns(ifStatement)) {
+        const MAXIMUM_VOLUME = 1;
+        const consequentVolume = computeStatementVolume(ifStatement.consequent);
+        const alternateVolume = computeStatementVolume(ifStatement.alternate);
+        if (consequentVolume <= MAXIMUM_VOLUME && alternateVolume <= MAXIMUM_VOLUME) {
+          return;
+        }
+
+        context.report({
+          node: ifStatement,
+          messageId: 'preferEarlyReturn',
+          *fix(fixer) {
+            if (consequent.type !== AST_NODE_TYPES.BlockStatement) {
+              const baseIndent = ' '.repeat(ifStatement.loc.start.column);
+              const indent = `${baseIndent}${' '.repeat(2)}`;
+
+              yield fixer.replaceText(
+                consequent,
+                `{\n${indent}${context.sourceCode.getText(consequent)}\n${indent}return;\n${baseIndent}}`,
+              );
+              return;
+            }
+
+            const token = context.sourceCode.getLastToken(consequent);
+
+            /* v8 ignore if -- @preserve */
+            if (!token) {
+              const msg = `No last token found for ${context.sourceCode.getText(consequent)}`;
+              console.error(msg);
+              return;
+            }
+
+            const baseIndent = ' '.repeat(ifStatement.loc.start.column);
+            yield fixer.insertTextBefore(token, `  return;\n${baseIndent}`);
+          },
+        });
+        return;
+      }
+
+      const consequentAlwaysReturn = alwaysReturns(consequent);
+      const alternateAlwaysReturn = alwaysReturns(alternate);
 
       const VOLUME_RATIO_THRESHOLD = 2;
-      const consequentVolume = computeStatementVolume(ifStatement.consequent);
-      const alternateVolume = computeStatementVolume(ifStatement.alternate);
+      const consequentVolume = computeStatementVolume(consequent);
+      const alternateVolume = computeStatementVolume(alternate);
 
       const shouldSwitchConsequentAndAlternate =
         // Alternate statement always returns,
@@ -77,8 +118,6 @@ export default createRule({
           (consequentVolume / alternateVolume >= VOLUME_RATIO_THRESHOLD &&
             consequentVolume > 4));
 
-      const { alternate } = ifStatement;
-
       if (alternate && shouldSwitchConsequentAndAlternate) {
         context.report({
           node: ifStatement,
@@ -88,10 +127,10 @@ export default createRule({
             yield fixer.replaceText(ifStatement.test, `!(${testText})`);
 
             const alternateText = context.sourceCode.getText(alternate);
-            yield fixer.replaceText(ifStatement.consequent, alternateText);
+            yield fixer.replaceText(consequent, alternateText);
             yield fixer.remove(alternate);
 
-            const consequentText = context.sourceCode.getText(ifStatement.consequent);
+            const consequentText = context.sourceCode.getText(consequent);
             yield fixer.insertTextAfter(ifStatement, consequentText);
           },
         });
@@ -126,7 +165,7 @@ export default createRule({
         consequentVolume / subsequentVolume >= VOLUME_RATIO_THRESHOLD &&
         consequentVolume > 4;
 
-      if (shouldSwitchConsequentAndSubsequent && !ifStatement.alternate) {
+      if (shouldSwitchConsequentAndSubsequent && !alternate) {
         context.report({
           node: ifStatement,
           messageId: 'preferEarlyReturn',
@@ -143,11 +182,11 @@ export default createRule({
               .map((stmt) => context.sourceCode.getText(stmt))
               .join(`\n${indent2}`);
             yield fixer.replaceText(
-              ifStatement.consequent,
+              consequent,
               `{\n${indent2}${subsequentText}\n${indent}}`,
             );
 
-            const consequentText = context.sourceCode.getText(ifStatement.consequent);
+            const consequentText = context.sourceCode.getText(consequent);
             yield fixer.insertTextAfter(ifStatement, ` else ${consequentText}`);
 
             const negatedTestText = negateExpression(ifStatement.test, context);
@@ -215,25 +254,65 @@ const negatedLogicalOperator = {
 function alwaysReturns(stmt: TSESTree.Statement | null | undefined): boolean {
   if (stmt == null) return false;
 
-  if (stmt.type === AST_NODE_TYPES.ReturnStatement) return true;
+  switch (stmt.type) {
+    case AST_NODE_TYPES.ReturnStatement:
+      return true;
 
-  if (stmt.type === AST_NODE_TYPES.BlockStatement) {
-    return stmt.body.some((s) => alwaysReturns(s));
+    case AST_NODE_TYPES.BlockStatement:
+      return stmt.body.some((s) => alwaysReturns(s));
+
+    case AST_NODE_TYPES.IfStatement:
+      return alwaysReturns(stmt.consequent) && alwaysReturns(stmt.alternate);
+
+    case AST_NODE_TYPES.ForInStatement:
+    case AST_NODE_TYPES.ForOfStatement:
+    case AST_NODE_TYPES.ForStatement:
+    case AST_NODE_TYPES.WhileStatement:
+    case AST_NODE_TYPES.DoWhileStatement:
+      return alwaysReturns(stmt.body);
+
+    case AST_NODE_TYPES.TryStatement: {
+      if (stmt.finalizer && alwaysReturns(stmt.finalizer)) {
+        return true;
+      }
+      return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
+    }
+
+    default:
+      return false;
   }
+}
 
-  if (stmt.type === AST_NODE_TYPES.IfStatement) {
-    return alwaysReturns(stmt.consequent) && alwaysReturns(stmt.alternate);
+function neverReturns(stmt: TSESTree.Statement | null | undefined): boolean {
+  if (stmt == null) return true;
+
+  switch (stmt.type) {
+    case AST_NODE_TYPES.ReturnStatement:
+      return false;
+
+    case AST_NODE_TYPES.BlockStatement:
+      return stmt.body.every((s) => neverReturns(s));
+
+    case AST_NODE_TYPES.ForInStatement:
+    case AST_NODE_TYPES.ForOfStatement:
+    case AST_NODE_TYPES.ForStatement:
+    case AST_NODE_TYPES.WhileStatement:
+    case AST_NODE_TYPES.DoWhileStatement:
+      return neverReturns(stmt.body);
+
+    case AST_NODE_TYPES.IfStatement:
+      return neverReturns(stmt.consequent) && neverReturns(stmt.alternate);
+
+    case AST_NODE_TYPES.TryStatement:
+      return (
+        neverReturns(stmt.block) &&
+        neverReturns(stmt.handler?.body) &&
+        neverReturns(stmt.finalizer)
+      );
+
+    default:
+      return true;
   }
-
-  if (stmt.type !== AST_NODE_TYPES.TryStatement) return false;
-
-  if (!stmt.finalizer) {
-    return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
-  }
-
-  if (alwaysReturns(stmt.finalizer)) return true;
-
-  return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
 }
 
 /** A subjective indicator of how nested some code is */

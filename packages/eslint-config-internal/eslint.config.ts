@@ -171,7 +171,7 @@ export default defineConfig([
       'no-console': ['error', { allow: ['warn', 'error'] }],
       'no-continue': 'off',
       'no-div-regex': 'error',
-      'no-else-return': 'error',
+      'no-else-return': ['error', { allowElseIf: false }],
       'no-empty-function': 'error',
       'no-eval': 'error',
       'no-extra-bind': 'error',

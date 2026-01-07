@@ -48,24 +48,7 @@ export default createRule({
               .replace(`function ${fnName}`, `function ${varName}`);
             const fnText = isNamedExport ? `export ${fnDecl}` : fnDecl;
 
-            // Multiple declarators
-            if (declarators.length > 1) {
-              // Remove the current declarator
-              yield fixer.remove(node.parent);
-
-              if (declarators[0] === node.parent) {
-                // Clean the next separator if the declarator was in first position
-                const sep = context.sourceCode.getTokenAfter(node.parent);
-                if (sep) yield fixer.remove(sep);
-              } else {
-                // Clean the previous separator if the declarator wasn't in first position
-                const sep = context.sourceCode.getTokenBefore(node.parent);
-                if (sep) yield fixer.remove(sep);
-              }
-
-              // And insert the function declaration after
-              yield fixer.insertTextAfter(varDecl, `\n${fnText}`);
-            } else {
+            if (declarators.length <= 1) {
               // Single declarator
 
               // Remove the whole named export
@@ -75,7 +58,28 @@ export default createRule({
 
               // And insert the function declaration after
               yield fixer.insertTextAfter(varDecl, fnText);
+
+              return;
             }
+
+            // Multiple declarators
+            // Remove the current declarator
+            yield fixer.remove(node.parent);
+
+            if (declarators[0] === node.parent) {
+              // Clean the next separator if the declarator was in first position
+              const sep = context.sourceCode.getTokenAfter(node.parent);
+              /* v8 ignore else -- @preserve */
+              if (sep) yield fixer.remove(sep);
+            } else {
+              // Clean the previous separator if the declarator wasn't in first position
+              const sep = context.sourceCode.getTokenBefore(node.parent);
+              /* v8 ignore else -- @preserve */
+              if (sep) yield fixer.remove(sep);
+            }
+
+            // And insert the function declaration after
+            yield fixer.insertTextAfter(varDecl, `\n${fnText}`);
           },
         });
       },

@@ -4,6 +4,7 @@ export * from './rules/no-convoluted-logical-expressions.js';
 export * from './rules/no-duplicated-return.js';
 export * from './rules/no-else-break.js';
 export * from './rules/no-else-continue.js';
+export * from './rules/no-else-return.js';
 export * from './rules/no-else-throw.js';
 export * from './rules/no-empty-comment.js';
 export * from './rules/no-extra-false-fallback.js';

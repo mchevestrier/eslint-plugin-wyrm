@@ -36,6 +36,7 @@ foo();
 
 - [`wyrm/no-else-break`](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-else-break.md)
 - [`wyrm/no-else-continue`](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-else-continue.md)
+- [`wyrm/no-else-return`](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-else-return.md)
 - ESLint: [`no-else-return`](https://eslint.org/docs/latest/rules/no-else-return)
 
 ## Prior Art

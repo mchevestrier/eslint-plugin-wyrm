@@ -29,7 +29,7 @@ const foo = !!bar && baz.length > 2 && !!quux.description;
     {
       name: 'Parent unary expression is not a negation',
       code: `
-!(bar && baz.length);
++(bar && baz.length);
 `,
       after() {
         checkFormatting(this);
@@ -38,7 +38,7 @@ const foo = !!bar && baz.length > 2 && !!quux.description;
     {
       name: 'Parent unary expression is not a boolean cast',
       code: `
-+(bar && baz.length);
+!(bar && baz.length);
 `,
       after() {
         checkFormatting(this);

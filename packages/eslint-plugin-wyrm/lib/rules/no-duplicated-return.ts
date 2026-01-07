@@ -117,11 +117,8 @@ function alwaysReturns(stmt: TSESTree.Statement | null | undefined): boolean {
 
   if (stmt.type !== AST_NODE_TYPES.TryStatement) return false;
 
-  if (!stmt.finalizer) {
-    return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
+  if (stmt.finalizer && alwaysReturns(stmt.finalizer)) {
+    return true;
   }
-
-  if (alwaysReturns(stmt.finalizer)) return true;
-
   return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
 }

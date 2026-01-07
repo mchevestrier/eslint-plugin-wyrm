@@ -83,7 +83,7 @@ export function preferEarlyReturn6(cond1: boolean, cond2: boolean) {
   } else {
     // eslint-disable-next-line unicorn/prefer-ternary
     if (Math.cos(0) > 0.5) return 333;
-    // eslint-disable-next-line no-else-return
+    // eslint-disable-next-line no-else-return, wyrm/no-else-return
     else return 42;
   }
 
@@ -104,4 +104,37 @@ export function preferEarlyReturn7() {
   }
 
   return 'ok';
+}
+
+export function preferEarlyReturn8(foo: string, bar: string, quux: string) {
+  // eslint-disable-next-line wyrm/prefer-early-return
+  if (foo === 'foo') {
+    console.log('foo');
+  } else if (bar === 'bar') {
+    console.log('bar');
+    console.log('bar');
+    console.log('bar');
+  } else if (quux === 'quux') {
+    console.log('quux');
+  } else {
+    console.log('other');
+  }
+}
+
+export function preferEarlyReturn8Fixed(foo: string, bar: string, quux: string) {
+  if (foo === 'foo') {
+    console.log('foo');
+    return;
+  }
+  if (bar === 'bar') {
+    console.log('bar');
+    console.log('bar');
+    console.log('bar');
+    return;
+  }
+  if (quux === 'quux') {
+    console.log('quux');
+  } else {
+    console.log('other');
+  }
 }

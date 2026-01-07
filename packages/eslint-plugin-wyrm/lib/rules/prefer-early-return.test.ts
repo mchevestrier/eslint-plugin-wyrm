@@ -51,15 +51,44 @@ function foo(cond1: boolean, cond2: boolean) {
       },
     },
     {
-      name: 'With a wrapping `if` statement with an alternate branch',
+      name: 'With a single line `if` statement with an alternate branch',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) console.log(42);
+  else console.log(0);
+}
+`,
+    },
+    {
+      name: 'With an `if` statement that might sometimes return',
       code: `
 function foo(cond1: boolean) {
   if (cond1) {
-    console.log(42);
-    console.log(105);
-  } else {
-    console.log(0);
+    for (const item in {}) {
+      if (item === 'quux') return;
+    }
   }
+  else console.log(0);
+}
+`,
+    },
+    {
+      name: 'With a an else-if chain followed by another statement',
+      code: `
+function foo(cond1: boolean) {
+  if (foo === 'foo') {
+    console.log('foo');
+  } else if (bar === 'bar') {
+    console.log('bar');
+    console.log('bar');
+    console.log('bar');
+  } else if (quux === 'quux') {
+    console.log('quux');
+  } else {
+    console.log('other');
+  }
+
+  console.log('always logged');
 }
 `,
     },
@@ -815,6 +844,184 @@ function foo(foo: number, bar: number) {
     return 0;
   }
   
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a wrapping `if` statement with an alternate branch',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log(42);
+    } catch {
+      console.log(105);
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      output: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log(42);
+    } catch {
+      console.log(105);
+    }
+    return;
+  } else {
+    console.log(0);
+  }
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With an empty `if` statement with an alternate branch',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+  } else {
+    console.log(0);
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      output: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    return;
+  } else {
+    console.log(0);
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a wrapping single-line `if` statement with an alternate branch',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1)
+    for (const _ of []) {
+      console.log(42);
+      console.log(105);
+    }
+  else {
+    console.log(0);
+  }
+}
+`,
+      output: `
+function foo(cond1: boolean) {
+  if (cond1)
+    {
+    for (const _ of []) {
+      console.log(42);
+      console.log(105);
+    }
+    return;
+  }
+  else {
+    console.log(0);
+  }
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'else-if chain as the only statement',
+      code: `
+function fun(foo: string, bar: string, quux: string) {
+  if (foo === 'foo') {
+    console.log('foo');
+  } else if (bar === 'bar') {
+    console.log('bar');
+    console.log('bar');
+    console.log('bar');
+  } else if (quux === 'quux') {
+    console.log('quux');
+  } else {
+    console.log('other');
+  }
+}
+`,
+      output: `
+function fun(foo: string, bar: string, quux: string) {
+  if (foo === 'foo') {
+    console.log('foo');
+    return;
+  } else if (bar === 'bar') {
+    console.log('bar');
+    console.log('bar');
+    console.log('bar');
+  } else if (quux === 'quux') {
+    console.log('quux');
+  } else {
+    console.log('other');
+  }
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'else-if chain as the last statement',
+      code: `
+function fun(foo: string, bar: string, quux: string) {
+  if (foo === 'foo') {
+    console.log('foo');
+    return;
+  }
+
+  if (bar === 'bar') {
+    console.log('bar');
+    console.log('bar');
+    console.log('bar');
+  } else if (quux === 'quux') {
+    console.log('quux');
+  } else {
+    console.log('other');
+  }
+}
+`,
+      output: `
+function fun(foo: string, bar: string, quux: string) {
+  if (foo === 'foo') {
+    console.log('foo');
+    return;
+  }
+
+  if (bar === 'bar') {
+    console.log('bar');
+    console.log('bar');
+    console.log('bar');
+    return;
+  } else if (quux === 'quux') {
+    console.log('quux');
+  } else {
+    console.log('other');
+  }
 }
 `,
       errors: [{ messageId: 'preferEarlyReturn' }],
