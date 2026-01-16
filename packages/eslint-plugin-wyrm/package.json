@@ -54,7 +54,7 @@
     "@stryker-mutator/typescript-checker": "^9.4.0",
     "@stryker-mutator/vitest-runner": "^9.4.0",
     "@typescript-eslint/rule-tester": "^8.51.0",
-    "@typescript-eslint/utils": "^8.51.0",
+    "@typescript-eslint/utils": "^8.52.0",
     "@vitest/coverage-v8": "^4.0.16",
     "@vitest/ui": "^4.0.16",
     "eslint": "^9.39.2",
