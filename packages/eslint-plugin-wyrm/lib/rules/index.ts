@@ -24,6 +24,7 @@ export { default as 'no-invalid-date-literal' } from './no-invalid-date-literal.
 export { default as 'no-jsx-statement' } from './no-jsx-statement.js';
 export { default as 'no-mutable-literal-fill' } from './no-mutable-literal-fill.js';
 export { default as 'no-numbered-comments' } from './no-numbered-comments.js';
+export { default as 'no-obvious-any' } from './no-obvious-any.js';
 export { default as 'no-optional-type-guard-param' } from './no-optional-type-guard-param.js';
 export { default as 'no-out-of-order-comments' } from './no-out-of-order-comments.js';
 export { default as 'no-possibly-nullish-equality' } from './no-possibly-nullish-equality.js';

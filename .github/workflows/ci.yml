@@ -60,7 +60,9 @@ jobs:
         run: pnpm run -r --reporter-hide-prefix lint:md
 
       - name: 💄 prettier
-        run: pnpm run -r --reporter-hide-prefix lint:format
+        run: |
+          pnpm prettier --check --ignore-unknown *
+          pnpm run -r --reporter-hide-prefix lint:format
 
       - name: 🟦 typescript
         run: pnpm run lint:types
@@ -69,7 +71,9 @@ jobs:
         run: pnpm run knip
 
       - name: ⬢ eslint
-        run: pnpm run -r --reporter-hide-prefix lint:js
+        run: |
+          pnpm run eslint *
+          pnpm run -r --reporter-hide-prefix lint:js
 
   tests:
     runs-on: ubuntu-latest

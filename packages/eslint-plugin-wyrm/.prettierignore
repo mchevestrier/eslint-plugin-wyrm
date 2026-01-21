@@ -1,3 +1,6 @@
+.stryker-tmp/
 coverage/
 dist/
+node_modules/
+reports/
 CHANGELOG.md
