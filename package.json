@@ -21,7 +21,7 @@
     "@commitlint/config-conventional": "^20.3.1",
     "@eslint-plugin-wyrm/eslint-config-internal": "workspace:*",
     "@manypkg/cli": "^0.25.1",
-    "@types/node": "^24.10.4",
+    "@types/node": "^24.10.9",
     "eslint": "^9.39.2",
     "eslint-plugin-wyrm": "workspace:*",
     "husky": "^9.1.7",
@@ -29,7 +29,7 @@
     "knip": "^5.82.1",
     "lint-staged": "^16.2.7",
     "prettier": "^3.8.0",
-    "prettier-plugin-packagejson": "^2.5.22",
+    "prettier-plugin-packagejson": "^3.0.0",
     "typescript": "~5.9.3"
   },
   "packageManager": "pnpm@10.27.0+sha512.72d699da16b1179c14ba9e64dc71c9a40988cbdc65c264cb0e489db7de917f20dcf4d64d8723625f2969ba52d4b7e2a1170682d9ac2a5dcaeaab732b7e16f04a",

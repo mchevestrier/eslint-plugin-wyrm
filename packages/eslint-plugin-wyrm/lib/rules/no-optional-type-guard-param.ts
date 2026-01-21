@@ -1,3 +1,33 @@
+/**
+ * @fileoverview
+ *
+ * In TypeScript, marking a function parameter as optional
+ * means the function can be called without passing an argument for this parameter.
+ * But calling a type guard without an argument makes no sense,
+ * as the function is supposed to assert the type of this argument.
+ *
+ * @example
+ * ```ts
+ * // Here, `x` is optional, so `isString()` can be called without any argument
+ * function isString(x?: unknown): x is string {
+ *   return typeof x === 'string';
+ * }
+ *
+ * isString(); // This would certainly be a mistake, but TypeScript would not complain
+ * ```
+ *
+ * Instead, you can use a type union to mark the parameter as possibly undefined.
+ *
+ * @example
+ * ```ts
+ * function isString(x: string | undefined): x is string {
+ *   return typeof x === 'string';
+ * }
+ *
+ * isString(); // Now TypeScript will complain if we forget to pass an argument
+ * ```
+ */
+
 import path from 'node:path';
 
 import type { TSESTree } from '@typescript-eslint/utils';

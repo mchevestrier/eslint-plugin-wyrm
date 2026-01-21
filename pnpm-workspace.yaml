@@ -11,7 +11,7 @@ blockExoticSubdeps: true
 
 minimumReleaseAge: 1200
 minimumReleaseAgeExclude:
-  - eslint-doc-generator
+  - prettier-plugin-packagejson
 
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 43200

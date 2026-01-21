@@ -47,5 +47,6 @@ export { default as 'optional-call-expression' } from './optional-call-expressio
 export { default as 'prefer-catch-method' } from './prefer-catch-method.js';
 export { default as 'prefer-early-return' } from './prefer-early-return.js';
 export { default as 'prefer-repeat' } from './prefer-repeat.js';
+export { default as 'suspicious-map-length' } from './suspicious-map-length.js';
 export { default as 'unsafe-asserted-chain' } from './unsafe-asserted-chain.js';
 export { default as 'unused-object-assign' } from './unused-object-assign.js';
