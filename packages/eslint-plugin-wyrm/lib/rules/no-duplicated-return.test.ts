@@ -670,6 +670,98 @@ function foo() {
       },
     },
     {
+      name: 'With a `for` loop',
+      code: `
+function foo() {
+  if (Math.random()) {
+    for (;;) {
+      console.log('ok');
+      console.log('ok');
+    }
+    return;
+  }
+  for (;;) {
+    console.log('ok');
+    console.log('ok');
+  }
+  return;
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a `for of` loop',
+      code: `
+function foo() {
+  if (Math.random()) {
+    for (const _ of []) {
+      console.log('ok');
+      console.log('ok');
+    }
+    return;
+  }
+  for (const _ of []) {
+    console.log('ok');
+    console.log('ok');
+  }
+  return;
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a `for in` loop',
+      code: `
+function foo() {
+  if (Math.random()) {
+    for (const _ in {}) {
+      console.log('ok');
+      console.log('ok');
+    }
+    return;
+  }
+  for (const _ in {}) {
+    console.log('ok');
+    console.log('ok');
+  }
+  return;
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a `while` loop',
+      code: `
+function foo() {
+  if (Math.random()) {
+    while (0) {
+      console.log('ok');
+      console.log('ok');
+    }
+    return;
+  }
+  while (0) {
+    console.log('ok');
+    console.log('ok');
+  }
+  return;
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With a `do while` loop',
       code: `
 function foo() {

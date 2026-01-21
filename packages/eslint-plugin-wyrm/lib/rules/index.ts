@@ -1,6 +1,7 @@
 // GENERATED FILE - DO NOT EDIT
 export { default as 'de-morgan' } from './de-morgan.js';
 export { default as 'distribute-boolean-casts' } from './distribute-boolean-casts.js';
+export { default as 'idiomatic-cast' } from './idiomatic-cast.js';
 export { default as 'no-constant-template-expression' } from './no-constant-template-expression.js';
 export { default as 'no-convoluted-logical-expressions' } from './no-convoluted-logical-expressions.js';
 export { default as 'no-custom-url-parsing' } from './no-custom-url-parsing.js';
