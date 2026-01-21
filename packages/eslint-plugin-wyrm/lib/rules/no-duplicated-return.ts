@@ -103,22 +103,35 @@ function getStatements(stmt: TSESTree.Statement[] | TSESTree.Statement) {
 }
 
 function alwaysReturns(stmt: TSESTree.Statement | null | undefined): boolean {
-  if (stmt == null) return true;
+  if (stmt == null) return false;
 
-  if (stmt.type === AST_NODE_TYPES.ReturnStatement) return true;
+  switch (stmt.type) {
+    case AST_NODE_TYPES.ReturnStatement:
+      return true;
 
-  if (stmt.type === AST_NODE_TYPES.BlockStatement) {
-    return stmt.body.some((s) => alwaysReturns(s));
+    case AST_NODE_TYPES.BlockStatement:
+      return stmt.body.some((s) => alwaysReturns(s));
+
+    case AST_NODE_TYPES.IfStatement:
+      if (stmt.alternate && !alwaysReturns(stmt.alternate)) return false;
+      return alwaysReturns(stmt.consequent);
+
+    case AST_NODE_TYPES.ForInStatement:
+    case AST_NODE_TYPES.ForOfStatement:
+    case AST_NODE_TYPES.ForStatement:
+    case AST_NODE_TYPES.WhileStatement:
+    case AST_NODE_TYPES.DoWhileStatement:
+      return alwaysReturns(stmt.body);
+
+    case AST_NODE_TYPES.TryStatement: {
+      if (stmt.finalizer && alwaysReturns(stmt.finalizer)) {
+        return true;
+      }
+      if (stmt.handler && !alwaysReturns(stmt.handler.body)) return false;
+      return alwaysReturns(stmt.block);
+    }
+
+    default:
+      return false;
   }
-
-  if (stmt.type === AST_NODE_TYPES.IfStatement) {
-    return alwaysReturns(stmt.consequent) && alwaysReturns(stmt.alternate);
-  }
-
-  if (stmt.type !== AST_NODE_TYPES.TryStatement) return false;
-
-  if (stmt.finalizer && alwaysReturns(stmt.finalizer)) {
-    return true;
-  }
-  return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);
 }

@@ -114,6 +114,17 @@ const str = \`\${foo}_baz\`;
       },
     },
     {
+      name: 'Using a default exported identifier is allowed',
+      code: `
+const foo = 'foo';
+export default foo;
+const str = \`\${foo}_baz\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'A template literal with spaces is allowed',
       code: `
 const foo = 'foo';
@@ -471,6 +482,31 @@ enum Foo {
   Baz = 'baz',
 }
 const str = \`foo_bar\`;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Only one expression but not an enum value',
+      code: `
+const foo = 'foobar';
+const str = \`\${foo}\`;
+`,
+      errors: [
+        {
+          messageId: 'noConstantTemplateExpression',
+          suggestions: [
+            {
+              messageId: 'replaceByString',
+              data: { value: 'foobar' },
+              output: `
+const foo = 'foobar';
+const str = \`foobar\`;
 `,
             },
           ],

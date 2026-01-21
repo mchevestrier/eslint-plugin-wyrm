@@ -43,6 +43,48 @@ if (cond) {
         checkFormatting(this);
       },
     },
+    {
+      name: '`catch` does not return',
+      code: `
+if (cond) {
+  try {
+    return;
+  } catch {}
+} else {
+  foo();
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`try` does not always return',
+      code: `
+if (cond) {
+  try {
+    //
+  } catch {
+    return;
+  }
+} else {
+  foo();
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Statement that does not return',
+      code: `
+if (cond) debugger;
+else foo();
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -260,6 +302,33 @@ if (cond) {
 foo();
 `,
       errors: [{ messageId: 'noElseReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Always returning from an `if` statement',
+      code: `
+if (cond) {
+  if (foo) {
+    return;
+  } else {
+    return;
+  }
+} else {
+  foo();
+}
+`,
+      output: `
+if (cond) {
+  if (foo) {
+    return;
+  }  
+  return;
+}  
+foo();
+`,
+      errors: [{ messageId: 'noElseReturn' }, { messageId: 'noElseReturn' }],
       after() {
         checkFormatting(this);
       },

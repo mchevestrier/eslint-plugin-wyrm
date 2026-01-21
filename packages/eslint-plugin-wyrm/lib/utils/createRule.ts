@@ -3,7 +3,11 @@ import { ESLintUtils } from '@typescript-eslint/utils';
 export type WyrmPluginDocs = {
   description: string;
   requiresTypeChecking?: boolean;
-} & ({ recommended: true; strict?: never } | { recommended?: never; strict: true });
+} & (
+  | { recommended: true; strict?: never }
+  | { recommended?: never; strict: true }
+  | { recommended?: never; strict?: never; pedantic: true }
+);
 
 export const createRule = ESLintUtils.RuleCreator<WyrmPluginDocs>(
   (name) =>

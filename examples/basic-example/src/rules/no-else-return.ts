@@ -1,4 +1,5 @@
 /* eslint-disable unicorn/prefer-ternary */
+/* eslint-disable wyrm/no-unbound-catch-error, wyrm/prefer-early-return */
 
 export function noElseReturn1(n: number) {
   if (!n) return 'ok';
@@ -46,4 +47,17 @@ export function noElseReturn6(n: number) {
   if (!n) return;
   // eslint-disable-next-line wyrm/no-else-return, no-else-return
   else if (n === 3) console.log('no');
+}
+
+export function noElseReturn7(n: number) {
+  if (n === 42) {
+    try {
+      return JSON.stringify(n);
+    } catch {
+      return '0';
+    }
+    // eslint-disable-next-line wyrm/no-else-return
+  } else {
+    return '105';
+  }
 }

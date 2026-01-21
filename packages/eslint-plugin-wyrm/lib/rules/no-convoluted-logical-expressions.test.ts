@@ -273,6 +273,9 @@ foo === bar || baz !== quux;
       name: 'Equality expressions with only one common identifier',
       code: `
 foo === bar || foo !== baz;
+bar === foo || foo !== baz;
+foo === bar || baz !== foo;
+bar === foo || baz !== foo;
 `,
       after() {
         checkFormatting(this);
@@ -291,6 +294,9 @@ foo === bar || baz > quux;
       name: 'Comparison expressions with only one common identifier',
       code: `
 foo === bar || foo > baz;
+bar === foo || foo > baz;
+foo === bar || baz > foo;
+bar === foo || baz > foo;
 `,
       after() {
         checkFormatting(this);
@@ -666,6 +672,7 @@ a === n && n < a;
 
 n < a && a === n;
 a === n || n < a;
+a == n || n < a;
 `,
       output: `
 a === n;
@@ -679,8 +686,10 @@ a === n;
 
 a === n;
 a === n;
+a == n;
 `,
       errors: [
+        { messageId: 'noConvolutedLogicalExpression' },
         { messageId: 'noConvolutedLogicalExpression' },
         { messageId: 'noConvolutedLogicalExpression' },
         { messageId: 'noConvolutedLogicalExpression' },

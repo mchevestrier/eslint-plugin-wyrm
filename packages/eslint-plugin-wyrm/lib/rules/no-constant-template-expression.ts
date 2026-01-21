@@ -71,8 +71,7 @@ export default createRule({
           const def = defs.at(-1);
           if (
             def?.parent?.type === AST_NODE_TYPES.VariableDeclaration &&
-            (def.parent.parent.type === AST_NODE_TYPES.ExportNamedDeclaration ||
-              def.parent.parent.type === AST_NODE_TYPES.ExportDefaultDeclaration)
+            def.parent.parent.type === AST_NODE_TYPES.ExportNamedDeclaration
           ) {
             return;
           }

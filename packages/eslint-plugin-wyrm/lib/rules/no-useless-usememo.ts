@@ -108,13 +108,13 @@ function isActualWork(node: TSESTree.Node): boolean {
 
     case AST_NODE_TYPES.CallExpression:
     case AST_NODE_TYPES.AwaitExpression:
+    // Loops:
     case AST_NODE_TYPES.ForStatement:
     case AST_NODE_TYPES.ForInStatement:
     case AST_NODE_TYPES.ForOfStatement:
     case AST_NODE_TYPES.WhileStatement:
     case AST_NODE_TYPES.DoWhileStatement:
-      return true;
-
+    // JSX:
     case AST_NODE_TYPES.JSXElement:
     case AST_NODE_TYPES.JSXAttribute:
     case AST_NODE_TYPES.JSXClosingElement:

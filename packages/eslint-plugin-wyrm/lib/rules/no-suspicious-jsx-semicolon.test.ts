@@ -48,7 +48,7 @@ export function MyComponent() {
       },
     },
     {
-      name: 'Lonely comma, but not suspicious',
+      name: 'Lonely comma, but not suspicious (no trailing new line)',
       code: `
 export function MyComponent() {
   return <div>,</div>;
@@ -56,6 +56,28 @@ export function MyComponent() {
 `,
       after() {
         checkFormatting(this);
+      },
+    },
+    {
+      name: 'Lonely comma, but not suspicious (no trailing new line, and a previous neighbor)',
+      code: `
+export function MyComponent() {
+  return <div><br />,</div>;
+}
+`,
+      after() {
+        // Not formatted
+      },
+    },
+    {
+      name: 'Lonely comma, but not suspicious (no trailing new line, and a next neighbor)',
+      code: `
+export function MyComponent() {
+  return <div>,<br /></div>;
+}
+`,
+      after() {
+        // Not formatted
       },
     },
     {
@@ -92,6 +114,21 @@ export function MyComponent() {
   return (
     <div>
       On behalf of <strong>{companyName}</strong>;
+    </div>
+  );
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With JSX text but it is not the last child',
+      code: `
+export function MyComponent() {
+  return (
+    <div>
+      ,<strong>{companyName}</strong>
     </div>
   );
 }

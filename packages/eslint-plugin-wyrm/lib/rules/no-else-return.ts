@@ -90,7 +90,7 @@ function alwaysReturns(stmt: TSESTree.Statement | null | undefined): boolean {
       return alwaysReturns(stmt.body);
 
     case AST_NODE_TYPES.TryStatement: {
-      if (stmt.finalizer && alwaysReturns(stmt.finalizer)) {
+      if (alwaysReturns(stmt.finalizer)) {
         return true;
       }
       return alwaysReturns(stmt.block) && alwaysReturns(stmt.handler?.body);

@@ -97,6 +97,35 @@ for (const x of new Set([1, 2, 3])) {
         checkFormatting(this);
       },
     },
+    {
+      name: '`for..of` loop over a non-empty string',
+      code: `
+for (const x of 'foo') {
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`for..in` loop over a non-empty object',
+      code: `
+for (const x in { foo: 42 }) {
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.map()` over some random object',
+      code: `
+new Foo().map(() => {});
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -302,6 +331,166 @@ for (const x of new Set()) {
       code: `
 for (const x in new Object()) {
 }
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.entries()` over an empty Map',
+      code: `
+new Map().entries();
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.has()` over an empty Set',
+      code: `
+new Set().has();
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.keys()` over an empty WeakMap',
+      code: `
+new WeakMap().keys();
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.values()` over an empty WeakSet',
+      code: `
+new WeakSet().values();
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.map()` over an empty Int8Array',
+      code: `
+new Int8Array().map(() => {});
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.map()` over an empty Uint8Array',
+      code: `
+new Uint8Array().map(() => {});
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.map()` over an empty Uint8ClampedArray',
+      code: `
+new Uint8ClampedArray().map(() => {});
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.map()` over an empty Int16Array',
+      code: `
+new Int16Array().map(() => {});
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.map()` over an empty Uint16Array',
+      code: `
+new Uint16Array().map(() => {});
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.map()` over an empty Int32Array',
+      code: `
+new Int32Array().map(() => {});
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.map()` over an empty Uint32Array',
+      code: `
+new Uint32Array().map(() => {});
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.map()` over an empty Float16Array',
+      code: `
+new Float16Array().map(() => {});
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.map()` over an empty Float32Array',
+      code: `
+new Float32Array().map(() => {});
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.map()` over an empty Float64Array',
+      code: `
+new Float64Array().map(() => {});
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.map()` over an empty BigInt64Array',
+      code: `
+new BigInt64Array().map(() => {});
+`,
+      errors: [{ messageId: 'noEmptyLiteralIteration' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.map()` over an empty BigUint64Array',
+      code: `
+new BigUint64Array().map(() => {});
 `,
       errors: [{ messageId: 'noEmptyLiteralIteration' }],
       after() {

@@ -256,6 +256,16 @@ ruleTester.run(name, rule, {
       },
     },
     {
+      name: 'ToDo comment (with suffix)',
+      code: `
+// ToDo: do stuff
+`,
+      errors: [{ messageId: 'noDisallowedWarningComment' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'FIXME block comment',
       code: `
 /*

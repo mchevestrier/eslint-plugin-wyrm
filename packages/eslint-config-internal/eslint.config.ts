@@ -177,6 +177,7 @@ export default defineConfig([
       'no-extra-bind': 'error',
       'no-extra-boolean-cast': ['error', { enforceForInnerExpressions: true }],
       'no-extra-label': 'error',
+      'no-fallthrough': ['error', { allowEmptyCase: true }],
       'no-implicit-coercion': ['error', { boolean: false }],
       'no-implicit-globals': 'error',
       'no-implied-eval': 'error',

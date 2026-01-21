@@ -1,4 +1,3 @@
-import markdownPlugin from '@eslint/markdown';
 import { RuleTester } from '@typescript-eslint/rule-tester';
 
 import { checkFormatting } from '../utils/checkFormatting.js';
@@ -6,7 +5,6 @@ import { checkFormatting } from '../utils/checkFormatting.js';
 import rule, { name } from './no-useless-use-strict.js';
 
 const ruleTester = new RuleTester({
-  plugins: { markdown: markdownPlugin },
   languageOptions: {
     parserOptions: {
       ecmaFeatures: { jsx: true },

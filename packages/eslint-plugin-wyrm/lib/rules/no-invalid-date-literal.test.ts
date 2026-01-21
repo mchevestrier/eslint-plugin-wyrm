@@ -54,6 +54,15 @@ new Date(foo);
       },
     },
     {
+      name: 'New date with several arguments',
+      code: `
+new Date(NaN, 2, 3);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'New date with a boolean literal',
       code: `
 new Date(false);
