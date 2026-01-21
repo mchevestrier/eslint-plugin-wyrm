@@ -2,7 +2,7 @@
 
 📝 Forbid iterating over empty literals.
 
-💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
+💼 This rule is enabled in the following configs: 🟩 `recommended`, ✅ `recommendedTypeChecked`, 🟪 `strict`, ☑️ `strictTypeChecked`.
 
 ## Cases
 

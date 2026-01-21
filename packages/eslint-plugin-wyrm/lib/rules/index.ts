@@ -18,6 +18,7 @@ export { default as 'no-empty-literal-iteration' } from './no-empty-literal-iter
 export { default as 'no-extra-false-fallback' } from './no-extra-false-fallback.js';
 export { default as 'no-extra-nested-boolean-cast' } from './no-extra-nested-boolean-cast.js';
 export { default as 'no-first-last' } from './no-first-last.js';
+export { default as 'no-float-length-check' } from './no-float-length-check.js';
 export { default as 'no-huge-try-block' } from './no-huge-try-block.js';
 export { default as 'no-inline-jsdoc-tag' } from './no-inline-jsdoc-tag.js';
 export { default as 'no-invalid-date-literal' } from './no-invalid-date-literal.js';

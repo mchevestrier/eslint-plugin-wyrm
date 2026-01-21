@@ -12,7 +12,7 @@ export default createRule({
     type: 'suggestion',
     docs: {
       description: 'Forbid iterating over empty literals',
-      strict: true,
+      recommended: true,
     },
     schema: [],
     messages: {

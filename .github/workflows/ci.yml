@@ -61,7 +61,7 @@ jobs:
 
       - name: 💄 prettier
         run: |
-          pnpm prettier --check --ignore-unknown *
+          pnpm prettier --check --ignore-unknown "./*"
           pnpm run -r --reporter-hide-prefix lint:format
 
       - name: 🟦 typescript
