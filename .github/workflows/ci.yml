@@ -61,7 +61,7 @@ jobs:
 
       - name: 💄 prettier
         run: |
-          pnpm prettier --check --ignore-unknown "./*"
+          pnpm prettier --check --ignore-unknown './*'
           pnpm run -r --reporter-hide-prefix lint:format
 
       - name: 🟦 typescript
@@ -72,7 +72,7 @@ jobs:
 
       - name: ⬢ eslint
         run: |
-          pnpm run eslint *
+          pnpm run eslint "*.mjs" "*.ts" "*.json"
           pnpm run -r --reporter-hide-prefix lint:js
 
   tests:

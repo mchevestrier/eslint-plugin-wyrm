@@ -79,6 +79,61 @@ String(foo);
         checkFormatting(this);
       },
     },
+    {
+      name: '`String()` argument is an object',
+      code: `
+const foo = new Object();
+String(foo);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`String()` argument is a RegExp literal',
+      code: `
+String(/foo/i);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`String()` argument is a function',
+      code: `
+String(() => {});
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`String()` argument is null',
+      code: `
+String(null);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`String()` argument is undefined',
+      code: `
+String(undefined);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Unnecessary type conversion on a string',
+      code: `
+String('foo');
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -118,6 +173,60 @@ String(42.0);
 `,
       output: `
 (42.0).toString();
+`,
+      errors: [{ messageId: 'useToString' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Using `String()` with a BigInt',
+      code: `
+declare const foo: BigInt;
+String(foo);
+`,
+      output: `
+declare const foo: BigInt;
+foo.toString();
+`,
+      errors: [{ messageId: 'useToString' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Using `String()` with a BigInt literal',
+      code: `
+String(42n);
+`,
+      output: `
+(42n).toString();
+`,
+      errors: [{ messageId: 'useToString' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Using `String()` with a date',
+      code: `
+String(new Date());
+`,
+      output: `
+(new Date()).toString();
+`,
+      errors: [{ messageId: 'useToString' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Using `String()` with a boolean',
+      code: `
+String(true);
+`,
+      output: `
+(true).toString();
 `,
       errors: [{ messageId: 'useToString' }],
       after() {

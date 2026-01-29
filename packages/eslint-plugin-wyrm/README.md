@@ -104,5 +104,6 @@ export default defineConfig([
 | [suspicious-map-length](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/suspicious-map-length.md)                         | Disallow suspicious use of `.map().length`                                    | 🟩 ✅ 🟪 ☑️ |     | 💡  |     |
 | [unsafe-asserted-chain](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/unsafe-asserted-chain.md)                         | Disallow unsafe type assertions on optional chained expressions               | ☑️          |     |     | 💭  |
 | [unused-object-assign](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/unused-object-assign.md)                           | Disallow unused `Object.assign()` expressions                                 | 🟩 ✅ 🟪 ☑️ |     |     |     |
+| [useless-intermediary-variable](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/useless-intermediary-variable.md)         | Disallow unnecessary intermediary variables                                   | 🟪 ☑️       |     | 💡  |     |
 
 <!-- end auto-generated rules list -->

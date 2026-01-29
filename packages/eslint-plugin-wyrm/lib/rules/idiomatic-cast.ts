@@ -19,7 +19,7 @@ export default createRule({
     fixable: 'code',
     schema: [],
     messages: {
-      useToString: 'Use the `.toString()` method to convert a number to a string.',
+      useToString: 'Use the `.toString()` method to convert to a string.',
     },
   },
   defaultOptions: [],
@@ -36,7 +36,7 @@ export default createRule({
         const argType = services.getTypeAtLocation(arg);
 
         if (argType.isUnion()) return;
-        if ((argType.flags & ts.TypeFlags.NumberLike) === 0) return;
+        if (!hasToString(argType)) return;
 
         context.report({
           node,
@@ -54,3 +54,15 @@ export default createRule({
     };
   },
 });
+
+function hasToString(argType: ts.Type) {
+  if (argType.flags & ts.TypeFlags.NumberLike) return true;
+  if (argType.flags & ts.TypeFlags.BooleanLike) return true;
+  if (argType.flags & ts.TypeFlags.BigIntLike) return true;
+
+  if (typeof argType.symbol === 'undefined') return false;
+  if (argType.symbol.getName() === 'BigInt') return true;
+  if (argType.symbol.getName() === 'Date') return true;
+
+  return false;
+}

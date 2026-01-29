@@ -1,5 +1,3 @@
-/* eslint-disable sonarjs/no-commented-code */
-
 import path from 'node:path';
 
 import type { TSESTree } from '@typescript-eslint/utils';
@@ -163,7 +161,7 @@ function extractRepeatedStringFromTemplateLiteral(
   if (expr.expressions.length !== 1) return None;
   if (expr.expressions[0]?.type !== AST_NODE_TYPES.Identifier) return None;
   if (expr.expressions[0].name !== acc.name) return None;
-  // if (expr.quasis.length !== 2) return None;
+
   const nonEmptyQuasis = expr.quasis.map((q) => q.value.cooked).filter(Boolean);
   const firstQuasi = nonEmptyQuasis.at(0);
   if (!firstQuasi) return None;

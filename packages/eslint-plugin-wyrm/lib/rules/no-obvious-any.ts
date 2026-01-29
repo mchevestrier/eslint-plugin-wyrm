@@ -72,6 +72,7 @@ export default createRule({
 
       const scope = context.sourceCode.getScope(node);
       const variable = ASTUtils.findVariable(scope, id);
+      /** v8 ignore next -- @preserve */
       if (!variable) return;
 
       const parents = variable.references
@@ -194,7 +195,9 @@ type FunctionNode =
   | TSESTree.ArrowFunctionExpression;
 
 function getFunctionName(node: FunctionNode): TSESTree.Identifier | null {
-  switch (node.type) {
+  const nodeType = node.type;
+
+  switch (nodeType) {
     case AST_NODE_TYPES.FunctionDeclaration:
       return node.id;
 
@@ -204,7 +207,11 @@ function getFunctionName(node: FunctionNode): TSESTree.Identifier | null {
       if (node.parent.id.type !== AST_NODE_TYPES.Identifier) return null;
       return node.parent.id;
 
-    default:
+    /* v8 ignore next -- @preserve */
+    default: {
+      const check: never = nodeType;
+      console.error(`Unexpected node type: ${check}`);
       return null;
+    }
   }
 }

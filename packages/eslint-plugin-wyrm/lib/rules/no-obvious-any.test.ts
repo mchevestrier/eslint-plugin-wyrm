@@ -101,6 +101,80 @@ const foo = [];
       },
     },
     {
+      name: 'Function declaration parameter is not typed as any',
+      code: `
+function foo(n: number) {}
+
+foo(42);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Argument passed to the function is typed as any',
+      code: `
+function foo(n: number, x: any) {}
+
+declare const y: any;
+foo(42, y);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Argument passed to the function is typed as never',
+      code: `
+function foo(n: number, x: any) {}
+
+declare const y: never;
+foo(42, y);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Argument passed to the function is typed as unknown',
+      code: `
+function foo(n: number, x: any) {}
+
+declare const y: unknown;
+foo(42, y);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Argument passed to the function is typed as a union with unknown',
+      code: `
+function foo(n: number, x: any) {}
+
+declare const y: string | unknown;
+foo(42, y);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Some of the arguments passed to the function are typed as unknown',
+      code: `
+function foo(n: number, x: any) {}
+
+declare const y: unknown;
+foo(42, y);
+
+declare const z: string;
+foo(42, z);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Function declaration argument is not trivially inferable',
       code: `
 function foo(n: any) {}
@@ -135,13 +209,84 @@ foo(42);
       },
     },
     {
+      name: 'Default export is for a different function',
+      code: `
+export default function bar(n: any) {}
+
+foo(42);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Function parameter has no type annotation',
+      code: `
+function foo(n) {}
+
+foo(42);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Function parameter is not an identifier',
+      code: `
+function foo({ quux }: any) {}
+
+foo(42);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Default exported function expression with no name',
+      code: `
+export default function ({ quux }: any) {}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Arrow function with no parent variable declarator',
+      code: `
+(n: any) => {};
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Arrow function but not attached to an identifier',
+      code: `
+const {} = (n: any) => {};
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Function expression but not attached to an identifier',
+      code: `
+const {} = function (n: any) {};
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Arrow function declaration has a named export',
       code: `
 const foo = (n: any) => {};
 
-foo(42);
+const bar = 42;
 
-export { foo };
+foo(bar);
+
+export { foo, bar };
 `,
       after() {
         checkFormatting(this);
@@ -257,7 +402,11 @@ const foo = (n: any) => {};
 const bar = 42;
 foo(bar);
 
-export { bar };
+export { bar, fnord };
+
+export default 42;
+export default quux;
+export default bar;
 `,
       output: `
 const foo = (n: number) => {};
@@ -265,7 +414,11 @@ const foo = (n: number) => {};
 const bar = 42;
 foo(bar);
 
-export { bar };
+export { bar, fnord };
+
+export default 42;
+export default quux;
+export default bar;
 `,
       errors: [{ messageId: 'noObviousAny' }],
       after() {
@@ -291,6 +444,44 @@ foo(bar);
 
 const quux = 37;
 foo(quux);
+`,
+      errors: [{ messageId: 'noObviousAny' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Another argument is typed as any',
+      code: `
+function foo(n: number, x: any) {}
+
+declare const y: any;
+foo(y, 42);
+`,
+      output: `
+function foo(n: number, x: number) {}
+
+declare const y: any;
+foo(y, 42);
+`,
+      errors: [{ messageId: 'noObviousAny' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Inferred argument type is a union',
+      code: `
+function foo(n: any) {}
+
+declare const y: number | string;
+foo(y);
+`,
+      output: `
+function foo(n: string | number) {}
+
+declare const y: number | string;
+foo(y);
 `,
       errors: [{ messageId: 'noObviousAny' }],
       after() {
