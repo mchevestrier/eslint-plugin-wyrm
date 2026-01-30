@@ -22,7 +22,7 @@
     "eslint-plugin-wyrm": "workspace:*",
     "fast-check": "^4.5.3",
     "jiti": "^2.6.1",
-    "prettier": "^3.8.0",
+    "prettier": "^3.8.1",
     "typescript-eslint": "^8.53.1",
     "vitest": "^4.0.17"
   }
