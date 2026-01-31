@@ -488,5 +488,30 @@ foo(y);
         checkFormatting(this);
       },
     },
+    {
+      name: 'Arrow function declaration has several calls with different types',
+      code: `
+const foo = (n: any) => {};
+
+const bar = 42;
+foo(bar);
+
+const quux = 'quux';
+foo(quux);
+`,
+      output: `
+const foo = (n: number | string) => {};
+
+const bar = 42;
+foo(bar);
+
+const quux = 'quux';
+foo(quux);
+`,
+      errors: [{ messageId: 'noObviousAny' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
 });

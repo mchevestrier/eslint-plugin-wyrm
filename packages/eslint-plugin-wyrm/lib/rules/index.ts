@@ -1,6 +1,7 @@
 // GENERATED FILE - DO NOT EDIT
 export { default as 'de-morgan' } from './de-morgan.js';
 export { default as 'distribute-boolean-casts' } from './distribute-boolean-casts.js';
+export { default as 'duplicate-destructuring' } from './duplicate-destructuring.js';
 export { default as 'idiomatic-cast' } from './idiomatic-cast.js';
 export { default as 'no-constant-template-expression' } from './no-constant-template-expression.js';
 export { default as 'no-convoluted-logical-expressions' } from './no-convoluted-logical-expressions.js';
@@ -49,6 +50,7 @@ export { default as 'optional-call-expression' } from './optional-call-expressio
 export { default as 'prefer-catch-method' } from './prefer-catch-method.js';
 export { default as 'prefer-early-return' } from './prefer-early-return.js';
 export { default as 'prefer-repeat' } from './prefer-repeat.js';
+export { default as 'primitive-valueof' } from './primitive-valueof.js';
 export { default as 'suspicious-map-length' } from './suspicious-map-length.js';
 export { default as 'unsafe-asserted-chain' } from './unsafe-asserted-chain.js';
 export { default as 'unused-object-assign' } from './unused-object-assign.js';
