@@ -297,6 +297,53 @@ const x = Array(3)
         checkFormatting(this);
       },
     },
+    {
+      name: 'Not using `reduce` or `reduceRight`',
+      code: `
+const x = Array.from({ length: 3 }).map((acc) => \`\${acc}*\`, '');
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not using `length`',
+      code: `
+const x = Array.from({ foo: 3 }).reduce((acc) => \`\${acc}*\`, '');
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not using `fill`',
+      code: `
+const x = Array(3)
+  .foo(undefined)
+  .reduce((acc) => \`\${acc}*\`, '');
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With several expressions in template',
+      code: `
+const x = Array.from({ length: 3 }).reduce((acc) => \`\${acc}*\${acc}*\`, '');
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With no expressions in template',
+      code: `
+const x = Array.from({ length: 3 }).reduce((acc) => \`\`, '');
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -606,6 +653,31 @@ function repeat(str: string, n: number) {
 function repeat(str: string, n: number) {
   return str.repeat(n);
 }
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a function expression',
+      code: `
+const x = Array.from({ length: 3 }).reduce(function (acc) {
+  return \`\${acc}*\`;
+}, '');
+`,
+      errors: [
+        {
+          messageId: 'preferRepeat',
+          suggestions: [
+            {
+              messageId: 'replaceByRepeat',
+              data: { fixed: "'*'.repeat(3)" },
+              output: `
+const x = '*'.repeat(3);
 `,
             },
           ],

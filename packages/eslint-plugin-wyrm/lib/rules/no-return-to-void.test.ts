@@ -42,6 +42,27 @@ ruleTester.run(name, rule, {
       },
     },
     {
+      name: 'Callback is not a function expression',
+      code: `
+const foo = (it) => {
+  return it + 2;
+};
+[1, 2, 3].forEach(foo);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Callback is a class expression',
+      code: `
+[1, 2, 3].forEach(class Foo {});
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With return from `map` callback (optional chaining)',
       code: `
 declare const arr: number[] | null;

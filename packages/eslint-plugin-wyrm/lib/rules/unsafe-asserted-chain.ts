@@ -70,8 +70,6 @@ export default createRule({
 });
 
 function hasOptionalChaining(expression: TSESTree.Expression) {
-  if (expression.type === AST_NODE_TYPES.TSNonNullExpression) return false;
-
   if (
     expression.type === AST_NODE_TYPES.ChainExpression ||
     expression.type === AST_NODE_TYPES.TSSatisfiesExpression ||

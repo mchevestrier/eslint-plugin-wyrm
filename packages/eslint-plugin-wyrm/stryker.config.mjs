@@ -23,3 +23,5 @@ const config = {
   },
 };
 export default config;
+
+process.env['STRYKER_MUTATOR'] = '1';

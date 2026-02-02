@@ -27,6 +27,15 @@ export const z = [1, 2].map((x) => x > 2)['length'];
       },
     },
     {
+      name: 'Property is not length',
+      code: `
+export const z = [1, 2].map((x) => x > 2).foo;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Method is not an identifier',
       code: `
 export const z = [1, 2]['map']((x) => x > 2).length;

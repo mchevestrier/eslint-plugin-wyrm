@@ -35,7 +35,6 @@ export default createRule({
         const services = ESLintUtils.getParserServices(context);
         const argType = services.getTypeAtLocation(arg);
 
-        if (argType.isUnion()) return;
         if (!hasToString(argType)) return;
 
         context.report({
@@ -55,7 +54,13 @@ export default createRule({
   },
 });
 
-function hasToString(argType: ts.Type) {
+function hasToString(argType: ts.Type): boolean {
+  if (argType.isUnion()) {
+    return argType.types.every(
+      (t) => hasToString(t) || (t.flags & ts.TypeFlags.StringLike) !== 0,
+    );
+  }
+
   if (argType.flags & ts.TypeFlags.NumberLike) return true;
   if (argType.flags & ts.TypeFlags.BooleanLike) return true;
   if (argType.flags & ts.TypeFlags.BigIntLike) return true;

@@ -158,16 +158,12 @@ function extractRepeatedStringFromTemplateLiteral(
 
   // `*${acc}`
   // `${acc}*`
-  if (expr.expressions.length !== 1) return None;
   if (expr.expressions[0]?.type !== AST_NODE_TYPES.Identifier) return None;
   if (expr.expressions[0].name !== acc.name) return None;
 
   const nonEmptyQuasis = expr.quasis.map((q) => q.value.cooked).filter(Boolean);
   const firstQuasi = nonEmptyQuasis.at(0);
   if (!firstQuasi) return None;
-  if (nonEmptyQuasis.length === 1) {
-    return Some(firstQuasi);
-  }
 
   if (nonEmptyQuasis.every((quasi) => quasi === firstQuasi)) {
     return Some(firstQuasi.repeat(nonEmptyQuasis.length));

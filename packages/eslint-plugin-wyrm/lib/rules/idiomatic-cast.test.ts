@@ -134,6 +134,26 @@ String('foo');
         checkFormatting(this);
       },
     },
+    {
+      name: 'Using `Date()` with a number',
+      code: `
+declare const foo: number;
+Date(foo);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Using `String()` with a union type (number | object)',
+      code: `
+declare const foo: number | object;
+String(foo);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -227,6 +247,36 @@ String(true);
 `,
       output: `
 (true).toString();
+`,
+      errors: [{ messageId: 'useToString' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Using `String()` with a union type (number | string)',
+      code: `
+declare const foo: number | string;
+String(foo);
+`,
+      output: `
+declare const foo: number | string;
+foo.toString();
+`,
+      errors: [{ messageId: 'useToString' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Using `String()` with a union type (number | boolean)',
+      code: `
+declare const foo: number | boolean;
+String(foo);
+`,
+      output: `
+declare const foo: number | boolean;
+foo.toString();
 `,
       errors: [{ messageId: 'useToString' }],
       after() {

@@ -129,6 +129,16 @@ const str = (foo?.bar.baz as string | undefined).toUpperCase();
         checkFormatting(this);
       },
     },
+    {
+      name: 'With a non null assertion',
+      code: `
+declare const foo: { bar: string | number } | null;
+const str = (foo?.bar! as string).toUpperCase();
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -213,6 +223,28 @@ const str = (foo?.bar.baz.quux() as string).toUpperCase();
       code: `
 declare const foo: { bar?: { baz: { quux: string | number } } } | null;
 const str = (foo!.bar?.baz.quux as string).toUpperCase();
+`,
+      errors: [{ messageId: 'unsafeAssertionOnOptionalChain' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Optional chain asserted as unknown as string',
+      code: `
+declare const foo: { bar: string | number } | null;
+const str = (foo?.bar as unknown as string).toUpperCase();
+`,
+      errors: [{ messageId: 'unsafeAssertionOnOptionalChain' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With satisfies',
+      code: `
+declare const foo: { bar: string | number } | null;
+const str = (foo?.bar satisfies any as string).toUpperCase();
 `,
       errors: [{ messageId: 'unsafeAssertionOnOptionalChain' }],
       after() {

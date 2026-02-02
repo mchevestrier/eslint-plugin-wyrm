@@ -20,6 +20,9 @@ type AnyTestCase =
 
 /** Ensure that code samples respect formatting */
 export function checkFormatting(testCase: AnyTestCase) {
+  // Ignore formatting checks in mutation testing
+  if (typeof process.env['STRYKER_MUTATOR'] !== 'undefined') return;
+
   const code = extractSourceFromTestCase(testCase);
   const name = extractNameFromTestCase(testCase) ?? code;
   testCases.push({ code, name });

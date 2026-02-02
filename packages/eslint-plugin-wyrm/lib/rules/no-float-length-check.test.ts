@@ -80,6 +80,15 @@ foo.length !== 'ok';
         checkFormatting(this);
       },
     },
+    {
+      name: 'Length is compared to a string literal containing a period',
+      code: `
+foo.length !== '12.34';
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -146,6 +155,16 @@ foo.length != 3.14;
       name: 'With <=',
       code: `
 3.14 <= foo.length;
+`,
+      errors: [{ messageId: 'noFloatLengthCheck' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With >=',
+      code: `
+3.14 >= foo.length;
 `,
       errors: [{ messageId: 'noFloatLengthCheck' }],
       after() {

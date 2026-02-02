@@ -35,7 +35,8 @@ export default createRule({
         const scope = context.sourceCode.getScope(stmt.declaration);
         const variable = ASTUtils.findVariable(scope, stmt.declaration);
         if (!variable) return false;
-        if (variable.references.some((ref) => ref.resolved?.identifiers.includes(id))) {
+
+        if (variable.identifiers.includes(id)) {
           return true;
         }
       }
@@ -49,9 +50,7 @@ export default createRule({
           .some((exported) => {
             const variable = ASTUtils.findVariable(scope, exported);
             if (!variable) return false;
-            return variable.references.some((ref) =>
-              ref.resolved?.identifiers.includes(id),
-            );
+            return variable.identifiers.includes(id);
           });
       }
 
