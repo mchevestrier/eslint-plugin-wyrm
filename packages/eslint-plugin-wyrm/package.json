@@ -56,7 +56,7 @@
     "@typescript-eslint/rule-tester": "^8.53.1",
     "@typescript-eslint/utils": "^8.53.1",
     "@vitest/coverage-v8": "^4.0.17",
-    "@vitest/ui": "^4.0.17",
+    "@vitest/ui": "^4.0.18",
     "eslint": "^9.39.2",
     "eslint-doc-generator": "^3.0.2",
     "jest-diff": "^30.2.0",
