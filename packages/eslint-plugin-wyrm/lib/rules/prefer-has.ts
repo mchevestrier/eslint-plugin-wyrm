@@ -4,7 +4,7 @@ import type { TSESTree } from '@typescript-eslint/utils';
 import { AST_NODE_TYPES } from '@typescript-eslint/utils';
 
 import { createRule } from '../utils/createRule.js';
-import { None, type Option, Some } from '../utils/option.js';
+import { getFirstOption, None, type Option, Some } from '../utils/option.js';
 
 export const { name } = path.parse(import.meta.filename);
 
@@ -66,13 +66,6 @@ function extractFromNotUndefinedCheck(
     extractNotUndefined(node.left, node.right),
     extractNotUndefined(node.right, node.left),
   ]);
-}
-
-function getFirstOption<T>(options: Array<Option<T>>): Option<T> {
-  for (const option of options) {
-    if (option.some) return option;
-  }
-  return None;
 }
 
 function extractTypeofUndefined(

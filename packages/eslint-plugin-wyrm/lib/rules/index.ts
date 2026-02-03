@@ -23,6 +23,7 @@ export { default as 'no-first-last' } from './no-first-last.js';
 export { default as 'no-float-length-check' } from './no-float-length-check.js';
 export { default as 'no-huge-try-block' } from './no-huge-try-block.js';
 export { default as 'no-huge-useeffect' } from './no-huge-useeffect.js';
+export { default as 'no-if-length-for' } from './no-if-length-for.js';
 export { default as 'no-inline-jsdoc-tag' } from './no-inline-jsdoc-tag.js';
 export { default as 'no-invalid-date-literal' } from './no-invalid-date-literal.js';
 export { default as 'no-jsx-statement' } from './no-jsx-statement.js';

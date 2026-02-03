@@ -16,6 +16,11 @@ updates:
       - dependency-name: '@types/node'
         update-types:
           - 'version-update:semver-major'
+    groups:
+      patterns:
+        - '*vitest*'
+        - '*typescript-eslint*'
+        - '*eslint*'
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: 'github-actions'

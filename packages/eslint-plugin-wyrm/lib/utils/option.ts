@@ -12,3 +12,10 @@ export const None = { value: null, some: false } satisfies Option<never>;
 export function Some<T>(value: T): Option<T> {
   return { value, some: true };
 }
+
+export function getFirstOption<T>(options: Array<Option<T>>): Option<T> {
+  for (const option of options) {
+    if (option.some) return option;
+  }
+  return None;
+}
