@@ -1,0 +1,35 @@
+{
+  "name": "@eslint-plugin-wyrm/eslint-plugin-internal",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Internal ESLint rules",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "main": "./lib/index.js",
+  "scripts": {
+    "build:index": "node scripts/generate-index-file.js",
+    "fix:format": "prettier --write .",
+    "fix:js": "eslint . --fix",
+    "lint:format": "prettier --check .",
+    "lint:js": "eslint ."
+  },
+  "dependencies": {
+    "@typescript-eslint/utils": "^8.53.1",
+    "typescript": "~5.9.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.9",
+    "eslint": "^9.39.2",
+    "prettier": "^3.8.1"
+  },
+  "peerDependencies": {
+    "eslint": "^9.39.2"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  }
+}

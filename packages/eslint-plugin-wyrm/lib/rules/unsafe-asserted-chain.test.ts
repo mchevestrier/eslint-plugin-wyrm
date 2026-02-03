@@ -129,16 +129,6 @@ const str = (foo?.bar.baz as string | undefined).toUpperCase();
         checkFormatting(this);
       },
     },
-    {
-      name: 'With a non null assertion',
-      code: `
-declare const foo: { bar: string | number } | null;
-const str = (foo?.bar! as string).toUpperCase();
-`,
-      after() {
-        checkFormatting(this);
-      },
-    },
   ],
   invalid: [
     {

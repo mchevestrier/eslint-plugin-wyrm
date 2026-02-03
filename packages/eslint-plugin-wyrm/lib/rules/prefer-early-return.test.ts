@@ -58,6 +58,9 @@ function foo(cond1: boolean) {
   else console.log(0);
 }
 `,
+      after() {
+        checkFormatting(this);
+      },
     },
     {
       name: 'With an `if` statement that might sometimes return',
@@ -67,10 +70,12 @@ function foo(cond1: boolean) {
     for (const item in {}) {
       if (item === 'quux') return;
     }
-  }
-  else console.log(0);
+  } else console.log(0);
 }
 `,
+      after() {
+        checkFormatting(this);
+      },
     },
     {
       name: 'With a an else-if chain followed by another statement',
@@ -91,6 +96,9 @@ function foo(cond1: boolean) {
   console.log('always logged');
 }
 `,
+      after() {
+        checkFormatting(this);
+      },
     },
     {
       name: 'With no returns in if statement at all',
@@ -119,6 +127,9 @@ function foo(cond1: boolean, cond2: boolean) {
   return 17;
 }
 `,
+      after() {
+        checkFormatting(this);
+      },
     },
     {
       name: 'With `try`/`catch`/`finally` statement where `catch` does not always return',
@@ -139,6 +150,9 @@ function foo(cond1: boolean, cond2: boolean) {
   return 17;
 }
 `,
+      after() {
+        checkFormatting(this);
+      },
     },
     {
       name: 'With `try`/`finally` statement where `finally` does not always return',
@@ -157,6 +171,9 @@ function foo(cond1: boolean, cond2: boolean) {
   return 17;
 }
 `,
+      after() {
+        checkFormatting(this);
+      },
     },
     {
       name: 'With a returned complex expression',
@@ -169,6 +186,9 @@ function foo(cond1: boolean, bar: string) {
   return 17;
 }
 `,
+      after() {
+        checkFormatting(this);
+      },
     },
     {
       name: 'With a wrapping `if` statement and a single line consequent',
@@ -179,6 +199,9 @@ function foo(cond1: boolean, bar: string) {
   }
 }
 `,
+      after() {
+        checkFormatting(this);
+      },
     },
   ],
   invalid: [

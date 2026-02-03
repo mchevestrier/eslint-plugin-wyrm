@@ -50,7 +50,7 @@ export function MyComponent() {
       name: 'JSX fragment in return statement',
       code: `
 export function MyComponent() {
-  return <div />;
+  return <></>;
 }
 `,
       after() {
@@ -61,7 +61,7 @@ export function MyComponent() {
       name: 'JSX fragment in variable initialization',
       code: `
 export function MyComponent() {
-  const jsx = <div />;
+  const jsx = <></>;
   return jsx;
 }
 `,

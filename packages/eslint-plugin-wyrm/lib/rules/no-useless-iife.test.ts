@@ -1306,6 +1306,9 @@ class Klass {
           ],
         },
       ],
+      after() {
+        checkFormatting(this);
+      },
     },
   ],
 });

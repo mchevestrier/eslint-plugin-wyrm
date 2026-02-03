@@ -2,6 +2,7 @@
 
 import js from '@eslint/js';
 import markdown from '@eslint/markdown';
+import internal from '@eslint-plugin-wyrm/eslint-plugin-internal';
 import stylistic from '@stylistic/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
 import vitest from '@vitest/eslint-plugin';
@@ -55,6 +56,8 @@ export default defineConfig([
       },
     },
   },
+
+  internal.configs.recommended,
 
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,

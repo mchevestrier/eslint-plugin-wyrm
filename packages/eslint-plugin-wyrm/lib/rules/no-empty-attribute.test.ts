@@ -128,35 +128,11 @@ function Foo() {
   ],
   invalid: [
     {
-      name: 'Empty `className` attribute #docs',
-      code: `
-function Foo() {
-  return <div className="" />;
-}
-`,
-      errors: [{ messageId: 'noEmptyAttribute' }],
-      after() {
-        checkFormatting(this);
-      },
-    },
-    {
       name: 'Empty `foobar` attribute (with `options.attributes`)',
       options: [{ attributes: ['foobar'] }],
       code: `
 function Foo() {
   return <div foobar="" />;
-}
-`,
-      errors: [{ messageId: 'noEmptyAttribute' }],
-      after() {
-        checkFormatting(this);
-      },
-    },
-    {
-      name: 'Empty `id` attribute #docs',
-      code: `
-function Foo() {
-  return <div id="" />;
 }
 `,
       errors: [{ messageId: 'noEmptyAttribute' }],
@@ -204,7 +180,7 @@ function Foo() {
       },
     },
     {
-      name: 'Empty `className` attribute',
+      name: 'Empty `className` attribute #docs',
       code: `
 function Foo() {
   return <div className="" />;
@@ -252,7 +228,7 @@ function Foo() {
       },
     },
     {
-      name: 'Empty `id` attribute',
+      name: 'Empty `id` attribute #docs',
       code: `
 function Foo() {
   return <div id="" />;

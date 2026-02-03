@@ -17,7 +17,6 @@ export default createRule({
       description: 'Forbid confusing naming for "first" or "last"',
       recommended: true,
     },
-    fixable: 'code',
     schema: [],
     messages: {
       noFirstLast: 'This is named "first" but it looks like a "last"',

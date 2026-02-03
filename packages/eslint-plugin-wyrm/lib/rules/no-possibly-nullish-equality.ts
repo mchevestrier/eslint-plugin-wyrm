@@ -36,7 +36,6 @@ export default createRule({
       requiresTypeChecking: true,
       strict: true,
     },
-    fixable: 'code',
     schema: [],
     messages: {
       noPossiblyNullishEquality:

@@ -165,6 +165,9 @@ if (Math.floor(bar)) {
   console.log('foo!');
 }
 `,
+      after() {
+        checkFormatting(this);
+      },
     },
     {
       name: 'Call expression in condition test, but not a Boolean call',
@@ -175,6 +178,9 @@ if (Error(bar)) {
   console.log('foo!');
 }
 `,
+      after() {
+        checkFormatting(this);
+      },
     },
     {
       name: 'Simple negation',
@@ -185,6 +191,9 @@ if (!foo) {
   console.log('foo!');
 }
 `,
+      after() {
+        checkFormatting(this);
+      },
     },
     {
       name: 'Simple negation wrapped in other unary expression',
@@ -195,6 +204,9 @@ if (+!foo) {
   console.log('foo!');
 }
 `,
+      after() {
+        checkFormatting(this);
+      },
     },
     {
       name: 'Other unary expression wrapped in simple negation',
@@ -205,6 +217,9 @@ if (!+foo) {
   console.log('foo!');
 }
 `,
+      after() {
+        checkFormatting(this);
+      },
     },
   ],
   invalid: [
