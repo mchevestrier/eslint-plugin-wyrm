@@ -51,6 +51,7 @@ export { default as 'no-whitespace-property' } from './no-whitespace-property.js
 export { default as 'optional-call-expression' } from './optional-call-expression.js';
 export { default as 'prefer-catch-method' } from './prefer-catch-method.js';
 export { default as 'prefer-early-return' } from './prefer-early-return.js';
+export { default as 'prefer-has' } from './prefer-has.js';
 export { default as 'prefer-repeat' } from './prefer-repeat.js';
 export { default as 'primitive-valueof' } from './primitive-valueof.js';
 export { default as 'suspicious-map-length' } from './suspicious-map-length.js';

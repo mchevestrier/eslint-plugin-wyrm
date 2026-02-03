@@ -35,6 +35,7 @@
     "fix:js": "eslint . --fix",
     "preinit:docs": "pnpm run build",
     "init:docs": "eslint-doc-generator --init-rule-docs",
+    "prelint:docs": "pnpm run build",
     "lint:docs": "eslint-doc-generator --check",
     "lint:format": "prettier --check .",
     "lint:js": "eslint .",
