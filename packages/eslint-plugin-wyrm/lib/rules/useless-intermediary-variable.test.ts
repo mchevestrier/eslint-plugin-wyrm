@@ -122,7 +122,53 @@ return bar + 3;
       },
     },
     {
-      name: 'First identifier is already destructured',
+      name: 'First identifier is a destructured parameter',
+      code: `
+function fun({ foo }: any) {
+  const bar = foo;
+  return bar + 3;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'First identifier is a destructured parameter (property access)',
+      code: `
+function fun({ foo }: any) {
+  const bar = foo.length;
+  return bar + 3;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'First identifier is destructured',
+      code: `
+const { foo } = quux();
+const bar = foo;
+return bar + 3;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Second identifier is destructured',
+      code: `
+const foo = quux();
+const { bar } = foo;
+return bar + 3;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'First identifier is already destructured (property access)',
       code: `
 const { foo } = quux();
 const bar = foo.length;

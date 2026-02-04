@@ -26,6 +26,96 @@ foo.get('bar');
         checkFormatting(this);
       },
     },
+    {
+      name: 'With `.get() === undefined`',
+      code: `
+foo.get('bar') === undefined;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a call expression',
+      code: `
+foo !== undefined;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Not a member expression',
+      code: `
+foo() !== undefined;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Method is not an identifier',
+      code: `
+foo['get']('bar') !== undefined;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Method is not `.get()`',
+      code: `
+foo.quux('bar') !== undefined;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Identifier is not `undefined`',
+      code: `
+foo.get('bar') !== baz;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Private identifier',
+      code: `
+#foo in undefined;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: "`typeof` but not 'undefined'",
+      code: `
+typeof foo.get('bar') !== 'string';
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: "'undefined' but not `typeof`",
+      code: `
+foo.get('bar') !== 'undefined';
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Unary expression but not `typeof`',
+      code: `
++foo.get('bar') !== 'undefined';
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

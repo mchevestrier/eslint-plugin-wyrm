@@ -56,8 +56,8 @@ export default createRule({
 function extractFromNotUndefinedCheck(
   node: TSESTree.BinaryExpression,
 ): Option<TSESTree.Expression> {
-  if (!isInequalityOperator(node.operator)) return None;
   if (node.left.type === AST_NODE_TYPES.PrivateIdentifier) return None;
+  if (!isInequalityOperator(node.operator)) return None;
 
   return getFirstOption([
     extractTypeofUndefined(node.left, node.right),

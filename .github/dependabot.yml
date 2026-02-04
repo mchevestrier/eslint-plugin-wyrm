@@ -17,10 +17,22 @@ updates:
         update-types:
           - 'version-update:semver-major'
     groups:
-      patterns:
-        - '*vitest*'
-        - '*typescript-eslint*'
-        - '*eslint*'
+      eslint:
+        patterns:
+          - 'eslint'
+          - '@eslint/*'
+      eslint-plugins:
+        patterns:
+          - 'eslint-plugin-*'
+          - '@*/eslint-plugin'
+      typescript-eslint:
+        patterns:
+          - 'typescript-eslint'
+          - '@typescript-eslint/*'
+      vitest:
+        patterns:
+          - 'vitest'
+          - '@vitest/*'
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: 'github-actions'

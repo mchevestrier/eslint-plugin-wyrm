@@ -43,30 +43,45 @@ export default createRule({
 
         const scope = context.sourceCode.getScope(node);
 
-        function identifierIsValidVariable(ident: TSESTree.Identifier): boolean {
+        if (node.init.type === AST_NODE_TYPES.Identifier) {
+          checkIdent(node.init, node.id);
+          return;
+        }
+
+        if (
+          node.init.type === AST_NODE_TYPES.MemberExpression &&
+          node.init.object.type === AST_NODE_TYPES.Identifier &&
+          !node.init.computed &&
+          node.init.property.type === AST_NODE_TYPES.Identifier
+        ) {
+          checkPropertyAccess(node.init.object, node.id, node.init.property);
+        }
+
+        function getValidVariableDef(
+          ident: TSESTree.Identifier,
+        ): Option<TSESTree.VariableDeclarator> {
           const maybeIdentDef = getIdentDef(ident);
-          if (!maybeIdentDef.some) return false;
+          if (!maybeIdentDef.some) return None;
           const identDef = maybeIdentDef.value;
 
-          if (identDef.id.type !== AST_NODE_TYPES.Identifier) return false;
+          if (identDef.id.type !== AST_NODE_TYPES.Identifier) return None;
 
-          if (identDef.parent.declarations.length > 1) return false;
-          if (identDef.parent.declare) return false;
+          if (identDef.parent.declarations.length > 1) return None;
+          if (identDef.parent.declare) return None;
 
           if (identDef.parent.parent.type === AST_NODE_TYPES.ExportNamedDeclaration) {
-            return false;
+            return None;
           }
 
           // Definition is in the same scope as the second identifier
           const defScope = context.sourceCode.getScope(identDef);
-          if (defScope !== scope) return false;
+          if (defScope !== scope) return None;
 
-          return true;
+          return Some(identDef);
         }
 
         function isAllowedIdentifier(ident: TSESTree.Identifier): boolean {
           if (isUppercaseIdentifier(ident)) return true;
-          if (!identifierIsValidVariable(ident)) return true;
 
           const variable = ASTUtils.findVariable(scope, ident);
           if (!variable) return true;
@@ -78,8 +93,10 @@ export default createRule({
           ident: TSESTree.Identifier,
         ): Option<TSESTree.VariableDeclarator> {
           const variable = ASTUtils.findVariable(scope, ident);
+          /* v8 ignore if -- @preserve */
           if (!variable) return None;
           const def = variable.defs.at(-1);
+          /* v8 ignore if -- @preserve */
           if (!def) return None;
           if (def.type !== TSESLint.Scope.DefinitionType.Variable) return None;
           return Some(def.node);
@@ -90,10 +107,9 @@ export default createRule({
           secondIdent: TSESTree.Identifier,
         ) {
           if (isAllowedIdentifier(firstIdent)) return;
-          const maybeFirstIdentDef = getIdentDef(firstIdent);
+          const maybeFirstIdentDef = getValidVariableDef(firstIdent);
           if (!maybeFirstIdentDef.some) return;
           const firstIdentDef = maybeFirstIdentDef.value;
-          if (firstIdentDef.id.type !== AST_NODE_TYPES.Identifier) return;
 
           const first = firstIdent.name;
           const second = secondIdent.name;
@@ -115,11 +131,6 @@ export default createRule({
           });
         }
 
-        if (node.init.type === AST_NODE_TYPES.Identifier) {
-          checkIdent(node.init, node.id);
-          return;
-        }
-
         function checkPropertyAccess(
           firstIdent: TSESTree.Identifier,
           secondIdent: TSESTree.Identifier,
@@ -127,10 +138,9 @@ export default createRule({
         ) {
           if (isAllowedIdentifier(firstIdent)) return;
 
-          const maybeFirstIdentDef = getIdentDef(firstIdent);
+          const maybeFirstIdentDef = getValidVariableDef(firstIdent);
           if (!maybeFirstIdentDef.some) return;
           const firstIdentDef = maybeFirstIdentDef.value;
-          if (firstIdentDef.id.type !== AST_NODE_TYPES.Identifier) return;
 
           const first = firstIdent.name;
           const second = secondIdent.name;
@@ -154,15 +164,6 @@ export default createRule({
               },
             ],
           });
-        }
-
-        if (
-          node.init.type === AST_NODE_TYPES.MemberExpression &&
-          node.init.object.type === AST_NODE_TYPES.Identifier &&
-          !node.init.computed &&
-          node.init.property.type === AST_NODE_TYPES.Identifier
-        ) {
-          checkPropertyAccess(node.init.object, node.id, node.init.property);
         }
       },
     };
