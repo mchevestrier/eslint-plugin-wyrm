@@ -17,6 +17,9 @@ updates:
         update-types:
           - 'version-update:semver-major'
     groups:
+      commitlint:
+        patterns:
+          - '@commitlint/*'
       eslint:
         patterns:
           - 'eslint'
@@ -25,6 +28,15 @@ updates:
         patterns:
           - 'eslint-plugin-*'
           - '@*/eslint-plugin'
+      react:
+        patterns:
+          - 'react'
+          - 'react-dom'
+          - '@types/react'
+          - '@types/react-dom'
+      stryker-mutator:
+        patterns:
+          - '@stryker-mutator/*'
       typescript-eslint:
         patterns:
           - 'typescript-eslint'
