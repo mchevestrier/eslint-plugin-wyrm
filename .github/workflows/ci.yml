@@ -179,7 +179,7 @@ jobs:
 
       - name: Validate PR commits with commitlint
         if: github.event_name == 'pull_request'
-        run: pnpm commitlint --from ${{ github.event.pull_request.base.sha }} --to ${{ github.event.pull_request.head.sha }} --verbose
+        run: echo "${{ github.event.pull_request.title }}" | pnpm commitlint --verbose
 
   preview:
     runs-on: ubuntu-latest
