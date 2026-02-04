@@ -322,6 +322,7 @@ export default defineConfig([
       'sonarjs/no-dead-store': 'error',
       'sonarjs/no-commented-code': 'error',
       'sonarjs/cognitive-complexity': ['error', 20],
+      'sonarjs/no-selector-parameter': 'error',
 
       'sonarjs/deprecation': 'off',
       'sonarjs/no-empty-test-file': 'off',

@@ -1,4 +1,4 @@
-/* eslint-disable sonarjs/no-selector-parameter, sonarjs/no-nested-conditional */
+/* eslint-disable sonarjs/no-nested-conditional */
 /* eslint-disable unicorn/no-nested-ternary */
 
 export function noTernaryReturn(cond: boolean) {

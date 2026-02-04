@@ -1,6 +1,6 @@
 /* eslint-disable wyrm/no-ternary-return */
 /* eslint-disable @typescript-eslint/prefer-nullish-coalescing, unicorn/no-nested-ternary */
-/* eslint-disable sonarjs/no-selector-parameter, sonarjs/no-nested-conditional, sonarjs/function-return-type */
+/* eslint-disable sonarjs/no-nested-conditional, sonarjs/function-return-type */
 
 export function noConvolutedLogicalExpression1(
   quux: boolean,
