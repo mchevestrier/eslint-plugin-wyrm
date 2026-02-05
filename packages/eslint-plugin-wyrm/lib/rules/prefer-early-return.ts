@@ -217,6 +217,9 @@ function alwaysReturns(stmt: TSESTree.Statement | null | undefined): boolean {
     case AST_NODE_TYPES.IfStatement:
       return alwaysReturns(stmt.consequent) && alwaysReturns(stmt.alternate);
 
+    case AST_NODE_TYPES.SwitchStatement:
+      return stmt.cases.flatMap((c) => c.consequent).every((c) => alwaysReturns(c));
+
     case AST_NODE_TYPES.ForInStatement:
     case AST_NODE_TYPES.ForOfStatement:
     case AST_NODE_TYPES.ForStatement:

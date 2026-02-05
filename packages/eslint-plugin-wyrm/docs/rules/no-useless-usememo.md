@@ -54,6 +54,20 @@ function MyComponent() {
 }
 ```
 
+With an object literal expression:
+
+```tsx
+function MyComponent() {
+  const foo = useMemo(() => {
+    return {
+      quux: 20,
+    };
+  }, []);
+
+  return foo;
+}
+```
+
 <!-- end auto-generated rule header -->
 
 ## Related

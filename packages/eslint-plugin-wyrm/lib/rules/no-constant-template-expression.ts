@@ -18,7 +18,7 @@
 
 import path from 'node:path';
 
-import type { TSESLint, TSESTree } from '@typescript-eslint/utils';
+import { TSESLint, type TSESTree } from '@typescript-eslint/utils';
 import { AST_NODE_TYPES, ASTUtils, ESLintUtils } from '@typescript-eslint/utils';
 import * as ts from 'typescript';
 
@@ -73,6 +73,10 @@ export default createRule({
             def?.parent?.type === AST_NODE_TYPES.VariableDeclaration &&
             def.parent.parent.type === AST_NODE_TYPES.ExportNamedDeclaration
           ) {
+            return;
+          }
+
+          if (def?.type !== TSESLint.Scope.DefinitionType.Variable) {
             return;
           }
         }
@@ -149,7 +153,6 @@ export default createRule({
 
 function getLiteralValue(type: ts.Type, checker: ts.TypeChecker): string | null {
   if (type.isStringLiteral()) return type.value;
-  if (type.isNumberLiteral()) return type.value.toString();
 
   if (type === checker.getTrueType()) return 'true';
   if (type === checker.getFalseType()) return 'false';

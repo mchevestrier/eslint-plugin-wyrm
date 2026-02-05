@@ -12,4 +12,8 @@ export default defineConfig([
       'wyrm/no-unassigned-todo': 'off',
     },
   },
+  {
+    files: ['**/*.md', '**/package.json'],
+    extends: [wyrm.configs.disableTypeChecked],
+  },
 ]);

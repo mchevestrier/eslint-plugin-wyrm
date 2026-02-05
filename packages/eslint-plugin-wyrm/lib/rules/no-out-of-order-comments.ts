@@ -52,9 +52,14 @@ export default createRule({
 });
 
 function getCommentNumber(comment: TSESTree.Comment): Option<number> {
-  const result = /^(?<number>\d+)\. /u.exec(comment.value.trim());
-  if (!result) return None;
-  const capture = result.groups?.['number'];
+  const plainBulletPointResult = /^(?<number>\d+)[.:] /u.exec(comment.value.trim());
+  const prefixResult = /^\w+ (?<number>\d+)[.:] /u.exec(comment.value.trim());
+
+  if (!plainBulletPointResult && !prefixResult) return None;
+
+  const capture =
+    plainBulletPointResult?.groups?.['number'] ?? prefixResult?.groups?.['number'];
+
   /** v8 ignore if -- @preserve */
   if (capture === undefined) {
     return None;

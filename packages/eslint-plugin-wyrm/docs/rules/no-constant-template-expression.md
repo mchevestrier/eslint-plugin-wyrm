@@ -39,17 +39,6 @@ const foo = 'foobar';
 const str = `foobar_baz`;
 ```
 
-Template expression with a constant number value:
-
-```tsx
-const n = 42;
-const str = `${n}_baz`;
-
-// Can be fixed to:
-const n = 42;
-const str = `42_baz`;
-```
-
 Template expression with a constant boolean value:
 
 ```tsx
@@ -79,6 +68,13 @@ Template expression typed as string:
 ```tsx
 declare const foo: string;
 const str = `${foo}_baz`;
+```
+
+Template expression with a constant number value:
+
+```tsx
+const n = 42;
+const str = `${n}_baz`;
 ```
 
 Template expression with a 10 character string value (as long as the default `minAllowedLength` value):

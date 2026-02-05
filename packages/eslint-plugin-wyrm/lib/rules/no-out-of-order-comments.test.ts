@@ -89,6 +89,17 @@ ruleTester.run(name, rule, {
       },
     },
     {
+      name: 'With several words before the number',
+      code: `
+// Several words 1: Do stuff
+// Several words 3: Do stuff
+// Several words 2: Do stuff
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With a JSONC file',
       filename: 'foo.json',
       languageOptions: {
@@ -237,6 +248,51 @@ ruleTester.run(name, rule, {
 /* 1. Do stuff */
 /* 3. Do stuff */
 /* 2. Do stuff */
+`,
+      errors: [
+        { messageId: 'noOutOfOrderComments' },
+        { messageId: 'noOutOfOrderComments' },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a prefix #docs',
+      code: `
+// Step 1: Do stuff
+// Step 3: Do stuff
+// Step 2: Do stuff
+`,
+      errors: [
+        { messageId: 'noOutOfOrderComments' },
+        { messageId: 'noOutOfOrderComments' },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a prefix and a period',
+      code: `
+// Part 1. Do stuff
+// Part 3. Do stuff
+// Part 2. Do stuff
+`,
+      errors: [
+        { messageId: 'noOutOfOrderComments' },
+        { messageId: 'noOutOfOrderComments' },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a semicolon',
+      code: `
+// 1: Do stuff
+// 3: Do stuff
+// 2: Do stuff
 `,
       errors: [
         { messageId: 'noOutOfOrderComments' },

@@ -1,5 +1,7 @@
 import path from 'node:path';
 
+/** @import {TSESTree} from '@typescript-eslint/utils' */
+
 import { AST_NODE_TYPES } from '@typescript-eslint/utils';
 
 import { createRule } from '../utils/createRule.js';
@@ -23,7 +25,8 @@ export default createRule({
     },
   },
   create(context) {
-    let hasRequiresTypeChecking = false;
+    /** @type {TSESTree.Property | undefined} */
+    let requiresTypeCheckingProperty = undefined;
     let usesTypeChecking = false;
 
     return {
@@ -31,7 +34,7 @@ export default createRule({
         if (node.key.type !== AST_NODE_TYPES.Identifier) return;
         if (node.key.name !== 'requiresTypeChecking') return;
 
-        hasRequiresTypeChecking = true;
+        requiresTypeCheckingProperty = node;
       },
       CallExpression(node) {
         if (node.callee.type !== AST_NODE_TYPES.MemberExpression) return;
@@ -45,12 +48,15 @@ export default createRule({
         usesTypeChecking = true;
       },
       'Program:exit'(node) {
-        if (!hasRequiresTypeChecking && usesTypeChecking) {
+        if (!requiresTypeCheckingProperty && usesTypeChecking) {
           context.report({ node, messageId: 'missingRequiresTypeChecking' });
         }
 
-        if (hasRequiresTypeChecking && !usesTypeChecking) {
-          context.report({ node, messageId: 'excessRequiresTypeChecking' });
+        if (requiresTypeCheckingProperty && !usesTypeChecking) {
+          context.report({
+            node: requiresTypeCheckingProperty,
+            messageId: 'excessRequiresTypeChecking',
+          });
         }
       },
     };

@@ -14,6 +14,7 @@ const config: GenerateOptions = {
     'recommendedTypeCheckedOnly',
     'strictOnly',
     'strictTypeCheckedOnly',
+    'disableTypeChecked',
   ],
   configFormat: 'name',
   configEmoji: [

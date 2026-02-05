@@ -424,6 +424,36 @@ function MyComponent() {
         checkFormatting(this);
       },
     },
+    {
+      name: 'Object literal (inline return)',
+      code: `
+function MyComponent() {
+  const foo = useMemo(() => ({ quux: 42 }), []);
+
+  return <Fnord value={foo} />;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With an object literal expression #docs',
+      code: `
+function MyComponent() {
+  const foo = useMemo(() => {
+    return {
+      quux: 20,
+    };
+  }, []);
+
+  return foo;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -634,26 +664,6 @@ import { factorial } from './factorial';
 
 function MyComponent() {
   const foo = useMemo(() => [...[20]], []);
-
-  return foo;
-}
-`,
-      errors: [{ messageId: 'noUselessUseMemo' }],
-      after() {
-        checkFormatting(this);
-      },
-    },
-    {
-      name: 'With an object expression',
-      code: `
-import { factorial } from './factorial';
-
-function MyComponent() {
-  const foo = useMemo(() => {
-    return {
-      quux: 20,
-    };
-  }, []);
 
   return foo;
 }

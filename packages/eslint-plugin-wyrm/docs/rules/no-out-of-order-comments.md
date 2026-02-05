@@ -23,6 +23,14 @@ Inline numbered comments, with one missing number:
 // 3. Do stuff
 ```
 
+With a prefix:
+
+```tsx
+// Step 1: Do stuff
+// Step 3: Do stuff
+// Step 2: Do stuff
+```
+
 ### Correct ✅
 
 Numbered comments in order:

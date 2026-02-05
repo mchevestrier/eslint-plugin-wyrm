@@ -43,6 +43,13 @@ export default createRule({
         return;
       }
 
+      if (
+        singleReturnedNode.some &&
+        singleReturnedNode.value.type === AST_NODE_TYPES.ObjectExpression
+      ) {
+        return;
+      }
+
       if (deps.elements.length) return;
 
       if (functionHasActualWork(fn)) return;

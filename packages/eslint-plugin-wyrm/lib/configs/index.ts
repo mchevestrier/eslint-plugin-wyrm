@@ -20,11 +20,12 @@ function createConfigWithRules(
   initialRules: Record<string, Rule>,
   configName: string,
   pred: (rule: Rule) => boolean,
+  ruleValue: 'off' | 'warn' | 'error' = 'error',
 ): Config {
   const entries = Object.entries(initialRules);
   const filteredRules = entries
     .filter(([, rule]) => pred(rule))
-    .map(([ruleName]) => [`wyrm/${ruleName}`, 'error'] as const);
+    .map(([ruleName]) => [`wyrm/${ruleName}`, ruleValue] as const);
 
   const rules = Object.fromEntries(filteredRules);
   return {
@@ -105,3 +106,10 @@ export const strictTypeChecked: Config = {
     ...strictTypeCheckedOnly.rules,
   },
 };
+
+export const disableTypeChecked: Config = createConfigWithRules(
+  allRules,
+  'disableTypeChecked',
+  (rule) => !!rule.meta.docs?.requiresTypeChecking,
+  'off',
+);

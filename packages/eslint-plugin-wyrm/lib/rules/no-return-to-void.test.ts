@@ -150,6 +150,22 @@ foo(() => {
         checkFormatting(this);
       },
     },
+    {
+      name: 'Only some call signatures accept a void returning callback',
+      code: `
+function forEach(cb: () => number);
+function forEach(cb: () => void);
+function forEach(cb: any) {
+  cb();
+}
+forEach(() => {
+  return 42;
+});
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -377,6 +393,23 @@ foo(() => 42);
 });
 `,
       errors: [{ messageId: 'noReturnToVoid' }, { messageId: 'noReturnToVoid' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Multiple call signatures that all accept a void returning callback',
+      code: `
+function forEach(cb: (it: unknown) => void);
+function forEach(cb: () => void);
+function forEach(cb: any) {
+  cb();
+}
+forEach(() => {
+  return 42;
+});
+`,
+      errors: [{ messageId: 'noReturnToVoid' }],
       after() {
         checkFormatting(this);
       },

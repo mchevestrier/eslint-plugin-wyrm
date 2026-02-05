@@ -40,10 +40,51 @@ const str = \`\${foo}_baz\`;
       },
     },
     {
+      name: 'Template expression with a constant number value #docs',
+      code: `
+const n = 42;
+const str = \`\${n}_baz\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a literal number value as the expression',
+      code: `
+const str = \`\${42}_baz\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Template expression with a constant BigInt value',
       code: `
 const n = 42n;
 const str = \`\${n}_baz\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Using an imported identifier',
+      code: `
+import fnord from './fnord.js';
+
+const str = \`\${fnord}_baz\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Property access on imported identifier',
+      code: `
+import fnord from './fnord.js';
+
+const str = \`\${fnord.foo}_baz\`;
 `,
       after() {
         checkFormatting(this);
@@ -203,31 +244,6 @@ const str = \`\${foo}_baz\`;
               output: `
 const foo = 'foobar';
 const str = \`foobar_baz\`;
-`,
-            },
-          ],
-        },
-      ],
-      after() {
-        checkFormatting(this);
-      },
-    },
-    {
-      name: 'Template expression with a constant number value #docs',
-      code: `
-const n = 42;
-const str = \`\${n}_baz\`;
-`,
-      errors: [
-        {
-          messageId: 'noConstantTemplateExpression',
-          suggestions: [
-            {
-              messageId: 'replaceByString',
-              data: { value: '42' },
-              output: `
-const n = 42;
-const str = \`42_baz\`;
 `,
             },
           ],
@@ -428,29 +444,6 @@ const str = \`\${'foobar'}_baz\`;
               data: { value: 'foobar' },
               output: `
 const str = \`foobar_baz\`;
-`,
-            },
-          ],
-        },
-      ],
-      after() {
-        checkFormatting(this);
-      },
-    },
-    {
-      name: 'With a literal number value as the expression',
-      code: `
-const str = \`\${42}_baz\`;
-`,
-      errors: [
-        {
-          messageId: 'noConstantTemplateExpression',
-          suggestions: [
-            {
-              messageId: 'replaceByString',
-              data: { value: '42' },
-              output: `
-const str = \`42_baz\`;
 `,
             },
           ],

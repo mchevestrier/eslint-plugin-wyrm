@@ -112,15 +112,15 @@ function getAllReturnStatements(node: TSESTree.Node | null): TSESTree.ReturnStat
         ...getAllReturnStatements(node.alternate),
       ].flat();
 
+    case AST_NODE_TYPES.CatchClause:
+      return getAllReturnStatements(node.body);
+
     case AST_NODE_TYPES.TryStatement:
       return [
         ...getAllReturnStatements(node.block),
         ...getAllReturnStatements(node.handler),
         ...getAllReturnStatements(node.finalizer),
       ].flat();
-
-    case AST_NODE_TYPES.CatchClause:
-      return getAllReturnStatements(node.body);
 
     case AST_NODE_TYPES.DoWhileStatement:
     case AST_NODE_TYPES.WhileStatement:
