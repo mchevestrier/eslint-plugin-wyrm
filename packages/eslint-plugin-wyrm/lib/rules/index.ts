@@ -6,6 +6,7 @@ export { default as 'idiomatic-cast' } from './idiomatic-cast.js';
 export { default as 'named-export-with-side-effects' } from './named-export-with-side-effects.js';
 export { default as 'no-commented-out-comment' } from './no-commented-out-comment.js';
 export { default as 'no-constant-template-expression' } from './no-constant-template-expression.js';
+export { default as 'no-constructed-error-cause' } from './no-constructed-error-cause.js';
 export { default as 'no-convoluted-logical-expressions' } from './no-convoluted-logical-expressions.js';
 export { default as 'no-custom-url-parsing' } from './no-custom-url-parsing.js';
 export { default as 'no-disallowed-warning-comments' } from './no-disallowed-warning-comments.js';

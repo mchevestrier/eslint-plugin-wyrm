@@ -1,5 +1,7 @@
 import path from 'node:path';
 
+/** @import {TSESTree} from '@typescript-eslint/utils' */
+
 import { AST_NODE_TYPES } from '@typescript-eslint/utils';
 
 import { createRule } from '../utils/createRule.js';
@@ -20,7 +22,8 @@ export default createRule({
     },
   },
   create(context) {
-    let hasMetaFixable = false;
+    /** @type {TSESTree.Property | null} */
+    let metaFixableProperty = null;
     let hasFixMethod = false;
 
     return {
@@ -28,7 +31,7 @@ export default createRule({
         if (node.key.type !== AST_NODE_TYPES.Identifier) return;
         if (node.key.name !== 'fixable') return;
 
-        hasMetaFixable = true;
+        metaFixableProperty = node;
       },
       CallExpression(node) {
         if (node.callee.type !== AST_NODE_TYPES.MemberExpression) return;
@@ -55,9 +58,9 @@ export default createRule({
           hasFixMethod = true;
         }
       },
-      'Program:exit'(node) {
-        if (!hasMetaFixable || hasFixMethod) return;
-        context.report({ node, messageId: 'excessMetaFixable' });
+      'Program:exit'() {
+        if (!metaFixableProperty || hasFixMethod) return;
+        context.report({ node: metaFixableProperty, messageId: 'excessMetaFixable' });
       },
     };
   },

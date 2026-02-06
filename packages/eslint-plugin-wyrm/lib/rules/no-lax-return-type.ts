@@ -42,15 +42,12 @@ export default createRule({
         return [services.getTypeAtLocation(body)];
       }
 
-      return getAllReturnStatements(body)
-        .map((stmt) => {
-          if (!stmt.argument) return checker.getVoidType();
-          return services.getTypeAtLocation(stmt.argument);
-        })
-        .map((type) => {
-          if (!async) return type;
-          return checker.getAwaitedType(type) ?? type;
-        });
+      return getAllReturnStatements(body).map((stmt) => {
+        if (!stmt.argument) return checker.getVoidType();
+        const type = services.getTypeAtLocation(stmt.argument);
+        if (!async) return type;
+        return checker.getAwaitedType(type) ?? type;
+      });
     }
 
     function isAssignableTo(source: ts.Type, target: ts.Type): boolean {
