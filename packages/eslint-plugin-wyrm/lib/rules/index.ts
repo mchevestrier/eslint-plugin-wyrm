@@ -44,6 +44,7 @@ export { default as 'no-suspicious-jsx-semicolon' } from './no-suspicious-jsx-se
 export { default as 'no-ternary-return' } from './no-ternary-return.js';
 export { default as 'no-unassigned-todo' } from './no-unassigned-todo.js';
 export { default as 'no-unbound-catch-error' } from './no-unbound-catch-error.js';
+export { default as 'no-unused-mutually-referential' } from './no-unused-mutually-referential.js';
 export { default as 'no-unused-param-read' } from './no-unused-param-read.js';
 export { default as 'no-useless-computed-key' } from './no-useless-computed-key.js';
 export { default as 'no-useless-iife' } from './no-useless-iife.js';

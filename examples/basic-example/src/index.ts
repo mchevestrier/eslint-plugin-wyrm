@@ -14,6 +14,7 @@ export * from './rules/no-invalid-date-literal.js';
 export * from './rules/no-return-to-void.js';
 export * from './rules/no-sloppy-length-check.js';
 export * from './rules/no-ternary-return.js';
+export * from './rules/no-unused-mutually-referential.js';
 export * from './rules/no-useless-computed-key.js';
 export * from './rules/no-useless-iife.js';
 export * from './rules/no-useless-logical-fallback.js';

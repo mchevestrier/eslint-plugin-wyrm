@@ -156,6 +156,7 @@ url.indexOf('?');
       },
     },
     {
+      // eslint-disable-next-line internal/no-test-skip
       skip: true,
       name: 'Interpolation of a query parameter',
       code: `

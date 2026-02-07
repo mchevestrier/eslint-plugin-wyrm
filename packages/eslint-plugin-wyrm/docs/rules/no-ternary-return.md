@@ -84,3 +84,11 @@ const foo = (cond: boolean) => (cond ? 42 : 105);
 | `allowSingleLine` | Whether to allow single line ternary conditions. Default: `false` | Boolean |
 
 <!-- end auto-generated rule options list -->
+
+## Related
+
+- ESLint: [`no-nested-ternary`](https://eslint.org/docs/latest/rules/no-nested-ternary)
+
+It is recommended that you also enable the following rules along with this one:
+
+- [`wyrm/no-else-return`](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/no-else-return.md)

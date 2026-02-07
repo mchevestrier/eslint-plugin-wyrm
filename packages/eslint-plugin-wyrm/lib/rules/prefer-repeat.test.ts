@@ -439,6 +439,7 @@ const x = '*'.repeat(3);
       },
     },
     {
+      // eslint-disable-next-line internal/no-test-skip
       skip: true,
       name: '`Array().fill()` with `reduce` and `+`',
       code: `
