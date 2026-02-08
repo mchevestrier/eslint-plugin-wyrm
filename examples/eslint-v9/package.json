@@ -1,8 +1,8 @@
 {
-  "name": "@eslint-plugin-wyrm/basic-example",
+  "name": "@eslint-plugin-wyrm/eslint-v9",
   "version": "0.0.0",
   "private": true,
-  "description": "Basic example with eslint-plugin-wyrm",
+  "description": "Example for eslint@9 with eslint-plugin-wyrm",
   "type": "module",
   "main": "src/index.ts",
   "scripts": {
@@ -12,18 +12,18 @@
     "test": "vitest"
   },
   "devDependencies": {
-    "@eslint/core": "^1.1.0",
+    "@eslint/core": "^1.0.1",
     "@eslint/js": "^9.39.2",
     "@shopify/eslint-plugin": "^50.0.0",
-    "@typescript-eslint/parser": "^8.56.1",
-    "eslint": "^10.0.0",
-    "eslint-plugin-sonarjs": "^4.0.0",
-    "eslint-plugin-unicorn": "^63.0.0",
+    "@typescript-eslint/parser": "^8.54.0",
+    "eslint": "npm:eslint@9.39.2",
+    "eslint-plugin-sonarjs": "^3.0.6",
+    "eslint-plugin-unicorn": "^62.0.0",
     "eslint-plugin-wyrm": "workspace:*",
     "fast-check": "^4.5.3",
     "jiti": "^2.6.1",
     "prettier": "^3.8.1",
-    "typescript-eslint": "^8.56.1",
+    "typescript-eslint": "^8.54.0",
     "vitest": "^4.0.18"
   }
 }
