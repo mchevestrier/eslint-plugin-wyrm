@@ -315,7 +315,7 @@ const foo: any = 42;
       output: `
 const foo: number = 42;
 `,
-      errors: [{ messageId: 'noObviousAny' }],
+      errors: [{ messageId: 'noObviousAny', data: { inferredType: 'number' } }],
       after() {
         checkFormatting(this);
       },
@@ -328,7 +328,7 @@ let foo: any = 'ok';
       output: `
 let foo: string = 'ok';
 `,
-      errors: [{ messageId: 'noObviousAny' }],
+      errors: [{ messageId: 'noObviousAny', data: { inferredType: 'string' } }],
       after() {
         checkFormatting(this);
       },
@@ -341,7 +341,7 @@ const foo: any = false;
       output: `
 const foo: boolean = false;
 `,
-      errors: [{ messageId: 'noObviousAny' }],
+      errors: [{ messageId: 'noObviousAny', data: { inferredType: 'boolean' } }],
       after() {
         checkFormatting(this);
       },
@@ -354,7 +354,7 @@ const foo: any = [];
       output: `
 const foo: any[] = [];
 `,
-      errors: [{ messageId: 'noObviousAny' }],
+      errors: [{ messageId: 'noObviousAny', data: { inferredType: 'any[]' } }],
       after() {
         checkFormatting(this);
       },
@@ -372,7 +372,7 @@ function foo(n: number) {}
 
 foo(42);
 `,
-      errors: [{ messageId: 'noObviousAny' }],
+      errors: [{ messageId: 'noObviousAny', data: { inferredType: 'number' } }],
       after() {
         checkFormatting(this);
       },
@@ -389,7 +389,7 @@ const foo = (n: number) => {};
 
 foo(42);
 `,
-      errors: [{ messageId: 'noObviousAny' }],
+      errors: [{ messageId: 'noObviousAny', data: { inferredType: 'number' } }],
       after() {
         checkFormatting(this);
       },
@@ -420,7 +420,7 @@ export default 42;
 export default quux;
 export default bar;
 `,
-      errors: [{ messageId: 'noObviousAny' }],
+      errors: [{ messageId: 'noObviousAny', data: { inferredType: 'number' } }],
       after() {
         checkFormatting(this);
       },
@@ -445,7 +445,7 @@ foo(bar);
 const quux = 37;
 foo(quux);
 `,
-      errors: [{ messageId: 'noObviousAny' }],
+      errors: [{ messageId: 'noObviousAny', data: { inferredType: 'number' } }],
       after() {
         checkFormatting(this);
       },
@@ -464,7 +464,7 @@ function foo(n: number, x: number) {}
 declare const y: any;
 foo(y, 42);
 `,
-      errors: [{ messageId: 'noObviousAny' }],
+      errors: [{ messageId: 'noObviousAny', data: { inferredType: 'number' } }],
       after() {
         checkFormatting(this);
       },
@@ -483,7 +483,7 @@ function foo(n: string | number) {}
 declare const y: number | string;
 foo(y);
 `,
-      errors: [{ messageId: 'noObviousAny' }],
+      errors: [{ messageId: 'noObviousAny', data: { inferredType: 'string | number' } }],
       after() {
         checkFormatting(this);
       },
@@ -508,7 +508,7 @@ foo(bar);
 const quux = 'quux';
 foo(quux);
 `,
-      errors: [{ messageId: 'noObviousAny' }],
+      errors: [{ messageId: 'noObviousAny', data: { inferredType: 'number | string' } }],
       after() {
         checkFormatting(this);
       },

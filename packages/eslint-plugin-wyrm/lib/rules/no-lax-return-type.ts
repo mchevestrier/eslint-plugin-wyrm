@@ -1,6 +1,9 @@
 import path from 'node:path';
 
-import type { TSESTree } from '@typescript-eslint/utils';
+import type {
+  ParserServicesWithTypeInformation,
+  TSESTree,
+} from '@typescript-eslint/utils';
 import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 import * as ts from 'typescript';
 
@@ -28,25 +31,40 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
-    const services = ESLintUtils.getParserServices(context);
-    const checker = services.program.getTypeChecker();
+    let services: ParserServicesWithTypeInformation | undefined;
+    function getServices() {
+      services ??= ESLintUtils.getParserServices(context);
+      return services;
+    }
+
+    let checker: ts.TypeChecker | undefined;
+    function getChecker() {
+      checker ??= getServices().program.getTypeChecker();
+      return checker;
+    }
 
     type FunctionNode =
       | TSESTree.FunctionDeclaration
       | TSESTree.FunctionExpression
       | TSESTree.ArrowFunctionExpression;
 
+    return {
+      ArrowFunctionExpression: checkFunction,
+      FunctionExpression: checkFunction,
+      FunctionDeclaration: checkFunction,
+    };
+
     function inferAllReturnTypes(body: FunctionNode['body'], async: boolean): ts.Type[] {
       // Inline arrow function
       if (body.type !== AST_NODE_TYPES.BlockStatement) {
-        return [services.getTypeAtLocation(body)];
+        return [getServices().getTypeAtLocation(body)];
       }
 
       return getAllReturnStatements(body).map((stmt) => {
-        if (!stmt.argument) return checker.getVoidType();
-        const type = services.getTypeAtLocation(stmt.argument);
+        if (!stmt.argument) return getChecker().getVoidType();
+        const type = getServices().getTypeAtLocation(stmt.argument);
         if (!async) return type;
-        return checker.getAwaitedType(type) ?? type;
+        return getChecker().getAwaitedType(type) ?? type;
       });
     }
 
@@ -55,14 +73,14 @@ export default createRule({
         return source.types.some((t) => isAssignableTo(t, target));
       }
 
-      return checker.isTypeAssignableTo(source, checker.getWidenedType(target));
+      return getChecker().isTypeAssignableTo(source, getChecker().getWidenedType(target));
     }
 
     function checkReturnTypeNode(
       returnTypeNode: ts.TypeNode,
       inferredReturnTypes: ts.Type[],
     ) {
-      const returnType = checker.getTypeFromTypeNode(returnTypeNode);
+      const returnType = getChecker().getTypeFromTypeNode(returnTypeNode);
 
       // Ignore conditional types
       if (returnType.flags & ts.TypeFlags.Conditional) return;
@@ -75,7 +93,7 @@ export default createRule({
         return;
       }
 
-      const estreeNode = services.tsNodeToESTreeNodeMap.get(returnTypeNode);
+      const estreeNode = getServices().tsNodeToESTreeNodeMap.get(returnTypeNode);
       const typeAsString = returnTypeNode.getText();
 
       context.report({
@@ -109,6 +127,8 @@ export default createRule({
     }
 
     function checkFunction(node: FunctionNode) {
+      if (!node.returnType) return;
+
       // Ignore method definitions as the return type can be useful for child classes
       if (node.parent.type === AST_NODE_TYPES.MethodDefinition) {
         return;
@@ -117,7 +137,7 @@ export default createRule({
       const inferredReturnTypes = inferAllReturnTypes(node.body, node.async);
       if (!inferredReturnTypes.length) return;
 
-      const fnType = services.getTypeAtLocation(node);
+      const fnType = getServices().getTypeAtLocation(node);
       const sigs = fnType.getCallSignatures();
 
       // Just bail out for multiple signatures with generics
@@ -133,16 +153,11 @@ export default createRule({
         }
       }
     }
-
-    return {
-      ArrowFunctionExpression: checkFunction,
-      FunctionExpression: checkFunction,
-      FunctionDeclaration: checkFunction,
-    };
   },
 });
 
 function getUnionTypeNodes(type: ts.TypeNode | undefined, async: boolean): ts.TypeNode[] {
+  /* v8 ignore if -- @preserve */
   if (!type) return [];
   if (async) {
     const promiseTypeNode = getPromiseTypeNode(type);

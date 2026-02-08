@@ -20,7 +20,8 @@ export default createRule({
     fixable: 'code',
     schema: [],
     messages: {
-      noObviousAny: 'Do not use `any` when a stricter type can be trivially inferred.',
+      noObviousAny:
+        'Do not use `any` when a stricter type can be trivially inferred: {{inferredType}}',
     },
   },
   defaultOptions: [],
@@ -99,6 +100,7 @@ export default createRule({
         context.report({
           node: param,
           messageId: 'noObviousAny',
+          data: { inferredType },
           fix(fixer) {
             return fixer.replaceText(typeAnnotation, inferredType);
           },
@@ -135,11 +137,13 @@ export default createRule({
         if (typeAnnotation.type !== AST_NODE_TYPES.TSAnyKeyword) return;
 
         if (node.init.type === AST_NODE_TYPES.ArrayExpression) {
+          const inferredType = 'any[]';
           context.report({
             node,
             messageId: 'noObviousAny',
+            data: { inferredType },
             fix(fixer) {
-              return fixer.replaceText(typeAnnotation, 'any[]');
+              return fixer.replaceText(typeAnnotation, inferredType);
             },
           });
           return;
@@ -149,33 +153,39 @@ export default createRule({
         const type = services.getTypeAtLocation(node.init);
 
         if (type.flags & ts.TypeFlags.NumberLike) {
+          const inferredType = 'number';
           context.report({
             node,
             messageId: 'noObviousAny',
+            data: { inferredType },
             fix(fixer) {
-              return fixer.replaceText(typeAnnotation, 'number');
+              return fixer.replaceText(typeAnnotation, inferredType);
             },
           });
           return;
         }
 
         if (type.flags & ts.TypeFlags.StringLike) {
+          const inferredType = 'string';
           context.report({
             node,
             messageId: 'noObviousAny',
+            data: { inferredType },
             fix(fixer) {
-              return fixer.replaceText(typeAnnotation, 'string');
+              return fixer.replaceText(typeAnnotation, inferredType);
             },
           });
           return;
         }
 
         if (type.flags & ts.TypeFlags.BooleanLike) {
+          const inferredType = 'boolean';
           context.report({
             node,
             messageId: 'noObviousAny',
+            data: { inferredType },
             fix(fixer) {
-              return fixer.replaceText(typeAnnotation, 'boolean');
+              return fixer.replaceText(typeAnnotation, inferredType);
             },
           });
         }

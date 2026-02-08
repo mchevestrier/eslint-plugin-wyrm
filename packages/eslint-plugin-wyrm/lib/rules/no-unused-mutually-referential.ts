@@ -81,7 +81,7 @@ type Usage = DefinitelyUsed | DefinitelyUnused | ItDepends;
 function getFunctionUsage(
   fn: IdentifiedFunction,
   getScope: (node: TSESTree.Node) => TSESLint.Scope.Scope,
-  cache: Map<TSESTree.Identifier, Usage>,
+  cache: WeakMap<TSESTree.Identifier, Usage>,
 ): Usage {
   const cached = cache.get(fn.id);
   if (cached !== undefined) return cached;
@@ -130,9 +130,10 @@ function isFunctionUnused(
   fn: IdentifiedFunction,
   getScope: (node: TSESTree.Node) => TSESLint.Scope.Scope,
 ): boolean {
-  const cache = new Map<TSESTree.Identifier, Usage>();
+  const cache = new WeakMap<TSESTree.Identifier, Usage>();
 
   const usage = getFunctionUsage(fn, getScope, cache);
+  cache.set(fn.id, usage);
 
   if (usage.kind !== UsageKind.IT_DEPENDS) {
     return usage.isUnused;

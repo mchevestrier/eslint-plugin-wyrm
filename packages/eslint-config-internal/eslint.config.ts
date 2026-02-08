@@ -8,6 +8,7 @@ import tsParser from '@typescript-eslint/parser';
 import vitest from '@vitest/eslint-plugin';
 import { defineConfig } from 'eslint/config';
 import { createTypeScriptImportResolver } from 'eslint-import-resolver-typescript';
+import command from 'eslint-plugin-command/config';
 import eslintPlugin from 'eslint-plugin-eslint-plugin';
 import { createNodeResolver, importX } from 'eslint-plugin-import-x';
 import n from 'eslint-plugin-n';
@@ -45,7 +46,7 @@ export default defineConfig([
   },
 
   {
-    files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
+    files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
     plugins: { js, '@stylistic': stylistic, perfectionist },
     extends: ['js/recommended'],
     languageOptions: {
@@ -61,6 +62,11 @@ export default defineConfig([
 
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
+
+  {
+    files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
+    ...command(),
+  },
 
   {
     ...n.configs['flat/recommended-module'],

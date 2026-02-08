@@ -31,3 +31,7 @@ try {
 ```
 
 <!-- end auto-generated rule header -->
+
+## Related
+
+- ESLint: [`preserve-caught-error`](https://eslint.org/docs/latest/rules/preserve-caught-error#requirecatchparameter)
