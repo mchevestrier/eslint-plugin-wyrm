@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.0.11](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.10...eslint-plugin-wyrm-v0.0.11) (2026-02-08)
+
+
+### Features
+
+* add prefer-has ([7ec4ac0](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/7ec4ac098582925ffb5cd5f60d98f6eb49877c51))
+* add rule named-export-with-side-effects ([e31db0e](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/e31db0ea8f9e356726a68de77e8d0629bf3fb3f5))
+* add rule no-commented-out-comment ([106a564](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/106a564e15d8cc2d0fda318f3da6f1be09346207))
+* add rule no-constructed-error-cause ([634f808](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/634f8085f864497d8fd1fdf26acefed0b051120d))
+* add rule no-huge-useeffect ([afca71b](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/afca71b340229b7f2d9b5cca5ad6f57bfe3a468a))
+* add rule no-if-length-for ([1a40623](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/1a40623a03efd5dba7a076889e022d8c84184059))
+* add rule no-lax-return-type ([a34ac88](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/a34ac88220d6c18af23aaa8db5b0c49b3cd08fe5))
+* add rule no-unused-mutually-referential ([dec8d1c](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/dec8d1c87e6e5aac8be795e22ee5e310f1569513))
+
 ## [0.0.10](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.9...eslint-plugin-wyrm-v0.0.10) (2026-01-31)
 
 
