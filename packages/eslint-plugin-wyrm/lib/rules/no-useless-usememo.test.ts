@@ -379,6 +379,25 @@ function MyComponent() {
       },
     },
     {
+      name: 'Object expression with call expression in property key',
+      code: `
+import { factorial } from './factorial';
+
+function MyComponent() {
+  const foo = useMemo(() => {
+    return {
+      [factorial(20)]: 'quux',
+    };
+  }, []);
+
+  return foo;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Everything exotic is considered as actual work by default',
       code: `
 function MyComponent() {
@@ -627,6 +646,38 @@ function MyComponent() {
   const foo = useMemo(() => {
     yield;
     return 42;
+  }, []);
+
+  return foo;
+}
+`,
+      errors: [{ messageId: 'noUselessUseMemo' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Logical expression with no actual work',
+      code: `
+function MyComponent() {
+  const foo = useMemo(() => {
+    return bar && baz;
+  }, []);
+
+  return foo;
+}
+`,
+      errors: [{ messageId: 'noUselessUseMemo' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Binary expression with no actual work',
+      code: `
+function MyComponent() {
+  const foo = useMemo(() => {
+    return bar + baz;
   }, []);
 
   return foo;

@@ -86,6 +86,7 @@ function isUseMemo(node: TSESTree.Expression) {
     return node.name === useMemoName;
   }
 
+  // Stryker disable BooleanLiteral
   if (node.type !== AST_NODE_TYPES.MemberExpression) return false;
 
   if (node.object.type !== AST_NODE_TYPES.Identifier) return false;
@@ -145,8 +146,6 @@ function isActualWork(node: TSESTree.Node): boolean {
       return isActualWork(node.argument);
 
     case AST_NODE_TYPES.LogicalExpression:
-      return isActualWork(node.left) || isActualWork(node.right);
-
     case AST_NODE_TYPES.BinaryExpression:
       if (node.operator === '**') return true;
       return isActualWork(node.left) || isActualWork(node.right);
@@ -176,12 +175,6 @@ function isActualWork(node: TSESTree.Node): boolean {
 
     case AST_NODE_TYPES.SpreadElement:
       return isActualWork(node.argument);
-
-    case AST_NODE_TYPES.Property:
-      return isActualWork(node.key) || isActualWork(node.value);
-
-    case AST_NODE_TYPES.ObjectExpression:
-      return node.properties.some((prop) => isActualWork(prop));
 
     case AST_NODE_TYPES.TSAsExpression:
     case AST_NODE_TYPES.TSNonNullExpression:

@@ -1052,5 +1052,48 @@ function fun(foo: string, bar: string, quux: string) {
         checkFormatting(this);
       },
     },
+    {
+      name: 'With a switch statement in alternate branch that always returns',
+      code: `
+function foo(cond1: boolean, bar: string) {
+  if (cond1) {
+    console.log('ok');
+  } else {
+    switch (bar) {
+      case 'a':
+        return 1;
+      case 'b':
+        return 2;
+      default:
+        return 3;
+    }
+  }
+
+  console.log('after');
+}
+`,
+      output: `
+function foo(cond1: boolean, bar: string) {
+  if (!(cond1)) {
+    switch (bar) {
+      case 'a':
+        return 1;
+      case 'b':
+        return 2;
+      default:
+        return 3;
+    }
+  } else {
+    console.log('ok');
+  }
+
+  console.log('after');
+}
+`,
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
 });

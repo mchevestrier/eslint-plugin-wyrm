@@ -372,6 +372,27 @@ function foo() {
         // Not formatted
       },
     },
+    {
+      name: 'With a switch statement that always returns',
+      code: `
+function foo() {
+  if (Math.random()) {
+    switch (bar) {
+      case 'a':
+        return 1;
+      case 'b':
+        return 2;
+      default:
+        return 3;
+    }
+  }
+  console.log('ok');
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

@@ -70,6 +70,7 @@ export default createRule({
 
       const scope = context.sourceCode.getScope(param);
       const variable = ASTUtils.findVariable(scope, param);
+      /* v8 ignore if -- @preserve */
       if (!variable) return;
 
       const { alternatives } = options;

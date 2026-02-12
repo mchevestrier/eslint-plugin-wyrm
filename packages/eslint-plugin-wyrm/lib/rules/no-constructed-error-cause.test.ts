@@ -81,6 +81,15 @@ Error('foo', {});
         checkFormatting(this);
       },
     },
+    {
+      name: 'Error options with other properties but no cause',
+      code: `
+new Error('foo', { message: {}, data: null });
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

@@ -186,6 +186,50 @@ foo ?? !bar;
         checkFormatting(this);
       },
     },
+    {
+      name: 'Possibly `undefined` with fallback to some identifier',
+      code: `
+function quux(foo: string | undefined) {
+  return foo ?? notUndefined;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Possibly `null` with fallback to some literal',
+      code: `
+function quux(foo: string | null) {
+  return foo ?? 42;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Number with fallback to some non-zero number',
+      code: `
+function quux(foo: number) {
+  return foo || 42;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'String with fallback to some non-empty string',
+      code: `
+function quux(foo: string) {
+  return foo || 'bar';
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

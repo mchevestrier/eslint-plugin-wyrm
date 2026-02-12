@@ -723,5 +723,41 @@ foo = 'ok';
         checkFormatting(this);
       },
     },
+    {
+      name: 'Assignment to different variable in catch handler',
+      code: `
+let result;
+let foo;
+try {
+  result = await getStuff();
+} catch (err) {
+  foo = null;
+  console.error(err);
+}
+`,
+      errors: [
+        {
+          messageId: 'preferCatchMethod',
+          suggestions: [
+            {
+              messageId: 'useCatchMethod',
+              output: `
+
+let foo;
+let result = await getStuff()
+  .catch((err: unknown) => {
+    foo = null;
+    console.error(err);
+    return undefined;
+  });
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
 });

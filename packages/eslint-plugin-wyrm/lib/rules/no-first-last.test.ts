@@ -108,6 +108,114 @@ const lastingPeace = arr.at(0);
       },
     },
     {
+      name: 'Variable name starts with "first"',
+      code: `
+const firstperson = arr.at(-1);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Variable name contains "first"',
+      code: `
+const myfirstPerson = arr.at(-1);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Variable name starts with "last"',
+      code: `
+const lastperson = arr.at(0);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Variable name contains "last"',
+      code: `
+const mylastPerson = arr[0];
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Variable name starts with "FIRST"',
+      code: `
+const FIRSTPERSON = arr.at(-1);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Variable name contains "FIRST"',
+      code: `
+const MYFIRST_PERSON = arr.at(-1);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Variable name starts with "LAST"',
+      code: `
+const LASTPERSON = arr.at(0);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Variable name contains "LAST"',
+      code: `
+const MYLAST_PERSON = arr[0];
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Array access with index 1 (not first element)',
+      code: `
+const lastFoo = arr[1];
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Using .at(-2) (not the last element)',
+      code: `
+const firstFoo = arr.at(-2);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Property name is not `at`',
+      code: `
+const firstFoo = arr.foo(-1);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Chained method call on array with "first", accessing last',
+      code: `
+const firstFoo = firstItems.filter((x) => x).at(-1);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Not the right method name',
       code: `
 const lastFoo = arr.method(0);
@@ -736,6 +844,16 @@ const firstFoo = (foos satisfies any)[(foos satisfies any).length - 1];
       name: 'First last with index access, chained member expressions and `as` expression',
       code: `
 const firstFoo = (foos as any)[(foos as any).length - 1];
+`,
+      errors: [{ messageId: 'noFirstLast' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`.at(-1)` on a conditional expression',
+      code: `
+const firstFoo = (1 ? [] : [1]).at(-1);
 `,
       errors: [{ messageId: 'noFirstLast' }],
       after() {

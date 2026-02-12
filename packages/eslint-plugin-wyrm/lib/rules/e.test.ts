@@ -28,6 +28,65 @@ let e = 'foo';
         checkFormatting(this);
       },
     },
+    {
+      name: 'Catch clause with object destructured parameter',
+      code: `
+try {
+  foo();
+} catch ({ message }) {
+  console.error(message);
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Catch clause with array destructured parameter',
+      code: `
+try {
+  foo();
+} catch ([first]) {
+  console.error(first);
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With object destructured parameter',
+      code: `
+function foo({ message }) {
+  console.log(message);
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With array destructured parameter',
+      code: `
+function foo([first, second]) {
+  console.log(first, second);
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Arrow function with rest parameter',
+      code: `
+const foo = (...args) => {
+  console.log(args);
+};
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

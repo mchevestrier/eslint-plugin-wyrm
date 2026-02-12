@@ -130,8 +130,7 @@ function getAllReturnStatements(node: TSESTree.Node | null): TSESTree.ReturnStat
       ].flat();
 
     case AST_NODE_TYPES.CatchClause:
-      return getAllReturnStatements(node.body);
-
+    // Loops:
     case AST_NODE_TYPES.DoWhileStatement:
     case AST_NODE_TYPES.WhileStatement:
     case AST_NODE_TYPES.ForStatement:

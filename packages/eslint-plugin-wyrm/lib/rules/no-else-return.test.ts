@@ -389,5 +389,39 @@ foo();
         checkFormatting(this);
       },
     },
+    {
+      name: 'With a switch statement that always returns',
+      code: `
+if (cond) {
+  switch (bar) {
+    case 'a':
+      return 1;
+    case 'b':
+      return 2;
+    default:
+      return 3;
+  }
+} else {
+  foo();
+}
+`,
+      output: `
+if (cond) {
+  switch (bar) {
+    case 'a':
+      return 1;
+    case 'b':
+      return 2;
+    default:
+      return 3;
+  }
+}  
+foo();
+`,
+      errors: [{ messageId: 'noElseReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
 });

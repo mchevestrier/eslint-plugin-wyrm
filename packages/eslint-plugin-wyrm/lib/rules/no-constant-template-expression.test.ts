@@ -91,6 +91,17 @@ const str = \`\${fnord.foo}_baz\`;
       },
     },
     {
+      name: 'Function parameter with short constant string value',
+      code: `
+function foo(param: 'abc') {
+  const str = \`\${param}_baz\`;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Template expression with a 10 character string value (as long as the default `minAllowedLength` value) #docs',
       code: `
 const n = 'aaaaaaaaaa';
