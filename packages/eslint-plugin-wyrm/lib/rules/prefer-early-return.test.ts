@@ -227,7 +227,7 @@ function foo(cond1: boolean, cond2: boolean) {
   
 }
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -266,7 +266,7 @@ function foo(cond1: boolean, cond2: boolean) {
   
 }
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -293,7 +293,7 @@ const foo = (cond1: boolean, cond2: boolean) => {
   
 };
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -320,7 +320,7 @@ const foo = function (cond1: boolean, cond2: boolean) {
   
 };
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -361,7 +361,7 @@ function foo(cond1: boolean, cond2: boolean) {
   return 17;
 }
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -416,7 +416,7 @@ function foo(cond1: boolean, cond2: boolean) {
   }
 }
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -439,7 +439,7 @@ function foo(cond1: boolean) {
   }
 }
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -496,7 +496,7 @@ function foo(cond1: boolean, cond2: boolean) {
   return 17;
 }
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -559,7 +559,7 @@ function foo(cond1: boolean, cond2: boolean) {
   return 17;
 }
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -596,7 +596,7 @@ function foo(cond1: boolean, cond2: boolean) {
   return 17;
 }
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -637,7 +637,7 @@ function foo(cond1: boolean, cond2: boolean) {
   return 17;
 }
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -678,7 +678,7 @@ function foo(cond1: boolean, cond2: boolean) {
   return 17;
 }
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -717,7 +717,7 @@ function foo(cond1: boolean, cond2: boolean) {
   
 }
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -788,7 +788,7 @@ function foo(cond1: boolean, cond2: boolean) {
   
 }
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -815,7 +815,7 @@ function foo(cond1: boolean, cond2: boolean) {
   
 }
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -842,7 +842,7 @@ function foo(foo: number, bar: number) {
   
 }
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },
@@ -869,7 +869,7 @@ function foo(foo: number, bar: number) {
   
 }
 `,
-      errors: [{ messageId: 'preferEarlyReturn' }],
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
       after() {
         checkFormatting(this);
       },

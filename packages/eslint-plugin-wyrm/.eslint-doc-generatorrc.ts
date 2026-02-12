@@ -150,7 +150,7 @@ async function generateExamplesForRule(ruleName: string) {
         output = extractOutputLiteralValue(prop.initializer);
       }
       if (prop.name.text === 'errors') {
-        suggestion = extractSuggestionFromErrors(prop.initializer);
+        suggestion = extractSuggestionFromErrors(prop.initializer, name);
       }
       if (prop.name.text === 'filename') {
         filename = extractStringLiteralValue(prop.initializer);
@@ -291,7 +291,10 @@ function extractOutputLiteralValue(node: ts.Node): string | undefined {
   return extractStringLiteralValue(node);
 }
 
-function extractSuggestionFromErrors(node: ts.Node): string | undefined {
+function extractSuggestionFromErrors(
+  node: ts.Node,
+  testName: string | undefined,
+): string | undefined {
   if (!ts.isArrayLiteralExpression(node)) return undefined;
   const [error] = node.elements;
   if (!error) return undefined;
@@ -303,15 +306,19 @@ function extractSuggestionFromErrors(node: ts.Node): string | undefined {
 
     if (prop.name.text !== 'suggestions') continue;
 
-    return extractOutputFromSuggestions(prop.initializer);
+    return extractOutputFromSuggestions(prop.initializer, testName);
   }
 
   return undefined;
 }
 
-function extractOutputFromSuggestions(suggestions: ts.Expression): string | undefined {
+function extractOutputFromSuggestions(
+  suggestions: ts.Expression,
+  testName: string | undefined,
+): string | undefined {
   if (!ts.isArrayLiteralExpression(suggestions)) return undefined;
-  const [suggestion] = suggestions.elements;
+  const i = chooseSuggestionIndex(testName);
+  const suggestion = suggestions.elements[i];
   if (!suggestion) return undefined;
 
   if (!ts.isObjectLiteralExpression(suggestion)) return undefined;
@@ -324,4 +331,16 @@ function extractOutputFromSuggestions(suggestions: ts.Expression): string | unde
   }
 
   return undefined;
+}
+
+function chooseSuggestionIndex(testName: string | undefined): number {
+  if (!testName) return 0;
+  const match = /should use suggestion number (?<index>\d+)/u.exec(testName);
+
+  if (!match?.groups) return 0;
+  const { index } = match.groups;
+  if (!index) return 0;
+
+  // Return a 0-based index
+  return Number(index) - 1;
 }

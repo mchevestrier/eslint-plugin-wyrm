@@ -10,8 +10,7 @@ onlyBuiltDependencies:
 blockExoticSubdeps: true
 
 minimumReleaseAge: 1200
-minimumReleaseAgeExclude:
-  - prettier-plugin-packagejson
+minimumReleaseAgeExclude: []
 
 trustPolicy: no-downgrade
 trustPolicyIgnoreAfter: 43200

@@ -20,11 +20,19 @@ export default createRule({
     schema: [],
     messages: {
       preferEarlyReturn:
+        'Add an early return statement to avoid nesting code in the else branch',
+      preferReversedEarlyReturn:
         'Reverse this condition and use an early return to avoid nesting code',
     },
   },
   defaultOptions: [],
   create(context) {
+    return {
+      FunctionDeclaration: checkBody,
+      FunctionExpression: checkBody,
+      ArrowFunctionExpression: checkBody,
+    };
+
     function checkBody(
       node:
         | TSESTree.FunctionDeclaration
@@ -49,7 +57,7 @@ export default createRule({
 
         context.report({
           node: ifStatement,
-          messageId: 'preferEarlyReturn',
+          messageId: 'preferReversedEarlyReturn',
           *fix(fixer) {
             const testText = context.sourceCode.getText(ifStatement.test);
             yield fixer.replaceText(ifStatement.test, `!(${testText})`);
@@ -121,7 +129,7 @@ export default createRule({
       if (alternate && shouldSwitchConsequentAndAlternate) {
         context.report({
           node: ifStatement,
-          messageId: 'preferEarlyReturn',
+          messageId: 'preferReversedEarlyReturn',
           *fix(fixer) {
             const testText = context.sourceCode.getText(ifStatement.test);
             yield fixer.replaceText(ifStatement.test, `!(${testText})`);
@@ -168,7 +176,7 @@ export default createRule({
       if (shouldSwitchConsequentAndSubsequent && !alternate) {
         context.report({
           node: ifStatement,
-          messageId: 'preferEarlyReturn',
+          messageId: 'preferReversedEarlyReturn',
           *fix(fixer) {
             yield fixer.removeRange([
               firstSubsequentStatement.range[0],
@@ -195,12 +203,6 @@ export default createRule({
         });
       }
     }
-
-    return {
-      FunctionDeclaration: checkBody,
-      FunctionExpression: checkBody,
-      ArrowFunctionExpression: checkBody,
-    };
   },
 });
 
