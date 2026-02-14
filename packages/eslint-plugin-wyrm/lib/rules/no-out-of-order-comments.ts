@@ -60,7 +60,7 @@ function getCommentNumber(comment: TSESTree.Comment): Option<number> {
   const capture =
     plainBulletPointResult?.groups?.['number'] ?? prefixResult?.groups?.['number'];
 
-  /** v8 ignore if -- @preserve */
+  /* v8 ignore if -- @preserve */
   if (capture === undefined) {
     return None;
   }

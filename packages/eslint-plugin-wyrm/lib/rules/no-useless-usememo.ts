@@ -112,6 +112,7 @@ function isActualWork(node: TSESTree.Node): boolean {
   switch (node.type) {
     case AST_NODE_TYPES.Identifier:
     case AST_NODE_TYPES.Literal:
+    case AST_NODE_TYPES.MemberExpression:
       return false;
 
     case AST_NODE_TYPES.CallExpression:
@@ -175,6 +176,13 @@ function isActualWork(node: TSESTree.Node): boolean {
 
     case AST_NODE_TYPES.SpreadElement:
       return isActualWork(node.argument);
+
+    case AST_NODE_TYPES.Property:
+      return isActualWork(node.key) || isActualWork(node.value);
+
+    case AST_NODE_TYPES.ObjectExpression:
+      if (node.parent.type === AST_NODE_TYPES.ReturnStatement) return true;
+      return node.properties.some((prop) => isActualWork(prop));
 
     case AST_NODE_TYPES.TSAsExpression:
     case AST_NODE_TYPES.TSNonNullExpression:

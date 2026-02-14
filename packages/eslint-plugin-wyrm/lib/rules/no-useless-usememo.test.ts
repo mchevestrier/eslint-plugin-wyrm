@@ -473,6 +473,24 @@ function MyComponent() {
         checkFormatting(this);
       },
     },
+    {
+      name: 'With several returned object literal expressions',
+      code: `
+function MyComponent() {
+  const foo = useMemo(() => {
+    if (quux > 42) {
+      return { quux: 20 };
+    }
+    return { quux: 37 };
+  }, []);
+
+  return foo;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -691,8 +709,6 @@ function MyComponent() {
     {
       name: 'If statement with no actual work',
       code: `
-import { factorial } from './factorial';
-
 function MyComponent() {
   const foo = useMemo(() => {
     if (1) {
@@ -711,10 +727,27 @@ function MyComponent() {
     {
       name: 'With a spread element',
       code: `
-import { factorial } from './factorial';
-
 function MyComponent() {
   const foo = useMemo(() => [...[20]], []);
+
+  return foo;
+}
+`,
+      errors: [{ messageId: 'noUselessUseMemo' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With object expression in condition test',
+      code: `
+function MyComponent() {
+  const foo = useMemo(() => {
+    if ({ fnord: 42 }.fnord > 42) {
+      return 105;
+    }
+    return 37;
+  }, []);
 
   return foo;
 }

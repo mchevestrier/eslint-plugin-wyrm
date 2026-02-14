@@ -80,7 +80,7 @@ export default createRule({
         if (variable.scope !== scope) return;
 
         const def = variable.defs.at(-1);
-        /** v8 ignore if -- @preserve */
+        /* v8 ignore if -- @preserve */
         if (!def) return;
         if (def.node.type !== AST_NODE_TYPES.VariableDeclarator) return;
         if (def.node.parent.kind !== 'let') return;

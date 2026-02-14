@@ -1095,5 +1095,51 @@ function foo(cond1: boolean, bar: string) {
         checkFormatting(this);
       },
     },
+
+    {
+      name: 'With a deeply nested statement after the last subsequent return statement',
+      code: `
+function foo(foo: number, bar: number) {
+  if (foo === 37 && 3 > bar) {
+    if (512 > bar) return 105;
+    return 0;
+  }
+  return 42;
+
+  function fnord() {
+    for (const _1 of []) {
+      for (const _2 of []) {
+        for (const _2 of []) {
+        }
+      }
+    }
+  }
+}
+`,
+      output: `
+function foo(foo: number, bar: number) {
+  if (foo !== 37 || 3 <= bar) {
+    return 42;
+  } else {
+    if (512 > bar) return 105;
+    return 0;
+  }
+  
+
+  function fnord() {
+    for (const _1 of []) {
+      for (const _2 of []) {
+        for (const _2 of []) {
+        }
+      }
+    }
+  }
+}
+`,
+      errors: [{ messageId: 'preferReversedEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
 });

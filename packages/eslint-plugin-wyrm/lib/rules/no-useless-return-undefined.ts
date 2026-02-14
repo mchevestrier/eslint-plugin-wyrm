@@ -31,8 +31,6 @@ export default createRule({
       fn: TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression,
     ): void {
       if (fn.body.type !== AST_NODE_TYPES.BlockStatement) {
-        if (fn.body.type !== AST_NODE_TYPES.Identifier) return;
-
         if (isUndefinedLiteral(fn.body)) {
           context.report({ node: fn.body, messageId: 'noArrowReturnToVoid' });
         }

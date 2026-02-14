@@ -72,7 +72,7 @@ export default createRule({
 
       const scope = context.sourceCode.getScope(node);
       const variable = ASTUtils.findVariable(scope, id);
-      /** v8 ignore next -- @preserve */
+      /* v8 ignore next -- @preserve */
       if (!variable) return;
 
       const parents = variable.references

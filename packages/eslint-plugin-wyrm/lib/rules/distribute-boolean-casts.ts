@@ -101,8 +101,8 @@ function isBooleanLike(expr: TSESTree.Expression): boolean {
       case 'instanceof':
         return true;
 
+      // Stryker disable ConditionalExpression
       default:
-        // Stryker disable ConditionalExpression
         return false;
     }
   }
