@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-wyrm",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "description": "50+ ESLint rules for your TS projects",
   "keywords": [
     "eslint",
