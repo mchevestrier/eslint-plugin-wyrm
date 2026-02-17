@@ -217,7 +217,7 @@ async function generateExamplesForRule(ruleName: string) {
 `
       : '';
     const filename = testCase.filename
-      ? `// ${testCase.filename}
+      ? `// File name: ${testCase.filename}
 `
       : '';
 

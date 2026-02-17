@@ -126,7 +126,7 @@ Date['parse']('ok');
       },
     },
     {
-      name: 'Object is not an identifier',
+      name: 'Object is not an identifier (for Date.parse)',
       code: `
 (1 ? Date : Error).parse('ok');
 `,
@@ -174,6 +174,96 @@ JSON.parse('{}');
       name: '`Date.parse` called with a number (not checked)',
       code: `
 Date.parse(123);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `Temporal.PlainDate` with a valid date',
+      code: `
+Temporal.PlainDate.from('1969-07-20');
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `Temporal.PlainDate` with a non-string literal',
+      code: `
+Temporal.PlainDate.from(1234);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `Temporal.PlainDate` with an object literal',
+      code: `
+Temporal.PlainDate.from({ year: 1234 });
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `Temporal.PlainDate` with no argument',
+      code: `
+Temporal.PlainDate.from();
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `Temporal.PlainDate.notFrom`',
+      code: `
+Temporal.PlainDate.notFrom('1969-20-07');
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `Temporal.notPlainDate.from`',
+      code: `
+Temporal.notPlainDate.from('1969-20-07');
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `NotTemporal.PlainDate.from`',
+      code: `
+NotTemporal.PlainDate.from('1969-20-07');
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: "With `Temporal['PlainDate'].from`",
+      code: `
+Temporal['PlainDate'].from('1969-20-07');
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: "With `Temporal.PlainDate['from']`",
+      code: `
+Temporal.PlainDate['from']('1969-20-07');
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Object is not an identifier (for Temporal.PlainDate.from)',
+      code: `
+(1 ? Temporal : foo).PlainDate.from('1969-20-07');
 `,
       after() {
         checkFormatting(this);
@@ -245,6 +335,16 @@ new Date(NaN);
       name: 'With a random string',
       code: `
 new Date('wat');
+`,
+      errors: [{ messageId: 'noInvalidDateLiteral' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `Temporal.PlainDate` #docs',
+      code: `
+Temporal.PlainDate.from('1969-20-07');
 `,
       errors: [{ messageId: 'noInvalidDateLiteral' }],
       after() {

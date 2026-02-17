@@ -52,6 +52,7 @@ export { default as 'no-useless-computed-key' } from './no-useless-computed-key.
 export { default as 'no-useless-iife' } from './no-useless-iife.js';
 export { default as 'no-useless-logical-fallback' } from './no-useless-logical-fallback.js';
 export { default as 'no-useless-return-undefined' } from './no-useless-return-undefined.js';
+export { default as 'no-useless-ts-check' } from './no-useless-ts-check.js';
 export { default as 'no-useless-use-strict' } from './no-useless-use-strict.js';
 export { default as 'no-useless-usememo' } from './no-useless-usememo.js';
 export { default as 'no-whitespace-property' } from './no-whitespace-property.js';

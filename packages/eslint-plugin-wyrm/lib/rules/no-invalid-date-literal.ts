@@ -1,5 +1,6 @@
 import path from 'node:path';
 
+import type { TSESTree } from '@typescript-eslint/utils';
 import { AST_NODE_TYPES } from '@typescript-eslint/utils';
 
 import { createRule } from '../utils/createRule.js';
@@ -21,6 +22,50 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
+    function checkDateParse(node: TSESTree.CallExpression) {
+      const { callee } = node;
+      if (callee.type !== AST_NODE_TYPES.MemberExpression) return;
+      if (callee.object.type !== AST_NODE_TYPES.Identifier) return;
+      if (callee.property.type !== AST_NODE_TYPES.Identifier) return;
+
+      if (callee.object.name !== 'Date') return;
+      if (callee.property.name !== 'parse') return;
+
+      const [arg] = node.arguments;
+
+      if (!arg) return;
+      if (arg.type !== AST_NODE_TYPES.Literal) return;
+
+      if (typeof arg.value === 'string') {
+        if (isValidDateLiteral(arg.value)) return;
+        context.report({ node, messageId: 'noInvalidDateLiteral' });
+      }
+    }
+
+    function checkPlainDateFrom(node: TSESTree.CallExpression) {
+      const { callee } = node;
+      if (callee.type !== AST_NODE_TYPES.MemberExpression) return;
+      if (callee.object.type !== AST_NODE_TYPES.MemberExpression) return;
+      if (callee.property.type !== AST_NODE_TYPES.Identifier) return;
+
+      if (callee.object.object.type !== AST_NODE_TYPES.Identifier) return;
+      if (callee.object.property.type !== AST_NODE_TYPES.Identifier) return;
+
+      if (callee.object.object.name !== 'Temporal') return;
+      if (callee.object.property.name !== 'PlainDate') return;
+      if (callee.property.name !== 'from') return;
+
+      const [arg] = node.arguments;
+
+      if (!arg) return;
+      if (arg.type !== AST_NODE_TYPES.Literal) return;
+
+      if (typeof arg.value === 'string') {
+        if (isValidDateLiteral(arg.value)) return;
+        context.report({ node, messageId: 'noInvalidDateLiteral' });
+      }
+    }
+
     return {
       NewExpression(node) {
         if (node.callee.type !== AST_NODE_TYPES.Identifier) return;
@@ -46,23 +91,8 @@ export default createRule({
       },
 
       CallExpression(node) {
-        const { callee } = node;
-        if (callee.type !== AST_NODE_TYPES.MemberExpression) return;
-        if (callee.object.type !== AST_NODE_TYPES.Identifier) return;
-        if (callee.property.type !== AST_NODE_TYPES.Identifier) return;
-
-        if (callee.object.name !== 'Date') return;
-        if (callee.property.name !== 'parse') return;
-
-        const [arg] = node.arguments;
-
-        if (!arg) return;
-        if (arg.type !== AST_NODE_TYPES.Literal) return;
-
-        if (typeof arg.value === 'string') {
-          if (isValidDateLiteral(arg.value)) return;
-          context.report({ node, messageId: 'noInvalidDateLiteral' });
-        }
+        checkDateParse(node);
+        checkPlainDateFrom(node);
       },
     };
   },

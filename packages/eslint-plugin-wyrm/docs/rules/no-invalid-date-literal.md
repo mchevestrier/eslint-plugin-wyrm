@@ -26,6 +26,12 @@ With `Date.parse()`:
 Date.parse('not a valid date');
 ```
 
+With `Temporal.PlainDate`:
+
+```tsx
+Temporal.PlainDate.from('1969-20-07');
+```
+
 ### Correct ✅
 
 Valid date:

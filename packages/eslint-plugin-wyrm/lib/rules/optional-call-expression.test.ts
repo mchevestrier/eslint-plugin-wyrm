@@ -237,6 +237,60 @@ if (foo) {
         checkFormatting(this);
       },
     },
+    {
+      name: 'Disjunction with truthy check and call expression',
+      code: `
+foo || foo();
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Conjunction but not in an expression statement',
+      code: `
+const fnord = foo && foo();
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Conjunction with falsiness check and call expression',
+      code: `
+!foo && foo();
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Conjunction with truthiness check but not a call expression',
+      code: `
+foo && foo;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Conjunction with truthiness check but callee is not an identifier',
+      code: `
+foo && (1 ? foo : bar)();
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Conjunction with truthiness check but a different callee',
+      code: `
+foo && bar();
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -459,6 +513,45 @@ foo ? foo() : bar();
 `,
       output: `
 foo?.();
+`,
+      errors: [{ messageId: 'useOptionalCallExpressionSyntax' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Conjunction with truthiness check and call expression',
+      code: `
+foo && foo();
+`,
+      output: `
+foo?.();
+`,
+      errors: [{ messageId: 'useOptionalCallExpressionSyntax' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Conjunction with `typeof` loose inequality and call expression',
+      code: `
+typeof foo != 'undefined' && foo();
+`,
+      output: `
+foo?.();
+`,
+      errors: [{ messageId: 'useOptionalCallExpressionSyntax' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Conjunction with strict null inequality and call expression with arguments',
+      code: `
+foo !== null && foo(bar, baz);
+`,
+      output: `
+foo?.(bar, baz);
 `,
       errors: [{ messageId: 'useOptionalCallExpressionSyntax' }],
       after() {

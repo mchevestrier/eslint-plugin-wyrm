@@ -79,6 +79,32 @@ export default createRule({
           },
         });
       },
+
+      LogicalExpression(node) {
+        if (node.parent.type !== AST_NODE_TYPES.ExpressionStatement) return;
+
+        if (node.operator !== '&&') return;
+        const maybeIdent = extractTruthyIdentifier(node.left);
+        if (!maybeIdent.some) return;
+        const ident = maybeIdent.value;
+
+        if (node.right.type !== AST_NODE_TYPES.CallExpression) return;
+        const expr = node.right;
+        if (expr.callee.type !== AST_NODE_TYPES.Identifier) return;
+
+        if (ident.name !== expr.callee.name) return;
+
+        context.report({
+          node,
+          messageId: 'useOptionalCallExpressionSyntax',
+          fix(fixer) {
+            const args = expr.arguments
+              .map((arg) => context.sourceCode.getText(arg))
+              .join(', ');
+            return fixer.replaceText(node, `${ident.name}?.(${args})`);
+          },
+        });
+      },
     };
   },
 });

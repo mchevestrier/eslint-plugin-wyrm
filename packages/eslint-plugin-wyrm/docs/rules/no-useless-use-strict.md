@@ -11,7 +11,7 @@
 `'use strict'` directive in TS file:
 
 ```tsx
-// file.ts
+// File name: file.ts
 
 'use strict';
 ```
@@ -19,7 +19,7 @@
 `'use strict'` directive in ESM file:
 
 ```tsx
-// file.mjs
+// File name: file.mjs
 
 'use strict';
 ```
@@ -27,7 +27,7 @@
 `'use strict'` directive in class constructor:
 
 ```tsx
-// file.cjs
+// File name: file.cjs
 
 class Klass {
   constructor() {
@@ -41,7 +41,7 @@ class Klass {
 `'use strict'` directive in CJS file:
 
 ```tsx
-// file.cjs
+// File name: file.cjs
 
 'use strict';
 ```
