@@ -56,6 +56,7 @@ export { default as 'no-useless-ts-check' } from './no-useless-ts-check.js';
 export { default as 'no-useless-use-strict' } from './no-useless-use-strict.js';
 export { default as 'no-useless-usememo' } from './no-useless-usememo.js';
 export { default as 'no-whitespace-property' } from './no-whitespace-property.js';
+export { default as 'nullish-object-spread' } from './nullish-object-spread.js';
 export { default as 'optional-call-expression' } from './optional-call-expression.js';
 export { default as 'prefer-catch-method' } from './prefer-catch-method.js';
 export { default as 'prefer-early-return' } from './prefer-early-return.js';
