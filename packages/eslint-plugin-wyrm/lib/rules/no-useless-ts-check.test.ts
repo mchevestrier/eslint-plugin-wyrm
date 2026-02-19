@@ -40,7 +40,7 @@ ruleTester.run(name, rule, {
     {
       name: '`@ts-check` in block comment',
       code: `
-/* @ts-no-check */
+/* @ts-check */
 `,
       after() {
         checkFormatting(this);
@@ -49,16 +49,16 @@ ruleTester.run(name, rule, {
     {
       name: '`@ts-check` in JSDoc comment',
       code: `
-/** @ts-no-check */
+/** @ts-check */
 `,
       after() {
         checkFormatting(this);
       },
     },
     {
-      name: '`@ts-no-check` comment',
+      name: '`@ts-nocheck` comment',
       code: `
-// @ts-no-check
+// @ts-nocheck
 `,
       after() {
         checkFormatting(this);
