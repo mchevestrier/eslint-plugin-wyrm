@@ -19,6 +19,16 @@ const obj = { ...foo };
       },
     },
     {
+      name: 'In array spread',
+      code: `
+const foo = null;
+const obj = [...(foo ?? {})];
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'Regular property (not spread)',
       code: `
 const foo = null;

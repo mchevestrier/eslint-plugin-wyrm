@@ -60,6 +60,7 @@ export { default as 'nullish-object-spread' } from './nullish-object-spread.js';
 export { default as 'optional-call-expression' } from './optional-call-expression.js';
 export { default as 'prefer-catch-method' } from './prefer-catch-method.js';
 export { default as 'prefer-early-return' } from './prefer-early-return.js';
+export { default as 'prefer-finally' } from './prefer-finally.js';
 export { default as 'prefer-has' } from './prefer-has.js';
 export { default as 'prefer-object-keys-values' } from './prefer-object-keys-values.js';
 export { default as 'prefer-repeat' } from './prefer-repeat.js';
