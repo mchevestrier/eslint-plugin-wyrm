@@ -124,6 +124,33 @@ ruleTester.run(name, rule, {
         // Not formatted
       },
     },
+    {
+      name: 'With a YAML file (and a .ts file extension)',
+      filename: 'foo.ts',
+      languageOptions: {
+        parser: yamlParser,
+      },
+      code: `
+# @ts-check
+`,
+      after() {
+        // Not formatted
+      },
+    },
+    {
+      name: 'With a Markdown file (and a .ts file extension)',
+      filename: 'foo.ts',
+      // 'language' is not supported by typings, but still transmitted
+      // @ts-expect-error - 'language' does not exist in type 'ValidTestCase'
+      language: 'markdown/commonmark',
+      code: `
+# @ts-check
+<!-- @ts-check -->
+`,
+      after() {
+        // Not formatted
+      },
+    },
   ],
   invalid: [
     {
@@ -142,6 +169,22 @@ ruleTester.run(name, rule, {
       filename: 'foo.tsx',
       code: `
 // @ts-check
+`,
+      errors: [{ messageId: 'noUselessTsCheck' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a JSONC file (and a .ts file extension)',
+      filename: 'foo.ts',
+      languageOptions: {
+        parser: jsoncParser,
+      },
+      code: `
+// @ts-check
+{
+}
 `,
       errors: [{ messageId: 'noUselessTsCheck' }],
       after() {

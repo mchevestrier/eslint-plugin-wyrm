@@ -85,6 +85,27 @@ else foo();
         checkFormatting(this);
       },
     },
+    {
+      name: 'With a switch statement that sometimes returns',
+      code: `
+if (cond) {
+  switch (bar) {
+    case 'a':
+      return 1;
+    case 'b':
+      console.log('no return here');
+      break;
+    default:
+      return 3;
+  }
+} else {
+  foo();
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

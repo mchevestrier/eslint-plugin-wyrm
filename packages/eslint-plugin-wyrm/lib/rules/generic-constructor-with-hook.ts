@@ -33,6 +33,8 @@ export default createRule({
     messages: {
       useGenericConstructor:
         'Use new {{typeAnnotationText}}() and remove the type annotation on the hook',
+      removeObviousInferable:
+        'Remove the {{typeAnnotationText}} type annotation on the hook, it will be trivially inferred',
       noInferable: 'There is no need to add a type annotation here',
     },
   },
@@ -61,6 +63,19 @@ export default createRule({
         if (expr.callee.name !== typeAnnotation.typeName.name) return;
 
         if (!expr.typeArguments) {
+          if (!typeAnnotation.typeArguments) {
+            context.report({
+              node,
+              messageId: 'removeObviousInferable',
+              data: { typeAnnotationText },
+              *fix(fixer) {
+                yield fixer.remove(typeArguments);
+                yield fixer.replaceText(expr.callee, typeAnnotationText);
+              },
+            });
+            return;
+          }
+
           context.report({
             node,
             messageId: 'useGenericConstructor',

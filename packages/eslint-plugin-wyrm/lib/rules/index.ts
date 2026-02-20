@@ -31,6 +31,7 @@ export { default as 'no-if-length-for' } from './no-if-length-for.js';
 export { default as 'no-inline-jsdoc-tag' } from './no-inline-jsdoc-tag.js';
 export { default as 'no-invalid-date-literal' } from './no-invalid-date-literal.js';
 export { default as 'no-jsx-statement' } from './no-jsx-statement.js';
+export { default as 'no-lax-array-type' } from './no-lax-array-type.js';
 export { default as 'no-lax-return-type' } from './no-lax-return-type.js';
 export { default as 'no-mutable-literal-fill' } from './no-mutable-literal-fill.js';
 export { default as 'no-numbered-comments' } from './no-numbered-comments.js';

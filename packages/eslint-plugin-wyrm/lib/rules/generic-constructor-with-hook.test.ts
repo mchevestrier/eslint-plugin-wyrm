@@ -321,5 +321,23 @@ const [foo, setFoo] = useState(() => new Set<string>(fnord));
         checkFormatting(this);
       },
     },
+    {
+      name: 'With a non generic constructor',
+      code: `
+const controller = useRef<AbortController>(new AbortController());
+`,
+      output: `
+const controller = useRef(new AbortController());
+`,
+      errors: [
+        {
+          messageId: 'removeObviousInferable',
+          data: { typeAnnotationText: 'AbortController' },
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
 });
