@@ -5,6 +5,7 @@ import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 import type * as ts from 'typescript';
 
 import { createRule } from '../utils/createRule.js';
+import { None, type Option, Some } from '../utils/option.js';
 
 export const { name } = path.parse(import.meta.filename);
 
@@ -54,14 +55,16 @@ export default createRule({
         const [arg] = node.arguments;
         if (!arg) return;
 
-        if (!isFunctionExpression(arg)) return;
+        const maybeFn = getFunctionExpression(arg);
+        if (!maybeFn.some) return;
+        const fn = maybeFn.value;
 
         const services = ESLintUtils.getParserServices(context);
         const checker = services.program.getTypeChecker();
 
         if (!calleeAcceptsVoidReturningCallback(node.callee)) return;
 
-        checkFunction(arg);
+        checkFunction(fn);
 
         function hasVoidReturningCallback(callbackType: ts.Type): boolean {
           const callbackSignatures = callbackType.getCallSignatures();
@@ -150,10 +153,10 @@ function isVoidLikeReturnArgument(expr: TSESTree.Expression | null) {
   return isUndefinedLiteral(expr);
 }
 
-function isFunctionExpression(
+function getFunctionExpression(
   node: TSESTree.Node,
-): node is TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression {
-  if (node.type === AST_NODE_TYPES.FunctionExpression) return true;
-  if (node.type === AST_NODE_TYPES.ArrowFunctionExpression) return true;
-  return false;
+): Option<TSESTree.FunctionExpression | TSESTree.ArrowFunctionExpression> {
+  if (node.type === AST_NODE_TYPES.FunctionExpression) return Some(node);
+  if (node.type === AST_NODE_TYPES.ArrowFunctionExpression) return Some(node);
+  return None;
 }

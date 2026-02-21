@@ -28,9 +28,10 @@ export default createRule({
   create(context) {
     return {
       TryStatement(node) {
-        const { block, handler, finalizer } = node;
+        const { block, handler: maybeHandler, finalizer } = node;
 
-        if (!handler) return;
+        if (!maybeHandler) return;
+        const handler: TSESTree.CatchClause = maybeHandler;
 
         function hasReturnStatement(body: TSESTree.Statement[]) {
           return body.some((stmt) => stmt.type === AST_NODE_TYPES.ReturnStatement);
@@ -51,8 +52,10 @@ export default createRule({
 
         const blockAssignments = getAssignments(block.body);
 
-        const [firstBlockAssignment, ...otherBlockAssignments] = blockAssignments;
-        if (!firstBlockAssignment) return;
+        const [maybeFirstBlockAssignment, ...otherBlockAssignments] = blockAssignments;
+        if (!maybeFirstBlockAssignment) return;
+        const firstBlockAssignment: TSESTree.AssignmentExpression =
+          maybeFirstBlockAssignment;
         if (firstBlockAssignment.right.type !== AST_NODE_TYPES.AwaitExpression) return;
 
         if (
@@ -92,7 +95,10 @@ export default createRule({
 
         if (
           variable.references.some(
-            (ref) => ref.isRead() && ref.identifier.range[1] < node.range[0],
+            (ref) =>
+              ref.isRead() &&
+              // Stryker disable EqualityOperator
+              ref.identifier.range[1] < node.range[0],
           )
         ) {
           return;
@@ -119,8 +125,6 @@ export default createRule({
         }
 
         function getAwaitThenExpression() {
-          /* v8 ignore if -- @preserve */
-          if (!firstBlockAssignment) return '';
           const awaitExpression = context.sourceCode.getText(firstBlockAssignment.right);
           const otherStatements = block.body.filter(
             (stmt) =>
@@ -142,8 +146,6 @@ ${indent}})`;
         }
 
         function getErrorParameter() {
-          /* v8 ignore if -- @preserve */
-          if (!handler) return '';
           const { param } = handler;
           if (!param) return '';
 
@@ -158,8 +160,7 @@ ${indent}})`;
             : 'undefined';
           const handlerAssignmentText = `${indent}return ${fallbackValueText};`;
 
-          // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-          const statements = handler!.body.body.filter(
+          const statements = handler.body.body.filter(
             (stmt) =>
               stmt.type !== AST_NODE_TYPES.ExpressionStatement ||
               !handlerAssignment ||

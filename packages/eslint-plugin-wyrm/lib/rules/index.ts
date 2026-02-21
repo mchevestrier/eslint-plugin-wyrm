@@ -3,6 +3,7 @@ export { default as 'de-morgan' } from './de-morgan.js';
 export { default as 'distribute-boolean-casts' } from './distribute-boolean-casts.js';
 export { default as 'duplicate-destructuring' } from './duplicate-destructuring.js';
 export { default as 'e' } from './e.js';
+export { default as 'exact-string-regex' } from './exact-string-regex.js';
 export { default as 'generic-constructor-with-hook' } from './generic-constructor-with-hook.js';
 export { default as 'idiomatic-cast' } from './idiomatic-cast.js';
 export { default as 'named-export-with-side-effects' } from './named-export-with-side-effects.js';
