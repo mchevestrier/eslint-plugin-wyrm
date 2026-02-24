@@ -119,7 +119,8 @@ export default createRule({
 
               /* v8 ignore if -- @preserve */
               if (!previousQuasi || !nextQuasi) {
-                const msg = 'No previous/next quasi found. This should never happen.';
+                const msg =
+                  '[wyrm] No previous/next quasi found. This should never happen.';
                 console.error(msg);
                 return;
               }

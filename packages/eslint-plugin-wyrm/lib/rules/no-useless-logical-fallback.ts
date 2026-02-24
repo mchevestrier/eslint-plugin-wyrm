@@ -70,7 +70,7 @@ export default createRule({
           /* v8 ignore next -- @preserve */
           default: {
             const check: never = node.operator;
-            console.error(`Unexpected operator for LogicalExpression: ${check}`);
+            console.error(`[wyrm] Unexpected operator for LogicalExpression: ${check}`);
           }
         }
       },

@@ -305,6 +305,34 @@ export default foo;
         checkFormatting(this);
       },
     },
+    {
+      name: 'With a named export with a string literal alias',
+      code: `
+const foo = (n: any) => {};
+
+foo(42);
+
+export { foo as 'bar' };
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a named export with an identifier alias',
+      code: `
+const foo = (n: any) => {};
+
+foo(42);
+
+const bar = 105;
+
+export { foo as bar };
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

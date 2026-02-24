@@ -184,7 +184,7 @@ function getFlags(info: Info): Flags {
     default: {
       const check: never = op;
       // Stryker disable all
-      console.error(`Unexpected binary operator: ${check}`);
+      console.error(`[wyrm] Unexpected binary operator: ${check}`);
       return Flags.UNKNOWN;
     }
   }
@@ -242,7 +242,7 @@ function reverseOperator(op: ComparisonOperator): ComparisonOperator {
     default: {
       const check: never = op;
       // Stryker disable all
-      console.error(`Unexpected binary operator: ${check}`);
+      console.error(`[wyrm] Unexpected binary operator: ${check}`);
       return op;
     }
   }
@@ -333,7 +333,7 @@ function isComparisonOperator(
     default: {
       const check: never = operator;
       // Stryker disable all
-      console.error(`Unexpected binary operator: ${check}`);
+      console.error(`[wyrm] Unexpected binary operator: ${check}`);
       return false;
     }
   }

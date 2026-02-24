@@ -46,10 +46,10 @@ export default createRule({
         const scope = context.sourceCode.getScope(stmt);
 
         return stmt.specifiers
-          .map((specifier) => specifier.exported)
-          .filter((exported) => exported.type === AST_NODE_TYPES.Identifier)
-          .some((exported) => {
-            const variable = ASTUtils.findVariable(scope, exported);
+          .map((specifier) => specifier.local)
+          .filter((local) => local.type === AST_NODE_TYPES.Identifier)
+          .some((local) => {
+            const variable = ASTUtils.findVariable(scope, local);
             if (!variable) return false;
             return variable.identifiers.includes(id);
           });
@@ -219,7 +219,7 @@ function getFunctionName(node: FunctionNode): TSESTree.Identifier | null {
     /* v8 ignore next -- @preserve */
     default: {
       const check: never = nodeType;
-      console.error(`Unexpected node type: ${check}`);
+      console.error(`[wyrm] Unexpected node type: ${check}`);
       return null;
     }
   }

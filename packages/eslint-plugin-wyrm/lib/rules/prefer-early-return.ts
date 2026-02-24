@@ -98,7 +98,7 @@ export default createRule({
 
             /* v8 ignore if -- @preserve */
             if (!token) {
-              const msg = `No last token found for ${context.sourceCode.getText(consequent)}`;
+              const msg = `[wyrm] No last token found for ${context.sourceCode.getText(consequent)}`;
               console.error(msg);
               return;
             }
