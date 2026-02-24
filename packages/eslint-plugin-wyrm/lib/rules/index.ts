@@ -69,6 +69,7 @@ export { default as 'prefer-has' } from './prefer-has.js';
 export { default as 'prefer-object-keys-values' } from './prefer-object-keys-values.js';
 export { default as 'prefer-repeat' } from './prefer-repeat.js';
 export { default as 'primitive-valueof' } from './primitive-valueof.js';
+export { default as 'slim-try' } from './slim-try.js';
 export { default as 'suspicious-map-length' } from './suspicious-map-length.js';
 export { default as 'unsafe-asserted-chain' } from './unsafe-asserted-chain.js';
 export { default as 'unused-object-assign' } from './unused-object-assign.js';
