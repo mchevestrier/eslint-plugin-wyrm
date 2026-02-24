@@ -1,4 +1,4 @@
-/* eslint-disable wyrm/no-unbound-catch-error */
+/* eslint-disable wyrm/no-unbound-catch-error, wyrm/slim-try */
 
 export function preferEarlyReturn(cond1: boolean, cond2: boolean) {
   // eslint-disable-next-line wyrm/prefer-early-return
