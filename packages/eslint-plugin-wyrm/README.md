@@ -126,5 +126,6 @@ export default defineConfig([
 | [unsafe-asserted-chain](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/unsafe-asserted-chain.md)                         | Disallow unsafe type assertions on optional chained expressions                                  | ☑️          |     |     | 💭  |
 | [unused-object-assign](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/unused-object-assign.md)                           | Disallow unused `Object.assign()` expressions                                                    | 🟩 ✅ 🟪 ☑️ |     |     |     |
 | [useless-intermediary-variable](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/useless-intermediary-variable.md)         | Disallow unnecessary intermediary variables                                                      | 🟪 ☑️       |     | 💡  |     |
+| [useless-required](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/useless-required.md)                                   | Forbid unnecessary use of `Required<T>` and `Partial<T>`                                         | ☑️          |     | 💡  | 💭  |
 
 <!-- end auto-generated rules list -->

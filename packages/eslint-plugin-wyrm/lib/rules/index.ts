@@ -74,3 +74,4 @@ export { default as 'suspicious-map-length' } from './suspicious-map-length.js';
 export { default as 'unsafe-asserted-chain' } from './unsafe-asserted-chain.js';
 export { default as 'unused-object-assign' } from './unused-object-assign.js';
 export { default as 'useless-intermediary-variable' } from './useless-intermediary-variable.js';
+export { default as 'useless-required' } from './useless-required.js';
