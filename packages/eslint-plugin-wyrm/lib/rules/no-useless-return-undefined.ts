@@ -5,7 +5,8 @@ import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
 import type * as ts from 'typescript';
 
 import { createRule } from '../utils/createRule.js';
-import { None, type Option, Some } from '../utils/option.js';
+import { None, Some } from '../utils/option.js';
+import type { Option } from '../utils/option.js';
 
 export const { name } = path.parse(import.meta.filename);
 

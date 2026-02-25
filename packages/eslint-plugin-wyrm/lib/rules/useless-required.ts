@@ -15,7 +15,7 @@ export const { name } = path.parse(import.meta.filename);
 export default createRule({
   name,
   meta: {
-    type: 'problem',
+    type: 'suggestion',
     docs: {
       description: 'Forbid unnecessary use of `Required<T>` and `Partial<T>`',
       requiresTypeChecking: true,
@@ -61,8 +61,11 @@ export default createRule({
         if (!typeArg) return;
         if (typeParams.length > 1) return;
 
-        const reported = checkNestedReverse(node, node.typeName, typeArg);
-        if (reported) return;
+        const reportedNestedReverse = checkNestedReverse(node, node.typeName, typeArg);
+        if (reportedNestedReverse) return;
+
+        const reportedNestedDouble = checkNestedDouble(node, node.typeName, typeArg);
+        if (reportedNestedDouble) return;
 
         if (node.typeName.name === UtilityName.Required.toString()) {
           // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
@@ -193,13 +196,60 @@ export default createRule({
       });
       return true;
     }
+
+    /** Check for Required<Partial<T>> or Partial<Required<T>> */
+    function checkNestedDouble(
+      node: TSESTree.TSTypeReference,
+      typeName: TSESTree.Identifier,
+      typeArg: TSESTree.TypeNode,
+    ): boolean {
+      const maybeNestedDouble = getDoubleReference(typeName, typeArg);
+      if (!maybeNestedDouble.some) return false;
+      const { utilityName, nestedReference } = maybeNestedDouble.value;
+
+      if (utilityName === UtilityName.Required) {
+        context.report({
+          node,
+          messageId: 'uselessRequired',
+          suggest: [
+            {
+              messageId: 'removeRequired',
+              *fix(fixer) {
+                const typeArgText = context.sourceCode.getText(nestedReference);
+                yield fixer.replaceText(typeArg, typeArgText);
+              },
+            },
+          ],
+        });
+        return true;
+      }
+
+      context.report({
+        node,
+        messageId: 'uselessPartial',
+        suggest: [
+          {
+            messageId: 'removePartial',
+            *fix(fixer) {
+              const typeArgText = context.sourceCode.getText(nestedReference);
+              yield fixer.replaceText(typeArg, typeArgText);
+            },
+          },
+        ],
+      });
+      return true;
+    }
   },
 });
 
-function shouldSkipType(type: ts.Type) {
-  if (type.getFlags() & ts.TypeFlags.Any) return true;
-  if (hasTypeParameter(type)) return true;
-  return false;
+function shouldSkipType(type: ts.Type): boolean {
+  const flags =
+    ts.TypeFlags.Any |
+    ts.TypeFlags.Unknown |
+    ts.TypeFlags.Never |
+    ts.TypeFlags.TypeParameter;
+
+  return (type.getFlags() & flags) !== 0;
 }
 
 function hasIndexSignature(type: ts.Type): boolean {
@@ -207,8 +257,15 @@ function hasIndexSignature(type: ts.Type): boolean {
 }
 
 function hasOptionalProperties(type: ts.Type): boolean {
-  if (type.isUnion() || type.isIntersection()) {
+  if (type.isUnionOrIntersection()) {
     return type.types.some((t) => hasOptionalProperties(t));
+  }
+
+  if (!isObjectType(type)) return type.isTypeParameter();
+
+  const maybeMappedOptional = getOptionalMappedType(type);
+  if (maybeMappedOptional.some) {
+    return maybeMappedOptional.value;
   }
 
   return type
@@ -217,21 +274,37 @@ function hasOptionalProperties(type: ts.Type): boolean {
 }
 
 function hasRequiredProperties(type: ts.Type): boolean {
-  if (type.isUnion() || type.isIntersection()) {
+  if (type.isUnionOrIntersection()) {
     return type.types.some((t) => hasRequiredProperties(t));
   }
 
-  return type
-    .getProperties()
-    .some((prop) => (prop.flags & ts.SymbolFlags.Optional) === 0);
-}
+  if (!isObjectType(type)) return type.isTypeParameter();
 
-function hasTypeParameter(type: ts.Type): boolean {
-  if (type.isUnion() || type.isIntersection()) {
-    return type.types.some((t) => hasTypeParameter(t));
+  const maybeMappedOptional = getOptionalMappedType(type);
+  if (maybeMappedOptional.some) {
+    return !maybeMappedOptional.value;
   }
 
-  return type.isTypeParameter();
+  const properties = type.getProperties();
+  if (!properties.length && type.objectFlags & ts.ObjectFlags.Instantiated) {
+    return true;
+  }
+
+  return properties.some((prop) => (prop.flags & ts.SymbolFlags.Optional) === 0);
+}
+
+function getOptionalMappedType(type: ts.ObjectType): Option<boolean> {
+  if ((type.objectFlags & ts.ObjectFlags.Mapped) === 0) return None;
+  if ((type.objectFlags & ts.ObjectFlags.Instantiated) !== 0) return None;
+
+  const optional = !!type
+    .getSymbol()
+    ?.declarations?.some((decl) => ts.isMappedTypeNode(decl) && decl.questionToken);
+  return Some(optional);
+}
+
+function isObjectType(type: ts.Type): type is ts.ObjectType {
+  return (type.getFlags() & ts.TypeFlags.Object) !== 0;
 }
 
 enum UtilityName {
@@ -266,6 +339,22 @@ function getReverseReference(typeName: TSESTree.Identifier, typeArg: TSESTree.Ty
       typeArg,
       ReverseUtilityName[utilityName],
     );
+
+    if (!maybeNestedReference.some) continue;
+
+    const nestedReference = maybeNestedReference.value;
+    return Some({ utilityName, nestedReference });
+  }
+
+  return None;
+}
+
+/** Get Required<Required<T>> or Partial<Partial<T>> */
+function getDoubleReference(typeName: TSESTree.Identifier, typeArg: TSESTree.TypeNode) {
+  for (const utilityName of [UtilityName.Partial, UtilityName.Required]) {
+    if (typeName.name !== utilityName.toString()) continue;
+
+    const maybeNestedReference = getNestedTypeReference(typeArg, utilityName);
 
     if (!maybeNestedReference.some) continue;
 

@@ -18,8 +18,13 @@
 
 import path from 'node:path';
 
-import { TSESLint, type TSESTree } from '@typescript-eslint/utils';
-import { AST_NODE_TYPES, ASTUtils, ESLintUtils } from '@typescript-eslint/utils';
+import type { TSESTree } from '@typescript-eslint/utils';
+import {
+  AST_NODE_TYPES,
+  ASTUtils,
+  ESLintUtils,
+  TSESLint,
+} from '@typescript-eslint/utils';
 import * as ts from 'typescript';
 
 import { createRule } from '../utils/createRule.js';

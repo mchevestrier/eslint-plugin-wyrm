@@ -23,7 +23,11 @@
 
 import path from 'node:path';
 
-import { AST_NODE_TYPES, ESLintUtils, type TSESTree } from '@typescript-eslint/utils';
+import { AST_NODE_TYPES, ESLintUtils } from '@typescript-eslint/utils';
+import type {
+  ParserServicesWithTypeInformation,
+  TSESTree,
+} from '@typescript-eslint/utils';
 import * as ts from 'typescript';
 
 import { createRule } from '../utils/createRule.js';
@@ -54,6 +58,18 @@ export default createRule({
   },
   defaultOptions: [],
   create(context) {
+    let services: ParserServicesWithTypeInformation | undefined;
+    function getServices() {
+      services ??= ESLintUtils.getParserServices(context);
+      return services;
+    }
+
+    let checker: ts.TypeChecker | undefined;
+    function getChecker() {
+      checker ??= getServices().program.getTypeChecker();
+      return checker;
+    }
+
     return {
       LogicalExpression(node) {
         switch (node.operator) {
@@ -287,61 +303,78 @@ export default createRule({
     }
 
     function isOnlyBoolean(expr: TSESTree.Expression): boolean {
-      const services = ESLintUtils.getParserServices(context);
-      const checker = services.program.getTypeChecker();
-      const booleanType = checker.getBooleanType();
+      const booleanType = getChecker().getBooleanType();
 
-      const type = services.getTypeAtLocation(expr);
+      const type = getServices().getTypeAtLocation(expr);
 
       return type === booleanType;
     }
 
     function isOnlyString(expr: TSESTree.Expression): boolean {
-      const services = ESLintUtils.getParserServices(context);
-      const checker = services.program.getTypeChecker();
-      const stringType = checker.getStringType();
+      const stringType = getChecker().getStringType();
 
-      const type = services.getTypeAtLocation(expr);
+      const type = getServices().getTypeAtLocation(expr);
 
       return type === stringType;
     }
 
     function isOnlyNumber(expr: TSESTree.Expression): boolean {
-      const services = ESLintUtils.getParserServices(context);
-      const checker = services.program.getTypeChecker();
-      const numberType = checker.getNumberType();
+      const numberType = getChecker().getNumberType();
 
-      const type = services.getTypeAtLocation(expr);
+      const type = getServices().getTypeAtLocation(expr);
 
       return type === numberType;
     }
 
-    function isPossiblyNull(expr: TSESTree.Expression): boolean {
-      const services = ESLintUtils.getParserServices(context);
-      const checker = services.program.getTypeChecker();
-      const nullType = checker.getNullType();
-
-      const type = services.getTypeAtLocation(expr);
+    function isTypePossiblyNull(type: ts.Type): boolean {
+      const nullType = getChecker().getNullType();
 
       if (type.isUnion()) {
-        return type.types.includes(nullType);
+        return type.types.some((t) => isTypePossiblyNull(t));
+      }
+
+      const flags =
+        ts.TypeFlags.Null |
+        ts.TypeFlags.Any |
+        ts.TypeFlags.Unknown |
+        ts.TypeFlags.TypeParameter;
+
+      if ((type.getFlags() & flags) !== 0) {
+        return true;
       }
 
       return type === nullType;
     }
 
-    function isPossiblyUndefined(expr: TSESTree.Expression): boolean {
-      const services = ESLintUtils.getParserServices(context);
-      const checker = services.program.getTypeChecker();
-      const undefinedType = checker.getUndefinedType();
+    function isPossiblyNull(expr: TSESTree.Expression): boolean {
+      const type = getServices().getTypeAtLocation(expr);
+      return isTypePossiblyNull(type);
+    }
 
-      const type = services.getTypeAtLocation(expr);
+    function isTypePossiblyUndefined(type: ts.Type): boolean {
+      const undefinedType = getChecker().getUndefinedType();
 
       if (type.isUnion()) {
-        return type.types.some((t) => t.getFlags() & ts.TypeFlags.Undefined);
+        return type.types.some((t) => isTypePossiblyUndefined(t));
+      }
+
+      const flags =
+        ts.TypeFlags.Undefined |
+        ts.TypeFlags.Any |
+        ts.TypeFlags.Unknown |
+        ts.TypeFlags.TypeParameter;
+
+      if ((type.getFlags() & flags) !== 0) {
+        return true;
       }
 
       return type === undefinedType;
+    }
+
+    function isPossiblyUndefined(expr: TSESTree.Expression): boolean {
+      const type = getServices().getTypeAtLocation(expr);
+
+      return isTypePossiblyUndefined(type);
     }
   },
 });

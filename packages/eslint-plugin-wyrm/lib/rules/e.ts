@@ -7,7 +7,8 @@
 
 import path from 'node:path';
 
-import { AST_NODE_TYPES, ASTUtils, type TSESTree } from '@typescript-eslint/utils';
+import { AST_NODE_TYPES, ASTUtils } from '@typescript-eslint/utils';
+import type { TSESTree } from '@typescript-eslint/utils';
 
 import { createRule } from '../utils/createRule.js';
 

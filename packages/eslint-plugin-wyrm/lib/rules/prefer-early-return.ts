@@ -170,6 +170,7 @@ export default createRule({
 
       // The consequent statement contains much more nested code than the subsequent statements
       const shouldSwitchConsequentAndSubsequent =
+        consequentAlwaysReturn &&
         consequentVolume / subsequentVolume >= VOLUME_RATIO_THRESHOLD &&
         consequentVolume > 4;
 

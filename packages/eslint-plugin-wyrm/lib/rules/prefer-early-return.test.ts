@@ -203,6 +203,21 @@ function foo(cond1: boolean, bar: string) {
         checkFormatting(this);
       },
     },
+    {
+      name: 'With a conditional return in consequent block',
+      code: `
+function fun(foo: number | null, fallback: number) {
+  if (foo) {
+    const bar = foo + 2;
+    if (bar) return bar;
+  }
+  return fallback;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

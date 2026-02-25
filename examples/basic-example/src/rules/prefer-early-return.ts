@@ -50,7 +50,6 @@ export function preferEarlyReturn4(bar: { id: string; value: number }) {
 }
 
 export function preferEarlyReturn5(quux: string, x: string, y: string) {
-  // eslint-disable-next-line wyrm/prefer-early-return
   if (quux === 'bar') {
     try {
       return x;
@@ -139,4 +138,12 @@ export function preferEarlyReturn8Fixed(foo: string, bar: string, quux: string) 
   } else {
     console.log('other');
   }
+}
+
+export function preferEarlyReturn9(foo: number | null, fallback: number) {
+  if (foo) {
+    const bar = foo + 2;
+    if (bar) return bar;
+  }
+  return fallback;
 }

@@ -101,6 +101,7 @@ export default defineConfig([
           alphabetize: { order: 'asc', caseInsensitive: true },
         },
       ],
+      'import-x/consistent-type-specifier-style': 'warn',
 
       'import-x/named': 'off',
       'import-x/namespace': 'off',

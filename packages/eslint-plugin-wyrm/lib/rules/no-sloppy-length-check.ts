@@ -6,7 +6,8 @@
 
 import path from 'node:path';
 
-import { AST_NODE_TYPES, type TSESTree } from '@typescript-eslint/utils';
+import { AST_NODE_TYPES } from '@typescript-eslint/utils';
+import type { TSESTree } from '@typescript-eslint/utils';
 
 import { createRule } from '../utils/createRule.js';
 import type { Option } from '../utils/option.js';

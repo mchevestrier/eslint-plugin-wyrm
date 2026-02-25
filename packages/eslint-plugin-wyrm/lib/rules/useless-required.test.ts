@@ -299,7 +299,7 @@ type Baz<T extends Foo> = Partial<Options<T> | never>;
       },
     },
     {
-      name: 'With `Required<T> in simple type alias`',
+      name: 'With `Required<T>` in simple type alias',
       code: `
 type Baz<T> = Required<T>;
 `,
@@ -308,7 +308,7 @@ type Baz<T> = Required<T>;
       },
     },
     {
-      name: 'With `Partial<T> in simple type alias`',
+      name: 'With `Partial<T>` in simple type alias',
       code: `
 type Baz<T> = Partial<T>;
 `,
@@ -326,7 +326,7 @@ type Baz<T> = Partial<Record<'foo' | 'bar', T>>;
       },
     },
     {
-      name: 'With `Partial<T> in type alias`',
+      name: 'With `Partial<T>` in type alias',
       code: `
 type Foo<T> = T;
 type Baz<T> = Partial<Foo<T>>;
@@ -388,6 +388,116 @@ type Baz<T> = Required<Partial>;
       name: 'With `Required<Required>`',
       code: `
 type Baz<T> = Required<Required>;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `Partial<Record<T[number], string>>`',
+      code: `
+function fun<T extends readonly string[]>(arr: T) {
+  const result: Partial<Record<T[number], string>> = {};
+  return result;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `Partial<Record<string, T>>`',
+      code: `
+type Baz<T> = Partial<Record<string, T>>;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`Required<T>` with a mapped type',
+      code: `
+type Foo = { [k in 'foo' | 'bar']?: string | undefined };
+
+type Bar = Required<Foo>;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`Partial<T>` with a mapped type',
+      code: `
+type Foo = { [k in 'foo' | 'bar']: string | undefined };
+
+type Bar = Partial<Foo>;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`Partial<T>` with a mapped type with a generic type parameter',
+      code: `
+type Baz<T> = Partial<{ [K in keyof T]: Array<T[K]> }>;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`Required<T>` with a mapped type with a generic type parameter',
+      code: `
+type Baz<T> = Required<{ [K in keyof T]?: Array<T[K]> }>;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`Required<T>` with a union type',
+      code: `
+type Baz = Required<Record<string | string> | Record<string | number>>;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`Partial<T>` with a union type',
+      code: `
+type Baz = Required<{ foo?: string } | { fnord?: number }>;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`Required<T>` with `Pick<T>`',
+      code: `
+type Foo = { quux?: number };
+type Bar = Pick<Foo, 'quux'>;
+type Baz = Required<Bar>;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`Partial<T>` with `Pick<T>`',
+      code: `
+type Foo = { quux: number };
+type Bar = Pick<Foo, 'quux'>;
+type Baz = Partial<Bar>;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`Required<T>` with union containing type parameter',
+      code: `
+type Foo<T> = Required<T | { x: number }>;
 `,
       after() {
         checkFormatting(this);
@@ -710,18 +820,24 @@ type Baz<T> = Record<string, T>;
       },
     },
     {
-      name: 'With `Partial<Record<string, T>>`',
+      name: 'With `Required<Record<T[number], string>>`',
       code: `
-type Baz<T> = Partial<Record<string, T>>;
+function fun<T extends readonly string[]>(arr: T) {
+  const result: Required<Record<T[number], string>> = {};
+  return result;
+}
 `,
       errors: [
         {
-          messageId: 'uselessPartialWithIndexSignature',
+          messageId: 'uselessRequired',
           suggestions: [
             {
-              messageId: 'removePartial',
+              messageId: 'removeRequired',
               output: `
-type Baz<T> = Record<string, T>;
+function fun<T extends readonly string[]>(arr: T) {
+  const result: Record<T[number], string> = {};
+  return result;
+}
 `,
             },
           ],
@@ -860,6 +976,102 @@ namespace Foo {
   export type Bar = { x: number };
 }
 type Baz = Foo.Bar;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`Required<T>` with `Pick<T>`',
+      code: `
+type Foo = { quux: number };
+type Bar = Pick<Foo, 'quux'>;
+type Baz = Required<Bar>;
+`,
+      errors: [
+        {
+          messageId: 'uselessRequired',
+          suggestions: [
+            {
+              messageId: 'removeRequired',
+              output: `
+type Foo = { quux: number };
+type Bar = Pick<Foo, 'quux'>;
+type Baz = Bar;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`Partial<T>` with `Pick<T>`',
+      code: `
+type Foo = { quux?: number };
+type Bar = Pick<Foo, 'quux'>;
+type Baz = Partial<Bar>;
+`,
+      errors: [
+        {
+          messageId: 'uselessPartial',
+          suggestions: [
+            {
+              messageId: 'removePartial',
+              output: `
+type Foo = { quux?: number };
+type Bar = Pick<Foo, 'quux'>;
+type Baz = Bar;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`Required<T>` with a primitive type',
+      code: `
+type Foo = Required<string>;
+`,
+      errors: [
+        {
+          messageId: 'uselessRequired',
+          suggestions: [
+            {
+              messageId: 'removeRequired',
+              output: `
+type Foo = string;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: '`Partial<T>` with a primitive type',
+      code: `
+type Foo = Partial<string>;
+`,
+      errors: [
+        {
+          messageId: 'uselessPartial',
+          suggestions: [
+            {
+              messageId: 'removePartial',
+              output: `
+type Foo = string;
 `,
             },
           ],

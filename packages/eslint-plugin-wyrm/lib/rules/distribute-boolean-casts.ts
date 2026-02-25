@@ -1,9 +1,11 @@
 import path from 'node:path';
 
-import { AST_NODE_TYPES, type TSESTree } from '@typescript-eslint/utils';
+import { AST_NODE_TYPES } from '@typescript-eslint/utils';
+import type { TSESTree } from '@typescript-eslint/utils';
 
 import { createRule } from '../utils/createRule.js';
-import { None, type Option, Some } from '../utils/option.js';
+import { None, Some } from '../utils/option.js';
+import type { Option } from '../utils/option.js';
 
 export const { name } = path.parse(import.meta.filename);
 

@@ -230,6 +230,62 @@ function quux(foo: string) {
         checkFormatting(this);
       },
     },
+    {
+      name: 'With a generic type parameter (with ?? null)',
+      code: `
+function quux<T>(foo: T) {
+  return foo ?? null;
+}
+
+assert(quux(undefined) === null);
+assert(quux(undefined) !== undefined);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a generic type parameter (with ?? undefined)',
+      code: `
+function quux<T>(foo: T) {
+  return foo ?? undefined;
+}
+
+assert(quux(null) === undefined);
+assert(quux(null) !== null);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a generic type parameter and T | null',
+      code: `
+function quux<T>(foo: T | null) {
+  return foo ?? null;
+}
+
+assert(quux(undefined) === null);
+assert(quux(undefined) !== undefined);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a generic type parameter and T | undefined',
+      code: `
+function quux<T>(foo: T | undefined) {
+  return foo ?? undefined;
+}
+
+assert(quux(null) === undefined);
+assert(quux(null) !== null);
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
