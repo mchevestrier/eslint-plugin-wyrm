@@ -1,6 +1,6 @@
 import markdownPlugin from '@eslint/markdown';
 import { RuleTester } from '@typescript-eslint/rule-tester';
-import jsoncParser from 'jsonc-eslint-parser';
+import * as jsoncParser from 'jsonc-eslint-parser';
 import * as yamlParser from 'yaml-eslint-parser';
 
 import { checkFormatting } from '../utils/checkFormatting.js';

@@ -2,6 +2,7 @@
 
 import js from '@eslint/js';
 import markdown from '@eslint/markdown';
+import comments from '@eslint-community/eslint-plugin-eslint-comments/configs';
 import internal from '@eslint-plugin-wyrm/eslint-plugin-internal';
 import stylistic from '@stylistic/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
@@ -62,6 +63,17 @@ export default defineConfig([
 
   tseslint.configs.strictTypeChecked,
   tseslint.configs.stylisticTypeChecked,
+
+  comments.recommended,
+
+  {
+    rules: {
+      '@eslint-community/eslint-comments/disable-enable-pair': [
+        'error',
+        { allowWholeFile: true },
+      ],
+    },
+  },
 
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
@@ -376,6 +388,9 @@ export default defineConfig([
       packageJson: {
         enforceForPrivate: false,
       },
+    },
+    rules: {
+      'package-json/require-files': 'off',
     },
   },
 ]);

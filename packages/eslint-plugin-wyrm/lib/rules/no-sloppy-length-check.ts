@@ -147,7 +147,7 @@ enum Flags {
   EQUAL_TO_ZERO = 1 << 1,
   SUPERIOR_TO_ZERO = 1 << 2,
 }
-/* eslint-enable @typescript-eslint/prefer-literal-enum-member */
+/* eslint-enable @typescript-eslint/prefer-literal-enum-member, unicorn/prefer-math-trunc */
 
 // .length op value
 function getFlags(info: Info): Flags {
