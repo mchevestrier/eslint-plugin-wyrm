@@ -221,6 +221,18 @@ if (!+foo) {
         checkFormatting(this);
       },
     },
+    {
+      name: 'Callback with type predicate in return type',
+      code: `
+declare const arr: string[];
+const isOkay = arr.filter((elt): elt is 'ok' => {
+  return !!elt;
+});
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

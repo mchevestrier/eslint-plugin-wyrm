@@ -84,6 +84,10 @@ export default createRule({
           if (def?.type !== TSESLint.Scope.DefinitionType.Variable) {
             return;
           }
+
+          if (isNonAlphabeticStringLiteral(def.node)) {
+            return;
+          }
         }
       }
 
@@ -164,4 +168,12 @@ function getLiteralValue(type: ts.Type, checker: ts.TypeChecker): string | null 
   if (type === checker.getFalseType()) return 'false';
 
   return null;
+}
+
+function isNonAlphabeticStringLiteral(node: TSESTree.VariableDeclarator): boolean {
+  return (
+    node.init?.type === AST_NODE_TYPES.Literal &&
+    typeof node.init.value === 'string' &&
+    /[^a-zA-Z]/u.test(node.init.value)
+  );
 }

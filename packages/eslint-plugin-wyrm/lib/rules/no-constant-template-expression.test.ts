@@ -126,7 +126,7 @@ const str = \`\${foo}_baz\`;
       name: 'With a 4 character string (`minAllowedLength: 3`)',
       options: [{ minAllowedLength: 3 }],
       code: `
-const foo = '1234';
+const foo = 'abcd';
 const str = \`\${foo}_baz\`;
 `,
       after() {
@@ -137,7 +137,7 @@ const str = \`\${foo}_baz\`;
       name: 'With a 4 character string (`minAllowedLength: 4`)',
       options: [{ minAllowedLength: 4 }],
       code: `
-const foo = '1234';
+const foo = 'abcd';
 const str = \`\${foo}_baz\`;
 `,
       after() {
@@ -232,6 +232,46 @@ const str = \`\${indent(2)}\`;
       name: 'With multiple call expressions',
       code: `
 const str = \`\${indent(2)}\${indent(2)}_foo\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a numeric string',
+      code: `
+const foo = '42';
+const str = \`\${foo}_bar\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With numbers and letters',
+      code: `
+const foo = 'abc42';
+const str = \`\${foo}_bar\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a hexadecimal string',
+      code: `
+const foo = '#00f';
+const str = \`\${foo}_bar\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a non-ASCII string',
+      code: `
+const foo = 'abc!';
+const str = \`\${foo}_bar\`;
 `,
       after() {
         checkFormatting(this);
@@ -368,7 +408,7 @@ const str = \`_baz\`;
       name: 'With a 4 character string (`minAllowedLength: 5`)',
       options: [{ minAllowedLength: 5 }],
       code: `
-const foo = '1234';
+const foo = 'abcd';
 const str = \`\${foo}_baz\`;
 `,
       errors: [
@@ -377,10 +417,10 @@ const str = \`\${foo}_baz\`;
           suggestions: [
             {
               messageId: 'replaceByString',
-              data: { value: '1234' },
+              data: { value: 'abcd' },
               output: `
-const foo = '1234';
-const str = \`1234_baz\`;
+const foo = 'abcd';
+const str = \`abcd_baz\`;
 `,
             },
           ],
@@ -394,7 +434,7 @@ const str = \`1234_baz\`;
       name: 'With a 14 character string (`minAllowedLength: 15`) #docs',
       options: [{ minAllowedLength: 15 }],
       code: `
-const foo = '12345678901234';
+const foo = 'abcdefghijklmn';
 const str = \`\${foo}_baz\`;
 `,
       errors: [
@@ -403,10 +443,10 @@ const str = \`\${foo}_baz\`;
           suggestions: [
             {
               messageId: 'replaceByString',
-              data: { value: '12345678901234' },
+              data: { value: 'abcdefghijklmn' },
               output: `
-const foo = '12345678901234';
-const str = \`12345678901234_baz\`;
+const foo = 'abcdefghijklmn';
+const str = \`abcdefghijklmn_baz\`;
 `,
             },
           ],

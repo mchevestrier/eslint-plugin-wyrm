@@ -53,12 +53,12 @@ const str = `true_baz`;
 With a 14 character string (`minAllowedLength: 15`):
 
 ```tsx
-const foo = '12345678901234';
+const foo = 'abcdefghijklmn';
 const str = `${foo}_baz`;
 
 // Can be fixed to:
-const foo = '12345678901234';
-const str = `12345678901234_baz`;
+const foo = 'abcdefghijklmn';
+const str = `abcdefghijklmn_baz`;
 ```
 
 ### Correct ✅

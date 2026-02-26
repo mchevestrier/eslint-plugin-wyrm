@@ -121,6 +121,9 @@ function isInCondition(node: TSESTree.Node): boolean {
 function isPredicate(
   fn: TSESTree.ArrowFunctionExpression | TSESTree.FunctionExpression,
 ): boolean {
+  if (fn.returnType?.typeAnnotation.type === AST_NODE_TYPES.TSTypePredicate) {
+    return false;
+  }
   if (fn.parent.type !== AST_NODE_TYPES.CallExpression) return false;
   if (fn.parent.arguments[0] !== fn) return false;
   if (fn.parent.callee.type !== AST_NODE_TYPES.MemberExpression) return false;
