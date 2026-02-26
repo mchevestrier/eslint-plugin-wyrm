@@ -37,12 +37,12 @@
   },
   "devDependencies": {
     "@types/node": "^24.10.13",
-    "eslint": "^9.39.2",
+    "eslint": "^10.0.0",
     "eslint-plugin-command": "^3.4.0",
     "prettier": "^3.8.1"
   },
   "peerDependencies": {
-    "eslint": "^9.39.2"
+    "eslint": "^10.0.0"
   },
   "engines": {
     "node": ">=24.0.0"
