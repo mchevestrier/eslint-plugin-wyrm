@@ -1,5 +1,31 @@
 # Changelog
 
+## [0.0.11](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.10...eslint-plugin-wyrm-v0.0.11) (2026-02-26)
+
+
+### Features
+
+* add prefer-has ([7ec4ac0](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/7ec4ac098582925ffb5cd5f60d98f6eb49877c51))
+* add rule e ([4138e48](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/4138e482609b39c7137a15f1c547bcb93735635d))
+* add rule exact-string-regex ([cee8e77](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/cee8e77e27de3a5d2e89f1c0cb864b3325fb88a8))
+* add rule export-using ([dcf583d](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/dcf583dd4406967ed4abd47a44b5e1dc22ef0341))
+* add rule generic-constructor-with-hook ([adb3aa7](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/adb3aa7661e2c813ec85f553de3c36ca8cc8430a))
+* add rule named-export-with-side-effects ([e31db0e](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/e31db0ea8f9e356726a68de77e8d0629bf3fb3f5))
+* add rule no-commented-out-comment ([106a564](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/106a564e15d8cc2d0fda318f3da6f1be09346207))
+* add rule no-constructed-error-cause ([634f808](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/634f8085f864497d8fd1fdf26acefed0b051120d))
+* add rule no-huge-useeffect ([afca71b](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/afca71b340229b7f2d9b5cca5ad6f57bfe3a468a))
+* add rule no-if-length-for ([1a40623](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/1a40623a03efd5dba7a076889e022d8c84184059))
+* add rule no-lax-array-type ([095f1f2](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/095f1f26f283083a1037821c35c9f177de3d78e0))
+* add rule no-lax-return-type ([a34ac88](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/a34ac88220d6c18af23aaa8db5b0c49b3cd08fe5))
+* add rule no-unused-mutually-referential ([dec8d1c](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/dec8d1c87e6e5aac8be795e22ee5e310f1569513))
+* add rule no-useless-ts-check ([ae7aed5](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/ae7aed598e2505b2f79d028b504a8cdd4dffbcbf))
+* add rule nullish-object-spread ([377eafd](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/377eafd11ab55522d3de885523c5f844b33b4a88))
+* add rule prefer-finally ([33286b5](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/33286b569ee809a82a921125d1043e204d0e19a6))
+* add rule prefer-getorinsert ([adf46a1](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/adf46a139e6774c2ea189c9318a5bf654db5839f))
+* add rule prefer-object-keys-values ([eb973f6](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/eb973f66d3d1340267b271b0768d8f7cae54d8ef))
+* add rule slim-try ([c3ebfcf](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/c3ebfcf07cb534040baaeb4aaa140b4896592e94))
+* add rule useless-required ([51dd82a](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/51dd82a72c80ca8c83573ae1f6f621da6a24ad50))
+
 ## [0.0.10](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.9...eslint-plugin-wyrm-v0.0.10) (2026-01-31)
 
 
