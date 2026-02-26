@@ -327,8 +327,6 @@ export default createRule({
     }
 
     function isTypePossiblyNull(type: ts.Type): boolean {
-      const nullType = getChecker().getNullType();
-
       if (type.isUnion()) {
         return type.types.some((t) => isTypePossiblyNull(t));
       }
@@ -339,11 +337,7 @@ export default createRule({
         ts.TypeFlags.Unknown |
         ts.TypeFlags.TypeParameter;
 
-      if ((type.getFlags() & flags) !== 0) {
-        return true;
-      }
-
-      return type === nullType;
+      return (type.getFlags() & flags) !== 0;
     }
 
     function isPossiblyNull(expr: TSESTree.Expression): boolean {
@@ -352,8 +346,6 @@ export default createRule({
     }
 
     function isTypePossiblyUndefined(type: ts.Type): boolean {
-      const undefinedType = getChecker().getUndefinedType();
-
       if (type.isUnion()) {
         return type.types.some((t) => isTypePossiblyUndefined(t));
       }
@@ -364,11 +356,7 @@ export default createRule({
         ts.TypeFlags.Unknown |
         ts.TypeFlags.TypeParameter;
 
-      if ((type.getFlags() & flags) !== 0) {
-        return true;
-      }
-
-      return type === undefinedType;
+      return (type.getFlags() & flags) !== 0;
     }
 
     function isPossiblyUndefined(expr: TSESTree.Expression): boolean {

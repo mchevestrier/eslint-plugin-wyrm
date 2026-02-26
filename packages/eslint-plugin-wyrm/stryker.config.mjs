@@ -3,7 +3,12 @@
 /** @type {import('@stryker-mutator/api/core').PartialStrykerOptions} */
 const config = {
   packageManager: 'pnpm',
-  reporters: ['html', 'clear-text', 'progress'],
+  reporters: [
+    'html',
+    'clear-text',
+    'progress',
+    ...(process.env['CI'] ? ['dashboard'] : []),
+  ],
   testRunner: 'vitest',
 
   coverageAnalysis: 'perTest',

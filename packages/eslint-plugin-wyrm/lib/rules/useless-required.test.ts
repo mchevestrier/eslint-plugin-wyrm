@@ -503,6 +503,15 @@ type Foo<T> = Required<T | { x: number }>;
         checkFormatting(this);
       },
     },
+    {
+      name: 'Readonly wrapping Required',
+      code: `
+type Foo<T> = Readonly<Required<T>>;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -892,6 +901,61 @@ type Baz<T> = Partial<T>;
       },
     },
     {
+      name: 'With `Partial<Required<T>>` where `T` has no optional properties',
+      code: `
+type Baz = Partial<Required<{ foo: string }>>;
+`,
+      errors: [
+        {
+          messageId: 'noPartialRequired',
+          suggestions: [
+            {
+              messageId: 'removeRequired',
+              output: `
+type Baz = Partial<{ foo: string }>;
+`,
+            },
+          ],
+        },
+        {
+          messageId: 'uselessRequired',
+          suggestions: [
+            {
+              messageId: 'removeRequired',
+              output: `
+type Baz = Partial<{ foo: string }>;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `Partial<Required<T>>` where `T` has some optional properties',
+      code: `
+type Baz = Partial<Required<{ foo?: string }>>;
+`,
+      errors: [
+        {
+          messageId: 'noPartialRequired',
+          suggestions: [
+            {
+              messageId: 'removeRequired',
+              output: `
+type Baz = Partial<{ foo?: string }>;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With `Partial<Partial<T>>`',
       code: `
 type Baz<T> = Partial<Partial<T>>;
@@ -904,6 +968,39 @@ type Baz<T> = Partial<Partial<T>>;
               messageId: 'removePartial',
               output: `
 type Baz<T> = Partial<T>;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `Partial<Partial<T>>` where `T` has no required properties',
+      code: `
+type Baz = Partial<Partial<{ foo?: string }>>;
+`,
+      errors: [
+        {
+          messageId: 'uselessPartial',
+          suggestions: [
+            {
+              messageId: 'removePartial',
+              output: `
+type Baz = Partial<{ foo?: string }>;
+`,
+            },
+          ],
+        },
+        {
+          messageId: 'uselessPartial',
+          suggestions: [
+            {
+              messageId: 'removePartial',
+              output: `
+type Baz = Partial<{ foo?: string }>;
 `,
             },
           ],
@@ -936,6 +1033,39 @@ type Baz<T> = Required<T>;
       },
     },
     {
+      name: 'With `Required<Partial<T>>` where `T` has no required properties',
+      code: `
+type Baz = Required<Partial<{ foo?: string }>>;
+`,
+      errors: [
+        {
+          messageId: 'noRequiredPartial',
+          suggestions: [
+            {
+              messageId: 'removePartial',
+              output: `
+type Baz = Required<{ foo?: string }>;
+`,
+            },
+          ],
+        },
+        {
+          messageId: 'uselessPartial',
+          suggestions: [
+            {
+              messageId: 'removePartial',
+              output: `
+type Baz = Required<{ foo?: string }>;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With `Required<Required<T>>`',
       code: `
 type Baz<T> = Required<Required<T>>;
@@ -948,6 +1078,39 @@ type Baz<T> = Required<Required<T>>;
               messageId: 'removeRequired',
               output: `
 type Baz<T> = Required<T>;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With `Required<Required<T>>` where `T` has no optional properties',
+      code: `
+type Baz = Required<Required<{ foo: string }>>;
+`,
+      errors: [
+        {
+          messageId: 'uselessRequired',
+          suggestions: [
+            {
+              messageId: 'removeRequired',
+              output: `
+type Baz = Required<{ foo: string }>;
+`,
+            },
+          ],
+        },
+        {
+          messageId: 'uselessRequired',
+          suggestions: [
+            {
+              messageId: 'removeRequired',
+              output: `
+type Baz = Required<{ foo: string }>;
 `,
             },
           ],

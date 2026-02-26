@@ -373,7 +373,38 @@ function foo() {
       },
     },
     {
-      name: 'With a switch statement that always returns',
+      name: 'With a switch statement that sometimes returns',
+      code: `
+function foo() {
+  if (Math.random()) {
+    switch (bar) {
+      case 'a':
+        return 1;
+      case 'b':
+        console.log('no return here');
+        break;
+      default:
+        return 3;
+    }
+  }
+
+  switch (bar) {
+    case 'a':
+      return 1;
+    case 'b':
+      console.log('no return here');
+      break;
+    default:
+      return 3;
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a switch statement that always returns, but no duplicate branches',
       code: `
 function foo() {
   if (Math.random()) {
@@ -907,6 +938,35 @@ function foo() {
       errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
       after() {
         // Not formatted
+      },
+    },
+    {
+      name: 'With a switch statement that always returns',
+      code: `
+function foo() {
+  if (Math.random()) {
+    switch (bar) {
+      case 'a':
+        return 1;
+      case 'b':
+        return 2;
+      default:
+        return 3;
+    }
+  }
+  switch (bar) {
+    case 'a':
+      return 1;
+    case 'b':
+      return 2;
+    default:
+      return 3;
+  }
+}
+`,
+      errors: [{ messageId: 'noDuplicatedReturn' }, { messageId: 'noDuplicatedReturn' }],
+      after() {
+        checkFormatting(this);
       },
     },
   ],

@@ -1,6 +1,6 @@
 # wyrm/nullish-object-spread
 
-📝 Forbid useless empty object fallback for nullish values in object spread.
+📝 Forbid useless fallback for nullish values in object spread.
 
 💼 This rule is enabled in the following configs: 🟪 `strict`, ☑️ `strictTypeChecked`.
 
@@ -8,7 +8,7 @@
 
 ### Incorrect ❌
 
-Useless fallback:
+Useless fallback with empty object:
 
 ```tsx
 const foo = null;

@@ -11,8 +11,7 @@ export default createRule({
   meta: {
     type: 'suggestion',
     docs: {
-      description:
-        'Forbid useless empty object fallback for nullish values in object spread',
+      description: 'Forbid useless fallback for nullish values in object spread',
       strict: true,
     },
     schema: [],
@@ -29,8 +28,19 @@ export default createRule({
           if (prop.type !== AST_NODE_TYPES.SpreadElement) continue;
           if (prop.argument.type !== AST_NODE_TYPES.LogicalExpression) continue;
           if (prop.argument.operator !== '??') continue;
-          if (prop.argument.right.type !== AST_NODE_TYPES.ObjectExpression) continue;
-          if (prop.argument.right.properties.length) continue;
+
+          const { right } = prop.argument;
+
+          const isEmptyObject =
+            right.type === AST_NODE_TYPES.ObjectExpression && !right.properties.length;
+          const isUndefined =
+            right.type === AST_NODE_TYPES.Identifier && right.name === 'undefined';
+          const isNonIterableLiteral =
+            right.type === AST_NODE_TYPES.Literal && typeof right.value !== 'string';
+
+          const isNullishEquivalent =
+            isEmptyObject || isUndefined || isNonIterableLiteral;
+          if (!isNullishEquivalent) return;
 
           context.report({ node: prop, messageId: 'uselessFallback' });
         }
