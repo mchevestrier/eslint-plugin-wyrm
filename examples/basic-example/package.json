@@ -17,7 +17,7 @@
     "@shopify/eslint-plugin": "^50.0.0",
     "@typescript-eslint/parser": "^8.56.1",
     "eslint": "^9.39.2",
-    "eslint-plugin-sonarjs": "^3.0.7",
+    "eslint-plugin-sonarjs": "^4.0.0",
     "eslint-plugin-unicorn": "^63.0.0",
     "eslint-plugin-wyrm": "workspace:*",
     "fast-check": "^4.5.3",
