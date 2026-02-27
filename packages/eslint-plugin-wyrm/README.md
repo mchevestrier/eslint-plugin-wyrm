@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/eslint-plugin-wyrm.svg?color=7f52af&labelColor=26272b)](https://www.npmjs.com/package/eslint-plugin-wyrm)
 [![GitHub release](https://img.shields.io/github/v/release/mchevestrier/eslint-plugin-wyrm?color=7f52af&labelColor=26272b)](https://github.com/mchevestrier/eslint-plugin-wyrm/releases/latest)
 [![GitHub License](https://img.shields.io/badge/license-MIT-232428.svg?color=7f52af&labelColor=26272b)](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/LICENSE.md)
-[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fmchevestrier%2Feslint-plugin-wyrm%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/mchevestrier/eslint-plugin-wyrm/master)
+[![Mutation testing badge](https://img.shields.io/endpoint?style=flat&labelColor=26272b&url=https%3A%2F%2Fbadge-api.stryker-mutator.io%2Fgithub.com%2Fmchevestrier%2Feslint-plugin-wyrm%2Fmaster)](https://dashboard.stryker-mutator.io/reports/github.com/mchevestrier/eslint-plugin-wyrm/master)
 
 ## Installation
 
@@ -52,6 +52,7 @@ export default defineConfig([
 
 | Name                                                                                                                                                                            | Description                                                                                      | 💼          | 🔧  | 💡  | 💭  |
 | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :----------------------------------------------------------------------------------------------- | :---------- | :-- | :-- | :-- |
+| [constant-boolean-cast](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/constant-boolean-cast.md)                         | Forbid boolean casts on values with constant truthiness                                          | ✅ ☑️       |     | 💡  | 💭  |
 | [de-morgan](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/de-morgan.md)                                                 | Enforce using De Morgan's law to simplify negated logical expressions                            | 🟩 ✅ 🟪 ☑️ | 🔧  |     |     |
 | [distribute-boolean-casts](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/distribute-boolean-casts.md)                   | Enforce that boolean casts are distributed over logical expressions                              | 🟪 ☑️       | 🔧  |     |     |
 | [duplicate-destructuring](https://github.com/mchevestrier/eslint-plugin-wyrm/blob/master/packages/eslint-plugin-wyrm/docs/rules/duplicate-destructuring.md)                     | Forbid duplicate keys in object destructuring patterns                                           | 🟩 ✅ 🟪 ☑️ |     |     |     |

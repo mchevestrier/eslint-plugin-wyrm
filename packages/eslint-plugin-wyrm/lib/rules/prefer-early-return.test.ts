@@ -218,6 +218,31 @@ function fun(foo: number | null, fallback: number) {
         checkFormatting(this);
       },
     },
+    {
+      name: 'With a switch statement in alternate branch that sometimes returns',
+      code: `
+function foo(cond1: boolean, bar: string) {
+  if (cond1) {
+    console.log('ok');
+  } else {
+    switch (bar) {
+      case 'a':
+        return 1;
+      case 'b':
+        console.log('not returning');
+        break;
+      default:
+        return 3;
+    }
+  }
+
+  console.log('after');
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -1110,7 +1135,6 @@ function foo(cond1: boolean, bar: string) {
         checkFormatting(this);
       },
     },
-
     {
       name: 'With a deeply nested statement after the last subsequent return statement',
       code: `
