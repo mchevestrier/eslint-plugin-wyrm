@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.12](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.11...eslint-plugin-wyrm-v0.0.12) (2026-02-27)
+
+
+### Features
+
+* add rule constant-boolean-cast ([d70a070](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/d70a0701c1e260571f0c5c01e71e35975f3638ff))
+
 ## [0.0.11](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.10...eslint-plugin-wyrm-v0.0.11) (2026-02-26)
 
 
