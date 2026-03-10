@@ -57,7 +57,7 @@ export default createRule({
       const allComments = context.sourceCode.getAllComments();
       const previousComments = allComments.filter(
         (comment) =>
-          // Stryker disable EqualityOperator
+          // Stryker disable next-line EqualityOperator
           comment.range[0] >= prev.range[1] && comment.range[1] <= node.range[0],
       );
       if (!previousComments.length) return txt;
@@ -103,7 +103,7 @@ function isBooleanLike(expr: TSESTree.Expression): boolean {
       case 'instanceof':
         return true;
 
-      // Stryker disable ConditionalExpression
+      // Stryker disable next-line ConditionalExpression
       default:
         return false;
     }

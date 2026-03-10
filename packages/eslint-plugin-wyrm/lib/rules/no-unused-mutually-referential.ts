@@ -178,6 +178,7 @@ function isFunctionUnused(
           }
           continue;
 
+        // Stryker disable all
         /* v8 ignore next -- @preserve */
         default: {
           const check = kind;
@@ -186,6 +187,7 @@ function isFunctionUnused(
           );
           return false;
         }
+        // Stryker restore all
       }
     }
 
@@ -315,6 +317,7 @@ function isExported(fn: IdentifiedFunction): boolean {
       return false;
     }
 
+    // Stryker disable all
     /* v8 ignore next -- @preserve */
     default: {
       const check: never = type;
@@ -323,6 +326,7 @@ function isExported(fn: IdentifiedFunction): boolean {
       );
       return false;
     }
+    // Stryker restore all
   }
 }
 

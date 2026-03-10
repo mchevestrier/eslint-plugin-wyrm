@@ -86,7 +86,7 @@ function isUseMemo(node: TSESTree.Expression) {
     return node.name === useMemoName;
   }
 
-  // Stryker disable BooleanLiteral
+  // Stryker disable next-line BooleanLiteral
   if (node.type !== AST_NODE_TYPES.MemberExpression) return false;
 
   if (node.object.type !== AST_NODE_TYPES.Identifier) return false;

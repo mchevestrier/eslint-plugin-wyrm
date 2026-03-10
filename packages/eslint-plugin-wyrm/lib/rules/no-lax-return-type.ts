@@ -127,7 +127,7 @@ export default createRule({
     }
 
     function checkFunction(node: FunctionNode) {
-      // Stryker disable ConditionalExpression
+      // Stryker disable next-line ConditionalExpression
       if (!node.returnType) return;
 
       // Ignore method definitions as the return type can be useful for child classes

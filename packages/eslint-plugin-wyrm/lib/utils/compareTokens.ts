@@ -22,7 +22,7 @@ export function compareTokens(
 
 function areTokensEqual(a: TSESTree.Token, b: TSESTree.Token): boolean {
   // Not sure if it's possible for two tokens to have different types but the same value
-  // Stryker disable ConditionalExpression
+  // Stryker disable next-line ConditionalExpression
   if (a.type !== b.type) return false;
 
   if (a.type === AST_TOKEN_TYPES.String) {

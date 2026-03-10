@@ -182,7 +182,7 @@ function getMapHasCall(node: TSESTree.Expression) {
   if (node.callee.property.name !== 'has') return None;
 
   const [hasKey] = node.arguments;
-  // Stryker disable ConditionalExpression
+  // Stryker disable next-line ConditionalExpression
   if (!hasKey) return None;
 
   const mapName = node.callee.object.name;
@@ -211,7 +211,7 @@ function getMapGetCall(node: TSESTree.Expression) {
 
   if (node.arguments.length > 1) return None;
   const [getKey] = node.arguments;
-  // Stryker disable ConditionalExpression
+  // Stryker disable next-line ConditionalExpression
   if (!getKey) return None;
 
   return Some({ getKey, mapName });

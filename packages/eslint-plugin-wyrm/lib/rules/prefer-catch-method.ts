@@ -97,7 +97,7 @@ export default createRule({
           variable.references.some(
             (ref) =>
               ref.isRead() &&
-              // Stryker disable EqualityOperator
+              // Stryker disable next-line EqualityOperator
               ref.identifier.range[1] < node.range[0],
           )
         ) {

@@ -181,13 +181,14 @@ function getFlags(info: Info): Flags {
     case '>=':
       return Flags.EQUAL_TO_ZERO | Flags.SUPERIOR_TO_ZERO;
 
+    // Stryker disable all
     /* v8 ignore next -- @preserve */
     default: {
       const check: never = op;
-      // Stryker disable all
       console.error(`[wyrm] Unexpected binary operator: ${check}`);
       return Flags.UNKNOWN;
     }
+    // Stryker restore all
   }
 }
 
@@ -239,13 +240,14 @@ function reverseOperator(op: ComparisonOperator): ComparisonOperator {
     case '>=':
       return '<=';
 
+    // Stryker disable all
     /* v8 ignore next -- @preserve */
     default: {
       const check: never = op;
-      // Stryker disable all
       console.error(`[wyrm] Unexpected binary operator: ${check}`);
       return op;
     }
+    // Stryker restore all
   }
 }
 
@@ -330,12 +332,13 @@ function isComparisonOperator(
     case '>=':
       return true;
 
+    // Stryker disable all
     /* v8 ignore next -- @preserve */
     default: {
       const check: never = operator;
-      // Stryker disable all
       console.error(`[wyrm] Unexpected binary operator: ${check}`);
       return false;
     }
+    // Stryker restore all
   }
 }

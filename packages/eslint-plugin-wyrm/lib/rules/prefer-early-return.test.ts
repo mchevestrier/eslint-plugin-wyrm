@@ -243,6 +243,355 @@ function foo(cond1: boolean, bar: string) {
         checkFormatting(this);
       },
     },
+    {
+      name: 'With try/catch where try block returns (neverReturns = false)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      return 42;
+    } catch {
+      console.log('error');
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try/catch where catch block returns (neverReturns = false)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log('trying');
+    } catch {
+      return 42;
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try/catch where both blocks return (neverReturns = false)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      return 1;
+    } catch {
+      return 2;
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try/finally where try block returns (neverReturns = false)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      return 42;
+    } finally {
+      console.log('cleanup');
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try/finally where finally block returns (neverReturns = false)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log('trying');
+    } finally {
+      return 42;
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try/catch/finally where try block returns (neverReturns = false)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      return 1;
+    } catch {
+      console.log('error');
+    } finally {
+      console.log('cleanup');
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try/catch/finally where catch block returns (neverReturns = false)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log('trying');
+    } catch {
+      return 2;
+    } finally {
+      console.log('cleanup');
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try/catch/finally where finally block returns (neverReturns = false)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log('trying');
+    } catch {
+      console.log('error');
+    } finally {
+      return 3;
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try/catch/finally where all blocks return (neverReturns = false)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      return 1;
+    } catch {
+      return 2;
+    } finally {
+      return 3;
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With nested try/catch where inner try returns (neverReturns = false)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      try {
+        return 1;
+      } catch {
+        console.log('inner error');
+      }
+    } catch {
+      console.log('outer error');
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With nested try/catch where inner catch returns (neverReturns = false)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      try {
+        console.log('inner try');
+      } catch {
+        return 2;
+      }
+    } catch {
+      console.log('outer error');
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With nested try/catch where outer catch returns (neverReturns = false)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      try {
+        console.log('inner try');
+      } catch {
+        console.log('inner error');
+      }
+    } catch {
+      return 3;
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try block containing if/return (neverReturns = false)',
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {
+    try {
+      if (cond2) return 1;
+    } catch {
+      console.log('error');
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With catch block containing if/return (neverReturns = false)',
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {
+    try {
+      console.log('trying');
+    } catch {
+      if (cond2) return 2;
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With finally block containing if/return (neverReturns = false)',
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {
+    try {
+      console.log('trying');
+    } catch {
+      console.log('error');
+    } finally {
+      if (cond2) return 3;
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try block containing loop with return (neverReturns = false)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      for (const item of []) {
+        return 1;
+      }
+    } catch {
+      console.log('error');
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With catch block containing loop with return (neverReturns = false)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log('trying');
+    } catch {
+      while (true) {
+        return 2;
+      }
+    }
+  } else {
+    console.log(0);
+  }
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {
@@ -1176,6 +1525,346 @@ function foo(foo: number, bar: number) {
 }
 `,
       errors: [{ messageId: 'preferReversedEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try/finally where neither block returns (neverReturns = true)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log('trying');
+    } finally {
+      console.log('cleanup');
+    }
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      output: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log('trying');
+    } finally {
+      console.log('cleanup');
+    }
+    return;
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try/catch/finally where no blocks return (neverReturns = true)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log('trying');
+    } catch {
+      console.log('error');
+    } finally {
+      console.log('cleanup');
+    }
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      output: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log('trying');
+    } catch {
+      console.log('error');
+    } finally {
+      console.log('cleanup');
+    }
+    return;
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With nested try/catch where no blocks return (neverReturns = true)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      try {
+        console.log('inner try');
+      } catch {
+        console.log('inner error');
+      }
+    } catch {
+      console.log('outer error');
+    }
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      output: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      try {
+        console.log('inner try');
+      } catch {
+        console.log('inner error');
+      }
+    } catch {
+      console.log('outer error');
+    }
+    return;
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try/catch with empty catch block (neverReturns = true)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log('trying');
+    } catch {}
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      output: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log('trying');
+    } catch {}
+    return;
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try/finally with multiple statements, no returns (neverReturns = true)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log('step 1');
+      console.log('step 2');
+      console.log('step 3');
+    } finally {
+      console.log('cleanup');
+    }
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      output: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log('step 1');
+      console.log('step 2');
+      console.log('step 3');
+    } finally {
+      console.log('cleanup');
+    }
+    return;
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try block containing if without return (neverReturns = true)',
+      code: `
+function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {
+    try {
+      if (cond2) {
+        console.log('nested');
+      }
+    } catch {
+      console.log('error');
+    }
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      output: `
+function foo(cond1: boolean, cond2: boolean) {
+  if (cond1) {
+    try {
+      if (cond2) {
+        console.log('nested');
+      }
+    } catch {
+      console.log('error');
+    }
+    return;
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try block containing loop without return (neverReturns = true)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      for (const item of []) {
+        console.log(item);
+      }
+    } catch {
+      console.log('error');
+    }
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      output: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      for (const item of []) {
+        console.log(item);
+      }
+    } catch {
+      console.log('error');
+    }
+    return;
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With empty try block (neverReturns = true)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+    } catch {
+      console.log('error');
+    }
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      output: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+    } catch {
+      console.log('error');
+    }
+    return;
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With try/finally with empty finally block (neverReturns = true)',
+      code: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log('trying');
+    } finally {
+    }
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      output: `
+function foo(cond1: boolean) {
+  if (cond1) {
+    try {
+      console.log('trying');
+    } finally {
+    }
+    return;
+  } else {
+    console.log(0);
+    console.log(0);
+  }
+}
+`,
+      errors: [{ messageId: 'preferEarlyReturn' }],
       after() {
         checkFormatting(this);
       },

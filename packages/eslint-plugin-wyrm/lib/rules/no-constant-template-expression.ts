@@ -126,6 +126,7 @@ export default createRule({
                 .find((quasi) => quasi.range[1] <= identStart);
               const nextQuasi = quasis.find((quasi) => quasi.range[0] >= identEnd);
 
+              // Stryker disable all
               /* v8 ignore if -- @preserve */
               if (!previousQuasi || !nextQuasi) {
                 const msg =
@@ -133,6 +134,7 @@ export default createRule({
                 console.error(msg);
                 return;
               }
+              // Stryker restore all
 
               const start = previousQuasi.range[1];
               const end = nextQuasi.range[0];

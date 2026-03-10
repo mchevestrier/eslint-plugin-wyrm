@@ -83,11 +83,13 @@ export default createRule({
             checkNullishCoalescingExpression(node);
             break;
 
+          // Stryker disable all
           /* v8 ignore next -- @preserve */
           default: {
             const check: never = node.operator;
             console.error(`[wyrm] Unexpected operator for LogicalExpression: ${check}`);
           }
+          // Stryker restore all
         }
       },
     };

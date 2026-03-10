@@ -96,12 +96,14 @@ export default createRule({
 
             const token = context.sourceCode.getLastToken(consequent);
 
+            // Stryker disable all
             /* v8 ignore if -- @preserve */
             if (!token) {
               const msg = `[wyrm] No last token found for ${context.sourceCode.getText(consequent)}`;
               console.error(msg);
               return;
             }
+            // Stryker restore all
 
             const baseIndent = ' '.repeat(ifStatement.loc.start.column);
             yield fixer.insertTextBefore(token, `  return;\n${baseIndent}`);

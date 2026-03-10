@@ -216,11 +216,13 @@ function getFunctionName(node: FunctionNode): TSESTree.Identifier | null {
       if (node.parent.id.type !== AST_NODE_TYPES.Identifier) return null;
       return node.parent.id;
 
+    // Stryker disable all
     /* v8 ignore next -- @preserve */
     default: {
       const check: never = nodeType;
       console.error(`[wyrm] Unexpected node type: ${check}`);
       return null;
     }
+    // Stryker restore all
   }
 }

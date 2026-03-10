@@ -147,12 +147,14 @@ function isSafeStatement(stmt: TSESTree.Statement): boolean {
     case AST_NODE_TYPES.WithStatement:
       return isSafeExpression(stmt.object) && isSafeStatement(stmt.body);
 
+    // Stryker disable all
     /* v8 ignore next -- @preserve */
     default: {
       const check: never = stmtType;
       console.error(`[wyrm] Unexpected statement type: ${check}`);
       return false;
     }
+    // Stryker restore all
   }
 }
 
@@ -287,12 +289,14 @@ function isSafeExpression(
     case AST_NODE_TYPES.YieldExpression:
       return !expr.argument || isSafeExpression(expr.argument);
 
+    // Stryker disable all
     /* v8 ignore next -- @preserve */
     default: {
       const check: never = exprType;
       console.error(`[wyrm] Unexpected expression type: ${check}`);
       return false;
     }
+    // Stryker restore all
   }
 }
 

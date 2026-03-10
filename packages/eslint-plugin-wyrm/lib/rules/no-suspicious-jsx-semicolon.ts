@@ -32,15 +32,17 @@ export default createRule({
   create(context) {
     return {
       JSXText(node) {
+        // Stryker disable all
         /* v8 ignore if -- @preserve */
         if (
           node.parent.type !== AST_NODE_TYPES.JSXElement &&
           node.parent.type !== AST_NODE_TYPES.JSXFragment
         ) {
-          const msg = `Did not expect JSXText node to be a child of ${node.parent.type}`;
+          const msg = `[wyrm] Did not expect JSXText node to be a child of ${node.parent.type}`;
           console.warn(msg);
           return;
         }
+        // Stryker restore all
 
         if (node.parent.children.at(-1) !== node) return;
 

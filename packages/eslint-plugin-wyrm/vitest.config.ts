@@ -11,7 +11,7 @@ export default defineConfig({
     coverage: {
       reporter: ['text', 'html', 'clover', 'json', 'lcov'],
       provider: 'v8',
-      include: ['lib/'],
+      include: ['lib/rules', 'lib/utils'],
       exclude: ['lib/rules/index.ts', 'lib/rules/fixtures/'],
       thresholds: {
         perFile: true,

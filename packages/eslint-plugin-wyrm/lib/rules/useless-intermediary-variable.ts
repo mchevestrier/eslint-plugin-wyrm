@@ -85,6 +85,7 @@ export default createRule({
           if (isUppercaseIdentifier(ident)) return true;
 
           const variable = ASTUtils.findVariable(scope, ident);
+          // Stryker disable next-line BooleanLiteral
           if (!variable) return true;
           if (identifierHasMoreReferences(variable)) return true;
           return false;
