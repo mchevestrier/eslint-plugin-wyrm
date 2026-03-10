@@ -103,13 +103,6 @@ function nullishTypesIntersect(a: ts.Type, b: ts.Type): boolean {
   if (isPossiblyNull(a) && !isPossiblyNull(b)) return false;
   if (isPossiblyUndefined(a) && !isPossiblyUndefined(b)) return false;
 
-  // The following conditions can never be true because a & b are always nullish (so either null or undefined)
-
-  /* v8 ignore if -- @preserve */
-  if (!isPossiblyNull(a) && isPossiblyNull(b)) return false;
-  /* v8 ignore if -- @preserve */
-  if (!isPossiblyUndefined(a) && isPossiblyUndefined(b)) return false;
-
   return true;
 }
 

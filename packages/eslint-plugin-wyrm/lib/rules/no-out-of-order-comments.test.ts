@@ -273,6 +273,30 @@ ruleTester.run(name, rule, {
       },
     },
     {
+      name: 'With a prefix and several digits',
+      code: `
+// Step 1: Do stuff
+// Step 2: Do stuff
+// Step 3: Do stuff
+// Step 4: Do stuff
+// Step 5: Do stuff
+// Step 6: Do stuff
+// Step 7: Do stuff
+// Step 8: Do stuff
+// Step 9: Do stuff
+// Step 10: Do stuff
+// Step 12: Do stuff
+// Step 11: Do stuff
+`,
+      errors: [
+        { messageId: 'noOutOfOrderComments' },
+        { messageId: 'noOutOfOrderComments' },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With a prefix and a period',
       code: `
 // Part 1. Do stuff

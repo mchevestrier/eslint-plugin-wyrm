@@ -158,6 +158,72 @@ foo === 42;
         checkFormatting(this);
       },
     },
+    {
+      name: 'Compared values are not possibly nullish (loose equality)',
+      code: `
+declare const foo: string | number;
+declare const bar: string | number;
+foo == bar;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Compared values are not possibly nullish (loose inequality)',
+      code: `
+declare const foo: string | number;
+declare const bar: string | number;
+foo != bar;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Left value is not possibly nullish (loose equality)',
+      code: `
+declare const foo: string | number;
+declare const bar: string | number | null;
+foo == bar;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Right value is not possibly nullish (loose equality)',
+      code: `
+declare const foo: string | number | null;
+declare const bar: string | number;
+foo == bar;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Left value is not possibly nullish (loose inequality)',
+      code: `
+declare const foo: string | number;
+declare const bar: string | number | null;
+foo != bar;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Right value is not possibly nullish (loose inequality)',
+      code: `
+declare const foo: string | number | null;
+declare const bar: string | number;
+foo != bar;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

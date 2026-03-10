@@ -45,7 +45,7 @@ foo === 'quux';
       },
     },
     {
-      name: 'With ignoreCase flag',
+      name: 'With ignoreCase flag #docs',
       code: `
 /^quux$/i.test(foo);
 `,
@@ -54,7 +54,7 @@ foo === 'quux';
       },
     },
     {
-      name: 'With multiline flag',
+      name: 'With multiline flag #docs',
       code: `
 /^quux$/m.test(foo);
 `,

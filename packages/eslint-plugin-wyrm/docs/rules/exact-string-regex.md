@@ -27,4 +27,16 @@ Using string equality:
 foo === 'quux';
 ```
 
+With ignoreCase flag:
+
+```tsx
+/^quux$/i.test(foo);
+```
+
+With multiline flag:
+
+```tsx
+/^quux$/m.test(foo);
+```
+
 <!-- end auto-generated rule header -->
