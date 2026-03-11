@@ -190,8 +190,8 @@ importers:
         specifier: ^3.5.2
         version: 3.5.2(@typescript-eslint/rule-tester@8.56.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(@typescript-eslint/typescript-estree@8.56.1(typescript@5.9.3))(@typescript-eslint/utils@8.56.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-eslint-plugin:
-        specifier: ^7.3.1
-        version: 7.3.1(eslint@9.39.2(jiti@2.6.1))
+        specifier: ^7.3.2
+        version: 7.3.2(eslint@9.39.2(jiti@2.6.1))
       eslint-plugin-import-x:
         specifier: ^4.16.1
         version: 4.16.1(@typescript-eslint/utils@8.56.1(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3))(eslint@9.39.2(jiti@2.6.1))
@@ -199,8 +199,8 @@ importers:
         specifier: ^17.24.0
         version: 17.24.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
       eslint-plugin-package-json:
-        specifier: ~0.89.2
-        version: 0.89.2(@types/estree@1.0.8)(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@3.1.0)
+        specifier: ~0.89.3
+        version: 0.89.3(@types/estree@1.0.8)(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@3.1.0)
       eslint-plugin-perfectionist:
         specifier: ^5.6.0
         version: 5.6.0(eslint@9.39.2(jiti@2.6.1))(typescript@5.9.3)
@@ -2623,9 +2623,9 @@ packages:
     peerDependencies:
       eslint: '>=4.19.1'
 
-  eslint-plugin-eslint-plugin@7.3.1:
-    resolution: {integrity: sha512-l3dYhVgj4bhKLYiZ+hJR7wjIbypOoVo76DNcfQWMb5mCobeuN3FKZPrZVqh90yul2s2hBcEQa2I9otyUjhZ6dw==}
-    engines: {node: ^20.19.0 || ^22.13.1 || >=24.0.0}
+  eslint-plugin-eslint-plugin@7.3.2:
+    resolution: {integrity: sha512-odUwjaeon0s3W96vAmZf13XbTEGKnnXStnRykwM3XysTce7ZI7C8AJRn47OFJMdDNVtG/jLb/gFk0Wvj9zkSbQ==}
+    engines: {node: ^20.19.0 || ^22.13.0 || >=24.0.0}
     peerDependencies:
       eslint: '>=9.0.0'
 
@@ -2679,8 +2679,8 @@ packages:
     peerDependencies:
       eslint: '>=8.23.0'
 
-  eslint-plugin-package-json@0.89.2:
-    resolution: {integrity: sha512-1w9V/IwkkFzXJegbKHacbrOcupkIIp2F4ISB2JYfNl3g/NBiVbU8Db4IptVYVghcfJZlpVji2Us0cGCQPRCMVQ==}
+  eslint-plugin-package-json@0.89.3:
+    resolution: {integrity: sha512-tkBPkDrJsYmn/UAw/EYZISAB3+GRgKZKwR/aqJ6bO24xbBvLZqm2u/Nxn17AlKBxBjlIgOMCJ4GSqgUt5aNRQg==}
     engines: {node: ^20.19.0 || >=22.12.0}
     peerDependencies:
       eslint: '>=8.0.0'
@@ -3928,8 +3928,8 @@ packages:
     resolution: {integrity: sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw==}
     engines: {node: '>=10'}
 
-  package-json-validator@1.2.0:
-    resolution: {integrity: sha512-Cy1rFwcTuuO3NxZ3Q6QZ8zZfYyRYs3BskcOuYqsiq3ZsHkAPhNNCvhAtb1JJX63Dmp9fzd7oCqiR1fOtuK8XDQ==}
+  package-json-validator@1.2.1:
+    resolution: {integrity: sha512-WfvgMsWEdszsFwqCWkHlD9b7nrGOcZQzphkCvoRuss6qqwLScPKmiRLDLOsZjUNjANIpPjeMjz1zlkP+uDMaHw==}
     engines: {node: ^20.19.0 || ^22.12.0 || >=24.0.0}
 
   package-json@10.0.1:
@@ -7328,7 +7328,7 @@ snapshots:
       eslint: 9.39.2(jiti@2.6.1)
       ignore: 5.3.2
 
-  eslint-plugin-eslint-plugin@7.3.1(eslint@9.39.2(jiti@2.6.1)):
+  eslint-plugin-eslint-plugin@7.3.2(eslint@9.39.2(jiti@2.6.1)):
     dependencies:
       '@eslint-community/eslint-utils': 4.9.1(eslint@9.39.2(jiti@2.6.1))
       eslint: 9.39.2(jiti@2.6.1)
@@ -7414,7 +7414,7 @@ snapshots:
     transitivePeerDependencies:
       - typescript
 
-  eslint-plugin-package-json@0.89.2(@types/estree@1.0.8)(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@3.1.0):
+  eslint-plugin-package-json@0.89.3(@types/estree@1.0.8)(eslint@9.39.2(jiti@2.6.1))(jsonc-eslint-parser@3.1.0):
     dependencies:
       '@altano/repository-tools': 2.0.1
       change-case: 5.4.4
@@ -7423,7 +7423,7 @@ snapshots:
       eslint: 9.39.2(jiti@2.6.1)
       eslint-fix-utils: 0.4.2(@types/estree@1.0.8)(eslint@9.39.2(jiti@2.6.1))
       jsonc-eslint-parser: 3.1.0
-      package-json-validator: 1.2.0
+      package-json-validator: 1.2.1
       semver: 7.7.4
       sort-object-keys: 2.1.0
       sort-package-json: 3.6.1
@@ -8944,7 +8944,7 @@ snapshots:
     dependencies:
       p-limit: 3.1.0
 
-  package-json-validator@1.2.0:
+  package-json-validator@1.2.1:
     dependencies:
       semver: 7.7.4
       validate-npm-package-license: 3.0.4
