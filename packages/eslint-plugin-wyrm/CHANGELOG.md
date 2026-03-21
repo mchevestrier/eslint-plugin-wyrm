@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.0.12](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.11...eslint-plugin-wyrm-v0.0.12) (2026-03-21)
+
+
+### Features
+
+* add rule constant-boolean-cast ([d70a070](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/d70a0701c1e260571f0c5c01e71e35975f3638ff))
+* add rules eqeq-null & prefer-eqeq-null ([40bd271](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/40bd2718917f390dcdd156ab2e4ec204af4d498c))
+* add rules jsx-tostring & template-tostring ([5077794](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/50777944943609a888848357e36adea708422b3d))
+
 ## [0.0.11](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.10...eslint-plugin-wyrm-v0.0.11) (2026-02-26)
 
 
