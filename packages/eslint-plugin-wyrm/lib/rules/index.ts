@@ -79,4 +79,5 @@ export { default as 'template-tostring' } from './template-tostring.js';
 export { default as 'unsafe-asserted-chain' } from './unsafe-asserted-chain.js';
 export { default as 'unused-object-assign' } from './unused-object-assign.js';
 export { default as 'useless-intermediary-variable' } from './useless-intermediary-variable.js';
+export { default as 'useless-mock' } from './useless-mock.js';
 export { default as 'useless-required' } from './useless-required.js';
