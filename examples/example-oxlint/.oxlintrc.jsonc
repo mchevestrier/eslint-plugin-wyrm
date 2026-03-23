@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "jsPlugins": ["eslint-plugin-wyrm"],
+  "rules": {
+    "typescript/no-base-to-string": "error",
+
+    "wyrm/no-commented-out-comment": "error",
+    "wyrm/no-invalid-date-literal": "error",
+    "wyrm/primitive-valueof": "off", // Type-aware rules are not yet supported for JS plugins
+  },
+  "options": {
+    "reportUnusedDisableDirectives": "error",
+    "denyWarnings": true,
+    "typeAware": true,
+    "typeCheck": true,
+  },
+}

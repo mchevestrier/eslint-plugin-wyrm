@@ -7,7 +7,7 @@
   "type": "module",
   "scripts": {
     "commitlint": "commitlint",
-    "dogfooding": "eslint . -c eslint.dogfooding.ts",
+    "dogfooding": "eslint . -c eslint.dogfooding.ts --no-warn-ignored",
     "eslint": "eslint",
     "knip": "knip",
     "lint:types": "tsc",

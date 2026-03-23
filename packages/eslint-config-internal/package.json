@@ -38,6 +38,7 @@
     "typescript-eslint": "^8.56.1"
   },
   "devDependencies": {
+    "@e18e/eslint-plugin": "^0.2.0",
     "@types/node": "^24.11.0",
     "eslint": "^9.39.2",
     "prettier": "^3.8.1"

@@ -3,6 +3,9 @@ import type { KnipConfig } from 'knip';
 const config: KnipConfig = {
   treatConfigHintsAsErrors: true,
   workspaces: {
+    'examples/example-oxlint': {
+      ignoreDependencies: ['eslint-plugin-wyrm'],
+    },
     'packages/eslint-plugin-wyrm': {
       entry: ['.eslint-doc-generatorrc.ts', '.markdownlint-cli2.mjs'],
       ignoreFiles: ['./lib/rules/fixtures/*'],

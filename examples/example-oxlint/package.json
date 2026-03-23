@@ -1,0 +1,19 @@
+{
+  "name": "@eslint-plugin-wyrm/example-oxlint",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Oxlint example with eslint-plugin-wyrm",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "fix:format": "oxfmt",
+    "lint:format": "oxfmt --check",
+    "lint:js": "oxlint"
+  },
+  "devDependencies": {
+    "eslint-plugin-wyrm": "workspace:*",
+    "oxfmt": "^0.41.0",
+    "oxlint": "^1.56.0",
+    "oxlint-tsgolint": "^0.17.1"
+  }
+}

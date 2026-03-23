@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-magic-numbers */
 
+import e18e from '@e18e/eslint-plugin';
 import js from '@eslint/js';
 import markdown from '@eslint/markdown';
 import comments from '@eslint-community/eslint-plugin-eslint-comments/configs';
@@ -65,6 +66,10 @@ export default defineConfig([
   tseslint.configs.stylisticTypeChecked,
 
   comments.recommended,
+
+  // https://github.com/e18e/eslint-plugin/issues/67
+  // @ts-expect-error - Type 'ConfigObject<RulesConfig> | LegacyConfigObject<RulesConfig, RulesConfig> | ConfigObject<RulesConfig>[] | undefined' is not assignable to type 'InfiniteArray<ConfigWithExtends>'.
+  e18e.configs['recommended'],
 
   {
     rules: {
@@ -364,12 +369,17 @@ export default defineConfig([
       'perfectionist/sort-named-imports': 'error',
       'perfectionist/sort-named-exports': 'error',
       'perfectionist/sort-exports': 'error',
+
+      'e18e/prefer-spread-syntax': 'off',
+      'e18e/prefer-static-regex': 'off',
     },
   },
-
   {
     files: ['**/*.md', '**/package.json'],
     extends: [tseslint.configs.disableTypeChecked],
+    rules: {
+      'e18e/ban-dependencies': 'off',
+    },
   },
 
   {
