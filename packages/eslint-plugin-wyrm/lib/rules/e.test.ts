@@ -470,5 +470,124 @@ try {
         checkFormatting(this);
       },
     },
+    {
+      name: 'Using `e` as a parameter name in an ambient function declaration #docs',
+      code: `
+declare function foo(e: Error): void;
+`,
+      errors: [
+        {
+          messageId: 'noE',
+          suggestions: [
+            {
+              messageId: 'useOther',
+              data: { ident: 'err' },
+              output: `
+declare function foo(err: Error): void;
+`,
+            },
+            {
+              messageId: 'useOther',
+              data: { ident: 'evt' },
+              output: `
+declare function foo(evt: Error): void;
+`,
+            },
+            {
+              messageId: 'useOther',
+              data: { ident: 'elt' },
+              output: `
+declare function foo(elt: Error): void;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Using `e` as a parameter name in a function type #docs',
+      code: `
+type Foo = (e: Error) => void;
+`,
+      errors: [
+        {
+          messageId: 'noE',
+          suggestions: [
+            {
+              messageId: 'useOther',
+              data: { ident: 'err' },
+              output: `
+type Foo = (err: Error) => void;
+`,
+            },
+            {
+              messageId: 'useOther',
+              data: { ident: 'evt' },
+              output: `
+type Foo = (evt: Error) => void;
+`,
+            },
+            {
+              messageId: 'useOther',
+              data: { ident: 'elt' },
+              output: `
+type Foo = (elt: Error) => void;
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'Using `e` as a parameter name in an interface method call signature #docs',
+      code: `
+interface Foo {
+  (e: Error): void;
+}
+`,
+      errors: [
+        {
+          messageId: 'noE',
+          suggestions: [
+            {
+              messageId: 'useOther',
+              data: { ident: 'err' },
+              output: `
+interface Foo {
+  (err: Error): void;
+}
+`,
+            },
+            {
+              messageId: 'useOther',
+              data: { ident: 'evt' },
+              output: `
+interface Foo {
+  (evt: Error): void;
+}
+`,
+            },
+            {
+              messageId: 'useOther',
+              data: { ident: 'elt' },
+              output: `
+interface Foo {
+  (elt: Error): void;
+}
+`,
+            },
+          ],
+        },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
 });

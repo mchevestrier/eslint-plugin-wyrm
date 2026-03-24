@@ -48,6 +48,9 @@ export default createRule({
       ArrowFunctionExpression: checkFunction,
       FunctionExpression: checkFunction,
       FunctionDeclaration: checkFunction,
+      TSDeclareFunction: checkFunction,
+      TSFunctionType: checkFunction,
+      TSCallSignatureDeclaration: checkFunction,
       CatchClause(node) {
         if (node.param?.type !== AST_NODE_TYPES.Identifier) return;
         checkParam(node.param);
@@ -57,7 +60,10 @@ export default createRule({
     type FunctionNode =
       | TSESTree.FunctionDeclaration
       | TSESTree.FunctionExpression
-      | TSESTree.ArrowFunctionExpression;
+      | TSESTree.ArrowFunctionExpression
+      | TSESTree.TSDeclareFunction
+      | TSESTree.TSFunctionType
+      | TSESTree.TSCallSignatureDeclaration;
 
     function checkFunction(node: FunctionNode) {
       for (const param of node.params) {

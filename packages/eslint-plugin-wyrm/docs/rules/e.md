@@ -58,6 +58,37 @@ try {
 }
 ```
 
+Using `e` as a parameter name in an ambient function declaration:
+
+```tsx
+declare function foo(e: Error): void;
+
+// Can be fixed to:
+declare function foo(err: Error): void;
+```
+
+Using `e` as a parameter name in a function type:
+
+```tsx
+type Foo = (e: Error) => void;
+
+// Can be fixed to:
+type Foo = (err: Error) => void;
+```
+
+Using `e` as a parameter name in an interface method call signature:
+
+```tsx
+interface Foo {
+  (e: Error): void;
+}
+
+// Can be fixed to:
+interface Foo {
+  (err: Error): void;
+}
+```
+
 ### Correct ✅
 
 Using `err` as a parameter name:
