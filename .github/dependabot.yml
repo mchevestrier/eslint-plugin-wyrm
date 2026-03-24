@@ -45,6 +45,9 @@ updates:
         patterns:
           - 'vitest'
           - '@vitest/*'
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'
 
   # Enable version updates for GitHub Actions
   - package-ecosystem: 'github-actions'
@@ -55,3 +58,6 @@ updates:
       interval: 'weekly'
     cooldown:
       default-days: 7
+    commit-message:
+      prefix: 'chore'
+      include: 'scope'

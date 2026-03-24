@@ -327,6 +327,51 @@ ruleTester.run(name, rule, {
       },
     },
     {
+      name: 'With a parenthesis',
+      code: `
+// 1) Do stuff
+// 3) Do stuff
+// 2) Do stuff
+`,
+      errors: [
+        { messageId: 'noOutOfOrderComments' },
+        { messageId: 'noOutOfOrderComments' },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a dash',
+      code: `
+// 1 - Do stuff
+// 3 - Do stuff
+// 2 - Do stuff
+`,
+      errors: [
+        { messageId: 'noOutOfOrderComments' },
+        { messageId: 'noOutOfOrderComments' },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a prefix and a dash',
+      code: `
+// Part 1 - Do stuff
+// Part 3 - Do stuff
+// Part 2 - Do stuff
+`,
+      errors: [
+        { messageId: 'noOutOfOrderComments' },
+        { messageId: 'noOutOfOrderComments' },
+      ],
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With a JSONC file',
       filename: 'foo.json',
       languageOptions: {
