@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
@@ -31,11 +31,12 @@ jobs:
           run_install: false
 
       - name: Install Node.js
-        uses: actions/setup-node@v6
+        uses:
+          # zizmor: ignore[cache-poisoning] caching restricted to trusted refs
+          actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version-file: .nvmrc
           cache: ${{ github.ref == 'refs/heads/master' && 'pnpm' || '' }}
-          # zizmor: ignore[cache-poisoning] caching restricted to trusted refs
           cache-dependency-path: 'pnpm-lock.yaml'
 
       - name: Install dependencies
@@ -84,7 +85,7 @@ jobs:
       fail-fast: false
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
@@ -94,11 +95,12 @@ jobs:
           run_install: false
 
       - name: Install Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v6
+        uses:
+          # zizmor: ignore[cache-poisoning] caching restricted to trusted refs
+          actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version: ${{ matrix.node-version }}
           cache: ${{ github.ref == 'refs/heads/master' && 'pnpm' || '' }}
-          # zizmor: ignore[cache-poisoning] caching restricted to trusted refs
           cache-dependency-path: 'pnpm-lock.yaml'
 
       - name: Install dependencies
@@ -111,7 +113,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
@@ -121,11 +123,12 @@ jobs:
           run_install: false
 
       - name: Install Node.js
-        uses: actions/setup-node@v6
+        uses:
+          # zizmor: ignore[cache-poisoning] caching restricted to trusted refs
+          actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version-file: .nvmrc
           cache: ${{ github.ref == 'refs/heads/master' && 'pnpm' || '' }}
-          # zizmor: ignore[cache-poisoning] caching restricted to trusted refs
           cache-dependency-path: 'pnpm-lock.yaml'
 
       - name: Install dependencies
@@ -142,7 +145,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
       - name: Spell Check Repo
@@ -152,7 +155,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           fetch-depth: 0
           persist-credentials: false
@@ -163,11 +166,12 @@ jobs:
           run_install: false
 
       - name: Install Node.js
-        uses: actions/setup-node@v6
+        uses:
+          # zizmor: ignore[cache-poisoning] caching restricted to trusted refs
+          actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version-file: .nvmrc
           cache: ${{ github.ref == 'refs/heads/master' && 'pnpm' || '' }}
-          # zizmor: ignore[cache-poisoning] caching restricted to trusted refs
           cache-dependency-path: 'pnpm-lock.yaml'
 
       - name: Install dependencies
@@ -190,7 +194,7 @@ jobs:
     if: ${{ github.event_name != 'push' || github.event.head_commit.author.username != 'github-actions[bot]' }}
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
@@ -200,11 +204,12 @@ jobs:
           run_install: false
 
       - name: Install Node.js
-        uses: actions/setup-node@v6
+        uses:
+          # zizmor: ignore[cache-poisoning] caching restricted to trusted refs
+          actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
         with:
           node-version-file: .nvmrc
           cache: ${{ github.ref == 'refs/heads/master' && 'pnpm' || '' }}
-          # zizmor: ignore[cache-poisoning] caching restricted to trusted refs
           cache-dependency-path: 'pnpm-lock.yaml'
 
       - name: Install dependencies
@@ -221,7 +226,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
@@ -231,17 +236,17 @@ jobs:
           advanced-security: false
           annotations: true
           color: true
-          version: v1.19.0
+          version: v1.23.1
 
   actionlint:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           persist-credentials: false
 
       - name: Run actionlint
-        uses: docker://rhysd/actionlint:1.7.10
+        uses: docker://rhysd/actionlint:1.7.11@sha256:6f03470d0152251d7f07f7c4dc019dbe7024c72cd952f839544c7798843efa8f
         with:
           args: -color
