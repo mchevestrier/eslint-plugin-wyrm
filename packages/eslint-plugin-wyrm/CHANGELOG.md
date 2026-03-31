@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.0.12](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.11...eslint-plugin-wyrm-v0.0.12) (2026-03-28)
+
+
+### Features
+
+* add rule constant-boolean-cast ([d70a070](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/d70a0701c1e260571f0c5c01e71e35975f3638ff))
+* add rule useless-mock ([8b56fc7](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/8b56fc77144b008a25fe0e70841bd289a460492b))
+* add rules eqeq-null & prefer-eqeq-null ([40bd271](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/40bd2718917f390dcdd156ab2e4ec204af4d498c))
+* add rules jsx-tostring & template-tostring ([5077794](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/50777944943609a888848357e36adea708422b3d))
+
+
+### Bug Fixes
+
+* improve e rule ([5ae6ead](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/5ae6ead4d5814b612472b580bf658d66e76b741f))
+* improve no-out-of-order-comments rule ([d295589](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/d29558959f839db965fa9d22596b4353e92f7571))
+
 ## [0.0.11](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.10...eslint-plugin-wyrm-v0.0.11) (2026-02-26)
 
 
