@@ -76,6 +76,7 @@ export { default as 'prefer-object-keys-values' } from './prefer-object-keys-val
 export { default as 'prefer-repeat' } from './prefer-repeat.js';
 export { default as 'primitive-valueof' } from './primitive-valueof.js';
 export { default as 'slim-try' } from './slim-try.js';
+export { default as 'styled-transient-props' } from './styled-transient-props.js';
 export { default as 'suspicious-map-length' } from './suspicious-map-length.js';
 export { default as 'template-tostring' } from './template-tostring.js';
 export { default as 'unsafe-asserted-chain' } from './unsafe-asserted-chain.js';

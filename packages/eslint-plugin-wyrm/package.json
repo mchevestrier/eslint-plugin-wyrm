@@ -47,6 +47,9 @@
     "prewatch": "pnpm run prebuild",
     "watch": "tsdown --watch"
   },
+  "dependencies": {
+    "@emotion/is-prop-valid": "^1.4.0"
+  },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
     "@eslint/markdown": "^8.0.1",
