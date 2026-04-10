@@ -1,4 +1,5 @@
 // GENERATED FILE - DO NOT EDIT
+export { default as 'await-promise-resolve' } from './await-promise-resolve.js';
 export { default as 'constant-boolean-cast' } from './constant-boolean-cast.js';
 export { default as 'de-morgan' } from './de-morgan.js';
 export { default as 'distribute-boolean-casts' } from './distribute-boolean-casts.js';
