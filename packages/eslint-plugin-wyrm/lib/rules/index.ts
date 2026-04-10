@@ -4,6 +4,7 @@ export { default as 'de-morgan' } from './de-morgan.js';
 export { default as 'distribute-boolean-casts' } from './distribute-boolean-casts.js';
 export { default as 'duplicate-destructuring' } from './duplicate-destructuring.js';
 export { default as 'e' } from './e.js';
+export { default as 'empty-for' } from './empty-for.js';
 export { default as 'eqeq-null' } from './eqeq-null.js';
 export { default as 'exact-string-regex' } from './exact-string-regex.js';
 export { default as 'export-using' } from './export-using.js';
