@@ -72,6 +72,7 @@ export { default as 'no-useless-usememo' } from './no-useless-usememo.js';
 export { default as 'no-whitespace-property' } from './no-whitespace-property.js';
 export { default as 'nullish-object-spread' } from './nullish-object-spread.js';
 export { default as 'optional-call-expression' } from './optional-call-expression.js';
+export { default as 'prefer-array-from' } from './prefer-array-from.js';
 export { default as 'prefer-catch-method' } from './prefer-catch-method.js';
 export { default as 'prefer-early-return' } from './prefer-early-return.js';
 export { default as 'prefer-eqeq-null' } from './prefer-eqeq-null.js';

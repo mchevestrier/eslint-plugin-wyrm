@@ -1,3 +1,4 @@
+/* eslint-disable wyrm/await-promise-resolve */
 /* eslint-disable @typescript-eslint/require-await, sonarjs/no-identical-functions */
 
 // eslint-disable-next-line wyrm/no-useless-iife
