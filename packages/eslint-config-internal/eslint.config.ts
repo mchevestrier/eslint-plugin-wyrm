@@ -365,6 +365,7 @@ export default defineConfig([
         'single',
         { avoidEscape: true, allowTemplateLiterals: 'avoidEscape' },
       ],
+      '@stylistic/spaced-comment': ['error', 'always', { markers: ['/'] }],
 
       'perfectionist/sort-named-imports': 'error',
       'perfectionist/sort-named-exports': 'error',

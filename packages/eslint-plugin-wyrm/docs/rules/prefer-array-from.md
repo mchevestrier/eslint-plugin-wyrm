@@ -67,6 +67,25 @@ function foo(strings: Iterator<string>) {
 }
 ```
 
+Pushed element is not a simple identifier:
+
+```tsx
+function foo(numbers: Iterator<number>) {
+  const arr = [];
+  for (const n of numbers) {
+    arr.push(n + 2);
+  }
+  return arr;
+}
+
+// Automatically fixed to:
+function foo(numbers: Iterator<number>) {
+  const arr = Array.from(numbers, (n) => n + 2);
+
+  return arr;
+}
+```
+
 ### Correct ✅
 
 Using `Array.from`:
