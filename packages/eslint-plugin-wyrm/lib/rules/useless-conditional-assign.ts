@@ -48,6 +48,7 @@ export default createRule({
       if (!stmt) return;
       if (stmt.type !== AST_NODE_TYPES.ExpressionStatement) return;
       if (stmt.expression.type !== AST_NODE_TYPES.AssignmentExpression) return;
+      if (stmt.expression.operator !== '=') return;
       if (stmt.expression.left.type !== AST_NODE_TYPES.Identifier) return;
       if (stmt.expression.left.name !== ident.name) return;
 

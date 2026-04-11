@@ -13,6 +13,7 @@ export { default as 'generic-constructor-with-hook' } from './generic-constructo
 export { default as 'idiomatic-cast' } from './idiomatic-cast.js';
 export { default as 'inner-as-const' } from './inner-as-const.js';
 export { default as 'jsx-tostring' } from './jsx-tostring.js';
+export { default as 'literal-destructuring' } from './literal-destructuring.js';
 export { default as 'named-export-with-side-effects' } from './named-export-with-side-effects.js';
 export { default as 'no-commented-out-comment' } from './no-commented-out-comment.js';
 export { default as 'no-constant-template-expression' } from './no-constant-template-expression.js';

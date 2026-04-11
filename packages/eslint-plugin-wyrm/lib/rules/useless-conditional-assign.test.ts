@@ -140,5 +140,48 @@ function foo() {
         checkFormatting(this);
       },
     },
+    {
+      name: 'With an assignment operator',
+      code: `
+function foo() {
+  let bar = -2;
+
+  if (Math.random()) {
+    bar += 42;
+  } else if (Math.random()) {
+    bar = null;
+    console.log('Oh no');
+  } else {
+    bar = 42 + 105;
+  }
+
+  // No other statements
+
+  return bar;
+}
+`,
+      output: `
+function foo() {
+  let bar = -2;
+
+  if (Math.random()) {
+    bar += 42;
+  } else if (Math.random()) {
+    bar = null;
+    console.log('Oh no');
+  } else {
+    return 42 + 105;
+  }
+
+  // No other statements
+
+  return bar;
+}
+`,
+      errors: [{ messageId: 'preferDirectReturn' }],
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
 });

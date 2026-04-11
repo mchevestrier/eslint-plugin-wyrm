@@ -42,6 +42,7 @@ export default createRule({
           for (const stmt of body) {
             if (stmt.type !== AST_NODE_TYPES.ExpressionStatement) continue;
             if (stmt.expression.type !== AST_NODE_TYPES.AssignmentExpression) continue;
+            if (stmt.expression.operator !== '=') continue;
             assignments.push(stmt.expression);
           }
           return assignments;
