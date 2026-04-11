@@ -11,7 +11,7 @@ export const { name } = path.parse(import.meta.filename);
 export default createRule({
   name,
   meta: {
-    type: 'suggestion',
+    type: 'problem',
     docs: {
       description:
         'Enforce using transient props in styled components to avoid polluting DOM elements with unknown props',

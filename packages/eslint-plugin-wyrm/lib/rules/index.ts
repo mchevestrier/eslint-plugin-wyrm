@@ -41,6 +41,7 @@ export { default as 'no-jsx-statement' } from './no-jsx-statement.js';
 export { default as 'no-lax-array-type' } from './no-lax-array-type.js';
 export { default as 'no-lax-return-type' } from './no-lax-return-type.js';
 export { default as 'no-mutable-literal-fill' } from './no-mutable-literal-fill.js';
+export { default as 'no-nullish-ternary' } from './no-nullish-ternary.js';
 export { default as 'no-numbered-comments' } from './no-numbered-comments.js';
 export { default as 'no-obvious-any' } from './no-obvious-any.js';
 export { default as 'no-optional-type-guard-param' } from './no-optional-type-guard-param.js';
