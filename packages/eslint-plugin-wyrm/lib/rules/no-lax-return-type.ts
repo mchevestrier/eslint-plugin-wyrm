@@ -130,6 +130,9 @@ export default createRule({
       // Stryker disable next-line ConditionalExpression
       if (!node.returnType) return;
 
+      // Ignore generator functions
+      if (node.generator) return;
+
       // Ignore method definitions as the return type can be useful for child classes
       if (node.parent.type === AST_NODE_TYPES.MethodDefinition) {
         return;

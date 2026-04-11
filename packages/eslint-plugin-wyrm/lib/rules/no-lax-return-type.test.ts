@@ -270,6 +270,48 @@ function MyComponent() {
       },
     },
     {
+      name: 'With a generator function and no return statement',
+      code: `
+function* foo(): Generator<number, void, void> {
+  yield 1;
+  yield 2;
+  yield 3;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a generator function and an empty return statement',
+      code: `
+function* foo(bar: boolean): Generator<number, void, void> {
+  if (!bar) return;
+  yield 1;
+  yield 2;
+  yield 3;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With a generator function and some return statements',
+      code: `
+function* foo(bar: boolean): Generator<number, boolean, void> {
+  if (!bar) return false;
+  yield 1;
+  yield 2;
+  yield 3;
+  return true;
+}
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
       name: 'With a conditional return type',
       code: `
 export enum DonutType {
