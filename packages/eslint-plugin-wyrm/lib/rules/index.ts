@@ -79,6 +79,7 @@ export { default as 'prefer-repeat' } from './prefer-repeat.js';
 export { default as 'prefer-string-join' } from './prefer-string-join.js';
 export { default as 'primitive-valueof' } from './primitive-valueof.js';
 export { default as 'slim-try' } from './slim-try.js';
+export { default as 'styled-button-has-type' } from './styled-button-has-type.js';
 export { default as 'styled-transient-props' } from './styled-transient-props.js';
 export { default as 'suspicious-map-length' } from './suspicious-map-length.js';
 export { default as 'template-tostring' } from './template-tostring.js';
