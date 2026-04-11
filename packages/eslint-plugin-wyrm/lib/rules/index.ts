@@ -76,6 +76,7 @@ export { default as 'prefer-getorinsert' } from './prefer-getorinsert.js';
 export { default as 'prefer-has' } from './prefer-has.js';
 export { default as 'prefer-object-keys-values' } from './prefer-object-keys-values.js';
 export { default as 'prefer-repeat' } from './prefer-repeat.js';
+export { default as 'prefer-string-join' } from './prefer-string-join.js';
 export { default as 'primitive-valueof' } from './primitive-valueof.js';
 export { default as 'slim-try' } from './slim-try.js';
 export { default as 'styled-transient-props' } from './styled-transient-props.js';
