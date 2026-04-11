@@ -122,8 +122,7 @@ export default createRule({
     function inferAllElementTypes(array: TSESTree.ArrayExpression): ts.Type[] {
       return array.elements.map((elt) => {
         if (!elt) return getChecker().getUndefinedType();
-        const type = getServices().getTypeAtLocation(elt);
-        return type;
+        return getServices().getTypeAtLocation(elt);
       });
     }
 
