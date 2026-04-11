@@ -17,6 +17,7 @@ export default createRule({
       description: 'Forbid calling `.toString()` inside template expressions',
       strict: true,
     },
+    fixable: 'code',
     schema: [],
     messages: {
       noToString: 'Calling `.toString()` is unnecessary here',
@@ -37,8 +38,16 @@ export default createRule({
     function checkTemplateExpression(expr: TSESTree.Expression) {
       const maybeObj = getToString(expr);
       if (!maybeObj.some) return;
+      const obj = maybeObj.value;
 
-      context.report({ node: expr, messageId: 'noToString' });
+      context.report({
+        node: expr,
+        messageId: 'noToString',
+        fix(fixer) {
+          const txt = context.sourceCode.getText(obj);
+          return fixer.replaceText(expr, txt);
+        },
+      });
     }
   },
 });

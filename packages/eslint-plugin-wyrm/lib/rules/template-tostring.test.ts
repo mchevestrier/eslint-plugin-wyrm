@@ -66,6 +66,10 @@ const str = \`\${n.notToString()}\`;
 const n = 42;
 const str = \`\${n.toString()}\`;
 `,
+      output: `
+const n = 42;
+const str = \`\${n}\`;
+`,
       errors: [{ messageId: 'noToString' }],
       after() {
         checkFormatting(this);
@@ -75,6 +79,9 @@ const str = \`\${n.toString()}\`;
       name: 'Calling `.toString()` on a number literal in a template literal',
       code: `
 const str = \`\${(42).toString()}\`;
+`,
+      output: `
+const str = \`\${42}\`;
 `,
       errors: [{ messageId: 'noToString' }],
       after() {
