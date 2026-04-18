@@ -151,7 +151,9 @@ export default createRule({
       TemplateLiteral(node) {
         const { expressions, quasis } = node;
 
-        if (quasis.some((quasi) => quasi.value.cooked.includes(' '))) return;
+        if (quasis.some((quasi) => quasi.value.cooked?.includes(' '))) return;
+
+        if (node.parent.type === AST_NODE_TYPES.TaggedTemplateExpression) return;
 
         const scope = context.sourceCode.getScope(node);
 

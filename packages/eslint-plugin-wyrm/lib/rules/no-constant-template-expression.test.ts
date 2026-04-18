@@ -277,6 +277,28 @@ const str = \`\${foo}_bar\`;
         checkFormatting(this);
       },
     },
+    {
+      name: 'With a tagged template expression',
+      code: `
+const tag = (strings, ...values) => String.raw({ raw: strings }, ...values);
+const foo = 'foobar';
+const str = tag\`\${foo}_baz\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
+    {
+      name: 'With an invalid escape (`cooked` is null)',
+      code: `
+const tag = (strings, ...values) => String.raw({ raw: strings }, ...values);
+const foo = 'and';
+const str = tag\`\\unicode$\{foo}\`;
+`,
+      after() {
+        checkFormatting(this);
+      },
+    },
   ],
   invalid: [
     {

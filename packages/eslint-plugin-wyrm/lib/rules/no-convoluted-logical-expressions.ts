@@ -1,5 +1,3 @@
-/* eslint-disable sonarjs/no-commented-code */
-
 import path from 'node:path';
 
 import type { TSESTree } from '@typescript-eslint/utils';
