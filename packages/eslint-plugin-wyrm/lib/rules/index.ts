@@ -15,6 +15,7 @@ export { default as 'exact-string-regex' } from './exact-string-regex.js';
 export { default as 'export-using' } from './export-using.js';
 export { default as 'generic-constructor-with-hook' } from './generic-constructor-with-hook.js';
 export { default as 'idiomatic-cast' } from './idiomatic-cast.js';
+export { default as 'inferable-type-predicate' } from './inferable-type-predicate.js';
 export { default as 'inner-as-const' } from './inner-as-const.js';
 export { default as 'jsx-tostring' } from './jsx-tostring.js';
 export { default as 'literal-destructuring' } from './literal-destructuring.js';
