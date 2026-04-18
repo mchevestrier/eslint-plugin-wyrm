@@ -20,7 +20,7 @@ export function compareTokens(
   return compareTokens(restA, restB);
 }
 
-function areTokensEqual(a: TSESTree.Token, b: TSESTree.Token): boolean {
+export function areTokensEqual(a: TSESTree.Token, b: TSESTree.Token): boolean {
   // Not sure if it's possible for two tokens to have different types but the same value
   // Stryker disable next-line ConditionalExpression
   if (a.type !== b.type) return false;
