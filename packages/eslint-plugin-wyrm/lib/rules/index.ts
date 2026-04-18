@@ -63,6 +63,7 @@ export { default as 'no-self-object-assign' } from './no-self-object-assign.js';
 export { default as 'no-sloppy-length-check' } from './no-sloppy-length-check.js';
 export { default as 'no-suspicious-jsx-semicolon' } from './no-suspicious-jsx-semicolon.js';
 export { default as 'no-ternary-return' } from './no-ternary-return.js';
+export { default as 'no-type-guard' } from './no-type-guard.js';
 export { default as 'no-unassigned-todo' } from './no-unassigned-todo.js';
 export { default as 'no-unbound-catch-error' } from './no-unbound-catch-error.js';
 export { default as 'no-unused-mutually-referential' } from './no-unused-mutually-referential.js';

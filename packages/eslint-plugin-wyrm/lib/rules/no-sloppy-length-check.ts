@@ -73,8 +73,9 @@ export default createRule({
     function getFlagsForLogicalOrBinaryExpression(
       node: TSESTree.Node,
     ): Option<{ flags: Flags; info: Info }> {
-      if (isSymmetricBinaryExpression(node)) {
-        return getFlagsForBinaryExpression(node);
+      const expr = getSymmetricBinaryExpression(node);
+      if (expr) {
+        return getFlagsForBinaryExpression(expr);
       }
 
       if (node.type === AST_NODE_TYPES.LogicalExpression) {
@@ -123,16 +124,17 @@ export default createRule({
       },
 
       BinaryExpression(node) {
-        if (!isSymmetricBinaryExpression(node)) return;
-        checkBinaryExpression(node);
+        const expr = getSymmetricBinaryExpression(node);
+        if (!expr) return;
+        checkBinaryExpression(expr);
       },
     };
   },
 });
 
 function getFlagsForBinaryExpression(node: TSESTree.SymmetricBinaryExpression) {
-  const { operator } = node;
-  if (!isComparisonOperator(operator)) return None;
+  const operator = getComparisonOperator(node.operator);
+  if (!operator) return None;
 
   const maybeInfo = extractComparisonInfo({ ...node, operator });
   if (!maybeInfo.some) return None;
@@ -289,20 +291,21 @@ function extractComparisonInfo(node: ComparisonNode, reversed = false): Option<I
   return Some({ object, property, value, op });
 }
 
-function isSymmetricBinaryExpression(
+function getSymmetricBinaryExpression(
   node: TSESTree.Node,
-): node is TSESTree.SymmetricBinaryExpression {
-  if (node.type !== AST_NODE_TYPES.BinaryExpression) return false;
-  return node.operator !== 'in';
+): TSESTree.SymmetricBinaryExpression | null {
+  if (node.type !== AST_NODE_TYPES.BinaryExpression) return null;
+  if (node.operator === 'in') return null;
+  return node;
 }
 
 type ValueOf<T> = T[keyof T];
 
 type ComparisonOperator = '!=' | '!==' | '<' | '<=' | '==' | '===' | '>' | '>=';
 
-function isComparisonOperator(
+function getComparisonOperator(
   operator: ValueOf<TSESTree.BinaryOperatorToText>,
-): operator is ComparisonOperator {
+): ComparisonOperator | null {
   switch (operator) {
     case '%':
     case '&':
@@ -320,7 +323,7 @@ function isComparisonOperator(
     case '^':
     case 'in':
     case 'instanceof':
-      return false;
+      return null;
 
     case '!=':
     case '!==':
@@ -330,14 +333,14 @@ function isComparisonOperator(
     case '===':
     case '>':
     case '>=':
-      return true;
+      return operator;
 
     // Stryker disable all
     /* v8 ignore next -- @preserve */
     default: {
       const check: never = operator;
       console.error(`[wyrm] Unexpected binary operator: ${check}`);
-      return false;
+      return null;
     }
     // Stryker restore all
   }
