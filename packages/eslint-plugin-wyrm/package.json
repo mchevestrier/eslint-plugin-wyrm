@@ -25,6 +25,9 @@
     "./package.json": "./package.json"
   },
   "main": "./dist/index.mjs",
+  "bin": {
+    "eslint-plugin-wyrm": "./bin/wyrm.mjs"
+  },
   "scripts": {
     "attw": "attw --pack .",
     "prebuild": "node scripts/generate-index-file.js",

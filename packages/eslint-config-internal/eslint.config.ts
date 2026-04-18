@@ -89,6 +89,8 @@ export default defineConfig([
     ...n.configs['flat/recommended-module'],
     rules: {
       ...n.configs['flat/recommended-module'].rules,
+      // Users can safely disable this rule if using npm v10 and later.
+      'n/no-unpublished-bin': 'off',
       // I'm getting an error with this rule
       'n/no-unsupported-features/node-builtins': 'off',
     },
