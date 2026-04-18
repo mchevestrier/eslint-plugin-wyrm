@@ -22,7 +22,7 @@
     "@eslint/js": "^10.0.1",
     "@eslint/markdown": "^8.0.1",
     "@stylistic/eslint-plugin": "^5.9.0",
-    "@typescript-eslint/parser": "^8.56.1",
+    "@typescript-eslint/parser": "^8.58.1",
     "@vitest/eslint-plugin": "^1.6.9",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-command": "^3.5.2",
@@ -35,7 +35,7 @@
     "eslint-plugin-unicorn": "^63.0.0",
     "globals": "^17.4.0",
     "typescript": "~5.9.3",
-    "typescript-eslint": "^8.56.1"
+    "typescript-eslint": "^8.58.1"
   },
   "devDependencies": {
     "@e18e/eslint-plugin": "^0.2.0",
