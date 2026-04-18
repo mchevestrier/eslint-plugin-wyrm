@@ -25,6 +25,7 @@
     "./package.json": "./package.json"
   },
   "main": "./dist/index.mjs",
+  "types": "./dist/index.d.mts",
   "bin": {
     "eslint-plugin-wyrm": "./bin/wyrm.mjs"
   },
