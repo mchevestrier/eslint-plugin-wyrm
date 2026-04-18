@@ -6,7 +6,7 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils';
 
 import { createRule } from '../utils/createRule.js';
 
-export const { name } = path.parse(import.meta.filename);
+const { name } = path.parse(import.meta.filename);
 
 export default createRule({
   name,
