@@ -176,7 +176,7 @@ function extractRepeatedStringFromCallExpression(
   expr: TSESTree.CallExpression,
   acc: TSESTree.Identifier,
 ): Option<string | TSESTree.Node> {
-  //  Acc.concat('*')
+  // Acc.concat('*')
   if (expr.callee.type !== AST_NODE_TYPES.MemberExpression) return None;
   if (expr.callee.property.type !== AST_NODE_TYPES.Identifier) return None;
   if (expr.callee.property.name !== 'concat') return None;

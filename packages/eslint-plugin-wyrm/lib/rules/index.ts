@@ -3,6 +3,7 @@ export { default as 'array-from-array' } from './array-from-array.js';
 export { default as 'await-promise-resolve' } from './await-promise-resolve.js';
 export { default as 'constant-boolean-cast' } from './constant-boolean-cast.js';
 export { default as 'de-morgan' } from './de-morgan.js';
+export { default as 'discarded-expression-statement' } from './discarded-expression-statement.js';
 export { default as 'distribute-boolean-casts' } from './distribute-boolean-casts.js';
 export { default as 'duplicate-destructuring' } from './duplicate-destructuring.js';
 export { default as 'duplicate-object-spread' } from './duplicate-object-spread.js';

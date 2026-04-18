@@ -10,6 +10,7 @@ export default defineConfig([
   {
     rules: {
       'wyrm/no-unassigned-todo': 'off',
+      'wyrm/discarded-expression-statement': 'error',
     },
   },
   {
