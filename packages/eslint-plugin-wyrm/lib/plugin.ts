@@ -6,7 +6,7 @@ import * as rules from './rules/index.js';
 
 const require = createRequire(import.meta.url);
 
-// TODO [engine:node@>=23]: Use import assertions instead
+// TODO(mchevestrier) [engine:node@>=23]: Use import assertions instead
 const pkg: unknown = require('../package.json');
 // eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
 const { name, version } = pkg as {

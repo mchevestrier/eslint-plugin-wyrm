@@ -10,6 +10,7 @@ export { default as 'duplicate-destructuring' } from './duplicate-destructuring.
 export { default as 'duplicate-object-spread' } from './duplicate-object-spread.js';
 export { default as 'e' } from './e.js';
 export { default as 'empty-for' } from './empty-for.js';
+export { default as 'enum-member' } from './enum-member.js';
 export { default as 'eqeq-null' } from './eqeq-null.js';
 export { default as 'exact-string-regex' } from './exact-string-regex.js';
 export { default as 'export-using' } from './export-using.js';

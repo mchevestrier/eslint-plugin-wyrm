@@ -145,6 +145,7 @@ export default createRule({
       'reduce',
       'set',
       'setQueryData',
+      'splice',
       'unshift',
 
       ...dateMethods,
@@ -164,7 +165,6 @@ export default createRule({
     ]);
 
     return {
-      // TODO: maybe limit to CallExpression and await expressions?
       ExpressionStatement(stmt) {
         const expr = stmt.expression;
 
@@ -173,8 +173,33 @@ export default createRule({
           case AST_NODE_TYPES.BinaryExpression:
           case AST_NODE_TYPES.ConditionalExpression:
           case AST_NODE_TYPES.LogicalExpression:
+          case AST_NODE_TYPES.NewExpression:
+          case AST_NODE_TYPES.SequenceExpression:
+          case AST_NODE_TYPES.TSSatisfiesExpression:
           case AST_NODE_TYPES.UpdateExpression:
           case AST_NODE_TYPES.YieldExpression:
+          // Unused expressions:
+          case AST_NODE_TYPES.ArrayExpression:
+          case AST_NODE_TYPES.ArrayPattern:
+          case AST_NODE_TYPES.ArrowFunctionExpression:
+          case AST_NODE_TYPES.ClassExpression:
+          case AST_NODE_TYPES.FunctionExpression:
+          case AST_NODE_TYPES.Identifier:
+          case AST_NODE_TYPES.ImportExpression:
+          case AST_NODE_TYPES.JSXElement:
+          case AST_NODE_TYPES.JSXFragment:
+          case AST_NODE_TYPES.MemberExpression:
+          case AST_NODE_TYPES.MetaProperty:
+          case AST_NODE_TYPES.ObjectExpression:
+          case AST_NODE_TYPES.ObjectPattern:
+          case AST_NODE_TYPES.Super:
+          case AST_NODE_TYPES.TaggedTemplateExpression:
+          case AST_NODE_TYPES.TemplateLiteral:
+          case AST_NODE_TYPES.ThisExpression:
+          case AST_NODE_TYPES.TSAsExpression:
+          case AST_NODE_TYPES.TSInstantiationExpression:
+          case AST_NODE_TYPES.TSNonNullExpression:
+          case AST_NODE_TYPES.TSTypeAssertion:
             return;
 
           case AST_NODE_TYPES.UnaryExpression:

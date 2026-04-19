@@ -9,7 +9,7 @@ export default defineConfig([
   wyrm.configs.strictTypeChecked,
   {
     rules: {
-      'wyrm/no-unassigned-todo': 'off',
+      'wyrm/no-unassigned-todo': 'error',
       'wyrm/discarded-expression-statement': 'error',
     },
   },
