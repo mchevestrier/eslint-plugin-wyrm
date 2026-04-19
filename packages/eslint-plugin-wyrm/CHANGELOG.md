@@ -1,5 +1,46 @@
 # Changelog
 
+## [0.0.12](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.11...eslint-plugin-wyrm-v0.0.12) (2026-04-19)
+
+
+### Features
+
+* add rule array-from-array ([ef60aae](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/ef60aaea2c78a62a49d14bcb141c4d0557a547ba))
+* add rule await-promise-resolve ([785f660](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/785f6604311cc10b5ca24e4dfb7f3ade9e2bc701))
+* add rule conditional-boolean ([8553b6c](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/8553b6c3e6ed03b7c72b0c62bdbfc8371e86be50))
+* add rule constant-boolean-cast ([d70a070](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/d70a0701c1e260571f0c5c01e71e35975f3638ff))
+* add rule discarded-expression-statement ([2e66aea](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/2e66aea2fb0d7e37759a0d9ee999105c9b68aefa))
+* add rule duplicate-object-spread ([8ca1b99](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/8ca1b99e60efbeb0f4e10b6f4ccead805803ae7f))
+* add rule empty-for ([54cd12b](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/54cd12b23d14438628bfa523c69028d617bc8920))
+* add rule enum-member ([3c55272](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/3c55272b2847c74d71feb6f52f71a508d823ada2))
+* add rule inferable-type-predicate ([c9e3d11](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/c9e3d11ce2042d81e699c17592059629cc60cd95))
+* add rule inner-as-const ([5ace0a7](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/5ace0a7ad402ada0a25e3200301abcf0a4bc7e3e))
+* add rule literal-destructuring ([5f787f0](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/5f787f0e1d189945082574b4f996c17bf258fdbb))
+* add rule nested-reduce ([f4e5faa](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/f4e5faa1dc3f711b065d4415a164c9f481298409))
+* add rule nested-try-catch ([de2479d](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/de2479dd8b54b1053143b6978c744f96da2d5a2f))
+* add rule no-convoluted-boolean-expressions ([cf78d68](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/cf78d68eaf46b6562d264d58d76e390e03137c8c))
+* add rule no-else-never ([0802142](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/08021423aad858c6c59dc505c935804247a5623e))
+* add rule no-nullish-ternary ([ba05a7d](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/ba05a7d0b605fc827b39ce6268d7de91ad1545ce))
+* add rule no-type-guard ([0f086cf](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/0f086cfe474b41a5932cf9b74201307512c566f2))
+* add rule prefer-array-from ([4b0c805](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/4b0c805098f9dfb64fcef7e9e8de9684c8fbf8ed))
+* add rule prefer-satisfies ([1c843a0](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/1c843a0112583c1c249952b2b6b97e7c43b1a719))
+* add rule prefer-string-join ([a1e9290](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/a1e9290e9b82b31a0aa357dd5b3613019ef54ba8))
+* add rule styled-button-has-type ([787d3e4](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/787d3e485abdbf7c6bc01dfd206471de4c05a3a0))
+* add rule styled-transient-props ([3b22364](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/3b22364b240d0e6fbc10074cd94c3090571d968a))
+* add rule useless-as-const ([81a7b90](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/81a7b90b6ba74e8c4e26da1151d907411a375926))
+* add rule useless-assign ([4c7d2b4](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/4c7d2b40d9cfc5c8bdba0599763fab8cfe00e41b))
+* add rule useless-conditional-assign ([f6cffc5](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/f6cffc53eab48e2f6d001a0b2e31668d2c7389b6))
+* add rule useless-mock ([8b56fc7](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/8b56fc77144b008a25fe0e70841bd289a460492b))
+* add rules eqeq-null & prefer-eqeq-null ([40bd271](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/40bd2718917f390dcdd156ab2e4ec204af4d498c))
+* add rules jsx-tostring & template-tostring ([5077794](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/50777944943609a888848357e36adea708422b3d))
+* npx eslint-plugin-wyrm ([b836ad4](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/b836ad47d955ad2e136b12004550ad25221e2844))
+
+
+### Bug Fixes
+
+* improve e rule ([5ae6ead](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/5ae6ead4d5814b612472b580bf658d66e76b741f))
+* improve no-out-of-order-comments rule ([d295589](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/d29558959f839db965fa9d22596b4353e92f7571))
+
 ## [0.0.11](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.10...eslint-plugin-wyrm-v0.0.11) (2026-02-26)
 
 
