@@ -80,7 +80,7 @@
     "yaml-eslint-parser": "^2.0.0"
   },
   "peerDependencies": {
-    "@typescript-eslint/utils": ">=8.46.2",
+    "@typescript-eslint/utils": ">=8.54.0",
     "eslint": ">=9.38.0",
     "typescript": "^5.9.3"
   },

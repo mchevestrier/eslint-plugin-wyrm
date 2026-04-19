@@ -141,7 +141,7 @@ export default defineConfig([
       'eslint-plugin/report-message-format': 'error',
       'eslint-plugin/require-meta-docs-description': [
         'error',
-        { pattern: '^(Enforce|Require|Disallow|Forbid)' },
+        { pattern: '^(Enforce|Prefer|Require|Disallow|Forbid)' },
       ],
       'eslint-plugin/require-meta-docs-url': 'off',
       'eslint-plugin/consistent-output': 'error',
