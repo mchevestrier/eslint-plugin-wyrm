@@ -104,6 +104,9 @@ importers:
       '@shopify/eslint-plugin':
         specifier: ^50.0.0
         version: 50.0.0(@typescript-eslint/eslint-plugin@8.58.2(@typescript-eslint/parser@8.58.2(eslint@9.39.2(jiti@2.6.1))(typescript@6.0.3))(eslint@9.39.2(jiti@2.6.1))(typescript@6.0.3))(@typescript-eslint/parser@8.58.2(eslint@9.39.2(jiti@2.6.1))(typescript@6.0.3))(@typescript-eslint/utils@8.59.0(eslint@9.39.2(jiti@2.6.1))(typescript@6.0.3))(eslint@9.39.2(jiti@2.6.1))(prettier@3.8.1)(typescript@6.0.3)
+      '@types/node':
+        specifier: ^24.11.0
+        version: 24.11.0
       '@typescript-eslint/parser':
         specifier: ^8.58.2
         version: 8.58.2(eslint@9.39.2(jiti@2.6.1))(typescript@6.0.3)
