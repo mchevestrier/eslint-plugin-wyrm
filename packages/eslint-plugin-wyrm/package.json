@@ -74,7 +74,7 @@
     "prettier": "^3.8.1",
     "publint": "^0.3.18",
     "tsdown": "^0.21.8",
-    "typescript": "~5.9.3",
+    "typescript": "~6.0.2",
     "vitest": "^4.1.4",
     "vitest-fail-on-console": "^0.10.1",
     "yaml-eslint-parser": "^2.0.0"
@@ -82,7 +82,7 @@
   "peerDependencies": {
     "@typescript-eslint/utils": ">=8.54.0",
     "eslint": ">=9.38.0",
-    "typescript": "^5.9.3"
+    "typescript": "^6.0.2"
   },
   "engines": {
     "node": ">=22.0.0"
