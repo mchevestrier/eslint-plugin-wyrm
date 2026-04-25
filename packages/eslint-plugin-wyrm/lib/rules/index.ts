@@ -1,5 +1,6 @@
 // GENERATED FILE - DO NOT EDIT
 export { default as 'array-from-array' } from './array-from-array.js';
+export { default as 'as-unknown-as' } from './as-unknown-as.js';
 export { default as 'await-promise-resolve' } from './await-promise-resolve.js';
 export { default as 'boolean-coalescing' } from './boolean-coalescing.js';
 export { default as 'comment-duplicate-leading-space' } from './comment-duplicate-leading-space.js';

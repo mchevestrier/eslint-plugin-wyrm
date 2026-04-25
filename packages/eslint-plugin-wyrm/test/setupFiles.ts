@@ -1,8 +1,5 @@
 import { RuleTester } from '@typescript-eslint/rule-tester';
 import * as vitest from 'vitest';
-import vitestFailOnConsole from 'vitest-fail-on-console';
-
-import type { VitestFailOnConsole } from '../types/vitest-fail-on-console.js';
 
 // See https://typescript-eslint.io/packages/rule-tester/#vitest
 
@@ -13,17 +10,31 @@ RuleTester.itSkip = vitest.it.skip;
 RuleTester.describe = vitest.describe;
 RuleTester.describeSkip = vitest.describe.skip;
 
-// Imported types are broken
-// eslint-disable-next-line @typescript-eslint/no-unsafe-type-assertion
-const failOnConsole = vitestFailOnConsole as unknown as VitestFailOnConsole;
+// Fail on console
 
-failOnConsole({
-  shouldFailOnLog: true,
-  shouldFailOnAssert: true,
-  shouldFailOnDebug: true,
-  shouldFailOnInfo: true,
-  shouldFailOnWarn: true,
-  shouldFailOnError: true,
+const { vi, beforeEach, afterEach, expect } = vitest;
 
-  shouldPrintMessage: true,
+function noop() {
+  // noop
+}
+
+const methods: Array<keyof typeof console> = [
+  'log',
+  'assert',
+  'debug',
+  'info',
+  'warn',
+  'error',
+];
+
+beforeEach(() => {
+  for (const method of methods) {
+    vi.spyOn(console, method).mockImplementation(noop);
+  }
+});
+
+afterEach(() => {
+  for (const method of methods) {
+    expect(vi.spyOn(console, method)).not.toHaveBeenCalled();
+  }
 });

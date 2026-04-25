@@ -76,7 +76,6 @@
     "tsdown": "^0.21.8",
     "typescript": "~6.0.2",
     "vitest": "^4.1.4",
-    "vitest-fail-on-console": "^0.10.1",
     "yaml-eslint-parser": "^2.0.0"
   },
   "peerDependencies": {
