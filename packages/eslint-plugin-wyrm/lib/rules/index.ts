@@ -1,6 +1,7 @@
 // GENERATED FILE - DO NOT EDIT
 export { default as 'array-from-array' } from './array-from-array.js';
 export { default as 'await-promise-resolve' } from './await-promise-resolve.js';
+export { default as 'boolean-coalescing' } from './boolean-coalescing.js';
 export { default as 'comment-duplicate-leading-space' } from './comment-duplicate-leading-space.js';
 export { default as 'conditional-boolean' } from './conditional-boolean.js';
 export { default as 'constant-boolean-cast' } from './constant-boolean-cast.js';
