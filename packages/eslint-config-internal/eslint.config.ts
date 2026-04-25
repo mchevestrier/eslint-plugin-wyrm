@@ -104,7 +104,6 @@ export default defineConfig([
 
   {
     plugins: {
-      // @ts-expect-error - Types of property 'configs' are incompatible.
       'import-x': importX,
     },
     extends: ['import-x/flat/recommended', 'import-x/flat/typescript'],

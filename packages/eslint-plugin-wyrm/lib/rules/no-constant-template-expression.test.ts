@@ -293,7 +293,7 @@ const str = tag\`\${foo}_baz\`;
       code: `
 const tag = (strings, ...values) => String.raw({ raw: strings }, ...values);
 const foo = 'and';
-const str = tag\`\\unicode$\{foo}\`;
+const str = tag\`\\unicode\${foo}\`;
 `,
       after() {
         checkFormatting(this);
