@@ -89,6 +89,7 @@ export { default as 'prefer-eqeq-null' } from './prefer-eqeq-null.js';
 export { default as 'prefer-finally' } from './prefer-finally.js';
 export { default as 'prefer-getorinsert' } from './prefer-getorinsert.js';
 export { default as 'prefer-has' } from './prefer-has.js';
+export { default as 'prefer-in' } from './prefer-in.js';
 export { default as 'prefer-object-keys-values' } from './prefer-object-keys-values.js';
 export { default as 'prefer-repeat' } from './prefer-repeat.js';
 export { default as 'prefer-satisfies' } from './prefer-satisfies.js';
