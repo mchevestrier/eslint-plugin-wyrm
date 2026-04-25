@@ -135,9 +135,11 @@ export default createRule({
     const ALWAYS_ALLOWED_METHODS = [
       'add',
       'assign',
+      'defineProperties',
       'defineProperty',
       'delete',
       'fill',
+      'freeze',
       'measure',
       'open',
       'pop',

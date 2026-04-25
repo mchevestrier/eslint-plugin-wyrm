@@ -92,7 +92,7 @@ export default createRule({
           assertedType,
           exprType,
         );
-        // Widening assertion
+        // Widening type assertion
         if (!isAssertedAssignableToExpr) return;
 
         context.report({

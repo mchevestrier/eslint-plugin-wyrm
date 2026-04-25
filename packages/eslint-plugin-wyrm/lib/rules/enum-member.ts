@@ -13,7 +13,7 @@ export default createRule({
   meta: {
     type: 'suggestion',
     docs: {
-      description: 'Prefer enum members to string literals asserted as enum',
+      description: 'Prefer enum members to literals asserted as enum',
       recommended: true,
       requiresTypeChecking: true,
     },

@@ -1,6 +1,6 @@
 # wyrm/enum-member
 
-📝 Prefer enum members to string literals asserted as enum.
+📝 Prefer enum members to literals asserted as enum.
 
 💼 This rule is enabled in the following configs: ✅ `recommendedTypeChecked`, ☑️ `strictTypeChecked`.
 
