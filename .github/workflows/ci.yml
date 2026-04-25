@@ -236,7 +236,7 @@ jobs:
           advanced-security: false
           annotations: true
           color: true
-          version: v1.23.1
+          version: v1.24.1
 
   actionlint:
     runs-on: ubuntu-latest
