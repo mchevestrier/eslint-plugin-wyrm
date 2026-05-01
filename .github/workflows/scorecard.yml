@@ -16,6 +16,7 @@ permissions: read-all
 
 jobs:
   analysis:
+    timeout-minutes: 10
     name: Scorecard analysis
     runs-on: ubuntu-latest
     # `publish_results: true` only works when run from the default branch. conditional can be removed if disabled.
