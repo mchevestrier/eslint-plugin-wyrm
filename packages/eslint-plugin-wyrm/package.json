@@ -70,7 +70,7 @@
     "jest-diff": "^30.2.0",
     "jiti": "^2.6.1",
     "jsonc-eslint-parser": "^3.1.0",
-    "markdownlint-cli2": "^0.21.0",
+    "markdownlint-cli2": "^0.22.1",
     "prettier": "^3.8.3",
     "publint": "^0.3.18",
     "tsdown": "^0.21.8",
