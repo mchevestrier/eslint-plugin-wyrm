@@ -146,6 +146,7 @@ jobs:
           if [ -n "$(git status --porcelain)" ]; then
             echo "Working tree is dirty after build:"
             git status
+            git --no-pager diff
             exit 1
           fi
 
