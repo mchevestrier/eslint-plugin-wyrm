@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.13](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.12...eslint-plugin-wyrm-v0.0.13) (2026-05-16)
+
+
+### Features
+
+* **deps-dev:** bump eslint from 10.2.0 to 10.2.1 in the eslint group across 1 directory ([#127](https://github.com/mchevestrier/eslint-plugin-wyrm/issues/127)) ([7a37012](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/7a370129b3b568f95218a535a8a73ce8ca28bb62))
+
 ## [0.0.12](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.11...eslint-plugin-wyrm-v0.0.12) (2026-04-25)
 
 
