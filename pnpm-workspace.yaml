@@ -3,9 +3,9 @@ packages:
   - 'examples/*'
 
 strictDepBuilds: true
-onlyBuiltDependencies:
-  - esbuild
-  - unrs-resolver
+allowBuilds:
+  esbuild: true
+  unrs-resolver: true
 
 blockExoticSubdeps: true
 
