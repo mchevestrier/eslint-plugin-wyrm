@@ -56,7 +56,7 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.2",
-    "@eslint/markdown": "^8.0.1",
+    "@eslint/markdown": "^8.0.2",
     "@stryker-mutator/api": "^9.6.1",
     "@stryker-mutator/core": "^9.6.1",
     "@stryker-mutator/typescript-checker": "^9.6.1",
@@ -65,7 +65,7 @@
     "@typescript-eslint/utils": "^8.58.2",
     "@vitest/coverage-v8": "^4.1.4",
     "@vitest/ui": "^4.1.4",
-    "eslint": "^10.2.1",
+    "eslint": "^10.4.0",
     "eslint-doc-generator": "^3.3.1",
     "jest-diff": "^30.2.0",
     "jiti": "^2.6.1",
