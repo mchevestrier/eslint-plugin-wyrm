@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.0.14](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.13...eslint-plugin-wyrm-v0.0.14) (2026-07-06)
+
+
+### Features
+
+* add rule duplicate-condition ([de4467c](https://github.com/mchevestrier/eslint-plugin-wyrm/commit/de4467c1427d4e94a5c4822cc87e971c2516b30d))
+
 ## [0.0.13](https://github.com/mchevestrier/eslint-plugin-wyrm/compare/eslint-plugin-wyrm-v0.0.12...eslint-plugin-wyrm-v0.0.13) (2026-05-16)
 
 
